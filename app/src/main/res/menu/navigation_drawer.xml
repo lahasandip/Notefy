@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:showIn="navigation_view">
+
+    <group
+        android:id="@+id/group1"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/home"
+            android:title="Item1" />
+        <item
+            android:id="@+id/new_update_note"
+            android:title="Item2" />
+        <item
+            android:id="@+id/ll"
+            android:title="Item3" />
+    </group>
+
+
+
+    <group
+        android:id="@+id/group3"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/a1"
+            android:title="Languages"
+            android:icon="@drawable/ic_outline_language_24"
+            />
+
+        <item
+            android:id="@+id/a2"
+            android:title="Dark theme"
+            app:actionLayout="@layout/toggle_button"
+            android:icon="@drawable/ic_outline_dark_mode_24"/>
+        <item
+            android:id="@+id/a3"
+            android:title="Screen Lock"
+            app:actionLayout="@layout/toggle_button"
+            android:icon="@drawable/ic_baseline_fingerprint_24"/>
+    </group>
+
+    <group
+        android:id="@+id/group4"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/a4"
+            android:title="Settings"
+            android:icon="@drawable/ic_outline_settings_24"
+            />
+        <item
+            android:id="@+id/a5"
+            android:title="Help and feedback"
+            android:icon="@drawable/ic_baseline_help_outline_24"/>
+        <item
+            android:id="@+id/a6"
+            android:title="About"
+            android:icon="@drawable/ic_outline_perm_device_information_24"/>
+    </group>
+</menu>

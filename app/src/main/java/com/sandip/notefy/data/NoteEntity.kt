@@ -1,0 +1,33 @@
+package com.sandip.notefy.data
+
+import android.graphics.Bitmap
+import android.os.Parcelable
+import androidx.room.ColumnInfo
+import androidx.room.Entity
+import androidx.room.PrimaryKey
+import kotlinx.parcelize.Parcelize
+import java.text.DateFormat
+
+
+@Entity(tableName = "Note")
+@Parcelize
+data class NoteEntity(
+    @ColumnInfo(name = "Title") val title: String? = null,
+    @ColumnInfo(name = "Body") val body: String? = null,
+    @ColumnInfo(name = "Important") val important: Boolean = false,
+    @ColumnInfo(name = "URL") val url: String? = null,
+    @ColumnInfo(name = "Date") val date: String? = null,
+    @ColumnInfo(name = "Time") val time: String? = null,
+    @ColumnInfo(name = "Location") val location: String? = null,
+    @ColumnInfo(name = "Color") val clr: Int = 0,
+    @ColumnInfo(name = "TodoDescription") val todoDescription: ArrayList<String>?,
+    @ColumnInfo(name = "Completed") val completed: ArrayList<Boolean>?,
+    @ColumnInfo(name="image", typeAffinity = ColumnInfo.BLOB) val image: Bitmap?,
+    val created: Long = System.currentTimeMillis(),
+    @PrimaryKey(autoGenerate = true)
+    val id: Int = 0
+
+): Parcelable {
+    val createdDateFormatted: String
+    get() = DateFormat.getDateTimeInstance().format(created)
+}

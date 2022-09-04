@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/popup_background"
+    app:layout_behavior="@string/bottom_sheet_behavior">
+    <LinearLayout
+        android:id="@+id/layoutEdit"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Color"
+            android:textSize="16sp"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="10dp"
+            android:background="#dddddd" />
+    </LinearLayout>
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:padding="7sp">
+            <FrameLayout
+                android:id="@+id/frame_white"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+                <View
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    android:background="@drawable/color_white" />
+                <ImageView
+                    android:id="@+id/white"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    app:tint="@color/black" />
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/frame_lightsteelblue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+                <View
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    android:background="@drawable/color_lightsteelblue" />
+                <ImageView
+                    android:id="@+id/lightsteelblue"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    app:tint="@color/black" />
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/frame_lightgoldenyellow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+                <View
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    android:background="@drawable/color_lightgoldenyellow" />
+                <ImageView
+                    android:id="@+id/lightgoldenyellow"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    app:tint="@color/black" />
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/frame_darkgrey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+                <View
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    android:background="@drawable/color_darkgrey" />
+                <ImageView
+                    android:id="@+id/darkgrey"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    app:tint="@color/black" />
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/frame_powderblue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+                <View
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    android:background="@drawable/color_powderblue" />
+                <ImageView
+                    android:id="@+id/powderblue"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    app:tint="@color/black" />
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/frame_rosybrown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+                <View
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    android:background="@drawable/color_rosybrown" />
+                <ImageView
+                    android:id="@+id/rosybrown"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    app:tint="@color/black" />
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/frame_palegoldenrod"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+                <View
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    android:background="@drawable/color_palegoldenrod" />
+                <ImageView
+                    android:id="@+id/palegoldenrod"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    app:tint="@color/black" />
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/frame_sandybrown"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+                <View
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    android:background="@drawable/color_sandybrown" />
+                <ImageView
+                    android:id="@+id/sandybrown"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    app:tint="@color/black" />
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/frame_thistle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+                <View
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    android:background="@drawable/color_thistle" />
+                <ImageView
+                    android:id="@+id/thistle"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    app:tint="@color/black" />
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/frame_aquamarine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+                <View
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    android:background="@drawable/color_aquamarine" />
+                <ImageView
+                    android:id="@+id/aquamarine"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    app:tint="@color/black" />
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/frame_lightcyan"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+                <View
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    android:background="@drawable/color_lightcyan" />
+                <ImageView
+                    android:id="@+id/lightcyan"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    app:tint="@color/black" />
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/frame_grey"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+                <View
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    android:background="@drawable/color_grey" />
+                <ImageView
+                    android:id="@+id/grey"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    app:tint="@color/black" />
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/frame_lightgreen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+                <View
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    android:background="@drawable/color_lightgreen" />
+                <ImageView
+                    android:id="@+id/lightgreen"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    app:tint="@color/black" />
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/frame_violet"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+                <View
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    android:background="@drawable/color_violet" />
+                <ImageView
+                    android:id="@+id/violet"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    app:tint="@color/black" />
+            </FrameLayout>
+            <FrameLayout
+                android:id="@+id/frame_palevioletred"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp">
+                <View
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    android:background="@drawable/color_palevioletred" />
+                <ImageView
+                    android:id="@+id/palevioletred"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    app:tint="@color/black" />
+            </FrameLayout>
+        </LinearLayout>
+    </HorizontalScrollView>
+</LinearLayout>
+
