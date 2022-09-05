@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragment_languages"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/todo_popup">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:text="Choose Language"
+        android:textColor="@color/black"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="10dp"
+        android:background="#dddddd" />
+    <LinearLayout
+        android:id="@+id/bookmarked"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="English"
+            android:textSize="16sp"/>
+        <RadioButton
+            android:id="@+id/image1"
+            android:layout_width="wrap_content"
+            android:layout_height="20sp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="152dp"
+            app:tint="@color/black"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/title_name"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hindi"
+            android:textSize="16sp"/>
+
+        <RadioButton
+            android:id="@+id/image2"
+            android:layout_width="wrap_content"
+            android:layout_height="20sp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="165dp"
+            app:tint="@color/black"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/newest"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Spanish"
+            android:textSize="16sp"/>
+        <RadioButton
+            android:id="@+id/image3"
+            android:layout_width="wrap_content"
+            android:layout_height="20sp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="120dp"
+            app:tint="@color/black"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/oldest"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="French"
+            android:textSize="16sp"/>
+        <RadioButton
+            android:id="@+id/image4"
+            android:layout_width="wrap_content"
+            android:layout_height="20sp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="120dp"
+            app:tint="@color/black"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/olde"
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bengali"
+            android:textSize="16sp"/>
+        <RadioButton
+            android:id="@+id/image5"
+            android:layout_width="wrap_content"
+            android:layout_height="20sp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="120dp"
+            app:tint="@color/black"/>
+    </LinearLayout>
+</LinearLayout>

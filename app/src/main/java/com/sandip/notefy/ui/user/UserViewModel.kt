@@ -1,7 +1,7 @@
-package com.sandip.notefy.ui.todo
+package com.sandip.notefy.ui.user
 
 import androidx.lifecycle.ViewModel
 
-class TodoViewModel : ViewModel() {
+class UserViewModel : ViewModel() {
     // TODO: Implement the ViewModel
 }

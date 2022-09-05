@@ -30,13 +30,18 @@
         <entry key="app/src/main/res/layout/add_tick.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/add_tick_display_note.xml" value="0.35989583333333336" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.38446969696969696" />
+        <entry key="app/src/main/res/layout/choose_language.xml" value="0.32864583333333336" />
         <entry key="app/src/main/res/layout/color_popup.xml" value="0.2838541666666667" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.3380208333333333" />
         <entry key="app/src/main/res/layout/drawer_layout.xml" value="0.35989583333333336" />
+        <entry key="app/src/main/res/layout/fragment_about.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_delete_note.xml" value="0.3609375" />
+        <entry key="app/src/main/res/layout/fragment_help_feedback.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/fragment_languages.xml" value="0.3296875" />
         <entry key="app/src/main/res/layout/fragment_navigation_drawer.xml" value="0.3302083333333333" />
         <entry key="app/src/main/res/layout/fragment_new_update_note.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3296875" />
         <entry key="app/src/main/res/layout/nav_header.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/note.xml" value="0.2957345971563981" />
         <entry key="app/src/main/res/layout/sortby_dialog.xml" value="0.25" />

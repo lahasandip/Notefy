@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
@@ -33,7 +32,6 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
-import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.FragmentNewUpdateNoteBinding
 import com.sandip.notefy.util.exhaustive
@@ -44,9 +42,9 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 import java.util.*
 
-const val CHANNEL_ID: String = "1"
-const val CHANNEL_NAME: String = "Developer"
-const val CHANNEL_DESCRIPTION = "Notification Message"
+const val CHANNEL_ID: String = "4"
+const val CHANNEL_NAME: String = "Notefy"
+const val CHANNEL_DESCRIPTION = "Reminder Message"
 @AndroidEntryPoint
 class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private val REQUEST_IMAGE_CAPTURE = 1
@@ -72,7 +70,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
         binding = FragmentNewUpdateNoteBinding.bind(view)
         createNotificationChannel()
-
+        val calendar = Calendar.getInstance()
+        var hour = calendar.get(Calendar.HOUR_OF_DAY)
+        var minute = calendar.get(Calendar.MINUTE)
         datePicker =
             MaterialDatePicker.Builder.datePicker()
                 .setTitleText("Select date")
@@ -86,8 +86,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         timePicker =
             MaterialTimePicker.Builder()
                 .setTimeFormat(clockFormat)
-                .setHour(12)
-                .setMinute(10)
+                .setHour(hour)
+                .setMinute(minute)
                 .setTitleText("Select time")
                 .build()
         datePicker.addOnPositiveButtonClickListener {
@@ -117,6 +117,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             // call back code
             "${timePicker.hour}:${timePicker.minute}".also { binding.time.text = it }
             binding.reminderLayout.visibility = View.VISIBLE
+            displaySimpleNotification()
 
         }
         timePicker.addOnNegativeButtonClickListener {
@@ -156,7 +157,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 placeInput.text = viewModel.noteLocation
                 locationLayout.visibility = View.VISIBLE
             }
-            newUpdateNote.setBackgroundColor(viewModel.noteColor)
+            fragmentNewUpdateNote.setBackgroundColor(viewModel.noteColor)
             if (viewModel.noteImage != null) {
                 showImage.setImageBitmap(viewModel.noteImage)
                 showImage.visibility = View.VISIBLE
@@ -195,10 +196,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             saveNote.setOnClickListener {
-                val viewColor = binding.newUpdateNote.background as ColorDrawable
+                val viewColor = binding.fragmentNewUpdateNote.background as ColorDrawable
                 val colorId = viewColor.color
                 viewModel.noteColor = colorId
-                displaySimpleNotification()
                 viewModel.onSaveClick(completed, todoDescription)
             }
             deleteNote.setOnClickListener {
@@ -335,7 +335,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     sandybrown.setImageResource(0)
                     thistle.setImageResource(0)
                     violet.setImageResource(0)
-                    binding.newUpdateNote.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
                 }
 
                 frame_lightsteelblue.setOnClickListener {
@@ -354,7 +354,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     sandybrown.setImageResource(0)
                     thistle.setImageResource(0)
                     violet.setImageResource(0)
-                    binding.newUpdateNote.setBackgroundColor(Color.parseColor("#B0C4DE"))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#B0C4DE"))
                 }
 
                 frame_aquamarine.setOnClickListener {
@@ -373,7 +373,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     sandybrown.setImageResource(0)
                     thistle.setImageResource(0)
                     violet.setImageResource(0)
-                    binding.newUpdateNote.setBackgroundColor(Color.parseColor("#7FFFD4"))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#7FFFD4"))
                 }
 
                 frame_grey.setOnClickListener {
@@ -392,7 +392,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     sandybrown.setImageResource(0)
                     thistle.setImageResource(0)
                     violet.setImageResource(0)
-                    binding.newUpdateNote.setBackgroundColor(Color.parseColor("#E8E9EB"))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#E8E9EB"))
                 }
 
                 frame_darkgrey.setOnClickListener {
@@ -411,7 +411,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     sandybrown.setImageResource(0)
                     thistle.setImageResource(0)
                     violet.setImageResource(0)
-                    binding.newUpdateNote.setBackgroundColor(Color.parseColor("#A9A9A9"))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#A9A9A9"))
                 }
 
                 frame_lightcyan.setOnClickListener {
@@ -430,7 +430,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     sandybrown.setImageResource(0)
                     thistle.setImageResource(0)
                     violet.setImageResource(0)
-                    binding.newUpdateNote.setBackgroundColor(Color.parseColor("#E0FFFF"))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#E0FFFF"))
                 }
 
                 frame_lightgoldenyellow.setOnClickListener {
@@ -449,7 +449,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     sandybrown.setImageResource(0)
                     thistle.setImageResource(0)
                     violet.setImageResource(0)
-                    binding.newUpdateNote.setBackgroundColor(Color.parseColor("#FAFAD2"))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#FAFAD2"))
                 }
 
                 frame_lightgreen.setOnClickListener {
@@ -468,7 +468,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     sandybrown.setImageResource(0)
                     thistle.setImageResource(0)
                     violet.setImageResource(0)
-                    binding.newUpdateNote.setBackgroundColor(Color.parseColor("#CEFAD0"))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#CEFAD0"))
                 }
 
                 frame_palegoldenrod.setOnClickListener {
@@ -487,7 +487,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     sandybrown.setImageResource(0)
                     thistle.setImageResource(0)
                     violet.setImageResource(0)
-                    binding.newUpdateNote.setBackgroundColor(Color.parseColor("#EEE8AA"))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#EEE8AA"))
                 }
 
                 frame_palevioletred.setOnClickListener {
@@ -506,7 +506,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     sandybrown.setImageResource(0)
                     thistle.setImageResource(0)
                     violet.setImageResource(0)
-                    binding.newUpdateNote.setBackgroundColor(Color.parseColor("#FFCBD1"))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#FFCBD1"))
                 }
 
                 frame_powderblue.setOnClickListener {
@@ -525,7 +525,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     sandybrown.setImageResource(0)
                     thistle.setImageResource(0)
                     violet.setImageResource(0)
-                    binding.newUpdateNote.setBackgroundColor(Color.parseColor("#B0E0E6"))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#B0E0E6"))
                 }
 
                 frame_rosybrown.setOnClickListener {
@@ -544,7 +544,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     sandybrown.setImageResource(0)
                     thistle.setImageResource(0)
                     violet.setImageResource(0)
-                    binding.newUpdateNote.setBackgroundColor(Color.parseColor("#BC8F8F"))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#BC8F8F"))
                 }
 
                 frame_sandybrown.setOnClickListener {
@@ -563,7 +563,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     rosybrown.setImageResource(0)
                     thistle.setImageResource(0)
                     violet.setImageResource(0)
-                    binding.newUpdateNote.setBackgroundColor(Color.parseColor("#F4A460"))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#F4A460"))
                 }
 
                 frame_thistle.setOnClickListener {
@@ -582,7 +582,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     rosybrown.setImageResource(0)
                     sandybrown.setImageResource(0)
                     violet.setImageResource(0)
-                    binding.newUpdateNote.setBackgroundColor(Color.parseColor("#D8BFD8"))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#D8BFD8"))
                 }
 
                 frame_violet.setOnClickListener {
@@ -601,7 +601,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     rosybrown.setImageResource(0)
                     sandybrown.setImageResource(0)
                     thistle.setImageResource(0)
-                    binding.newUpdateNote.setBackgroundColor(Color.parseColor("#EFC9FE"))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#EFC9FE"))
                 }
 
             }
@@ -856,7 +856,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             val channel =
                 NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
             channel.description = CHANNEL_DESCRIPTION
-            val notificationManager = context?.getSystemService(AppCompatActivity.NOTIFICATION_SERVICE) as NotificationManager
+            val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
             println("sandip chanel created")
         }
@@ -867,7 +867,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private fun displaySimpleNotification() {
         println("sandip enter display function")
 
-        val notificationIntent = Intent(context!!, Notification::class.java).apply {
+        val notificationIntent = Intent(context, Notifications::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             println("sandip notification intent created")
 

@@ -2,7 +2,6 @@ package com.sandip.notefy.ui.newupdate
 
 
 import com.sandip.notefy.R
-import com.sandip.notefy.ui.newupdate.CHANNEL_ID
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -14,12 +13,12 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
 
 
-const val notificationId = 28
-const val KEY_TEXT_REPLY = "key_text_reply"
-const val titleExtra = "title"
-const val messageExtra = "message"
+const val notificationId = 10
+const val KEY_TEXT_REPLY = "text"
+const val titleExtra = "Developer"
+const val messageExtra = "Settings"
 
-class Notification : BroadcastReceiver() {
+class Notifications : BroadcastReceiver() {
 
 
     override fun onReceive(context: Context?, intent: Intent?) {
@@ -31,7 +30,7 @@ class Notification : BroadcastReceiver() {
 
 
         //Add a reply
-        var replyLabel: String = "Reply"
+        var replyLabel = "Reply"
         var remoteInput: RemoteInput = RemoteInput.Builder(KEY_TEXT_REPLY).run {
             setLabel(replyLabel)
             build()

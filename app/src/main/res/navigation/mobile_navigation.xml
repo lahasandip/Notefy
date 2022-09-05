@@ -13,10 +13,7 @@
         <action
             android:id="@+id/action_home_to_new_update_note"
             app:destination="@id/new_update_note"
-            app:enterAnim="@anim/nav_default_enter_anim"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popEnterAnim="@anim/nav_default_pop_enter_anim"
-            app:popExitAnim="@anim/nav_default_pop_exit_anim" />
+            />
     </fragment>
 
     <fragment
@@ -43,14 +40,36 @@
             app:destination="@id/todo" />
 
     </fragment>
-    <dialog
-        android:id="@+id/todo"
-        android:name="com.sandip.notefy.ui.todo.Todo"
-        android:label="todo">
-        <action
-            android:id="@+id/action_todo_to_new_update_note"
-            app:destination="@id/new_update_note" />
-    </dialog>
+
+    <fragment
+        android:id="@+id/help_feedback"
+        android:name="com.sandip.notefy.ui.help.HelpFeedback"
+        android:label="help_feedback"
+        tools:layout="@layout/fragment_help_feedback" />
+
+    <fragment
+        android:id="@+id/about"
+        android:name="com.sandip.notefy.ui.about_us.About"
+        android:label="about"
+        tools:layout="@layout/fragment_about" />
+
+    <fragment
+        android:id="@+id/settings"
+        android:name="com.sandip.notefy.ui.settings.Settings"
+        android:label="settings"
+        tools:layout="@layout/fragment_settings" />
+
+    <fragment
+        android:id="@+id/languages"
+        android:name="com.sandip.notefy.ui.languages.Languages"
+        android:label="languages"
+        tools:layout="@layout/fragment_languages" />
+
+    <fragment
+        android:id="@+id/user"
+        android:name="com.sandip.notefy.ui.user.User"
+        android:label="user"
+        tools:layout="@layout/fragment_user" />
 
 
 </navigation>
