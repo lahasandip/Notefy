@@ -15,7 +15,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Todo Checklist"
-            android:textColor="@color/black"
             android:textSize="20dp"
             android:layout_marginTop="5dp"
             android:gravity="center"
@@ -79,8 +78,7 @@
                 android:src="@drawable/ic_outline_add_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:tint="@color/black" />
+                app:layout_constraintTop_toTopOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </LinearLayout>
@@ -99,8 +97,6 @@
         android:layout_height="wrap_content"
         android:text="Done"
         android:layout_gravity="bottom"
-        android:textColor="@color/black"
-        android:background="@android:color/transparent"
         android:visibility="gone"/>
 
 

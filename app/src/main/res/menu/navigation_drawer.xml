@@ -38,12 +38,12 @@
         <item
             android:id="@+id/dark_theme"
             android:title="Dark theme"
-            app:actionLayout="@layout/toggle_button"
+            app:actionLayout="@layout/dark_toggle_button"
             android:icon="@drawable/ic_outline_dark_mode_24"/>
         <item
             android:id="@+id/screen_lock"
             android:title="Screen Lock"
-            app:actionLayout="@layout/toggle_button"
+            app:actionLayout="@layout/biometric_toggle_button"
             android:icon="@drawable/ic_baseline_fingerprint_24"/>
     </group>
 
@@ -52,8 +52,8 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/settings"
-            android:title="Settings"
-            android:icon="@drawable/ic_outline_settings_24"
+            android:title="Share app"
+            android:icon="@drawable/ic_baseline_share_24"
             />
         <item
             android:id="@+id/help_feedback"

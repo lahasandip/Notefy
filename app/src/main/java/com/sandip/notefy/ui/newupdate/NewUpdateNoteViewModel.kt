@@ -73,7 +73,7 @@ class NewUpdateNoteViewModel @Inject constructor(
         }
 
 
-    var noteColor = state.get<Int>("noteColor") ?: note?.clr ?: -1
+    var noteColor = state.get<Int>("noteColor") ?: note?.clr ?: 0
         set(value) {
             field = value
             state["noteColor"] = value

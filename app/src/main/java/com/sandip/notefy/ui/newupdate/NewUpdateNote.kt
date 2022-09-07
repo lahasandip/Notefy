@@ -157,7 +157,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 placeInput.text = viewModel.noteLocation
                 locationLayout.visibility = View.VISIBLE
             }
-            fragmentNewUpdateNote.setBackgroundColor(viewModel.noteColor)
+            if (viewModel.noteColor != null) {
+                fragmentNewUpdateNote.setBackgroundColor(viewModel.noteColor)
+            }
             if (viewModel.noteImage != null) {
                 showImage.setImageBitmap(viewModel.noteImage)
                 showImage.visibility = View.VISIBLE

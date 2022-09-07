@@ -4,21 +4,23 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/popup_background">
+    android:theme="@style/PopupStyle">
 
     <TextView
         android:id="@+id/choosetxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
+        android:layout_marginTop="5dp"
         android:text="Sort By"
-        android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
         android:background="#dddddd" />
     <LinearLayout
         android:id="@+id/bookmarked"
@@ -37,7 +39,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bookmarked"
+            android:text="Bookmarked Only"
             android:layout_marginLeft="25dp"
             android:textSize="16sp"/>
         <ImageView
@@ -65,7 +67,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title Name"
+            android:text="Title [A-Z]"
             android:layout_marginLeft="25dp"
             android:textSize="16sp"/>
 

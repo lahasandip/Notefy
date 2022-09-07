@@ -105,9 +105,6 @@ dependencies {
     //Biometric Auth
     implementation 'androidx.biometric:biometric:1.2.0-alpha04'
 
-    //ButterKnife
-    implementation 'com.jakewharton:butterknife:10.2.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:10.2.1'
 }
 
 kapt {
