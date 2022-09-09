@@ -8,8 +8,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sandip.notefy.data.NoteDao
 import com.sandip.notefy.data.NoteEntity
-import com.sandip.notefy.data.TodoDao
-import com.sandip.notefy.data.TodoEntity
+import com.sandip.notefy.data.Todo
 import com.sandip.notefy.ui.ADD_TASK_RESULT_OK
 import com.sandip.notefy.ui.DELETE_TASK_RESULT_OK
 import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK
@@ -23,7 +22,6 @@ import javax.inject.Inject
 @HiltViewModel
 class NewUpdateNoteViewModel @Inject constructor(
     private val noteDao: NoteDao,
-    private val todoDao: TodoDao,
     private val state: SavedStateHandle): ViewModel() {
 
     val note = state.get<NoteEntity>("home")
@@ -83,11 +81,16 @@ class NewUpdateNoteViewModel @Inject constructor(
             field = value
             state["noteImage"] = value
         }
+    var noteTodoList = state.get<List<Todo>>("noteTodoList") ?: note?.todoList
+        set(value) {
+            field = value
+            state["noteTodoList"] = value
+        }
 
     private val addEditTaskEventChannel = Channel<AddEditTaskEvent>()
     val addEditTaskEvent = addEditTaskEventChannel.receiveAsFlow()
 
-    fun onSaveClick(completed: ArrayList<Boolean>, todoDescription: ArrayList<String>) {
+    fun onSaveClick() {
         if (noteTitle.isBlank()) {
             showInvalidInputMessage("Title cannot be empty")
             return
@@ -105,16 +108,14 @@ class NewUpdateNoteViewModel @Inject constructor(
                 location = noteLocation,
                 clr = noteColor,
                 image = noteImage,
-                todoDescription = todoDescription,
-                completed = completed
+                todoList = noteTodoList
+
             )
-            val updateTodo = TodoEntity(noteId, todoDescription, completed)
-            updateTask(updatedTask,updateTodo)
+            updateTask(updatedTask)
         } else {
             val newTask = NoteEntity(title = noteTitle, body = noteDescription, important = noteImportance,
-                url = noteUrl, date =  noteDate, time = noteTime, location =  noteLocation, clr =  noteColor, todoDescription,completed,image =  noteImage)
-            val newTodo = TodoEntity(noteId+1, todoDescription, completed)
-            createTask(newTask, newTodo)
+                url = noteUrl, date =  noteDate, time = noteTime, location =  noteLocation, clr =  noteColor, image =  noteImage, todoList = noteTodoList)
+            createTask(newTask)
 
 
 
@@ -132,16 +133,13 @@ class NewUpdateNoteViewModel @Inject constructor(
         addEditTaskEventChannel.send(AddEditTaskEvent.NavigateToBackScreen)
     }
 
-    private fun createTask(noteEntity: NoteEntity, newTodo: TodoEntity) = viewModelScope.launch {
+    private fun createTask(noteEntity: NoteEntity) = viewModelScope.launch {
         noteDao.insertDao(noteEntity)
-        todoDao.insertDao(newTodo)
         addEditTaskEventChannel.send(AddEditTaskEvent.NavigateBackWithResult(ADD_TASK_RESULT_OK))
     }
 
-    private fun updateTask(noteEntity: NoteEntity, updateTodo: TodoEntity) = viewModelScope.launch {
+    private fun updateTask(noteEntity: NoteEntity) = viewModelScope.launch {
         noteDao.updateDao(noteEntity)
-        todoDao.updateDao(updateTodo)
-
         addEditTaskEventChannel.send(AddEditTaskEvent.NavigateBackWithResult(EDIT_TASK_RESULT_OK))
     }
 
@@ -194,7 +192,7 @@ class NewUpdateNoteViewModel @Inject constructor(
             addEditTaskEventChannel.send(AddEditTaskEvent.NavigateToTodoScreen)
         }
 
-    fun onTaskSelected(todoEntity: TodoEntity) {
+    fun onTaskSelected(todoEntity: Todo) {
 
     }
 

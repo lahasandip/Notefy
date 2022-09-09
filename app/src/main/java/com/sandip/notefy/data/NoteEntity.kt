@@ -20,14 +20,10 @@ data class NoteEntity(
     @ColumnInfo(name = "Time") val time: String? = null,
     @ColumnInfo(name = "Location") val location: String? = null,
     @ColumnInfo(name = "Color") val clr: Int = 0,
-    @ColumnInfo(name = "TodoDescription") val todoDescription: ArrayList<String>?,
-    @ColumnInfo(name = "Completed") val completed: ArrayList<Boolean>?,
     @ColumnInfo(name="image", typeAffinity = ColumnInfo.BLOB) val image: Bitmap?,
-    val created: Long = System.currentTimeMillis(),
+    @ColumnInfo(name = "todoList") var todoList: List<Todo>? = null,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 
 ): Parcelable {
-    val createdDateFormatted: String
-    get() = DateFormat.getDateTimeInstance().format(created)
 }

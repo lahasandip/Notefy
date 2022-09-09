@@ -1,8 +1,7 @@
 package com.sandip.notefy.ui.home
 
 import android.app.Dialog
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
+import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -26,8 +25,8 @@ import com.sandip.notefy.databinding.FragmentHomeBinding
 import com.sandip.notefy.ui.MainActivity
 import com.sandip.notefy.util.SortOrder
 import com.sandip.notefy.util.exhaustive
-
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
@@ -50,7 +49,12 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
         binding.apply {
             recyclerView.apply {
                 adapter = noteAdapter
-                layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                layoutManager =
+                    if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                    } else {
+                        StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
+                    }
 
 //                val pendingQuery = viewModel.searchQuery.value
 //                if (pendingQuery != null && pendingQuery.isNotEmpty()) {
@@ -105,7 +109,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
                         ViewGroup.LayoutParams.MATCH_PARENT,
                         ViewGroup.LayoutParams.WRAP_CONTENT,
                     )
-                    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//                    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                     dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                     dialog.window?.setGravity(Gravity.BOTTOM)
                     val bookmarked: LinearLayout = dialog.findViewById(R.id.bookmarked)
@@ -170,7 +174,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
                             HomeDirections.actionHomeToNewUpdateNote(
                                 "note",
                                 null,
-                                null
                             )
                         findNavController().navigate(action)
                     }
@@ -179,7 +182,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
                             HomeDirections.actionHomeToNewUpdateNote(
                                 "edit note",
                                 event.noteEntity,
-                                null
                             )
                         findNavController().navigate(action)
                     }
@@ -197,7 +199,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
                             HomeDirections.actionHomeToNewUpdateNote(
                                 "note",
                                 null,
-                                null
                             )
                         findNavController().navigate(action)
                     }

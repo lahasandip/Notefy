@@ -18,9 +18,7 @@
         <item name="colorControlActivated">@color/white</item>
         <item name="queryHint">"Search Note"</item>
     </style>
-    <style name="PopupStyle" parent="Theme.Notefy">
-        <item name="android:background">#323232</item>
-    </style>
+
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">#263238</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_baseline_edit_note_24</item>

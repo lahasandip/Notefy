@@ -1,29 +1,58 @@
 package com.sandip.notefy.ui.home
 
-import android.app.Activity
 import android.content.Context
+import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
-import android.widget.CheckBox
-import android.widget.TextView
+import android.widget.*
+import androidx.recyclerview.widget.RecyclerView
 import com.sandip.notefy.R
+import com.sandip.notefy.data.NoteEntity
+import com.sandip.notefy.data.Todo
 
-class TodoAdapter(context: Context, var checks: ArrayList<Boolean>?, var list: ArrayList<String>?) :
-    ArrayAdapter<String?>(context, R.layout.add_tick, list as ArrayList<String?>) {
-    // The method we override to provide our own layout for each View (row) in the ListView
-    override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
-        var convertView = convertView
-        if (convertView == null) {
-            val mInflater =
-                context.getSystemService(Activity.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-            convertView = mInflater.inflate(R.layout.add_tick_display_note, null)
-            val name:CheckBox = convertView!!.findViewById<CheckBox>(R.id.ch)
-            val add:TextView = convertView.findViewById<TextView>(R.id.ti)
-            name.isChecked = checks?.get(position) ?: false
-            add.text = list?.get(position) ?: ""
-        }
-        return convertView!!
+class TodoAdapter(
+    context: Context,
+    todoList: ArrayList<Todo>?,
+) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder?>() {
+    private val context: Context
+    private val todoList: ArrayList<Todo>?
+    init {
+        this.context = context
+        this.todoList = todoList
     }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
+        return TodoViewHolder(
+            LayoutInflater.from(parent.context).inflate(
+                R.layout.add_tick_display_note,
+                parent,
+                false
+            )
+        )
+    }
+
+    override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
+        holder.todoTitle.text = todoList?.get(position)?.todoDescription ?: ""
+        holder.todoCheckBox.isChecked = todoList?.get(position)?.completed ?: false
+        if(todoList?.get(position)?.completed == true){
+            holder.todoTitle.setPaintFlags(holder.todoTitle.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+        }
+    }
+
+    override fun getItemCount(): Int {
+        return todoList?.size ?: -1
+    }
+
+    inner class TodoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var todoCheckBox: CheckBox
+        var todoTitle: TextView
+
+        init {
+            todoCheckBox = itemView.findViewById(R.id.ch)
+            todoTitle = itemView.findViewById(R.id.ti)
+        }
+    }
+
+
 }

@@ -18,9 +18,9 @@
             android:icon="@drawable/ic_outline_note_add_24"
             />
         <item
-            android:id="@+id/ll"
-            android:title="Item3"
-            android:icon="@drawable/ic_outline_language_24"
+            android:id="@+id/recycle_bin"
+            android:title="Recycle Bin"
+            android:icon="@drawable/ic_outline_restore_from_trash_24"
             />
     </group>
 

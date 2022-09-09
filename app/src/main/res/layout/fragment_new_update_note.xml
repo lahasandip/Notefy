@@ -256,6 +256,14 @@
                     android:layout_marginLeft="10dp"
                     android:src="@drawable/ic_outline_checklist_24" />
             </LinearLayout>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/sandip"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/header"
+                android:layout_marginTop="100dp"
+                android:layout_marginBottom="50dp"
+                android:scrollbars="none" />
         <LinearLayout
             android:id="@+id/todo_layout"
             android:layout_width="wrap_content"

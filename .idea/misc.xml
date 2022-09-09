@@ -4,7 +4,22 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="../../../../layout/custom_preview.xml" value="0.16546762589928057" />
+        <entry key="app/src/main/res/drawable-v24/bottom_shadow.xml" value="0.278" />
         <entry key="app/src/main/res/drawable-v24/color_aquamarine.xml" value="0.276" />
+        <entry key="app/src/main/res/drawable-v24/color_darkgrey.xml" value="0.193" />
+        <entry key="app/src/main/res/drawable-v24/color_grey.xml" value="0.2905" />
+        <entry key="app/src/main/res/drawable-v24/color_lightcyan.xml" value="0.2905" />
+        <entry key="app/src/main/res/drawable-v24/color_lightgoldenyellow.xml" value="0.193" />
+        <entry key="app/src/main/res/drawable-v24/color_lightgreen.xml" value="0.2905" />
+        <entry key="app/src/main/res/drawable-v24/color_lightsteelblue.xml" value="0.193" />
+        <entry key="app/src/main/res/drawable-v24/color_palegoldenrod.xml" value="0.161" />
+        <entry key="app/src/main/res/drawable-v24/color_palevioletred.xml" value="0.2905" />
+        <entry key="app/src/main/res/drawable-v24/color_powderblue.xml" value="0.161" />
+        <entry key="app/src/main/res/drawable-v24/color_rosybrown.xml" value="0.161" />
+        <entry key="app/src/main/res/drawable-v24/color_sandybrown.xml" value="0.161" />
+        <entry key="app/src/main/res/drawable-v24/color_thistle.xml" value="0.2905" />
+        <entry key="app/src/main/res/drawable-v24/color_violet.xml" value="0.2905" />
+        <entry key="app/src/main/res/drawable-v24/color_white.xml" value="0.1765" />
         <entry key="app/src/main/res/drawable-v24/ic_baseline_arrow_back_24.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable-v24/ic_baseline_arrow_downward_24.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable-v24/ic_baseline_arrow_upward_24.xml" value="0.2695" />
@@ -13,7 +28,10 @@
         <entry key="app/src/main/res/drawable-v24/ic_baseline_share_24.xml" value="0.2115" />
         <entry key="app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.266" />
         <entry key="app/src/main/res/drawable-v24/popup_background.xml" value="0.2115" />
+        <entry key="app/src/main/res/drawable-v24/round_white.xml" value="0.278" />
         <entry key="app/src/main/res/drawable-v24/search_view.xml" value="0.1635" />
+        <entry key="app/src/main/res/drawable/ic_baseline_book_24.xml" value="0.278" />
+        <entry key="app/src/main/res/drawable/ic_baseline_bookmark_24.xml" value="0.269" />
         <entry key="app/src/main/res/drawable/ic_baseline_bookmark_border_24.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/ic_baseline_clear_24.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/ic_baseline_delete_outline_24.xml" value="0.2695" />
@@ -25,6 +43,10 @@
         <entry key="app/src/main/res/drawable/ic_outline_access_alarms_24.xml" value="0.1725" />
         <entry key="app/src/main/res/drawable/ic_outline_add_24.xml" value="0.136" />
         <entry key="app/src/main/res/drawable/ic_outline_add_box_24.xml" value="0.2115" />
+        <entry key="app/src/main/res/drawable/ic_outline_block_24.xml" value="0.148" />
+        <entry key="app/src/main/res/drawable/ic_outline_checklist_24.xml" value="0.1765" />
+        <entry key="app/src/main/res/drawable/ic_outline_color_lens_24.xml" value="0.1765" />
+        <entry key="app/src/main/res/drawable/ic_outline_format_color_reset_24.xml" value="0.148" />
         <entry key="app/src/main/res/drawable/ic_outline_help_center_24.xml" value="0.2115" />
         <entry key="app/src/main/res/drawable/ic_outline_image_24.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/ic_outline_location_on_24.xml" value="0.2695" />
@@ -32,6 +54,7 @@
         <entry key="app/src/main/res/drawable/ic_outline_notifications_active_24.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/ic_outline_photo_camera_24.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/ic_outline_title_24.xml" value="0.2695" />
+        <entry key="app/src/main/res/drawable/item_selector.xml" value="0.1725" />
         <entry key="app/src/main/res/drawable/todo_popup.xml" value="0.266" />
         <entry key="app/src/main/res/layout/activity_action1.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/activity_alarm.xml" value="0.3046875" />
@@ -42,7 +65,7 @@
         <entry key="app/src/main/res/layout/add_features_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/add_image_dialog.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/add_tick.xml" value="0.3609375" />
-        <entry key="app/src/main/res/layout/add_tick_display_note.xml" value="0.35989583333333336" />
+        <entry key="app/src/main/res/layout/add_tick_display_note.xml" value="0.46563573883161513" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.38446969696969696" />
         <entry key="app/src/main/res/layout/biometric_toggle_button.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/choose_language.xml" value="0.32864583333333336" />
@@ -54,9 +77,10 @@
         <entry key="app/src/main/res/layout/fragment_delete_note.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_help_feedback.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.4148148148148148" />
-        <entry key="app/src/main/res/layout/fragment_languages.xml" value="0.3296875" />
+        <entry key="app/src/main/res/layout/fragment_languages.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_navigation_drawer.xml" value="0.3302083333333333" />
         <entry key="app/src/main/res/layout/fragment_new_update_note.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_recycle_bin.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_screen_locked.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3296875" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.3609375" />

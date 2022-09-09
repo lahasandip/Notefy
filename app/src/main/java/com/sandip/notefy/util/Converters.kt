@@ -5,11 +5,14 @@ import android.graphics.BitmapFactory
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.sandip.notefy.data.Todo
 import java.io.ByteArrayOutputStream
-import java.lang.reflect.Type
 
 
 class Converters {
+    companion object{
+        var gson = Gson()
+    }
 
     @TypeConverter
     fun fromBitmap(bitmap: Bitmap?): ByteArray {
@@ -25,27 +28,19 @@ class Converters {
 
 
     @TypeConverter
-    fun fromBool(value: String?): ArrayList<Boolean> {
-        val listType = object : TypeToken<ArrayList<Boolean?>?>() {}.type
-        return Gson().fromJson(value, listType)
+    fun stringToTODOList(data: String?): List<Todo>? {
+        if (data == null) {
+            return emptyList<Todo>()
+        }
+        val listType = object : TypeToken<List<Todo?>?>() {}.type
+        return gson.fromJson<List<Todo>>(
+            data,
+            listType
+        )
     }
 
     @TypeConverter
-    fun fromArrayList(list: ArrayList<Boolean?>?): String {
-        val gson = Gson()
-        return gson.toJson(list)
-    }
-
-
-    @TypeConverter
-    fun fromString(value: String?): ArrayList<String>? {
-        val listType: Type = object : TypeToken<ArrayList<String?>?>() {}.type
-        return Gson().fromJson(value, listType)
-    }
-
-    @TypeConverter
-    fun fromList(list: ArrayList<String?>?): String? {
-        val gson = Gson()
-        return gson.toJson(list)
+    fun todoListToString(someObjects: List<Todo?>?): String? {
+        return gson.toJson(someObjects)
     }
 }

@@ -28,11 +28,6 @@
             app:argType="com.sandip.notefy.data.NoteEntity"
             app:nullable="true" />
         <argument
-            android:name="todo"
-            android:defaultValue="@null"
-            app:argType="com.sandip.notefy.data.TodoEntity"
-            app:nullable="true" />
-        <argument
             android:name="title"
             app:argType="string" />
         <action
@@ -63,13 +58,22 @@
         android:id="@+id/languages"
         android:name="com.sandip.notefy.ui.languages.Languages"
         android:label="languages"
-        tools:layout="@layout/fragment_languages" />
+        tools:layout="@layout/fragment_languages" >
+        <action
+            android:id="@+id/action_languages_to_home"
+            app:destination="@id/home" />
+    </fragment>
 
     <fragment
         android:id="@+id/user"
         android:name="com.sandip.notefy.ui.user.User"
         android:label="user"
         tools:layout="@layout/fragment_user" />
+    <fragment
+        android:id="@+id/recycle_bin"
+        android:name="com.sandip.notefy.ui.recycle_bin.RecycleBin"
+        android:label="recycle_bin"
+        tools:layout="@layout/fragment_recycle_bin" />
 
 
 </navigation>

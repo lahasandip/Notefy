@@ -105,6 +105,11 @@ dependencies {
     //Biometric Auth
     implementation 'androidx.biometric:biometric:1.2.0-alpha04'
 
+    //Color Picker
+    implementation 'io.github.vadiole:colorpicker:1.0.2'
+
+
+
 }
 
 kapt {

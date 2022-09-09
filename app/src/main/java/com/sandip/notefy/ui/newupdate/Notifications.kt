@@ -1,7 +1,6 @@
 package com.sandip.notefy.ui.newupdate
 
 
-import com.sandip.notefy.R
 import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
@@ -11,19 +10,18 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.core.app.RemoteInput
+import com.sandip.notefy.R
 
 
 const val notificationId = 10
 const val KEY_TEXT_REPLY = "text"
-const val titleExtra = "Developer"
-const val messageExtra = "Settings"
+
 
 class Notifications : BroadcastReceiver() {
 
-
     override fun onReceive(context: Context?, intent: Intent?) {
-        Log.d("Noti", "Notification bradcast received")
-
+        val title = intent?.getStringExtra("titleExtra")
+        val desc = intent?.getStringExtra("messageExtra")
         val pendingIntent: PendingIntent =
             PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_IMMUTABLE)
         val icon = BitmapFactory.decodeResource(context?.resources, R.drawable.image)
@@ -47,9 +45,9 @@ class Notifications : BroadcastReceiver() {
 
 
         val builder = NotificationCompat.Builder(context!!, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_baseline_message_24)
-            .setContentTitle(titleExtra)
-            .setContentText(messageExtra)
+            .setSmallIcon(R.drawable.ic_baseline_edit_note_24)
+            .setContentTitle(title)
+            .setContentText(desc)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)

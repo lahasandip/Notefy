@@ -3,21 +3,13 @@ package com.sandip.notefy.data
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
-import androidx.sqlite.db.SupportSQLiteDatabase
-import com.sandip.notefy.di.ApplicationScope
 import com.sandip.notefy.util.Converters
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
-import javax.inject.Inject
-import javax.inject.Provider
 
 
 @TypeConverters(Converters::class)
-@Database(entities = [NoteEntity::class, TodoEntity::class], version = 2)
+@Database(entities = [NoteEntity::class], version = 1)
 abstract class NoteDatabase : RoomDatabase() {
     abstract fun getNote(): NoteDao
-    abstract fun getTodo() : TodoDao
-
 //    class Callback @Inject constructor(
 //        private val database: Provider<NoteDatabase>,
 //        @ApplicationScope private val applicationScope: CoroutineScope

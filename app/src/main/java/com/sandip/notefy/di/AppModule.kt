@@ -2,7 +2,6 @@ package com.sandip.notefy.di
 
 import android.app.Application
 import androidx.room.Room
-import com.google.android.material.datepicker.MaterialDatePicker
 import com.sandip.notefy.data.NoteDatabase
 import dagger.Module
 import dagger.Provides
@@ -27,9 +26,6 @@ object AppModule {
 
     @Provides
     fun provideTaskDao(db: NoteDatabase) = db.getNote()
-
-    @Provides
-    fun provideTodoDao(db: NoteDatabase) = db.getTodo()
 
     @ApplicationScope
     @Provides

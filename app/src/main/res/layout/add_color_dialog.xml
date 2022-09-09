@@ -4,7 +4,7 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:theme="@style/PopupStyle">
+    android:background="@drawable/popup_background"
     app:layout_behavior="@string/bottom_sheet_behavior">
     <LinearLayout
         android:id="@+id/layoutEdit"
@@ -43,10 +43,10 @@
                     android:background="@drawable/color_white" />
                 <ImageView
                     android:id="@+id/white"
-                    android:layout_width="20sp"
-                    android:layout_height="20sp"
+                    android:layout_width="22sp"
+                    android:layout_height="22sp"
                     android:layout_gravity="center"
-                    app:tint="@color/black" />
+              />
             </FrameLayout>
             <FrameLayout
                 android:id="@+id/frame_lightsteelblue"
@@ -62,6 +62,7 @@
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
+                    android:background="@color/LightSteelBlue"
                     app:tint="@color/black" />
             </FrameLayout>
             <FrameLayout
@@ -78,6 +79,7 @@
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
+                    android:background="@color/LightGoldenrodYellow"
                     app:tint="@color/black" />
             </FrameLayout>
             <FrameLayout
@@ -94,6 +96,7 @@
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
+                    android:background="@color/DarkGray"
                     app:tint="@color/black" />
             </FrameLayout>
             <FrameLayout
@@ -110,7 +113,9 @@
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
-                    app:tint="@color/black" />
+                    android:background="@color/PowderBlue"
+
+                app:tint="@color/black" />
             </FrameLayout>
             <FrameLayout
                 android:id="@+id/frame_rosybrown"
@@ -126,6 +131,7 @@
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
+                    android:background="@color/RosyBrown"
                     app:tint="@color/black" />
             </FrameLayout>
             <FrameLayout
@@ -142,7 +148,8 @@
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
-                    app:tint="@color/black" />
+                    android:background="@color/PaleGoldenrod"
+                app:tint="@color/black" />
             </FrameLayout>
             <FrameLayout
                 android:id="@+id/frame_sandybrown"
@@ -158,7 +165,8 @@
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
-                    app:tint="@color/black" />
+                    android:background="@color/SandyBrown"
+                app:tint="@color/black" />
             </FrameLayout>
             <FrameLayout
                 android:id="@+id/frame_thistle"
@@ -174,6 +182,7 @@
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
+                    android:background="@color/Thistle"
                     app:tint="@color/black" />
             </FrameLayout>
             <FrameLayout
@@ -190,7 +199,8 @@
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
-                    app:tint="@color/black" />
+                    android:background="@color/Aquamarine"
+                app:tint="@color/black" />
             </FrameLayout>
             <FrameLayout
                 android:id="@+id/frame_lightcyan"
@@ -206,7 +216,8 @@
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
-                    app:tint="@color/black" />
+                    android:background="@color/LightCyan"
+                app:tint="@color/black" />
             </FrameLayout>
             <FrameLayout
                 android:id="@+id/frame_grey"
@@ -222,6 +233,7 @@
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
+                    android:background="@color/Gray"
                     app:tint="@color/black" />
             </FrameLayout>
             <FrameLayout
@@ -238,7 +250,8 @@
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
-                    app:tint="@color/black" />
+                    android:background="@color/LightGreen"
+                app:tint="@color/black" />
             </FrameLayout>
             <FrameLayout
                 android:id="@+id/frame_violet"
@@ -254,7 +267,8 @@
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
-                    app:tint="@color/black" />
+                    android:background="@color/Violet" />
+                app:tint="@color/black" />
             </FrameLayout>
             <FrameLayout
                 android:id="@+id/frame_palevioletred"
@@ -270,9 +284,28 @@
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
-                    app:tint="@color/black" />
+                    android:background="@color/PaleVioletRed"
+                app:tint="@color/black" />
             </FrameLayout>
         </LinearLayout>
     </HorizontalScrollView>
+    <LinearLayout
+        android:id="@+id/color_wheel"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8dp">
+            <Button
+                android:id="@+id/color_picker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="More"
+                android:textAllCaps="false"
+                android:textSize="16sp"
+                style="@style/Widget.MaterialComponents.Button.TextButton"
+                />
+
+
+    </LinearLayout>
 </LinearLayout>
 

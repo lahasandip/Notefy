@@ -27,19 +27,21 @@ import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
 import com.sandip.notefy.R
+import com.sandip.notefy.data.Todo
 import com.sandip.notefy.databinding.FragmentNewUpdateNoteBinding
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
+import vadiole.colorpicker.ColorModel
+import vadiole.colorpicker.ColorPickerDialog
 import java.text.SimpleDateFormat
-import java.time.LocalTime
-import java.time.format.DateTimeFormatter
-import java.time.format.FormatStyle
 import java.util.*
 
 const val CHANNEL_ID: String = "4"
@@ -50,26 +52,46 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private val REQUEST_IMAGE_CAPTURE = 1
     private val SELECT_PICTURE = 2
     private val viewModel: NewUpdateNoteViewModel by viewModels()
-    private lateinit var binding : FragmentNewUpdateNoteBinding
-    private lateinit var date:String
-    private lateinit var datePicker:MaterialDatePicker<Long>
-    private lateinit var timePicker:MaterialTimePicker
+    private lateinit var binding: FragmentNewUpdateNoteBinding
+    private lateinit var date: String
+    private lateinit var datePicker: MaterialDatePicker<Long>
+    private lateinit var timePicker: MaterialTimePicker
+    private var todoList = ArrayList<Todo>()
 
-
+    //Companion Object for Temp List
+    var recylerView: RecyclerView? = null
 
     companion object {
-        val completed = ArrayList<Boolean>()
-        val todoDescription = ArrayList<String>()
-        var lv: ListView? = null
-        var adp: ListViewBAdapter? = null
 
+        var todoAdapter: NewUpdateAdapter? = null
     }
+
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
         binding = FragmentNewUpdateNoteBinding.bind(view)
         createNotificationChannel()
+
+        //Todo list view popup
+        val todoDialog = Dialog(requireContext())
+        todoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        todoDialog.setContentView(R.layout.todo_listview)
+//        todoDialog.show()
+        todoDialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+        )
+//                todoDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        todoDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        todoDialog.window?.setGravity(Gravity.CENTER)
+
+        val addToList = todoDialog.findViewById<ImageView>(R.id.addTodo)
+        val checkBoxTodo =   todoDialog.findViewById<CheckBox>(R.id.todoCheck)
+        val descriptionTodo =   todoDialog.findViewById<EditText>(R.id.todoDesc)
+        recylerView =   todoDialog.findViewById(R.id.todo_listview)
+        val btn =   todoDialog.findViewById<Button>(R.id.done)
+
+        //Date & Time Picker
         val calendar = Calendar.getInstance()
         var hour = calendar.get(Calendar.HOUR_OF_DAY)
         var minute = calendar.get(Calendar.MINUTE)
@@ -96,9 +118,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             utc.timeInMillis = it
             val format = SimpleDateFormat("yyyy-MM-dd")
             date = format.format(utc.time)
+            val format2=SimpleDateFormat("EEE, MMM d, ''yy")
+            val date2 = format2.format(utc.time)
 
-            (datePicker.headerText).also { binding.date.text = it }
-//             displaySimpleNotification(timePicker,datePicker)
+            (date2.toString()).also { binding.date.text = it }
             timePicker.show(childFragmentManager, "Time_Piker")
 
         }
@@ -117,7 +140,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             // call back code
             "${timePicker.hour}:${timePicker.minute}".also { binding.time.text = it }
             binding.reminderLayout.visibility = View.VISIBLE
-            displaySimpleNotification()
 
         }
         timePicker.addOnNegativeButtonClickListener {
@@ -140,6 +162,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 //        val bit= bitmap?.let { Bitmap.createScaledBitmap(it, width!!,height!!,false) }
 //        viewModel.noteImage = bit
 
+        //Bind with View model and Onclick Listener
         binding.apply {
             noteTitle.setText(viewModel.noteTitle)
             noteDescription.setText(viewModel.noteDescription)
@@ -164,9 +187,24 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 showImage.setImageBitmap(viewModel.noteImage)
                 showImage.visibility = View.VISIBLE
             }
+            if (viewModel.noteTodoList != null) {
+                todoList = viewModel.noteTodoList as ArrayList<Todo>
+                todoAdapter = context?.let {
+                    NewUpdateAdapter(
+                        it,
+                        todoList,
+                    )
+                }
+                recylerView?.setHasFixedSize(true)
+                recylerView?.layoutManager = LinearLayoutManager(context)
+                recylerView?.adapter = todoAdapter
+                taskLayout.visibility = View.VISIBLE
+                btn.visibility=View.VISIBLE
+
+            }
             noteEdited.text = "Edited: ${
-                viewModel.note?.createdDateFormatted ?: LocalTime.now()
-                    .format(DateTimeFormatter.ofLocalizedTime(FormatStyle.SHORT))
+                SimpleDateFormat(" h:mm a", Locale.getDefault())
+                    .format(Date())
             }"
 
 
@@ -194,15 +232,19 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
             placeInput.addTextChangedListener {
                 viewModel.noteLocation = it.toString()
-
             }
 
             saveNote.setOnClickListener {
                 val viewColor = binding.fragmentNewUpdateNote.background as ColorDrawable
                 val colorId = viewColor.color
                 viewModel.noteColor = colorId
-                viewModel.onSaveClick(completed, todoDescription)
+                viewModel.noteTodoList = todoList
+
+                viewModel.onSaveClick()
+                displaySimpleNotification()
+
             }
+
             deleteNote.setOnClickListener {
 
                 AlertDialog.Builder(requireContext())
@@ -228,7 +270,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                 )
-                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                 dialog.window?.setGravity(Gravity.BOTTOM)
                 val reminder: LinearLayout = dialog.findViewById(R.id.add_reminder_layout)
@@ -259,7 +301,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                 )
-                colorDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//                colorDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 colorDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                 colorDialog.window?.setGravity(Gravity.BOTTOM)
 
@@ -321,6 +363,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 val frame_violet: FrameLayout = colorDialog.findViewById(R.id.frame_violet)
                 val violet: ImageView = colorDialog.findViewById(R.id.violet)
 
+                val colorPicker: Button = colorDialog.findViewById(R.id.color_picker)
+
                 frame_white.setOnClickListener {
                     white.setImageResource(R.drawable.ic_baseline_done_24)
                     lightsteelblue.setImageResource(0)
@@ -337,12 +381,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     sandybrown.setImageResource(0)
                     thistle.setImageResource(0)
                     violet.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#FFFFFFFF"))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(0)
                 }
 
                 frame_lightsteelblue.setOnClickListener {
                     lightsteelblue.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(0)
+                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                     aquamarine.setImageResource(0)
                     grey.setImageResource(0)
                     darkgrey.setImageResource(0)
@@ -361,7 +405,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 frame_aquamarine.setOnClickListener {
                     aquamarine.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(0)
+                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                     lightsteelblue.setImageResource(0)
                     grey.setImageResource(0)
                     darkgrey.setImageResource(0)
@@ -380,7 +424,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 frame_grey.setOnClickListener {
                     grey.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(0)
+                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                     lightsteelblue.setImageResource(0)
                     aquamarine.setImageResource(0)
                     darkgrey.setImageResource(0)
@@ -399,7 +443,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 frame_darkgrey.setOnClickListener {
                     darkgrey.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(0)
+                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                     lightsteelblue.setImageResource(0)
                     aquamarine.setImageResource(0)
                     grey.setImageResource(0)
@@ -418,7 +462,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 frame_lightcyan.setOnClickListener {
                     lightcyan.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(0)
+                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                     lightsteelblue.setImageResource(0)
                     aquamarine.setImageResource(0)
                     grey.setImageResource(0)
@@ -437,7 +481,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 frame_lightgoldenyellow.setOnClickListener {
                     lightgoldenyellow.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(0)
+                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                     lightsteelblue.setImageResource(0)
                     aquamarine.setImageResource(0)
                     grey.setImageResource(0)
@@ -456,7 +500,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 frame_lightgreen.setOnClickListener {
                     lightgreen.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(0)
+                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                     lightsteelblue.setImageResource(0)
                     aquamarine.setImageResource(0)
                     grey.setImageResource(0)
@@ -475,7 +519,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 frame_palegoldenrod.setOnClickListener {
                     palegoldenrod.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(0)
+                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                     lightsteelblue.setImageResource(0)
                     aquamarine.setImageResource(0)
                     grey.setImageResource(0)
@@ -494,7 +538,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 frame_palevioletred.setOnClickListener {
                     palevioletred.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(0)
+                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                     lightsteelblue.setImageResource(0)
                     aquamarine.setImageResource(0)
                     grey.setImageResource(0)
@@ -513,7 +557,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 frame_powderblue.setOnClickListener {
                     powderblue.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(0)
+                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                     lightsteelblue.setImageResource(0)
                     aquamarine.setImageResource(0)
                     grey.setImageResource(0)
@@ -532,7 +576,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 frame_rosybrown.setOnClickListener {
                     rosybrown.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(0)
+                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                     lightsteelblue.setImageResource(0)
                     aquamarine.setImageResource(0)
                     grey.setImageResource(0)
@@ -551,7 +595,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 frame_sandybrown.setOnClickListener {
                     sandybrown.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(0)
+                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                     lightsteelblue.setImageResource(0)
                     aquamarine.setImageResource(0)
                     grey.setImageResource(0)
@@ -570,7 +614,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 frame_thistle.setOnClickListener {
                     thistle.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(0)
+                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                     lightsteelblue.setImageResource(0)
                     aquamarine.setImageResource(0)
                     grey.setImageResource(0)
@@ -589,7 +633,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 frame_violet.setOnClickListener {
                     violet.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(0)
+                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                     lightsteelblue.setImageResource(0)
                     aquamarine.setImageResource(0)
                     grey.setImageResource(0)
@@ -605,6 +649,20 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     thistle.setImageResource(0)
                     binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#EFC9FE"))
                 }
+                colorPicker.setOnClickListener {
+                    colorDialog.dismiss()
+                    val picker: ColorPickerDialog = ColorPickerDialog.Builder()
+                        .setInitialColor(121212)
+                        .setColorModel(ColorModel.HSV)
+                        .setColorModelSwitchEnabled(true)
+                        .setButtonOkText(android.R.string.ok)
+                        .setButtonCancelText(android.R.string.cancel)
+                        .onColorSelected { color: Int ->
+                            binding.fragmentNewUpdateNote.setBackgroundColor(color)
+                        }
+                        .create()
+                    picker.show(childFragmentManager, "color_picker")
+                }
 
             }
 
@@ -617,7 +675,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                 )
-                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                 dialog.window?.setGravity(Gravity.BOTTOM)
                 val camera: LinearLayout = dialog.findViewById(R.id.take_photo)
@@ -648,53 +706,55 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
             addTask.setOnClickListener {
 //                todoLayout.visibility = View.VISIBLE
-                val todoDialog = Dialog(requireContext())
-                todoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-                todoDialog.setContentView(R.layout.todo_listview)
+//                val todoDialog = Dialog(requireContext())
+//                todoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+//                todoDialog.setContentView(R.layout.todo_listview)
                 todoDialog.show()
-                todoDialog.window?.setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                )
-                todoDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                todoDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-                todoDialog.window?.setGravity(Gravity.CENTER)
-
-                val ff = todoDialog.findViewById<ImageView>(R.id.addTodo)
-                val aa =   todoDialog.findViewById<CheckBox>(R.id.todoCheck)
-                val bb =   todoDialog.findViewById<EditText>(R.id.todoDesc)
-                lv =   todoDialog.findViewById<ListView>(R.id.todo_listview)
-                val btn =   todoDialog.findViewById<Button>(R.id.done)
-
-
-                ff.setOnClickListener {
-                    completed.add(aa.isChecked)
-                    todoDescription.add(bb.text.toString())
-                    println(completed + " \n" + todoDescription)
-                    adp = ListViewBAdapter(requireContext(), completed, todoDescription)
-                    binding.todo.apply {
-                        lv?.adapter = adp
-                        adp?.notifyDataSetChanged()
-
-                    }
-                    bb.setText("")
-                    aa.isChecked = false
-                    btn.visibility=View.VISIBLE
-                }
-                btn.setOnClickListener {
-//                    if(!(bb.text.isNullOrEmpty())){
-//                        binding.td.visibility = View.VISIBLE
-//                    }
-//                    else{
-//                        binding.td.visibility = View.GONE
-//                    }
-
-                    todoDialog.dismiss()
-                }
-
+//                todoDialog.window?.setLayout(
+//                    ViewGroup.LayoutParams.MATCH_PARENT,
+//                    ViewGroup.LayoutParams.WRAP_CONTENT,
+//                )
+//                todoDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//                todoDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+//                todoDialog.window?.setGravity(Gravity.CENTER)
+//
+//                val addToList = todoDialog.findViewById<ImageView>(R.id.addTodo)
+//                val checkBoxTodo =   todoDialog.findViewById<CheckBox>(R.id.todoCheck)
+//                val descriptionTodo =   todoDialog.findViewById<EditText>(R.id.todoDesc)
+//                recylerView =   todoDialog.findViewById(R.id.todo_listview)
+//                val btn =   todoDialog.findViewById<Button>(R.id.done)
             }
 
+            addToList.setOnClickListener {
+                if(!(descriptionTodo.text.isNullOrEmpty())) {
+                    todoList.add(Todo(checkBoxTodo.isChecked, descriptionTodo.text.toString()))
+                    todoAdapter = NewUpdateAdapter(requireContext(), todoList)
+                    recylerView?.setHasFixedSize(true)
+                    recylerView?.layoutManager = LinearLayoutManager(context)
+                    recylerView?.adapter = todoAdapter
+                    todoAdapter?.notifyDataSetChanged()
+                    btn.visibility=View.VISIBLE
 
+                }
+
+
+                descriptionTodo.setText("")
+                checkBoxTodo.isChecked = false
+                println("My todo list $todoList")
+            }
+            btn.setOnClickListener {
+                todoDialog.dismiss()
+                if(!(todoList.isNullOrEmpty())){
+                    binding.taskLayout.visibility = View.VISIBLE
+                }
+                else{
+                    binding.taskLayout.visibility = View.GONE
+                }
+            }
+
+//            }
+
+            //Updating UI with ViewModel Data
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 viewModel.addEditTaskEvent.collect { event ->
                     when (event) {
@@ -740,6 +800,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
         }}
 
+//Private function to display Image
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         binding.showImage.visibility = View.VISIBLE
@@ -761,6 +823,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             binding.showImage.visibility = View.GONE
         }
     }
+
+//Private function to display Place and URL
 
     private fun showAlert(s: String) {
         val builder = context?.let { AlertDialog.Builder(it) }
@@ -813,8 +877,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
         builder?.show()    }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+//    override fun onDestroyView() {
+//        super.onDestroyView()
 //            colorImage()
 
 //        val viewColor = binding.newUpdateNote.background as ColorDrawable
@@ -826,7 +890,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 //        val width = bitmap?.width
 //        val bit= bitmap?.let { Bitmap.createScaledBitmap(it, width!!,height!!,false) }
 //        viewModel.noteImage = bit
-    }
+//    }
 //    fun colorImage() {
 //        val viewColor = binding.newUpdateNote.background as ColorDrawable
 //        val colorId = viewColor.color
@@ -839,19 +903,22 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 //        viewModel.noteImage = bit
 //    }
 
-    fun removeItem(position: Int) {
-        completed?.removeAt(position)
-        todoDescription?.removeAt(position)
-        lv?.setAdapter(adp)
-        adp?.notifyDataSetChanged()
+//Delete from Temp List
+//    fun removeItem(position: Int) {
+//        completed?.removeAt(position)
+//        todoDescription?.removeAt(position)
+//        lv?.setAdapter(adp)
+//        adp?.notifyDataSetChanged()
+//
+//    }
+//    //Update from Temp List
+//
+//    fun update(position: Int, checked: Boolean) {
+//        completed?.set(position,checked)
+//        adp?.notifyDataSetChanged()
+//    }
 
-    }
-
-    fun update(position: Int, checked: Boolean) {
-        completed?.set(position,checked)
-        adp?.notifyDataSetChanged()
-    }
-
+    // Reminder and Notification Logic
     private fun createNotificationChannel() {
         //Create Notification channel for SDK above 25
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -872,8 +939,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         val notificationIntent = Intent(context, Notifications::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             println("sandip notification intent created")
-
         }
+
+        notificationIntent.putExtra("titleExtra", viewModel.noteTitle)
+        notificationIntent.putExtra("messageExtra", viewModel.noteDescription)
         val pendingNotificationIntent: PendingIntent = PendingIntent.getBroadcast(
             context,
             System.currentTimeMillis().toInt(),
@@ -883,10 +952,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         println("sandip pending notification intent created")
 
 
-        val title = "Sandip"
-        val message = "Lahan"
-        notificationIntent.putExtra(titleExtra, title)
-        notificationIntent.putExtra(messageExtra, message)
+
 //        val titleStatusChangeListener= binding.datePicker.year
 
         val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
@@ -896,30 +962,30 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             time,
             pendingNotificationIntent
         )
-        showAlert(
-            time,
-            title,
-            message
-        )
-        println("sandip alarm manager created")
+//        showAlert(
+//            time,
+//            title,
+//            message
+//        )
+        println("sandip alarm manager created" + time)
 
     }
 
-    private fun showAlert(time: Long, title: String, message: String) {
-        val date = Date(time)
-        val dateFormat = android.text.format.DateFormat.getLongDateFormat(context)
-        val timeFormat = android.text.format.DateFormat.getTimeFormat(context)
-
-        android.app.AlertDialog.Builder(context)
-            .setTitle("")
-            .setMessage(
-                "Title: $title\nMessage $message\nAt " + dateFormat.format(
-                    date
-                ) + " " + timeFormat.format(date)
-            )
-            .setPositiveButton("Okay") { _, _ -> }
-            .show()
-    }
+//    private fun showAlert(time: Long, title: String, message: String) {
+//        val date = Date(time)
+//        val dateFormat = android.text.format.DateFormat.getLongDateFormat(context)
+//        val timeFormat = android.text.format.DateFormat.getTimeFormat(context)
+//
+//        android.app.AlertDialog.Builder(context)
+//            .setTitle("")
+//            .setMessage(
+//                "Title: $title\nMessage $message\nAt " + dateFormat.format(
+//                    date
+//                ) + " " + timeFormat.format(date)
+//            )
+//            .setPositiveButton("Okay") { _, _ -> }
+//            .show()
+//    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun getTime(): Long {
@@ -929,9 +995,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             date.split("-".toRegex()).toTypedArray()
 
         val day =items1[2].toInt()
-        val month = items1[1].toInt()
+        val month = items1[1].toInt() - 1
         val year = items1[0].toInt()
-        println("sandip $day $month $year")
+        println("sandip $day $month $year $minute $hour")
+
         val calendar = Calendar.getInstance()
         calendar.set(year, month, day, hour, minute)
         return calendar.timeInMillis

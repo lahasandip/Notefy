@@ -71,8 +71,8 @@
 
             <ImageView
                 android:id="@+id/addTodo"
-                android:layout_width="30sp"
-                android:layout_height="20sp"
+                android:layout_width="35sp"
+                android:layout_height="25sp"
                 android:layout_gravity="top"
                 android:layout_marginEnd="20dp"
                 android:src="@drawable/ic_outline_add_24"
@@ -83,7 +83,7 @@
 
     </LinearLayout>
 
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/todo_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

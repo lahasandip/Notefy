@@ -4,26 +4,24 @@ package com.sandip.notefy.ui.home
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.data.NoteEntity
-import com.sandip.notefy.data.TodoEntity
-import com.sandip.notefy.databinding.NoteBinding
-import com.sandip.notefy.ui.newupdate.ListViewBAdapter
-import com.sandip.notefy.ui.newupdate.NewUpdateNote
-import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.completed
-import javax.inject.Inject
+import com.sandip.notefy.data.Todo
+import com.sandip.notefy.databinding.NewNoteBinding
 
 class NoteAdapter(private val listener: OnItemClickListener) :
     ListAdapter<NoteEntity, NoteAdapter.NoteViewHolder>(DiffCallback()) {
-    var adp: TodoAdapter? = null
+//    var adp: TodoAdapter? = null
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        val binding = NoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        val binding = NewNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+//        binding.overlay.setOnClickListener {
+//            binding.overlay.visibility = View.GONE;
+//        }
         return NoteViewHolder(binding)
     }
 
@@ -37,7 +35,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
 ////        return
 //    }
 
-    inner class NoteViewHolder(private val binding: NoteBinding) :
+    inner class NoteViewHolder(private val binding: NewNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
         init {
@@ -57,16 +55,18 @@ class NoteAdapter(private val listener: OnItemClickListener) :
 //                    }
 //                }
             }
+
         }
 
         fun bind(noteEntity: NoteEntity) {
             binding.apply {
-//                checkBoxCompleted.isChecked = task.completed
-//                textViewName.text = task.name
-//                textViewName.paint.isStrikeThruText = task.completed
-//                labelPriority.isVisible = task.important
-                titlecard.text = noteEntity.title
-                body.text = noteEntity.body
+                important.isChecked = noteEntity.important
+
+                noteTitle.text = noteEntity.title
+                if (!(noteEntity.body.isNullOrEmpty())) {
+                    noteBody.text = noteEntity.body
+                    noteBody.visibility = View.VISIBLE
+                }
                 if (!(noteEntity.url.isNullOrEmpty())) {
                     urlLink.text = noteEntity.url
                     urlLink.visibility = View.VISIBLE
@@ -75,23 +75,31 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                     (!(noteEntity.time.isNullOrEmpty()))
                 ) {
                     date.text = noteEntity.date
-                    time.text = noteEntity.time
-                    reminder1.visibility = View.VISIBLE
+//                    time.text = noteEntity.time
+                    date.visibility = View.VISIBLE
                 }
                 if (!(noteEntity.location.isNullOrEmpty())) {
-                    place.text = noteEntity.location
-                    location1.visibility = View.VISIBLE
+                    location.text = noteEntity.location
+                    location.visibility = View.VISIBLE
 
                 }
-                clr.setBackgroundColor(noteEntity.clr)
+                cardView.setBackgroundColor(noteEntity.clr)
 
 //                if(noteEntity.image != null) {
 //                    img22.setImageBitmap(noteEntity.image)
 //                    imgFrame.visibility = View.VISIBLE
 //                }
-                adp = TodoAdapter(NotefyApplication.appContext, noteEntity.completed, noteEntity.todoDescription)
-                listview2.adapter = adp
+//                adp = TodoAdapter(NotefyApplication.appContext, noteEntity.completed, noteEntity.todoDescription)
+//                listview2.adapter = adp
 
+                if (noteEntity.todoList != null) {
+                    val todoAdapter = TodoAdapter(NotefyApplication.appContext,noteEntity.todoList as ArrayList<Todo>)
+                    todoRecyclerView.setHasFixedSize(true)
+                    todoRecyclerView.layoutManager = LinearLayoutManager(NotefyApplication.appContext)
+                    todoRecyclerView.adapter = todoAdapter
+                    todoRecyclerView.visibility = View.VISIBLE
+                    todoAdapter.notifyDataSetChanged()
+                }
             }
         }
     }
