@@ -1,32 +1,103 @@
 package com.sandip.notefy.ui.recycle_bin
 
-import androidx.lifecycle.ViewModelProvider
+import android.content.res.Configuration
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
+import com.sandip.notefy.data.NoteEntity
+import com.sandip.notefy.databinding.FragmentRecycleBinBinding
+import com.sandip.notefy.ui.home.HomeViewModel
+import com.sandip.notefy.ui.home.NoteAdapter
+import com.sandip.notefy.util.exhaustive
+import dagger.hilt.android.AndroidEntryPoint
 
-class RecycleBin : Fragment(R.layout.fragment_recycle_bin) {
+@AndroidEntryPoint
+class RecycleBin : Fragment(R.layout.fragment_recycle_bin), NoteAdapter.OnItemClickListener{
 
-    companion object {
-        fun newInstance() = RecycleBin()
+    private val homeViewModel: HomeViewModel by viewModels()
+    private val viewModel: RecycleBinViewModel by viewModels()
+
+    private lateinit var binding: FragmentRecycleBinBinding
+    private lateinit var noteAdapter: NoteAdapter
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentRecycleBinBinding.bind(view)
+        noteAdapter = NoteAdapter(this)
+
+        binding.apply {
+            trashRecyclerView.apply {
+                adapter = noteAdapter
+                layoutManager =
+                    if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                    } else {
+                        StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
+                    }
+            }
+            ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+                0,
+                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val task = noteAdapter.currentList[viewHolder.adapterPosition]
+                    viewModel.onTaskSwiped(task)
+                }
+            }).attachToRecyclerView(trashRecyclerView)
+
+            homeViewModel.trash.observe(viewLifecycleOwner){
+                noteAdapter.submitList(it)
+            }
+
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                viewModel.tasksEvent.collect { event ->
+                    when (event) {
+                        is RecycleBinViewModel.TasksEvent.NavigateToBackScreen -> {
+                            findNavController().popBackStack()
+                        }
+                        is RecycleBinViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
+                            Snackbar.make(requireView(), "Note Deleted Permanently", Snackbar.LENGTH_LONG)
+                                .setAction("UNDO") {
+                                    viewModel.onUndoDeleteClick(event.noteEntity)
+                                }.show()
+                        }
+                    }.exhaustive
+                }
+            }
+        }
+
     }
 
-    private lateinit var viewModel: RecycleBinViewModel
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_recycle_bin, container, false)
+    override fun onItemClick(noteEntity: NoteEntity) {
+        AlertDialog.Builder(requireContext())
+            .setTitle("Restore")
+            .setMessage("Do you want to restore the note?")
+            .setNegativeButton("Cancel", null)
+            .setPositiveButton("Yes") { _, _ ->
+                homeViewModel.onAddToTrash(noteEntity,false)
+                Snackbar.make(requireView(), "Note Restored", Snackbar.LENGTH_LONG).show()
+            }
+            .create()
+            .show()
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(RecycleBinViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+    override fun onAddToTrash(noteEntity: NoteEntity, isHide: Boolean) {
 
-}
+    }}

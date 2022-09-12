@@ -30,6 +30,9 @@
         <entry key="app/src/main/res/drawable-v24/popup_background.xml" value="0.2115" />
         <entry key="app/src/main/res/drawable-v24/round_white.xml" value="0.278" />
         <entry key="app/src/main/res/drawable-v24/search_view.xml" value="0.1635" />
+        <entry key="app/src/main/res/drawable/button_custom.xml" value="0.117" />
+        <entry key="app/src/main/res/drawable/cardview_background.xml" value="0.1945" />
+        <entry key="app/src/main/res/drawable/grid_view_selector.xml" value="0.215" />
         <entry key="app/src/main/res/drawable/ic_baseline_book_24.xml" value="0.278" />
         <entry key="app/src/main/res/drawable/ic_baseline_bookmark_24.xml" value="0.269" />
         <entry key="app/src/main/res/drawable/ic_baseline_bookmark_border_24.xml" value="0.2695" />
@@ -47,6 +50,7 @@
         <entry key="app/src/main/res/drawable/ic_outline_checklist_24.xml" value="0.1765" />
         <entry key="app/src/main/res/drawable/ic_outline_color_lens_24.xml" value="0.1765" />
         <entry key="app/src/main/res/drawable/ic_outline_format_color_reset_24.xml" value="0.148" />
+        <entry key="app/src/main/res/drawable/ic_outline_grid_view_24.xml" value="0.3305" />
         <entry key="app/src/main/res/drawable/ic_outline_help_center_24.xml" value="0.2115" />
         <entry key="app/src/main/res/drawable/ic_outline_image_24.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/ic_outline_location_on_24.xml" value="0.2695" />
@@ -54,6 +58,8 @@
         <entry key="app/src/main/res/drawable/ic_outline_notifications_active_24.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/ic_outline_photo_camera_24.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/ic_outline_title_24.xml" value="0.2695" />
+        <entry key="app/src/main/res/drawable/ic_small_icon.xml" value="0.1725" />
+        <entry key="app/src/main/res/drawable/ic_small_icon_foreground.xml" value="0.278" />
         <entry key="app/src/main/res/drawable/item_selector.xml" value="0.1725" />
         <entry key="app/src/main/res/drawable/todo_popup.xml" value="0.266" />
         <entry key="app/src/main/res/layout/activity_action1.xml" value="0.3609375" />
@@ -76,7 +82,7 @@
         <entry key="app/src/main/res/layout/fragment_about.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_delete_note.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_help_feedback.xml" value="0.3609375" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.4148148148148148" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_languages.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_navigation_drawer.xml" value="0.3302083333333333" />
         <entry key="app/src/main/res/layout/fragment_new_update_note.xml" value="0.33" />
@@ -86,6 +92,7 @@
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_todo.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_user.xml" value="0.3609375" />
+        <entry key="app/src/main/res/layout/language_card.xml" value="0.35989583333333336" />
         <entry key="app/src/main/res/layout/nav_header.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/new_note.xml" value="0.35989583333333336" />
         <entry key="app/src/main/res/layout/note.xml" value="0.2957345971563981" />
@@ -97,6 +104,7 @@
         <entry key="app/src/main/res/menu/navigation_drawer.xml" value="0.3609375" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1725" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1725" />
+        <entry key="app/src/main/res/mipmap-anydpi-v26/ic_small_icon.xml" value="0.278" />
       </map>
     </option>
   </component>

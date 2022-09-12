@@ -1,7 +1,6 @@
 package com.sandip.notefy.ui.newupdate
 
 import android.content.Intent
-import android.graphics.Bitmap
 import android.net.Uri
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -76,7 +75,7 @@ class NewUpdateNoteViewModel @Inject constructor(
             field = value
             state["noteColor"] = value
         }
-    var noteImage = state.get<Bitmap>("noteImage") ?: note?.image
+    var noteImage = state.get<String>("noteImage") ?: note?.image
         set(value) {
             field = value
             state["noteImage"] = value
@@ -85,6 +84,11 @@ class NewUpdateNoteViewModel @Inject constructor(
         set(value) {
             field = value
             state["noteTodoList"] = value
+        }
+    var noteIsHide = state.get<Boolean>("noteIsHide") ?: note?.isHide ?: false
+        set(value) {
+            field = value
+            state["noteIsHide"] = value
         }
 
     private val addEditTaskEventChannel = Channel<AddEditTaskEvent>()
@@ -108,13 +112,15 @@ class NewUpdateNoteViewModel @Inject constructor(
                 location = noteLocation,
                 clr = noteColor,
                 image = noteImage,
-                todoList = noteTodoList
+                todoList = noteTodoList,
+                isHide = noteIsHide
 
             )
             updateTask(updatedTask)
         } else {
             val newTask = NoteEntity(title = noteTitle, body = noteDescription, important = noteImportance,
-                url = noteUrl, date =  noteDate, time = noteTime, location =  noteLocation, clr =  noteColor, image =  noteImage, todoList = noteTodoList)
+                url = noteUrl, date =  noteDate, time = noteTime, location =  noteLocation, clr =  noteColor,
+                image =  noteImage, todoList = noteTodoList,  isHide = noteIsHide)
             createTask(newTask)
 
 
@@ -122,11 +128,13 @@ class NewUpdateNoteViewModel @Inject constructor(
         }
     }
 
-    fun onConfirmDeleteClick() = viewModelScope.launch {
-        noteDao.deleteById(noteId)
-        addEditTaskEventChannel.send(AddEditTaskEvent.NavigateToBackAfterDelete(
-            DELETE_TASK_RESULT_OK))
-    }
+//    fun onConfirmDeleteClick() = viewModelScope.launch {
+//        noteDao.deleteById(noteId)
+//        onSaveClick()
+//
+//        addEditTaskEventChannel.send(AddEditTaskEvent.NavigateToBackAfterDelete(
+//            DELETE_TASK_RESULT_OK))
+//    }
 
 
     fun onBackClick() = viewModelScope.launch {
@@ -166,9 +174,17 @@ class NewUpdateNoteViewModel @Inject constructor(
         try {
             val sendIntent = Intent().apply {
                 action = Intent.ACTION_SEND
-                putExtra(Intent.EXTRA_TEXT, noteTitle)
+                if(noteImage != null){
+                    type = "image/*"
+                    putExtra(Intent.EXTRA_STREAM, noteImage)
+                }
+                else{
+                    type = "text/plain"
+                }
                 putExtra(Intent.EXTRA_TITLE, "Share from Notefy:")
-                type = "text/plain"
+                putExtra(Intent.EXTRA_TEXT, noteTitle + "\n" + noteDescription + "\n" + noteUrl
+                        + "\n" + noteDate+", "+noteTime + "\n" + noteLocation)
+                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION )
             }
             val shareIntent = Intent.createChooser(sendIntent, null)
             addEditTaskEventChannel.send((AddEditTaskEvent.ShareIntent(shareIntent)))
@@ -189,8 +205,8 @@ class NewUpdateNoteViewModel @Inject constructor(
     }
 
     fun onAddTaskClick() = viewModelScope.launch {
-            addEditTaskEventChannel.send(AddEditTaskEvent.NavigateToTodoScreen)
-        }
+        addEditTaskEventChannel.send(AddEditTaskEvent.NavigateToTodoScreen)
+    }
 
     fun onTaskSelected(todoEntity: Todo) {
 

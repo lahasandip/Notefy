@@ -5,6 +5,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'androidx.navigation.safeargs.kotlin'
+
 }
 
 android {
@@ -108,6 +109,8 @@ dependencies {
     //Color Picker
     implementation 'io.github.vadiole:colorpicker:1.0.2'
 
+    //Image Picker
+    implementation 'com.github.dhaval2404:imagepicker:2.1'
 
 
 }

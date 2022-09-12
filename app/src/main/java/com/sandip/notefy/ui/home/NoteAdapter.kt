@@ -1,6 +1,7 @@
 package com.sandip.notefy.ui.home
 
 
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.data.NoteEntity
 import com.sandip.notefy.data.Todo
@@ -40,13 +42,15 @@ class NoteAdapter(private val listener: OnItemClickListener) :
 
         init {
             binding.apply {
-                root.setOnClickListener {
-                    val position = adapterPosition
-                    if (position != RecyclerView.NO_POSITION) {
-                        val task = getItem(position)
-                        listener.onItemClick(task)
+//                root.setOnClickListener {
+                    overlay.setOnClickListener {
+                        val position = adapterPosition
+                        if (position != RecyclerView.NO_POSITION) {
+                            val task = getItem(position)
+                            listener.onItemClick(task)
+                        }
                     }
-                }
+//                }
 //                checkBoxCompleted.setOnClickListener {
 //                    val position = adapterPosition
 //                    if (position != RecyclerView.NO_POSITION) {
@@ -83,12 +87,15 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                     location.visibility = View.VISIBLE
 
                 }
-                cardView.setBackgroundColor(noteEntity.clr)
+                cardView.setCardBackgroundColor(noteEntity.clr)
 
-//                if(noteEntity.image != null) {
-//                    img22.setImageBitmap(noteEntity.image)
-//                    imgFrame.visibility = View.VISIBLE
-//                }
+                if(noteEntity.image != null) {
+//                    img.setImageURI(noteEntity.image)
+                    val imageUri = Uri.parse(noteEntity.image)
+                    Glide.with(NotefyApplication.appContext).load(imageUri).into(img)
+                    img.visibility = View.VISIBLE
+                    shadowBottom.visibility = View.VISIBLE
+                }
 //                adp = TodoAdapter(NotefyApplication.appContext, noteEntity.completed, noteEntity.todoDescription)
 //                listview2.adapter = adp
 
@@ -106,7 +113,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
 
     interface OnItemClickListener {
         fun onItemClick(noteEntity: NoteEntity)
-//        fun onCheckBoxClick(noteEntity: NoteEntity, isChecked: Boolean)
+        fun onAddToTrash(noteEntity: NoteEntity, isHide: Boolean)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<NoteEntity>() {

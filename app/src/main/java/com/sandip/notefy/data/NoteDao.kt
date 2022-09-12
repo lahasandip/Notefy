@@ -20,20 +20,23 @@ interface NoteDao {
      suspend fun deleteById(iD:Int)
 
 
-    @Query("select * from Note order by id DESC",)
+    @Query("select * from Note where Hide = 0 order by id DESC",)
     fun getNewestToOldestData(): Flow<List<NoteEntity>>
 
-    @Query("select * from Note order by id ASC")
+    @Query("select * from Note where Hide = 0 order by id ASC")
     fun getOldestToNewestData(): Flow<List<NoteEntity>>
 
-    @Query("select * from Note order by lower(Title) ASC")
+    @Query("select * from Note where Hide = 0 order by lower(Title) ASC ")
     fun getByTitleAscData(): Flow<List<NoteEntity>>
 
-    @Query("select * from Note where Important = 1")
+    @Query("select * from Note where Important = 1 and Hide = 0")
     fun getBookmarkedData(): Flow<List<NoteEntity>>
 
-    @Query("Select * from Note where title like '%' || :query || '%'")
+    @Query("Select * from Note where Hide = 0 and title like '%' || :query || '%'")
     fun searchDatabase(query : String) : LiveData<List<NoteEntity>>
+
+    @Query("select * from Note where Hide = 1 order by id DESC",)
+    fun getTrashData(): Flow<List<NoteEntity>>
 
     fun getTasks(sortOrder: SortOrder): Flow<List<NoteEntity>> =
         when (sortOrder) {

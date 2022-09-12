@@ -16,6 +16,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -55,6 +56,19 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
                     } else {
                         StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
                     }
+                gridView.setOnCheckedChangeListener { _, isChecked ->
+                    if (isChecked) {
+                        layoutManager = LinearLayoutManager(requireContext())
+                        setHasFixedSize(true)
+                    } else {
+                        layoutManager =
+                            if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+                            } else {
+                                StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
+                            }
+                    }
+                }
 
 //                val pendingQuery = viewModel.searchQuery.value
 //                if (pendingQuery != null && pendingQuery.isNotEmpty()) {
@@ -93,7 +107,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
 
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                         val task = noteAdapter.currentList[viewHolder.adapterPosition]
-                        viewModel.onTaskSwiped(task)
+                        viewModel.onTaskSwiped(task, true)
                     }
                 }).attachToRecyclerView(recyclerView)
 
@@ -189,7 +203,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
                         Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_SHORT).show()
                     }
                     is HomeViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
-                        Snackbar.make(requireView(), "Task deleted", Snackbar.LENGTH_LONG)
+                        Snackbar.make(requireView(), "Note deleted", Snackbar.LENGTH_LONG)
                             .setAction("UNDO") {
                                 viewModel.onUndoDeleteClick(event.noteEntity)
                             }.show()
@@ -210,14 +224,17 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
     override fun onItemClick(noteEntity: NoteEntity) {
         viewModel.onTaskSelected(noteEntity)
     }
-
-private fun getItemsFromDb(query: String) {
-
-    viewModel.searchDatabase(query).observe(this) { list ->
-        list?.let {
-            noteAdapter.submitList(it)
-        }
-
+    override fun onAddToTrash(noteEntity: NoteEntity, isHide: Boolean) {
+//        viewModel.onAddToTrash(noteEntity, isHide)
     }
-}
+
+    private fun getItemsFromDb(query: String) {
+
+        viewModel.searchDatabase(query).observe(this) { list ->
+            list?.let {
+                noteAdapter.submitList(it)
+            }
+
+        }
+    }
 }

@@ -73,7 +73,11 @@
         android:id="@+id/recycle_bin"
         android:name="com.sandip.notefy.ui.recycle_bin.RecycleBin"
         android:label="recycle_bin"
-        tools:layout="@layout/fragment_recycle_bin" />
+        tools:layout="@layout/fragment_recycle_bin" >
+        <action
+            android:id="@+id/action_recycle_bin_to_new_update_note"
+            app:destination="@id/new_update_note" />
+    </fragment>
 
 
 </navigation>

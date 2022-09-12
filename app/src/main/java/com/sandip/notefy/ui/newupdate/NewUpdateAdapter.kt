@@ -2,6 +2,7 @@ package com.sandip.notefy.ui.newupdate
 
 import android.content.Context
 import android.graphics.Paint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.sandip.notefy.R
 import com.sandip.notefy.data.Todo
+import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.todoAdapter
 
 class NewUpdateAdapter(
     context: Context,
@@ -16,6 +18,7 @@ class NewUpdateAdapter(
 ) : RecyclerView.Adapter<NewUpdateAdapter.TodoViewHolder?>() {
     private val context: Context
     private val todoList: ArrayList<Todo>?
+    private val recylerView = NewUpdateNote.recylerView
     init {
         this.context = context
         this.todoList = todoList
@@ -37,15 +40,22 @@ class NewUpdateAdapter(
         if(todoList?.get(position)?.completed == true){
             holder.todoTitle.paintFlags = holder.todoTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }
-            holder.todoCheckBox.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) {
-                        holder.todoTitle.paintFlags = holder.todoTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                        todoList?.get(position)?.completed = true
-                    } else {
-                        holder.todoTitle.paintFlags = holder.todoTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-                        todoList?.get(position)?.completed = false
-                    }
-                }
+        holder.todoCheckBox.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                holder.todoTitle.paintFlags = holder.todoTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                todoList?.get(position)?.completed = true
+            } else {
+                holder.todoTitle.paintFlags = holder.todoTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                todoList?.get(position)?.completed = false
+            }
+        }
+        holder.removeButton.setOnClickListener {
+            todoList?.removeAt(position)
+            recylerView?.adapter = todoAdapter
+            todoAdapter?.notifyDataSetChanged()
+        }
+
+
 //
 //            holder.layoutTODO.setOnClickListener{
 //                    if (className == "createNote") {
@@ -62,7 +72,7 @@ class NewUpdateAdapter(
 //                        dialog.show()
 //                    }
 //                }
-            }
+    }
 
     override fun getItemCount(): Int {
         return todoList?.size ?: -1
@@ -71,12 +81,12 @@ class NewUpdateAdapter(
     inner class TodoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var todoCheckBox: CheckBox
         var todoTitle: TextView
-        var layoutTODO: ImageView
+        var removeButton: ImageView
 
         init {
             todoCheckBox = itemView.findViewById(R.id.check)
             todoTitle = itemView.findViewById(R.id.tick_de)
-            layoutTODO = itemView.findViewById(R.id.rmve)
+            removeButton = itemView.findViewById(R.id.rmve)
         }
     }
 

@@ -14,5 +14,6 @@ class NotefyApplication : Application() {
 
     companion object {
         lateinit  var appContext: Context
+        var count = 0
     }
 }

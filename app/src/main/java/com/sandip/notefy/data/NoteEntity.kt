@@ -20,8 +20,9 @@ data class NoteEntity(
     @ColumnInfo(name = "Time") val time: String? = null,
     @ColumnInfo(name = "Location") val location: String? = null,
     @ColumnInfo(name = "Color") val clr: Int = 0,
-    @ColumnInfo(name="image", typeAffinity = ColumnInfo.BLOB) val image: Bitmap?,
-    @ColumnInfo(name = "todoList") var todoList: List<Todo>? = null,
+    @ColumnInfo(name="Image") val image: String? = null,
+    @ColumnInfo(name="Hide") val isHide: Boolean = false,
+    @ColumnInfo(name = "TodoList") var todoList: List<Todo>? = null,
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 

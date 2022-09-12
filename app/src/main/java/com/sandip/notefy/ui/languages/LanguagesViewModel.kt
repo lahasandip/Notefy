@@ -16,8 +16,9 @@ class LanguagesViewModel : ViewModel() {
         tasksEventChannel.send(TasksEvent.NavigateToHomeScreen)
     }
 
+    fun onTaskSelected(flag:Boolean) {
 
-
+    }
 
 
     sealed class TasksEvent {

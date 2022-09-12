@@ -9,7 +9,6 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.provider.MediaStore
 import android.text.InputType
 import android.text.format.DateFormat
 import android.view.Gravity
@@ -17,6 +16,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.*
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -30,10 +31,12 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.Todo
 import com.sandip.notefy.databinding.FragmentNewUpdateNoteBinding
@@ -43,6 +46,7 @@ import vadiole.colorpicker.ColorModel
 import vadiole.colorpicker.ColorPickerDialog
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 const val CHANNEL_ID: String = "4"
 const val CHANNEL_NAME: String = "Notefy"
@@ -59,10 +63,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private var todoList = ArrayList<Todo>()
 
     //Companion Object for Temp List
-    var recylerView: RecyclerView? = null
+
 
     companion object {
-
+        var recylerView: RecyclerView? = null
         var todoAdapter: NewUpdateAdapter? = null
     }
 
@@ -71,7 +75,23 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNewUpdateNoteBinding.bind(view)
         createNotificationChannel()
+        val startForProfileImageResult =
+            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+                val resultCode = result.resultCode
+                val data = result.data
 
+                if (resultCode == Activity.RESULT_OK) {
+                    //Image Uri will not be null for RESULT_OK
+                    val fileUri = data?.data!!
+                binding.imageLayout.visibility = View.VISIBLE
+                    context?.let { Glide.with(it).load(fileUri).into(binding.showImage) }
+                    viewModel.noteImage = fileUri.toString()
+                } else if (resultCode == ImagePicker.RESULT_ERROR) {
+                    Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                } else {
+                    Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
+                }
+            }
         //Todo list view popup
         val todoDialog = Dialog(requireContext())
         todoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -138,8 +158,18 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
         timePicker.addOnPositiveButtonClickListener {
             // call back code
-            "${timePicker.hour}:${timePicker.minute}".also { binding.time.text = it }
-            binding.reminderLayout.visibility = View.VISIBLE
+
+            if(!(viewModel.noteTitle.isNullOrEmpty())) {
+                "${timePicker.hour}:${timePicker.minute}".also { binding.time.text = it }
+                binding.reminderParentLayout.visibility = View.VISIBLE
+                displaySimpleNotification()
+                Snackbar.make(requireView(), "Reminder set Successfully ", Snackbar.LENGTH_LONG).show()
+
+            }
+            else{
+                Snackbar.make(requireView(), "Please Add a Title to Set Reminder", Snackbar.LENGTH_LONG).show()
+
+            }
 
         }
         timePicker.addOnNegativeButtonClickListener {
@@ -169,23 +199,26 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             important.isChecked = viewModel.noteImportance
             if (!(viewModel.noteUrl.isNullOrEmpty())) {
                 urlLink.text = viewModel.noteUrl
-                urlLinkLayout.visibility = View.VISIBLE
+                urlParentLayout.visibility = View.VISIBLE
             }
             if ((!(viewModel.noteDate.isNullOrEmpty())) && (!(viewModel.noteTime.isNullOrEmpty()))) {
                 date.text = viewModel.noteDate
                 time.text = viewModel.noteTime
-                reminderLayout.visibility = View.VISIBLE
+                reminderParentLayout.visibility = View.VISIBLE
             }
             if (!(viewModel.noteLocation.isNullOrEmpty())) {
                 placeInput.text = viewModel.noteLocation
-                locationLayout.visibility = View.VISIBLE
+                locationParentLayout.visibility = View.VISIBLE
             }
             if (viewModel.noteColor != null) {
                 fragmentNewUpdateNote.setBackgroundColor(viewModel.noteColor)
             }
             if (viewModel.noteImage != null) {
-                showImage.setImageBitmap(viewModel.noteImage)
-                showImage.visibility = View.VISIBLE
+                val imageUri = Uri.parse(viewModel.noteImage)
+                context?.let { Glide.with(it).load(imageUri).into(showImage) }
+
+//                showImage.setImageBitmap(BitmapFactory.decodeFile(viewModel.noteImage))
+                imageLayout.visibility = View.VISIBLE
             }
             if (viewModel.noteTodoList != null) {
                 todoList = viewModel.noteTodoList as ArrayList<Todo>
@@ -241,7 +274,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteTodoList = todoList
 
                 viewModel.onSaveClick()
-                displaySimpleNotification()
 
             }
 
@@ -252,7 +284,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     .setMessage("Do you want to delete the note permanently?")
                     .setNegativeButton("Cancel", null)
                     .setPositiveButton("Yes") { _, _ ->
-                        viewModel.onConfirmDeleteClick()
+                        viewModel.noteIsHide = true
+                        viewModel.onSaveClick()
                     }
                     .create()
                     .show()
@@ -667,6 +700,11 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             addImage.setOnClickListener {
+                val with: ImagePicker.Builder? = parentFragment?.let { it1 ->
+                    ImagePicker.with(
+                        it1
+                    )
+                }
                 val dialog = Dialog(requireContext())
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog.setContentView(R.layout.add_image_dialog)
@@ -681,22 +719,48 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 val camera: LinearLayout = dialog.findViewById(R.id.take_photo)
                 camera.setOnClickListener {
                     dialog.dismiss()
-                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
+                    with?.crop()
+                    with?.cameraOnly()
+                    with?.compress(1024)
+                    with?.maxResultSize(1080, 1080)
+                    with?.createIntent { Intent: Intent? ->
+                        startForProfileImageResult.launch(Intent)
+                        null
+                    }
+//                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+//                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
                 }
-                val image: LinearLayout = dialog.findViewById(R.id.add_photo)
-                image.setOnClickListener {
-                    dialog.dismiss()
-                    val i = Intent()
-                    i.type = "image/*"
-                    i.action = Intent.ACTION_GET_CONTENT
-                    startActivityForResult(
-                        Intent.createChooser(i, "Select Picture"),
-                        SELECT_PICTURE
-                    )
-                }
+                    val image: LinearLayout = dialog.findViewById(R.id.add_photo)
+                    image.setOnClickListener {
+                        dialog.dismiss()
+//                    val i = Intent()
+//                    i.type = "image/*"
+//                    i.action = Intent.ACTION_GET_CONTENT
+//                    startActivityForResult(
+//                        Intent.createChooser(i, "Select Picture"),
+//                        SELECT_PICTURE
+//                    )
+////                    parentFragment?.let { it1 ->
+////                        ImagePicker.with(it1)
+////                            .galleryOnly()
+////                            .crop()	    			//Crop image(Optional), Check Customization for more option
+////                            .compress(1024)			//Final image size will be less than 1 MB(Optional)
+////                            .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
+////                            .start()
+////                    }
+
+
+                        with?.crop()
+                        with?.galleryOnly()
+                        with?.compress(1024)
+                        with?.maxResultSize(1080, 1080)
+                        with?.createIntent { Intent: Intent? ->
+                            startForProfileImageResult.launch(Intent)
+                            null
+                        }
 //                viewModel.onAddImageClick()
-            }
+                    }
+                }
             locationLayout.setOnClickListener {
                 viewModel.onLocationClick(placeInput.text)
             }
@@ -724,6 +788,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 //                recylerView =   todoDialog.findViewById(R.id.todo_listview)
 //                val btn =   todoDialog.findViewById<Button>(R.id.done)
             }
+            taskLayout.setOnClickListener {
+                todoDialog.show()
+            }
 
             addToList.setOnClickListener {
                 if(!(descriptionTodo.text.isNullOrEmpty())) {
@@ -750,6 +817,25 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 else{
                     binding.taskLayout.visibility = View.GONE
                 }
+            }
+
+            removeLocation.setOnClickListener {
+                placeInput.text = null
+                locationParentLayout.visibility = View.GONE
+            }
+            removeReminder.setOnClickListener {
+                date.text = null
+                time.text = null
+                reminderParentLayout.visibility = View.GONE
+            }
+            removeUrl.setOnClickListener {
+                urlLink.text = null
+                urlParentLayout.visibility = View.GONE
+            }
+            removeImage.setOnClickListener {
+                context?.let { Glide.with(it).clear(showImage) }
+                viewModel.noteImage = null
+                imageLayout.visibility = View.GONE
             }
 
 //            }
@@ -802,27 +888,66 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
 //Private function to display Image
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        binding.showImage.visibility = View.VISIBLE
-        if ((requestCode == REQUEST_IMAGE_CAPTURE) && (resultCode == AppCompatActivity.RESULT_OK)) {
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//        println("Inside onActivityResult")
+//
+//        binding.showImage.visibility = View.VISIBLE
+//        if ((requestCode == REQUEST_IMAGE_CAPTURE) && (resultCode == AppCompatActivity.RESULT_OK)) {
+////            val selectedImageUri: Uri? = data?.data
+//
+//            val imageBitmap = data?.extras?.get("data") as Bitmap
+////            Bitmap.createScaledBitmap(imageBitmap, 120,120,false)
+//            Glide.with(this).load(imageBitmap).into(binding.showImage);
+//
+////            binding.setImage.setImageBitmap(imageBitmap)
+//        } else if (requestCode == SELECT_PICTURE) {
+//            println("Inside select picture")
+//            val selectedImageUri: Uri? = data?.data
+//            if (null != selectedImageUri) {
+//                Glide.with(this).load(selectedImageUri).into(binding.showImage)
+////                var selectedImagePath = getPathFromUri(selectedImageUri)
+//                viewModel.noteImage = selectedImageUri.toString()
+////                binding.setImage.setImageURI(selectedImageUri)
+//            }
+//        } else {
+//            binding.showImage.visibility = View.GONE
+//        }
+//    }
+//override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//    super.onActivityResult(requestCode, resultCode, data)
+//    binding.showImage.visibility = View.VISIBLE
+//    if (resultCode == Activity.RESULT_OK) {
+//        //Image Uri will not be null for RESULT_OK
+//        val uri: Uri = data?.data!!
+//
+//        // Use Uri object instead of File to avoid storage permissions
+//        binding.showImage.setImageURI(uri)
+//    } else if (resultCode == ImagePicker.RESULT_ERROR) {
+////        Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+//    } else {
+////        Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
+//    }
+//}
 
-            val imageBitmap = data?.extras?.get("data") as Bitmap
-//            Bitmap.createScaledBitmap(imageBitmap, 120,120,false)
-            Glide.with(this).load(imageBitmap).into(binding.showImage);
-
-//            binding.setImage.setImageBitmap(imageBitmap)
-        } else if (requestCode == SELECT_PICTURE && resultCode == AppCompatActivity.RESULT_OK) {
-            val selectedImageUri: Uri? = data?.data
-            if (null != selectedImageUri) {
-                Glide.with(this).load(selectedImageUri).into(binding.showImage);
-
-//                binding.setImage.setImageURI(selectedImageUri)
-            }
-        } else {
-            binding.showImage.visibility = View.GONE
-        }
-    }
+//    private fun getPathFromUri(contentUri: Uri): String? {
+//
+//
+//        var filePath: String?
+//        var cursor: Cursor? =null
+//        cursor?.moveToFirst()
+//
+//        cursor = context?.contentResolver?.query(contentUri, null, null, null, null)
+//        if (cursor == null) {
+//            filePath = contentUri.path
+//        } else {
+//            cursor.moveToFirst()
+//            val index = cursor.getColumnIndex("_data")
+//            filePath = cursor.getString(index)
+//            cursor.close()
+//        }
+//        return filePath
+//    }
 
 //Private function to display Place and URL
 
@@ -842,7 +967,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     _, _ ->
                 if(input.text.isNotEmpty()) {
                     binding.urlLink.text = input.text.toString()
-                    binding.urlLinkLayout.visibility = View.VISIBLE
+                    binding.urlParentLayout.visibility = View.VISIBLE
                 }
                 else{
                     Toast.makeText(context, "Please enter a link", Toast.LENGTH_LONG).show()
@@ -861,7 +986,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     _, _ ->
                 if(input.text.isNotEmpty()) {
                     binding.placeInput.text = input.text.toString()
-                    binding.locationLayout.visibility = View.VISIBLE
+                    binding.locationParentLayout.visibility = View.VISIBLE
                 }
                 else{
                     Toast.makeText(context, "Please enter a place", Toast.LENGTH_LONG).show()
@@ -943,6 +1068,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
         notificationIntent.putExtra("titleExtra", viewModel.noteTitle)
         notificationIntent.putExtra("messageExtra", viewModel.noteDescription)
+        notificationIntent.putExtra("imageExtra", viewModel.noteImage)
+
         val pendingNotificationIntent: PendingIntent = PendingIntent.getBroadcast(
             context,
             System.currentTimeMillis().toInt(),
@@ -967,6 +1094,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 //            title,
 //            message
 //        )
+//        fun cancelAlarm(){
+//        alarmManager.cancel(pendingNotificationIntent)
+//    }
         println("sandip alarm manager created" + time)
 
     }

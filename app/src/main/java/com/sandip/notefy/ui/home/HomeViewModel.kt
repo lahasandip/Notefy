@@ -9,7 +9,6 @@ import com.sandip.notefy.ui.DELETE_TASK_RESULT_OK
 import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK
 import com.sandip.notefy.util.PreferencesManager
 import com.sandip.notefy.util.SortOrder
-import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.combine
@@ -40,6 +39,7 @@ class HomeViewModel @Inject constructor(
     }
 
     val note = tasksFlow.asLiveData()
+    val trash = noteDao.getTrashData().asLiveData()
 
     fun onSortOrderSelected(sortOrder: SortOrder) = viewModelScope.launch {
         preferencesManager.updateSortOrder(sortOrder)
@@ -52,12 +52,12 @@ class HomeViewModel @Inject constructor(
         tasksEventChannel.send(TasksEvent.NavigateToEditTaskScreen(noteEntity))
     }
 
-    fun onTaskSwiped(noteEntity: NoteEntity)= viewModelScope.launch {
-        noteDao.deleteDao(noteEntity)
+    fun onTaskSwiped(noteEntity: NoteEntity, isHide: Boolean) = viewModelScope.launch {
+        noteDao.updateDao(noteEntity.copy(isHide = isHide))
         tasksEventChannel.send(TasksEvent.ShowUndoDeleteTaskMessage(noteEntity))
     }
     fun onUndoDeleteClick(noteEntity: NoteEntity) = viewModelScope.launch {
-        noteDao.insertDao(noteEntity)
+        noteDao.updateDao(noteEntity.copy(isHide = false))
     }
 
     fun onAddEditResult(result: Int) {
@@ -76,6 +76,10 @@ class HomeViewModel @Inject constructor(
 
     fun searchDatabase(query: String) : LiveData<List<NoteEntity>>    {
         return noteDao.searchDatabase(query)
+    }
+
+    fun onAddToTrash(noteEntity: NoteEntity, isHide: Boolean) = viewModelScope.launch {
+        noteDao.updateDao(noteEntity.copy(isHide = isHide))
     }
 
 

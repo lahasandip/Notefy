@@ -8,8 +8,8 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.sandip.notefy.R
-import com.sandip.notefy.data.NoteEntity
 import com.sandip.notefy.data.Todo
+import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.todoAdapter
 
 class TodoAdapter(
     context: Context,
@@ -38,7 +38,10 @@ class TodoAdapter(
         if(todoList?.get(position)?.completed == true){
             holder.todoTitle.setPaintFlags(holder.todoTitle.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
         }
-    }
+
+
+        }
+
 
     override fun getItemCount(): Int {
         return todoList?.size ?: -1
@@ -47,10 +50,10 @@ class TodoAdapter(
     inner class TodoViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var todoCheckBox: CheckBox
         var todoTitle: TextView
-
         init {
             todoCheckBox = itemView.findViewById(R.id.ch)
             todoTitle = itemView.findViewById(R.id.ti)
+
         }
     }
 
