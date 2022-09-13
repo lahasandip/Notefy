@@ -12,7 +12,7 @@
         android:layout_height="wrap_content"
         android:textAlignment="center"
         android:layout_marginTop="5dp"
-        android:text="Sort By"
+        android:text="@string/sort_by"
         android:textSize="20dp"
         android:textStyle="bold"/>
     <View
@@ -39,7 +39,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Bookmarked Only"
+            android:text="@string/bookmarked_only"
             android:layout_marginLeft="25dp"
             android:textSize="16sp"/>
         <ImageView
@@ -67,7 +67,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Title [A-Z]"
+            android:text="@string/title_a_z"
             android:layout_marginLeft="25dp"
             android:textSize="16sp"/>
 
@@ -97,7 +97,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Newest to Oldest"
+            android:text="@string/newest_to_oldest"
             android:layout_marginLeft="25dp"
             android:textSize="16sp"/>
         <ImageView
@@ -126,7 +126,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Oldest to Newest"
+            android:text="@string/oldest_to_newest"
             android:layout_marginLeft="25dp"
             android:textSize="16sp"/>
         <ImageView

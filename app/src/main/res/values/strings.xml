@@ -1,3 +1,57 @@
 <resources>
     <string name="app_name">Notefy</string>
+
+    <!--  Home Screen  -->
+    <string name="search_note">Search Note</string>
+
+    <!--  Navigation Drawer  -->
+    <string name="view_profile">View profile</string>
+    <string name="home">Home</string>
+    <string name="new_note">New Note</string>
+    <string name="recycle_bin">Recycle Bin</string>
+    <string name="languages">Languages</string>
+    <string name="dark_theme">Dark theme</string>
+    <string name="screen_lock">Screen Lock</string>
+    <string name="share_app">Share app</string>
+    <string name="help_and_feedback">Help and feedback</string>
+    <string name="about">About</string>
+
+    <!--  Sort By Dialog -->
+    <string name="sort_by">Sort By</string>
+    <string name="bookmarked_only">Bookmarked Only</string>
+    <string name="title_a_z">Title [A-Z]</string>
+    <string name="newest_to_oldest">Newest to Oldest</string>
+    <string name="oldest_to_newest">Oldest to Newest</string>
+
+    <!--  NewUpdate Screen  -->
+    <string name="title">Title</string>
+    <string name="note">Note</string>
+    <string name="edited">Edited:</string>
+
+    <!--  Add Feature Dialog  -->
+    <string name="reminder">Reminder</string>
+    <string name="place">Place</string>
+    <string name="url">URL</string>
+
+    <!--  Add Color Dialog  -->
+    <string name="color">Color</string>
+    <string name="more">More</string>
+
+    <!--  Add Image Dialog  -->
+    <string name="take_photo">Take Photo</string>
+    <string name="add_image">Add Image</string>
+
+
+    <!--  Add todo-Checklist Dialog  -->
+    <string name="todo_checklist">Todo Checklist</string>
+    <string name="enter_description">Enter Description</string>
+    <string name="done">Done</string>
+
+
+    <!--  Choose Language Dialog  -->
+    <string name="next">Continue</string>
+    <string name="choose_language">Choose Language</string>
+
+
+
 </resources>

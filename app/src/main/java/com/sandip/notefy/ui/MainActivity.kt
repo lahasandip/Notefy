@@ -1,7 +1,9 @@
 package com.sandip.notefy.ui
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -29,16 +31,19 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.ActivityMainBinding
+import com.sandip.notefy.ui.languages.LanguagesViewModel
 import com.sandip.notefy.util.Biometric
 import com.sandip.notefy.util.PreferencesManager
 import com.sandip.notefy.util.UiMode
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 import java.util.concurrent.Executor
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
     private val viewModel: MainActivityViewModel by viewModels()
+    private val languagesViewModel: LanguagesViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var isDarkMode = true
@@ -61,16 +66,43 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         installSplashScreen()
+
+        preferencesManager = PreferencesManager(applicationContext)
+
+        observeUiPreferences()
+
+
+
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
+        //Language
+
+
+        val navigationView = binding.navView
+        darkSwitch =
+            navigationView.menu.findItem(R.id.dark_theme).actionView!!.findViewById(R.id.dark_switch)
+
+        //Dark Mode
+        darkSwitch.setOnCheckedChangeListener { _, isChecked ->
+            when (isChecked) {
+                true -> viewModel.onDarkTheme()
+                false -> viewModel.onLightTheme()
+            }
+        }
+
+
+
+
+
 //
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
 
         drawerLayout = binding.drawerLayout
-        val navigationView = binding.navView
+
 //        val headerView = navigationView.getHeaderView(0)
 //        val profileSection = headerView.findViewById<LinearLayout>(R.id.profile_section)
 
@@ -82,16 +114,10 @@ class MainActivity : AppCompatActivity() {
         )
         navigationView.setupWithNavController(navController)
 
-        darkSwitch =
-            navigationView.menu.findItem(R.id.dark_theme).actionView.findViewById(R.id.dark_switch)
+
         screenLock =
-            navigationView.menu.findItem(R.id.screen_lock).actionView.findViewById(R.id.biometric_switch)
-        darkSwitch.setOnCheckedChangeListener { _, isChecked ->
-            when (isChecked) {
-                true -> viewModel.onDarkTheme()
-                false -> viewModel.onLightTheme()
-            }
-        }
+            navigationView.menu.findItem(R.id.screen_lock).actionView!!.findViewById(R.id.biometric_switch)
+
 
         screenLock.setOnCheckedChangeListener { _, isChecked ->
             when (isChecked) {
@@ -122,17 +148,16 @@ class MainActivity : AppCompatActivity() {
                 }.exhaustive
             }
         }
-        preferencesManager = PreferencesManager(applicationContext)
 
-        observeUiPreferences()
         observeBiometricPreferences()
     }
 
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
-
     }
+
+
     private fun observeUiPreferences() {
         preferencesManager.uiModeFlow.asLiveData().observe(this) { uiMode ->
             when (uiMode) {
@@ -256,7 +281,6 @@ class MainActivity : AppCompatActivity() {
 
 
     }
-
 }
 const val ADD_TASK_RESULT_OK = Activity.RESULT_FIRST_USER
 const val EDIT_TASK_RESULT_OK = Activity.RESULT_FIRST_USER + 1

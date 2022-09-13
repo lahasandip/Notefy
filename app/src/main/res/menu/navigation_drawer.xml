@@ -9,17 +9,17 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/home"
-            android:title="Home"
+            android:title="@string/home"
             android:icon="@drawable/ic_outline_home_24"
             />
         <item
             android:id="@+id/new_update_note"
-            android:title="New Note"
+            android:title="@string/new_note"
             android:icon="@drawable/ic_outline_note_add_24"
             />
         <item
             android:id="@+id/recycle_bin"
-            android:title="Recycle Bin"
+            android:title="@string/recycle_bin"
             android:icon="@drawable/ic_outline_restore_from_trash_24"
             />
     </group>
@@ -31,18 +31,18 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/languages"
-            android:title="Languages"
+            android:title="@string/languages"
             android:icon="@drawable/ic_outline_language_24"
             />
 
         <item
             android:id="@+id/dark_theme"
-            android:title="Dark theme"
+            android:title="@string/dark_theme"
             app:actionLayout="@layout/dark_toggle_button"
             android:icon="@drawable/ic_outline_dark_mode_24"/>
         <item
             android:id="@+id/screen_lock"
-            android:title="Screen Lock"
+            android:title="@string/screen_lock"
             app:actionLayout="@layout/biometric_toggle_button"
             android:icon="@drawable/ic_baseline_fingerprint_24"/>
     </group>
@@ -52,16 +52,16 @@
         android:checkableBehavior="single">
         <item
             android:id="@+id/settings"
-            android:title="Share app"
+            android:title="@string/share_app"
             android:icon="@drawable/ic_baseline_share_24"
             />
         <item
             android:id="@+id/help_feedback"
-            android:title="Help and feedback"
+            android:title="@string/help_and_feedback"
             android:icon="@drawable/ic_baseline_help_outline_24"/>
         <item
             android:id="@+id/about"
-            android:title="About"
+            android:title="@string/about"
             android:icon="@drawable/ic_outline_perm_device_information_24"/>
     </group>
 </menu>

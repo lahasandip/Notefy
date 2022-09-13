@@ -235,10 +235,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 btn.visibility=View.VISIBLE
 
             }
-            noteEdited.text = "Edited: ${
+            noteEdited.append("${
                 SimpleDateFormat(" h:mm a", Locale.getDefault())
                     .format(Date())
-            }"
+            }")
 
 
 //            checkBoxImportant.jumpDrawablesToCurrentState()

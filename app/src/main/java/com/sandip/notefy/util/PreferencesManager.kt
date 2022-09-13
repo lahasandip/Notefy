@@ -28,7 +28,7 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
     companion object{
         val IS_DARK_MODE = booleanPreferencesKey("dark_mode")
         val IS_BIOMETRIC_ENABLE = booleanPreferencesKey("biometric")
-
+        val LANGUAGE = intPreferencesKey("language")
     }
     private val dataStore = context.dataStore
 
@@ -81,6 +81,19 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
                 false -> Biometric.DISABLE
             }
         }
+    val languageCode: Flow<Int> = dataStore.data
+        .catch {
+            if (it is IOException) {
+                it.printStackTrace()
+                emit(emptyPreferences())
+            } else {
+                throw it
+            }
+        }
+        .map { preference4 ->
+            val language = preference4[LANGUAGE] ?: 0
+            language
+        }
 
     suspend fun updateSortOrder(sortOrder: SortOrder) {
         dataStore.edit { preferences ->
@@ -103,9 +116,15 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             }
         }
     }
+    suspend fun storeLocale(language: Int) {
+        dataStore.edit { preferences ->
+            preferences[LANGUAGE] = language
+        }
+    }
 
 
     private object PreferencesKeys {
         val SORT_ORDER = stringPreferencesKey("sort_order")
+
     }
 }

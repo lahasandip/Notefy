@@ -15,7 +15,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Color"
+            android:text="@string/color"
             android:textSize="16sp"/>
         <View
             android:layout_width="match_parent"
@@ -299,7 +299,7 @@
                 android:id="@+id/color_picker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="More"
+                android:text="@string/more"
                 android:textAllCaps="false"
                 android:textSize="16sp"
                 style="@style/Widget.MaterialComponents.Button.TextButton"

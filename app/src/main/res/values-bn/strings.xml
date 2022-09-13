@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notefy</string>
+    <string name="search_note">নোট অনুসন্ধান</string>
+    <string name="view_profile">প্রোফাইল দেখুন</string>
+    <string name="home">হোম</string>
+    <string name="new_note">নতুন নোট</string>
+    <string name="recycle_bin">রিসাইকেল বিন</string>
+    <string name="languages">ভাষা</string>
+    <string name="dark_theme">ডার্ক থিম</string>
+    <string name="screen_lock">স্ক্রিন লক</string>
+    <string name="share_app">অ্যাপ শেয়ার করুন</string>
+    <string name="help_and_feedback">সাহায্য এবং প্রতিক্রিয়া</string>
+    <string name="about">সম্পর্কিত</string>
+    <string name="sort_by">ক্রমানুসার</string>
+    <string name="bookmarked_only">শুধুমাত্র বুকমার্ক</string>
+    <string name="title_a_z">শিরোনাম [A-Z]</string>
+    <string name="newest_to_oldest">নতুন থেকে পুরাতন</string>
+    <string name="oldest_to_newest">পুরাতন থেকে নতুন</string>
+    <string name="title">শিরোনাম</string>
+    <string name="note">নোট</string>
+    <string name="edited">সম্পাদিত:</string>
+    <string name="reminder">রিমাইন্ডার</string>
+    <string name="place">স্থান</string>
+    <string name="url">লিঙ্ক</string>
+    <string name="color">রঙ</string>
+    <string name="more">আরও</string>
+    <string name="take_photo">ছবি তুলুন</string>
+    <string name="add_image">ছবি যোগ করুন</string>
+    <string name="todo_checklist">টুডু চেকলিস্ট</string>
+    <string name="enter_description">বর্ণনা লিখুন</string>
+    <string name="done">সম্পন্ন</string>
+    <string name="next">এগিয়ে যান</string>
+    <string name="choose_language">ভাষা নির্বাচন করুন</string>
+</resources>

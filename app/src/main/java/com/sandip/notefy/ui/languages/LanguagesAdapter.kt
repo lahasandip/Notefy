@@ -1,19 +1,18 @@
 package com.sandip.notefy.ui.languages
 
 
-import android.R.attr
-import android.content.res.Resources.Theme
 import android.graphics.Color
-import android.util.TypedValue
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.annotation.ColorInt
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
+import androidx.core.app.ActivityCompat.recreate
+import androidx.core.os.LocaleListCompat
+import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
-import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.Language
 
@@ -26,10 +25,13 @@ class LanguagesAdapter(
     private val myList : ArrayList<Language>?
     private val itemClickListener: OnItemClickListener?
     var selectedPosition = -1
+    private val viewModel: LanguagesViewModel
+
 
     init {
         myList = laguageList
         itemClickListener = listener
+        viewModel = LanguagesViewModel()
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LanguagesViewHolder {
         return LanguagesViewHolder(
@@ -45,19 +47,24 @@ class LanguagesAdapter(
     override fun onBindViewHolder(holder: LanguagesViewHolder, position: Int) {
 //        val color = fetchAccentColor()
 //        println("My $color")
-        if(selectedPosition == position){
-            holder.cardView.setBackgroundColor(Color.parseColor("#9575cd"))
-        }
-        else{
-
-        }
+//        if(selectedPosition == position){
+//            holder.cardView.setBackgroundColor(Color.parseColor("#9575cd"))
+//                    }
+//        else{
+//
+//        }
 
         myList?.get(position)?.let { it.flag?.let { it1 -> holder.flagImage.setImageResource(it1) } }
         holder.language.text = myList?.get(position)?.language
         holder.itemView.setOnClickListener {
+            holder.itemView.
             selectedPosition = position
-            notifyDataSetChanged()
+            listener.onItemClick(selectedPosition)
+            println("Position $selectedPosition")
         }
+
+
+//
     }
 
     override fun getItemCount(): Int {
@@ -76,7 +83,7 @@ class LanguagesAdapter(
         }
     }
     interface OnItemClickListener {
-        fun onItemClick(flag : Boolean)
+        fun onItemClick(flag: Int)
     }
 
 //    private fun fetchAccentColor(): Int {

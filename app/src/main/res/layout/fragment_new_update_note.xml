@@ -55,7 +55,7 @@
         android:layout_marginTop="15dp"
         android:layout_marginEnd="75dp"
         android:gravity="center"
-        android:text="Edited: 12:50 PM"
+        android:text="@string/edited"
         android:textSize="14dp"
         android:textStyle="bold"
         app:layout_constraintEnd_toStartOf="@+id/important"
@@ -110,7 +110,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@null"
-                android:hint="Title"
+                android:hint="@string/title"
                 android:layout_marginTop="10dp"
                 android:scrollbars="none"
                 android:textSize="25dp"
@@ -123,7 +123,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginStart="5dp"
                 android:background="@null"
-                android:hint="Note"
+                android:hint="@string/note"
                 android:textSize="20dp"
                 android:theme="@style/SearchView" />
             <!--            <LinearLayout-->

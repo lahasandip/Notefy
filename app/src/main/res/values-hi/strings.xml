@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notefy</string>
+    <string name="search_note">नोट खोजें</string>
+    <string name="view_profile">प्रोफ़ाइल देखें</string>
+    <string name="home">होम</string>
+    <string name="new_note">नया नोट</string>
+    <string name="recycle_bin">रीसायकल बिन</string>
+    <string name="languages">भाषाओं</string>
+    <string name="dark_theme">डार्क थीम</string>
+    <string name="screen_lock">स्क्रीन लॉक</string>
+    <string name="share_app">ऐप शेयर करें</string>
+    <string name="help_and_feedback">सहायता और प्रतिक्रिया</string>
+    <string name="about">के बारे में</string>
+    <string name="sort_by">क्रमबद्ध करें</string>
+    <string name="bookmarked_only">केवल बुकमार्क किया गया</string>
+    <string name="title_a_z">शीर्षक [ए-जेड]</string>
+    <string name="newest_to_oldest">नवीनतम से सबसे पुराना</string>
+    <string name="oldest_to_newest">सबसे पुराना से नवीनतम</string>
+    <string name="title">शीर्षक</string>
+    <string name="note">नोट</string>
+    <string name="edited">संपादित:</string>
+    <string name="reminder">रिमाइंडर</string>
+    <string name="place">स्थान</string>
+    <string name="url">लिंक</string>
+    <string name="color">रंग</string>
+    <string name="more">मोर</string>
+    <string name="take_photo">फोटो खींचे</string>
+    <string name="add_image">छवि जोड़ें</string>
+    <string name="todo_checklist">टूडू चेकलिस्ट</string>
+    <string name="enter_description">विवरण दर्ज करें</string>
+    <string name="done">खत्म</string>
+    <string name="next">जारी रखें</string>
+    <string name="choose_language">भाषा चुनें</string>
+</resources>
