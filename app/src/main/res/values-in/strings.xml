@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notefy</string>
+    <string name="search_note">Cari Catatan</string>
+    <string name="view_profile">Lihat profil</string>
+    <string name="home">Beranda</string>
+    <string name="new_note">Catatan Baru</string>
+    <string name="recycle_bin">Tempat sampah daur ulang</string>
+    <string name="languages">Bahasa</string>
+    <string name="dark_theme">Tema gelap</string>
+    <string name="screen_lock">Kunci Layar</string>
+    <string name="share_app">Bagikan aplikasi</string>
+    <string name="help_and_feedback">Bantuan dan umpan balik</string>
+    <string name="about">Tentang</string>
+    <string name="sort_by">Sortir dengan</string>
+    <string name="bookmarked_only">Hanya di-bookmark</string>
+    <string name="title_a_z">Judul [A-Z]</string>
+    <string name="newest_to_oldest">Terbaru ke Tertua</string>
+    <string name="oldest_to_newest">Tertua ke Terbaru</string>
+    <string name="title">judul</string>
+    <string name="note">Catatan</string>
+    <string name="edited">Diedit:</string>
+    <string name="reminder">Pengingat</string>
+    <string name="place">Tempat</string>
+    <string name="url">tautan</string>
+    <string name="color">Warna</string>
+    <string name="more">Lebih</string>
+    <string name="take_photo">Ambil Foto</string>
+    <string name="add_image">Tambahkan gambar</string>
+    <string name="todo_checklist">Daftar Periksa Todo</string>
+    <string name="enter_description">Masukkan Deskripsi</string>
+    <string name="done">Selesai</string>
+    <string name="next">Lanjutkan</string>
+    <string name="choose_language">Pilih Bahasa</string>
+</resources>

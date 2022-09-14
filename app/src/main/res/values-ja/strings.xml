@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notefy</string>
+    <string name="search_note">検索メモ</string>
+    <string name="view_profile">プロフィールを見る</string>
+    <string name="home">ホーム</string>
+    <string name="new_note">新しいメモ</string>
+    <string name="recycle_bin">ごみ箱</string>
+    <string name="languages">言語</string>
+    <string name="dark_theme">暗いテーマ</string>
+    <string name="screen_lock">スクリーンロック</string>
+    <string name="share_app">アプリを共有</string>
+    <string name="help_and_feedback">ヘルプとフィードバック</string>
+    <string name="about">について</string>
+    <string name="sort_by">並び替え</string>
+    <string name="bookmarked_only">ブックマークのみ</string>
+    <string name="title_a_z">タイトル [A-Z]</string>
+    <string name="newest_to_oldest">新しいものから古いものへ</string>
+    <string name="oldest_to_newest">古いものから新しいものへ</string>
+    <string name="title">タイトル</string>
+    <string name="note">ノート</string>
+    <string name="edited">編集:</string>
+    <string name="reminder">リマインダー</string>
+    <string name="place">場所</string>
+    <string name="url">リンク</string>
+    <string name="color">カラー</string>
+    <string name="more">もっと</string>
+    <string name="take_photo">写真を撮る</string>
+    <string name="add_image">画像を追加</string>
+    <string name="todo_checklist">Todo チェックリスト</string>
+    <string name="enter_description">説明を入力</string>
+    <string name="done">完了</string>
+    <string name="next">続ける</string>
+    <string name="choose_language">言語を選択</string>
+</resources>

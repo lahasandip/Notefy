@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notefy</string>
+    <string name="search_note">Примечание к поиску</string>
+    <string name="view_profile">Просмотреть профиль</string>
+    <string name="home">Главная</string>
+    <string name="new_note">Новая заметка</string>
+    <string name="recycle_bin">Мусорная корзина</string>
+    <string name="languages">Языки</string>
+    <string name="dark_theme">Темная тема</string>
+    <string name="screen_lock">Блокировка экрана</string>
+    <string name="share_app">Поделиться приложением</string>
+    <string name="help_and_feedback">Помощь и обратная связь</string>
+    <string name="about">О приложении</string>
+    <string name="sort_by">Сортировать по</string>
+    <string name="bookmarked_only">Только в закладках</string>
+    <string name="title_a_z">Название [А-Я]</string>
+    <string name="newest_to_oldest">От новых до самых старых</string>
+    <string name="oldest_to_newest">От старейших к новейшим</string>
+    <string name="title">заглавие</string>
+    <string name="note">Примечание</string>
+    <string name="edited">Отредактировано:</string>
+    <string name="reminder">Напоминание</string>
+    <string name="place">Место</string>
+    <string name="url">ссылка</string>
+    <string name="color">Цвет</string>
+    <string name="more">Более</string>
+    <string name="take_photo">Сделать фотографию</string>
+    <string name="add_image">Добавить изображение</string>
+    <string name="todo_checklist">Контрольный список Todo</string>
+    <string name="enter_description">Введите Описание</string>
+    <string name="done">законченный</string>
+    <string name="next">Продолжать</string>
+    <string name="choose_language">Выберите язык</string>
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notefy</string>
+    <string name="search_note">टीप शोधा</string>
+    <string name="view_profile">प्रोफाइल पहा</string>
+    <string name="home">मुख्यपृष्ठ</string>
+    <string name="new_note">नवीन नोट</string>
+    <string name="recycle_bin">रीसायकल बिन</string>
+    <string name="languages">भाषा</string>
+    <string name="dark_theme">डार्क थीम</string>
+    <string name="screen_lock">स्क्रीन लॉक</string>
+    <string name="share_app">अॅप शेअर करा</string>
+    <string name="help_and_feedback">मदत आणि अभिप्राय</string>
+    <string name="about">बद्दल</string>
+    <string name="sort_by">क्रमवारी लावा</string>
+    <string name="bookmarked_only">केवळ बुकमार्क केलेले</string>
+    <string name="title_a_z">शीर्षक [A-Z]</string>
+    <string name="newest_to_oldest">सर्वात नवीन ते जुने</string>
+    <string name="oldest_to_newest">सर्वात जुने ते नवीन</string>
+    <string name="title">शीर्षक</string>
+    <string name="note">नोंद</string>
+    <string name="edited">संपादित:</string>
+    <string name="reminder">स्मरणपत्र</string>
+    <string name="place">ठिकाण</string>
+    <string name="url">दुवा</string>
+    <string name="color">रंग</string>
+    <string name="more">अधिक</string>
+    <string name="take_photo">फोटो घ्या</string>
+    <string name="add_image">इमेज जोडा</string>
+    <string name="todo_checklist">Todo चेकलिस्ट</string>
+    <string name="enter_description">वर्णन प्रविष्ट करा</string>
+    <string name="done">झाले</string>
+    <string name="next">चालू ठेवा</string>
+    <string name="choose_language">भाषा निवडा</string>
+</resources>

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notefy</string>
+    <string name="search_note">Nota de pesquisa</string>
+    <string name="view_profile">Ver perfil</string>
+    <string name="home">Página inicial</string>
+    <string name="new_note">Nova nota</string>
+    <string name="recycle_bin">Lixeira de reciclagem</string>
+    <string name="languages">Languages</string>
+    <string name="dark_theme">Tema escuro</string>
+    <string name="screen_lock">Bloqueio de ecrã</string>
+    <string name="share_app">Compartilhe o aplicativo</string>
+    <string name="help_and_feedback">Ajuda e feedback</string>
+    <string name="about">Sobre</string>
+    <string name="sort_by">Ordenar por</string>
+    <string name="bookmarked_only">apenas marcado</string>
+    <string name="title_a_z">Título [A-Z]</string>
+    <string name="newest_to_oldest">Do mais novo ao mais antigo</string>
+    <string name="oldest_to_newest">Do mais antigo para o mais novo</string>
+    <string name="title">Título</string>
+    <string name="note">Nota</string>
+    <string name="edited">Editada:</string>
+    <string name="reminder">Lembrete</string>
+    <string name="place">Lugar</string>
+    <string name="url">link</string>
+    <string name="color">Cor</string>
+    <string name="more">Mais</string>
+    <string name="take_photo">Tirar foto</string>
+    <string name="add_image">Adicionar imagem</string>
+    <string name="todo_checklist">Lista de verificação de todo</string>
+    <string name="enter_description">Digite a descrição</string>
+    <string name="done">Feita</string>
+    <string name="next">Continuar</string>
+    <string name="choose_language">Escolha o idioma</string>
+</resources>

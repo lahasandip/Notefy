@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notefy</string>
+    <string name="search_note">搜索备注</string>
+    <string name="view_profile">查看个人资料</string>
+    <string name="home">主页</string>
+    <string name="new_note">新笔记</string>
+    <string name="recycle_bin">回收站</string>
+    <string name="languages">语言</string>
+    <string name="dark_theme">深色主题</string>
+    <string name="screen_lock">屏幕锁</string>
+    <string name="share_app">分享应用</string>
+    <string name="help_and_feedback">帮助和反馈</string>
+    <string name="about">关于</string>
+    <string name="sort_by">排序方式</string>
+    <string name="bookmarked_only">仅已添加书签</string>
+    <string name="title_a_z">标题 [A-Z]</string>
+    <string name="newest_to_oldest">最新到最旧</string>
+    <string name="oldest_to_newest">从最旧到最新</string>
+    <string name="title">标题</string>
+    <string name="note">注意</string>
+    <string name="edited">已编辑：</string>
+    <string name="reminder">提醒</string>
+    <string name="place">地方</string>
+    <string name="url">链接</string>
+    <string name="color">颜色</string>
+    <string name="more">更多的</string>
+    <string name="take_photo">拍照留念</string>
+    <string name="add_image">添加图片</string>
+    <string name="todo_checklist">待办事项清单</string>
+    <string name="enter_description">输入描述</string>
+    <string name="done">完毕</string>
+    <string name="next">继续</string>
+    <string name="choose_language">选择语言</string>
+</resources>

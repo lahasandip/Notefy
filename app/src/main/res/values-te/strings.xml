@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Notefy</string>
+    <string name="search_note">శోధన గమనిక</string>
+    <string name="view_profile">ప్రొఫైల్ చూడు</string>
+    <string name="home">హోమ్</string>
+    <string name="new_note">కొత్త నోట్</string>
+    <string name="recycle_bin">రీసైకిల్ బిన్</string>
+    <string name="languages">భాషలు</string>
+    <string name="dark_theme">చీకటి థీమ్</string>
+    <string name="screen_lock">స్క్రీన్ లాక్</string>
+    <string name="share_app">యాప్‌ను భాగస్వామ్యం చేయండి</string>
+    <string name="help_and_feedback">సహాయం మరియు అభిప్రాయం</string>
+    <string name="about">గురించి</string>
+    <string name="sort_by">ద్వారా క్రమబద్ధీకరించు</string>
+    <string name="bookmarked_only">కేవలం బుక్‌మార్క్ చేయబడింది</string>
+    <string name="title_a_z">శీర్షిక [A-Z]</string>
+    <string name="newest_to_oldest">సరికొత్త నుండి పాతది వరకు</string>
+    <string name="oldest_to_newest">పాత నుండి సరికొత్త వరకు</string>
+    <string name="title">శీర్షిక</string>
+    <string name="note">గమనిక</string>
+    <string name="edited">సవరించబడింది:</string>
+    <string name="reminder">రిమైండర్</string>
+    <string name="place">స్థలం</string>
+    <string name="url">లింక్</string>
+    <string name="color">రంగు</string>
+    <string name="more">మరింత</string>
+    <string name="take_photo">ఫోటో తీసుకో</string>
+    <string name="add_image">చిత్రాన్ని జోడించండి</string>
+    <string name="todo_checklist">టోడో చెక్‌లిస్ట్</string>
+    <string name="enter_description">వివరణను నమోదు చేయండి</string>
+    <string name="done">పూర్తి</string>
+    <string name="next">కొనసాగించు</string>
+    <string name="choose_language">భాషను ఎంచుకోండి</string>
+</resources>

@@ -57,7 +57,6 @@ class LanguagesAdapter(
         myList?.get(position)?.let { it.flag?.let { it1 -> holder.flagImage.setImageResource(it1) } }
         holder.language.text = myList?.get(position)?.language
         holder.itemView.setOnClickListener {
-            holder.itemView.
             selectedPosition = position
             listener.onItemClick(selectedPosition)
             println("Position $selectedPosition")

@@ -22,43 +22,11 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLanguagesBinding.bind(view)
-//        viewModel.readLanguageCode.observe(viewLifecycleOwner) {
-//
-//            when(it){
-//            0 -> updateResource(context, "en")
-//            1 -> updateResource(context, "bn")
-//            2 -> updateResource(context, "bn")
-//            3 -> updateResource(context, "bn")
-//            4 -> updateResource(context, "bn")
-//            5 -> updateResource(context, "bn")
-//            6 -> updateResource(context, "bn")
-//            7 -> updateResource(context, "bn")
-//            8 -> updateResource(context, "bn")
-//            9 -> updateResource(context, "bn")
-//            10 -> updateResource(context, "bn")
-//            11 -> updateResource(context, "bn")
-//            12 -> updateResource(context, "bn")
-//            13 -> updateResource(context, "bn")
-//            14 -> updateResource(context, "bn")
-//        }
-//
-//
-//
-//
-//
-//
-//
-//
-//        }
-
-
-
-
         val flagImages = intArrayOf(
             R.drawable.usa,
             R.drawable.india,
             R.drawable.spain,
-            R.drawable.india,
+            R.drawable.bangladesh,
             R.drawable.france,
             R.drawable.china,
             R.drawable.india,
@@ -124,18 +92,4 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
         viewModel.onTaskSelected(context, flag)
         activity?.let { it1 -> recreate(it1) }
     }
-
-//    fun updateResource(context: Context?, s: String){
-//        val locale = Locale(s)
-//        Locale.setDefault(locale)
-//
-//        val configuration = Configuration()
-//        configuration.locale = locale
-//
-//        context?.resources?.updateConfiguration(configuration, context
-//            .resources.displayMetrics
-//        );
-//
-//
-//    }
 }
