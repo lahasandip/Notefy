@@ -2,7 +2,7 @@
 <shape xmlns:android="http://schemas.android.com/apk/res/android">
 
 <!--    <solid-->
-<!--        android:theme="@style/PopupStyle"/>-->
+<!--        android:color="#ffffff"/>-->
 
     <corners
         android:topLeftRadius="15dp"

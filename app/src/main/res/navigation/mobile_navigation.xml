@@ -53,11 +53,11 @@
         android:label="about"
         tools:layout="@layout/fragment_about" />
 
-    <fragment
+    <dialog
         android:id="@+id/settings"
-        android:name="com.sandip.notefy.ui.settings.Settings"
+        android:name="com.sandip.notefy.ui.shareapp.ShareApp"
         android:label="settings"
-        tools:layout="@layout/fragment_settings" />
+       />
 
     <fragment
         android:id="@+id/languages"
@@ -83,6 +83,4 @@
             android:id="@+id/action_recycle_bin_to_new_update_note"
             app:destination="@id/new_update_note" />
     </fragment>
-
-
 </navigation>

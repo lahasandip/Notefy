@@ -109,7 +109,7 @@ class MainActivity : AppCompatActivity() {
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.fragment_home, R.id.fragment_newUpdateNote, R.id.fragment_helpfeedback,
-                R.id.fragment_about, R.id.fragment_settings, R.id.fragment_languages,
+                R.id.fragment_about,  R.id.fragment_languages,
             ), drawerLayout
         )
         navigationView.setupWithNavController(navController)
