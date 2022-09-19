@@ -5,7 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.home.Home">
 
-
+    <include layout="@layout/empty_recyclebin_error"
+        android:id="@+id/empty_recycle_bin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+       />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/trash_recyclerView"

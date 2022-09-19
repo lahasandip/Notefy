@@ -73,18 +73,18 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                 }
                 if (!(noteEntity.url.isNullOrEmpty())) {
                     urlLink.text = noteEntity.url
-                    urlLink.visibility = View.VISIBLE
+                    layoutURL.visibility = View.VISIBLE
                 }
                 if ((!(noteEntity.date.isNullOrEmpty())) &&
                     (!(noteEntity.time.isNullOrEmpty()))
                 ) {
                     date.text = noteEntity.date
 //                    time.text = noteEntity.time
-                    date.visibility = View.VISIBLE
+                    layoutDate.visibility = View.VISIBLE
                 }
                 if (!(noteEntity.location.isNullOrEmpty())) {
                     location.text = noteEntity.location
-                    location.visibility = View.VISIBLE
+                    layoutLocation.visibility = View.VISIBLE
 
                 }
                 cardView.setCardBackgroundColor(noteEntity.clr)
@@ -93,8 +93,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
 //                    img.setImageURI(noteEntity.image)
                     val imageUri = Uri.parse(noteEntity.image)
                     Glide.with(NotefyApplication.appContext).load(imageUri).into(img)
-                    img.visibility = View.VISIBLE
-                    shadowBottom.visibility = View.VISIBLE
+                    noteImageLayout.visibility = View.VISIBLE
                 }
 //                adp = TodoAdapter(NotefyApplication.appContext, noteEntity.completed, noteEntity.todoDescription)
 //                listview2.adapter = adp

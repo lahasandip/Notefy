@@ -64,6 +64,12 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), NoteAdapter.OnItemCl
 
             homeViewModel.trash.observe(viewLifecycleOwner){
                 noteAdapter.submitList(it)
+                if(it.isNullOrEmpty()){
+                    emptyRecycleBin.emptyRecycleBinError.visibility = View.VISIBLE
+                }
+                else{
+                    emptyRecycleBin.emptyRecycleBinError.visibility = View.GONE
+                }
             }
 
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {

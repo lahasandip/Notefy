@@ -5,189 +5,194 @@
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/cardview_background"
+    android:background="@drawable/card_background">
 
-    >
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardElevation="@dimen/cardview_default_elevation"
+        app:cardElevation="2dp"
         android:outlineProvider="none"
-        app:cardCornerRadius="10dp"
+        app:cardCornerRadius="10dp">
 
-        >
-
-        <RelativeLayout
-            android:background="?android:attr/selectableItemBackground"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <CheckBox
                 android:id="@+id/important"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="30dp"
+                android:layout_height="40dp"
                 android:layout_alignParentEnd="true"
+                android:button="@drawable/ic_baseline_bookmark_border_24"
                 android:elevation="5dp"
-                android:scaleX="0.90"
-                android:scaleY="0.90"
-                android:button="@drawable/ic_baseline_bookmark_border_24" />
+                android:scaleX="0.80"
+                android:scaleY="0.80"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/img"
+            <androidx.cardview.widget.CardView
+                android:id="@+id/note_image_layout"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:scaleType="centerCrop"
-                android:transitionName="img"
-                tools:ignore="UnusedAttribute"
-                android:visibility="gone"/>
+                android:layout_marginBottom="-8dp"
+                app:cardCornerRadius="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                android:visibility="gone">
 
-            <ImageView
-                android:id="@+id/shadow_bottom"
-                android:src="@drawable/bottom_shadow"
-                android:layout_alignBottom="@id/img"
-                android:layout_width="match_parent"
-                android:layout_height="80dp"
-                android:visibility="gone"/>
-
-            <!--            <ProgressBar-->
-            <!--                android:id="@+id/prograss_load_photo"-->
-            <!--                style="@android:style/Widget.DeviceDefault.Light.ProgressBar.Small"-->
-            <!--                android:layout_marginTop="70dp"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content" />-->
-
-            <TextView
-                android:id="@+id/urlLink"
-                android:layout_width="match_parent"
-                android:layout_height="30dp"
-                android:layout_alignStart="@+id/note_title"
-                android:layout_alignLeft="@+id/note_title"
-                android:layout_alignTop="@+id/layoutDate"
-                android:layout_alignEnd="@id/layoutDate"
-                android:layout_alignRight="@id/layoutDate"
-                android:layout_marginRight="160dp"
-                android:drawablePadding="10dp"
-                android:ellipsize="end"
-                android:gravity="bottom"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:text="auth"/>
-
-            <FrameLayout
-                android:id="@+id/layoutDate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/location"
-                android:layout_alignParentRight="true"
-                android:layout_marginTop="-50dp"
-                android:layout_marginRight="10dp"
-                android:background="@drawable/round_white"
-                >
                 <ImageView
-                    android:id="@+id/clock"
-                    android:layout_width="12dp"
-                    android:layout_height="20dp"
-                    android:layout_marginLeft="6dp"
-                    android:src="@drawable/ic_outline_access_alarms_24" />
+                    android:id="@+id/img"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:scaleType="centerCrop"
+                    android:transitionName="img"
+                    tools:ignore="UnusedAttribute"/>
 
-                <TextView
-                    android:id="@+id/date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textSize="10dp"
-                    android:layout_gravity="center"
-                    android:layout_marginLeft="18dp"
-                    android:layout_marginRight="10dp"
-                    android:text="reminder"
-                    />
-
-
-            </FrameLayout>
-
+                <ImageView
+                    android:id="@+id/shadow_bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_alignBottom="@id/img"
+                    android:src="@drawable/bottom_shadow"/>
+            </androidx.cardview.widget.CardView>
 
             <TextView
                 android:id="@+id/note_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/img"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="10dp"
-                android:layout_marginRight="16dp"
                 android:fontFamily="sans-serif-light"
-                android:text="title"
+                android:layout_marginEnd="30dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
                 android:textSize="17sp"
-                android:textStyle="bold" />
-
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/note_image_layout" />
 
             <TextView
                 android:id="@+id/note_body"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/note_title"
-                android:layout_marginLeft="16dp"
-                android:layout_marginTop="5dp"
-                android:layout_marginRight="16dp"
-                android:text="Desc" />
-
-            <ImageView
-                android:id="@+id/location_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/note_body"
+                android:fontFamily="sans-serif-light"
+                android:layout_marginRight="10dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:scaleX="0.60"
-                android:scaleY="0.60"
-                android:src="@drawable/ic_outline_location_on_24" />
+                app:layout_constraintTop_toBottomOf="@+id/note_title"
+                android:visibility="gone"/>
 
-            <TextView
-                android:id="@+id/location"
+            <FrameLayout
+                android:id="@+id/layoutDate"
                 android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_below="@id/note_body"
-                android:layout_marginLeft="30dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="10dp"
-                android:drawablePadding="10dp"
-                android:textSize="12dp"
-                android:ellipsize="end"
-                android:fontFamily="sans-serif-light"
-                android:gravity="center"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:text="src"
-                android:textStyle="bold" />
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="5dp"
+                android:elevation="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/note_body"
+                android:visibility="gone">
 
+                <ImageView
+                    android:id="@+id/clock"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleX="0.60"
+                    android:scaleY="0.60"
+                    android:src="@drawable/ic_outline_access_alarms_24" />
+
+                <TextView
+                    android:id="@+id/date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="12sp" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/layoutLocation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:elevation="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutDate"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/location_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleX="0.60"
+                    android:scaleY="0.60"
+                    android:src="@drawable/ic_outline_location_on_24"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/note_body" />
+
+                <TextView
+                    android:id="@+id/location"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="20dp"
+                    android:layout_marginEnd="10dp"
+                    android:textSize="12sp"
+                    app:layout_constraintStart_toEndOf="@+id/location_image"
+                    app:layout_constraintTop_toBottomOf="@+id/note_body" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/layoutURL"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:elevation="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutLocation"
+                android:visibility="gone">
+
+                <ImageView
+                    android:id="@+id/url_image"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:scaleX="0.60"
+                    android:scaleY="0.60"
+                    android:src="@drawable/ic_baseline_insert_link_24"
+                    app:layout_constraintStart_toStartOf="parent" />
+
+                <TextView
+                    android:id="@+id/urlLink"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-light"
+                    android:textSize="12sp"
+                    android:layout_marginStart="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginEnd="10dp"
+                    app:layout_constraintStart_toEndOf="@+id/url_image" />
+            </FrameLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/todo_recyclerView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/location"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="12dp"
-                android:layout_marginBottom="10dp"
-                android:drawablePadding="10dp"
-                android:ellipsize="end"
-                android:gravity="right"
-                android:maxLines="1"
+                android:padding="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/layoutURL"
+                android:visibility="gone"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-                android:singleLine="true"
-                android:text="time" />
-
-
-        </RelativeLayout>
         <View
             android:id="@+id/overlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:clickable="true"
-            android:focusable="true"
-            />
+            android:focusable="true" />
     </androidx.cardview.widget.CardView>
-
-
 </FrameLayout>

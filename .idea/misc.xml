@@ -34,6 +34,7 @@
         <entry key="app/src/main/res/drawable/bottom_sheet_dialog.xml" value="0.152" />
         <entry key="app/src/main/res/drawable/button_custom.xml" value="0.117" />
         <entry key="app/src/main/res/drawable/cardview_background.xml" value="0.1945" />
+        <entry key="app/src/main/res/drawable/error_notes.xml" value="0.181" />
         <entry key="app/src/main/res/drawable/grid_view_selector.xml" value="0.215" />
         <entry key="app/src/main/res/drawable/ic_baseline_book_24.xml" value="0.278" />
         <entry key="app/src/main/res/drawable/ic_baseline_bookmark_24.xml" value="0.269" />
@@ -57,9 +58,12 @@
         <entry key="app/src/main/res/drawable/ic_outline_home_24.xml" value="0.2035" />
         <entry key="app/src/main/res/drawable/ic_outline_image_24.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/ic_outline_location_on_24.xml" value="0.2695" />
+        <entry key="app/src/main/res/drawable/ic_outline_note_24.xml" value="0.181" />
         <entry key="app/src/main/res/drawable/ic_outline_note_add_24.xml" value="0.136" />
+        <entry key="app/src/main/res/drawable/ic_outline_note_alt_24.xml" value="0.181" />
         <entry key="app/src/main/res/drawable/ic_outline_notifications_active_24.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/ic_outline_photo_camera_24.xml" value="0.2695" />
+        <entry key="app/src/main/res/drawable/ic_outline_restore_from_trash_24.xml" value="0.181" />
         <entry key="app/src/main/res/drawable/ic_outline_title_24.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/ic_small_icon.xml" value="0.1725" />
         <entry key="app/src/main/res/drawable/ic_small_icon_foreground.xml" value="0.278" />
@@ -84,6 +88,8 @@
         <entry key="app/src/main/res/layout/content_main.xml" value="0.3380208333333333" />
         <entry key="app/src/main/res/layout/dark_toggle_button.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/drawer_layout.xml" value="0.35989583333333336" />
+        <entry key="app/src/main/res/layout/empty_error.xml" value="0.35833333333333334" />
+        <entry key="app/src/main/res/layout/error.xml" value="0.35989583333333336" />
         <entry key="app/src/main/res/layout/fragment_about.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_delete_note.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_help_feedback.xml" value="0.3609375" />
@@ -100,7 +106,7 @@
         <entry key="app/src/main/res/layout/help_card.xml" value="0.35989583333333336" />
         <entry key="app/src/main/res/layout/language_card.xml" value="0.1" />
         <entry key="app/src/main/res/layout/nav_header.xml" value="0.3609375" />
-        <entry key="app/src/main/res/layout/new_note.xml" value="0.35989583333333336" />
+        <entry key="app/src/main/res/layout/new_note.xml" value="0.5" />
         <entry key="app/src/main/res/layout/note.xml" value="0.2957345971563981" />
         <entry key="app/src/main/res/layout/sortby_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/todo_listview.xml" value="0.3609375" />

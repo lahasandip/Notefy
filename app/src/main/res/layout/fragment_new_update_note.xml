@@ -207,7 +207,6 @@
                         android:layout_marginLeft="10dp"
                         android:autoLink="web"
                         android:background="@null"
-                        android:textColor="@color/purple_700"
                         android:textSize="16sp"
                         android:theme="@style/SearchView" />
                 </LinearLayout>

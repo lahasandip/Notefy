@@ -10,24 +10,17 @@ import android.view.Window
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
-import androidx.core.app.ActivityCompat.recreate
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
-import androidx.recyclerview.widget.ItemTouchHelper
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.*
 import com.google.android.material.snackbar.Snackbar
-import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.NoteEntity
 import com.sandip.notefy.databinding.FragmentHomeBinding
 import com.sandip.notefy.ui.MainActivity
-import com.sandip.notefy.util.PreferencesManager
 import com.sandip.notefy.util.SortOrder
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
@@ -38,6 +31,10 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
 
     private val viewModel: HomeViewModel by viewModels()
     val noteAdapter = NoteAdapter(this)
+    private var spanCount = 2
+    private lateinit var gridLayoutManager :StaggeredGridLayoutManager
+    private lateinit var gridLayoutManager2 :StaggeredGridLayoutManager
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -50,30 +47,41 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
             drawerLayout?.openDrawer(Gravity.LEFT)
         }
 
+        gridLayoutManager = StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
+        gridLayoutManager2 = StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
+
 
         binding.apply {
             recyclerView.apply {
                 adapter = noteAdapter
                 layoutManager =
                     if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-                    } else {
-                        StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
+                        gridLayoutManager
                     }
+                    else{
+                        gridLayoutManager2
+                    }
+
+                gridLayoutManager
+
                 gridView.setOnCheckedChangeListener { _, isChecked ->
                     if (isChecked) {
-                        layoutManager = LinearLayoutManager(requireContext())
-                        setHasFixedSize(true)
+                        spanCount = 1
+                        setLayout()
                     } else {
-                        layoutManager =
-                            if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                                StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-                            } else {
-                                StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
-                            }
+                        setLayout()
                     }
                 }
 
+
+                swipeRefreshLayout.setOnRefreshListener {
+
+                    viewModel.note.observe(viewLifecycleOwner) {
+                        noteAdapter.submitList(it)
+                    }
+                    swipeRefreshLayout.isRefreshing = false
+
+                }
 //                val pendingQuery = viewModel.searchQuery.value
 //                if (pendingQuery != null && pendingQuery.isNotEmpty()) {
 //                    searchView.setQuery(pendingQuery, false)
@@ -174,9 +182,14 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
                 viewModel.onAddEditResult(result)
             }
 
-
             viewModel.note.observe(viewLifecycleOwner) {
                 noteAdapter.submitList(it)
+                if(it.isNullOrEmpty()){
+                    emptyNotes.emptyNotesError.visibility = View.VISIBLE
+                }
+                else{
+                    emptyNotes.emptyNotesError.visibility = View.GONE
+                }
             }
 
         }
@@ -240,5 +253,14 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
             }
 
         }
+    }
+    private fun setLayout(){
+        if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            gridLayoutManager.spanCount = spanCount
+        }
+        else{
+           gridLayoutManager2
+        }
+
     }
 }

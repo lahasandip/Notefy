@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/empty_recycle_bin_error"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+<ImageView
+    android:id="@+id/errorImage"
+    android:layout_width="100dp"
+    android:layout_height="100dp"
+    android:layout_centerHorizontal="true"
+    android:src="@drawable/ic_outline_restore_from_trash_24"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
+
+<TextView
+    android:id="@+id/errorTitle"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/errorImage"
+    android:layout_centerHorizontal="true"
+    android:fontFamily="sans-serif-light"
+    android:gravity="center_horizontal"
+    android:text="Empty Recycle Bin"
+    android:textStyle="bold"
+    android:layout_marginTop="2dp"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/errorImage" />
+
+<TextView
+    android:id="@+id/errorMessage"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/errorTitle"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="6dp"
+    android:gravity="center_horizontal"
+    android:text="Notes you delete will appear here"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/errorTitle" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
