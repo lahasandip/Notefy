@@ -10,6 +10,7 @@ import android.view.Window
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.widget.SearchView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -31,9 +32,8 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
 
     private val viewModel: HomeViewModel by viewModels()
     val noteAdapter = NoteAdapter(this)
-    private var spanCount = 2
     private lateinit var gridLayoutManager :StaggeredGridLayoutManager
-    private lateinit var gridLayoutManager2 :StaggeredGridLayoutManager
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -47,29 +47,34 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
             drawerLayout?.openDrawer(Gravity.LEFT)
         }
 
-        gridLayoutManager = StaggeredGridLayoutManager(spanCount, StaggeredGridLayoutManager.VERTICAL)
-        gridLayoutManager2 = StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
-
+        gridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
         binding.apply {
             recyclerView.apply {
                 adapter = noteAdapter
-                layoutManager =
-                    if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        gridLayoutManager
+                layoutManager = gridLayoutManager
+                    if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                        gridLayoutManager.spanCount = 2
                     }
                     else{
-                        gridLayoutManager2
+                        gridLayoutManager.spanCount = 4
                     }
 
-                gridLayoutManager
-
                 gridView.setOnCheckedChangeListener { _, isChecked ->
-                    if (isChecked) {
-                        spanCount = 1
-                        setLayout()
-                    } else {
-                        setLayout()
+                    when(isChecked){
+
+                        true ->  if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                            gridLayoutManager.spanCount = 1
+                        }
+                        else {
+                            gridLayoutManager.spanCount = 1
+                        }
+                        false -> if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                            gridLayoutManager.spanCount = 2
+                        }
+                        else{
+                            gridLayoutManager.spanCount=4
+                        }
                     }
                 }
 
@@ -138,10 +143,10 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
 //                    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                     dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                     dialog.window?.setGravity(Gravity.BOTTOM)
-                    val bookmarked: LinearLayout = dialog.findViewById(R.id.bookmarked)
-                    val titleName: LinearLayout = dialog.findViewById(R.id.title_name)
-                    val newest: LinearLayout = dialog.findViewById(R.id.newest)
-                    val oldest: LinearLayout = dialog.findViewById(R.id.oldest)
+                    val bookmarked: ConstraintLayout = dialog.findViewById(R.id.bookmarked)
+                    val titleName: ConstraintLayout = dialog.findViewById(R.id.title_name)
+                    val newest: ConstraintLayout = dialog.findViewById(R.id.newest)
+                    val oldest: ConstraintLayout = dialog.findViewById(R.id.oldest)
                     val image1: ImageView = dialog.findViewById(R.id.image1)
                     val image2: ImageView = dialog.findViewById(R.id.image2)
                     val image3: ImageView = dialog.findViewById(R.id.image3)
@@ -255,12 +260,11 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
         }
     }
     private fun setLayout(){
-        if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            gridLayoutManager.spanCount = spanCount
-        }
-        else{
-           gridLayoutManager2
-        }
-
+//        if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//            gridLayoutManager.spanCount = 1
+//        }
+//        else{
+//           gridLayoutManager.spanCount = 4
+//        }
     }
 }

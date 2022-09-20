@@ -46,8 +46,9 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
                 preference1[PreferencesKeys.SORT_ORDER] ?: SortOrder.TITLE_ASC.name
             )
             FilterPreferences(sortOrder)
+
         }
-    val uiModeFlow: Flow<UiMode> = dataStore.data
+    val uiModeFlow = dataStore.data
         .catch {
             if (it is IOException) {
                 it.printStackTrace()
