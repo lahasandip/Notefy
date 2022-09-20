@@ -1,6 +1,8 @@
 package com.sandip.notefy.ui.home
 
 import android.app.Dialog
+import android.content.Context
+import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.Gravity
@@ -20,6 +22,7 @@ import androidx.recyclerview.widget.*
 import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
 import com.sandip.notefy.data.NoteEntity
+import com.sandip.notefy.databinding.FragmentHelpFeedbackBinding
 import com.sandip.notefy.databinding.FragmentHomeBinding
 import com.sandip.notefy.ui.MainActivity
 import com.sandip.notefy.util.SortOrder
@@ -28,18 +31,17 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
+class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val viewModel: HomeViewModel by viewModels()
     val noteAdapter = NoteAdapter(this)
-    private lateinit var gridLayoutManager :StaggeredGridLayoutManager
-
+    private lateinit var gridLayoutManager: StaggeredGridLayoutManager
+    private lateinit var binding: FragmentHomeBinding
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val binding = FragmentHomeBinding.bind(view)
-
+        binding = FragmentHomeBinding.bind(view)
         val profile_photo = view.findViewById<ImageView>(R.id.profile_photo)
         val drawerLayout = MainActivity.drawerLayout
 
@@ -48,34 +50,41 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
         }
 
         gridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+        observeGridLayout()
 
         binding.apply {
             recyclerView.apply {
                 adapter = noteAdapter
                 layoutManager = gridLayoutManager
-                    if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        gridLayoutManager.spanCount = 2
-                    }
-                    else{
-                        gridLayoutManager.spanCount = 4
-                    }
+                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                    gridLayoutManager.spanCount = 2
+                } else {
+                    gridLayoutManager.spanCount = 4
+                }
 
                 gridView.setOnCheckedChangeListener { _, isChecked ->
-                    when(isChecked){
+                    val sharedPreferences =
+                        context.getSharedPreferences("grid", Context.MODE_PRIVATE)
+                    var editor = sharedPreferences.edit()
+                    editor.putBoolean("grid", isChecked)
+                    editor.commit()
 
-                        true ->  if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                            gridLayoutManager.spanCount = 1
-                        }
-                        else {
-                            gridLayoutManager.spanCount = 1
-                        }
-                        false -> if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                            gridLayoutManager.spanCount = 2
-                        }
-                        else{
-                            gridLayoutManager.spanCount=4
-                        }
-                    }
+
+//                    when(isChecked){
+//
+//                        true ->  if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//                            gridLayoutManager.spanCount = 1
+//                        }
+//                        else {
+//                            gridLayoutManager.spanCount = 1
+//                        }
+//                        false -> if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//                            gridLayoutManager.spanCount = 2
+//                        }
+//                        else{
+//                            gridLayoutManager.spanCount=4
+//                        }
+//                    }
                 }
 
 
@@ -188,13 +197,13 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
             }
 
             viewModel.note.observe(viewLifecycleOwner) {
-                noteAdapter.submitList(it)
-                if(it.isNullOrEmpty()){
+                if (it.isNullOrEmpty()) {
                     emptyNotes.emptyNotesError.visibility = View.VISIBLE
-                }
-                else{
+                } else {
                     emptyNotes.emptyNotesError.visibility = View.GONE
                 }
+                noteAdapter.submitList(it)
+
             }
 
         }
@@ -243,9 +252,41 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
         }
     }
 
+    private fun observeGridLayout() {
+        val sharedPreferences = context?.getSharedPreferences("grid", Context.MODE_PRIVATE)
+        sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
+        val grid = sharedPreferences?.getBoolean("grid", false)
+
+        when(grid){
+
+            true ->  if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                gridLayoutManager.spanCount = 1
+                binding.gridView.isChecked = true
+
+            }
+            else {
+                gridLayoutManager.spanCount = 1
+                binding.gridView.isChecked = true
+
+            }
+            false ->  if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                gridLayoutManager.spanCount = 2
+                binding.gridView.isChecked = false
+
+            }
+            else{
+                gridLayoutManager.spanCount=4
+                binding.gridView.isChecked = false
+
+            }
+            else -> {}
+        }
+    }
+
     override fun onItemClick(noteEntity: NoteEntity) {
         viewModel.onTaskSelected(noteEntity)
     }
+
     override fun onAddToTrash(noteEntity: NoteEntity, isHide: Boolean) {
 //        viewModel.onAddToTrash(noteEntity, isHide)
     }
@@ -259,12 +300,19 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener{
 
         }
     }
-    private fun setLayout(){
+
+    private fun setLayout() {
 //        if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
 //            gridLayoutManager.spanCount = 1
 //        }
 //        else{
 //           gridLayoutManager.spanCount = 4
 //        }
+    }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if (key.equals("grid")) {
+            observeGridLayout()
+        }
     }
 }

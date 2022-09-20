@@ -2,7 +2,6 @@ package com.sandip.notefy.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sandip.notefy.util.Biometric
 import com.sandip.notefy.util.UiMode
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -30,12 +29,12 @@ class MainActivityViewModel : ViewModel() {
     }
 
     fun onScreenLockEnabled() = viewModelScope.launch {
-        MainActivity.preferencesManager.setBiometric(Biometric.ENABLE)
+//        MainActivity.preferencesManager.setBiometric(Biometric.ENABLE)
 
     }
 
     fun onScreenLockDisabled() = viewModelScope.launch{
-        MainActivity.preferencesManager.setBiometric(Biometric.DISABLE)
+//        MainActivity.preferencesManager.setBiometric(Biometric.DISABLE)
     }
 
 

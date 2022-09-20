@@ -18,7 +18,7 @@ private const val TAG = "PreferencesManager"
 
 enum class SortOrder { BOOKMARKED, TITLE_ASC, NEW_TO_OLD, OLD_TO_NEW}
 enum class UiMode { LIGHT, DARK }
-enum class Biometric { ENABLE, DISABLE }
+//enum class Biometric { ENABLE, DISABLE }
 
 
 data class FilterPreferences(val sortOrder: SortOrder)
@@ -27,7 +27,7 @@ data class FilterPreferences(val sortOrder: SortOrder)
 class PreferencesManager @Inject constructor(@ApplicationContext context: Context) {
     companion object{
         val IS_DARK_MODE = booleanPreferencesKey("dark_mode")
-        val IS_BIOMETRIC_ENABLE = booleanPreferencesKey("biometric")
+//        val IS_BIOMETRIC_ENABLE = booleanPreferencesKey("biometric")
         val LANGUAGE = intPreferencesKey("language")
     }
     private val dataStore = context.dataStore
@@ -65,23 +65,23 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
                 false -> UiMode.LIGHT
             }
         }
-    val biometricAuth: Flow<Biometric> = dataStore.data
-        .catch {
-            if (it is IOException) {
-                it.printStackTrace()
-                emit(emptyPreferences())
-            } else {
-                throw it
-            }
-        }
-        .map { preference3 ->
-            val isBiometricEnable = preference3[IS_BIOMETRIC_ENABLE] ?: false
-
-            when (isBiometricEnable) {
-                true -> Biometric.ENABLE
-                false -> Biometric.DISABLE
-            }
-        }
+//    val biometricAuth: Flow<Biometric> = dataStore.data
+//        .catch {
+//            if (it is IOException) {
+//                it.printStackTrace()
+//                emit(emptyPreferences())
+//            } else {
+//                throw it
+//            }
+//        }
+//        .map { preference3 ->
+//            val isBiometricEnable = preference3[IS_BIOMETRIC_ENABLE] ?: false
+//
+//            when (isBiometricEnable) {
+//                true -> Biometric.ENABLE
+//                false -> Biometric.DISABLE
+//            }
+//        }
     val languageCode: Flow<Int> = dataStore.data
         .catch {
             if (it is IOException) {
@@ -109,14 +109,14 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             }
         }
     }
-    suspend fun setBiometric(biometric: Biometric) {
-        dataStore.edit { preferences ->
-            preferences[IS_BIOMETRIC_ENABLE] = when (biometric) {
-                Biometric.DISABLE -> false
-                Biometric.ENABLE -> true
-            }
-        }
-    }
+//    suspend fun setBiometric(biometric: Biometric) {
+//        dataStore.edit { preferences ->
+//            preferences[IS_BIOMETRIC_ENABLE] = when (biometric) {
+//                Biometric.DISABLE -> false
+//                Biometric.ENABLE -> true
+//            }
+//        }
+//    }
     suspend fun storeLocale(language: Int) {
         dataStore.edit { preferences ->
             preferences[LANGUAGE] = language
