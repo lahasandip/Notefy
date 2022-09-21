@@ -10,6 +10,7 @@ import android.os.Bundle
 import android.preference.PreferenceManager
 import android.provider.Settings
 import android.util.Log
+import android.view.Gravity
 import android.widget.LinearLayout
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -37,6 +38,7 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.ActivityMainBinding
 import com.sandip.notefy.ui.languages.LanguagesViewModel
+import com.sandip.notefy.ui.user.User
 import com.sandip.notefy.util.PreferencesManager
 import com.sandip.notefy.util.UiMode
 import com.sandip.notefy.util.exhaustive
@@ -112,12 +114,12 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         drawerLayout = binding.drawerLayout
 
         val headerView = navigationView.getHeaderView(0)
-        val profileSection = headerView.findViewById<LinearLayout>(R.id.profile_section)
+//        val profileSection = headerView.findViewById<LinearLayout>(R.id.profile_section)
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.fragment_home, R.id.fragment_newUpdateNote, R.id.fragment_helpfeedback,
-                R.id.fragment_about,  R.id.fragment_languages,
+                R.id.fragment_about,  R.id.fragment_languages, R.id.fragment_user
             ), drawerLayout
         )
         navigationView.setupWithNavController(navController)
@@ -140,11 +142,16 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
 
         }
-        profileSection.setOnClickListener {
-            finish();
-            startActivity(intent);
-            overridePendingTransition(0, 0);
-        }
+//        profileSection.setOnClickListener {
+//            finish();
+//            startActivity(intent);
+//            overridePendingTransition(0, 0);
+//            drawerLayout?.closeDrawer(Gravity.LEFT);
+//            val fragmentManager = supportFragmentManager
+//            val fragmentTransaction = fragmentManager.beginTransaction()
+//            fragmentTransaction.replace(R.id.nav_host_fragment, User()).addToBackStack(null).commit()
+//
+//        }
 
         lifecycleScope.launchWhenStarted {
             viewModel.addEditTaskEvent.collect { event ->

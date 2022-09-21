@@ -33,17 +33,23 @@
         <entry key="app/src/main/res/drawable-v24/search_view.xml" value="0.1635" />
         <entry key="app/src/main/res/drawable/bottom_sheet_dialog.xml" value="0.152" />
         <entry key="app/src/main/res/drawable/button_custom.xml" value="0.117" />
+        <entry key="app/src/main/res/drawable/card_background.xml" value="0.279" />
         <entry key="app/src/main/res/drawable/cardview_background.xml" value="0.1945" />
         <entry key="app/src/main/res/drawable/error_notes.xml" value="0.181" />
         <entry key="app/src/main/res/drawable/grid_view_selector.xml" value="0.215" />
         <entry key="app/src/main/res/drawable/ic_baseline_book_24.xml" value="0.278" />
         <entry key="app/src/main/res/drawable/ic_baseline_bookmark_24.xml" value="0.269" />
         <entry key="app/src/main/res/drawable/ic_baseline_bookmark_border_24.xml" value="0.2695" />
+        <entry key="app/src/main/res/drawable/ic_baseline_camera_alt_24.xml" value="0.279" />
         <entry key="app/src/main/res/drawable/ic_baseline_clear_24.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/ic_baseline_delete_outline_24.xml" value="0.2695" />
         <entry key="app/src/main/res/drawable/ic_baseline_edit_note_24.xml" value="0.1725" />
+        <entry key="app/src/main/res/drawable/ic_baseline_help_outline_24.xml" value="0.181" />
         <entry key="app/src/main/res/drawable/ic_baseline_insert_link_24.xml" value="0.2735" />
         <entry key="app/src/main/res/drawable/ic_baseline_message_24.xml" value="0.2115" />
+        <entry key="app/src/main/res/drawable/ic_baseline_notes_24.xml" value="0.279" />
+        <entry key="app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.179" />
+        <entry key="app/src/main/res/drawable/ic_baseline_star_border_24.xml" value="0.181" />
         <entry key="app/src/main/res/drawable/ic_launcher_background.xml" value="0.1725" />
         <entry key="app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1725" />
         <entry key="app/src/main/res/drawable/ic_outline_access_alarms_24.xml" value="0.1725" />
@@ -52,6 +58,7 @@
         <entry key="app/src/main/res/drawable/ic_outline_block_24.xml" value="0.148" />
         <entry key="app/src/main/res/drawable/ic_outline_checklist_24.xml" value="0.1765" />
         <entry key="app/src/main/res/drawable/ic_outline_color_lens_24.xml" value="0.1765" />
+        <entry key="app/src/main/res/drawable/ic_outline_create_24.xml" value="0.279" />
         <entry key="app/src/main/res/drawable/ic_outline_format_color_reset_24.xml" value="0.148" />
         <entry key="app/src/main/res/drawable/ic_outline_grid_view_24.xml" value="0.3305" />
         <entry key="app/src/main/res/drawable/ic_outline_help_center_24.xml" value="0.2115" />
@@ -70,6 +77,7 @@
         <entry key="app/src/main/res/drawable/image_background.xml" value="0.1555" />
         <entry key="app/src/main/res/drawable/item_selector.xml" value="0.1725" />
         <entry key="app/src/main/res/drawable/round_image.xml" value="0.1555" />
+        <entry key="app/src/main/res/drawable/roundedbutton.xml" value="0.279" />
         <entry key="app/src/main/res/drawable/todo_popup.xml" value="0.266" />
         <entry key="app/src/main/res/layout/activity_action1.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/activity_alarm.xml" value="0.3046875" />
@@ -104,7 +112,7 @@
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3296875" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_todo.xml" value="0.3609375" />
-        <entry key="app/src/main/res/layout/fragment_user.xml" value="0.3609375" />
+        <entry key="app/src/main/res/layout/fragment_user.xml" value="0.21944444444444444" />
         <entry key="app/src/main/res/layout/help_card.xml" value="0.35989583333333336" />
         <entry key="app/src/main/res/layout/language_card.xml" value="0.1" />
         <entry key="app/src/main/res/layout/nav_header.xml" value="0.3609375" />
