@@ -30,6 +30,7 @@
 
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/camera"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="65dp"
@@ -45,7 +46,7 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:layout_marginTop="143dp"
-                android:layout_marginEnd="5dp"
+                android:layout_marginEnd="35dp"
                 android:clickable="false"
                 android:background="@drawable/ic_baseline_create_24"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -56,11 +57,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                android:layout_marginEnd="35dp"
-                android:layout_marginStart="35dp"
+                android:layout_marginEnd="65dp"
+                android:layout_marginStart="65dp"
                 android:fontFamily="sans-serif-light"
                 android:gravity="center"
-                android:text="Sandip Laha"
+                android:hint="Alex Costa"
                 android:textSize="24dp"
                 android:background="@null"
                 android:textStyle="bold"
@@ -180,8 +181,8 @@
                 android:id="@+id/linearLayout5"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="45dp"
-                android:layout_marginEnd="45dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginEnd="50dp"
                 android:layout_marginTop="40dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -207,7 +208,7 @@
                     android:layout_marginStart="38dp"
                     android:layout_marginEnd="30dp"
                     android:background="@null"
-                    android:text="sandiplaha206@gmail.com"
+                    android:hint="alex.costa@gmail.com"
                     android:textSize="15dp"
                     android:maxLines="1"
                     app:layout_constraintBottom_toBottomOf="parent"
@@ -233,9 +234,9 @@
                 android:id="@+id/constraintLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="45dp"
-                android:layout_marginTop="15dp"
-                android:layout_marginEnd="45dp"
+                android:layout_marginStart="50dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
@@ -251,14 +252,14 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <EditText
-                    android:id="@+id/textView7"
+                    android:id="@+id/text_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginStart="38dp"
                     android:background="@null"
-                    android:maxLength="14"
-                    android:text="+91-7829894030"
+                    android:maxLength="16"
+                    android:hint="+1 012 345 6789"
                     android:textSize="15dp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -277,6 +278,7 @@
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <Button
+                android:id="@+id/save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="100dp"

@@ -26,5 +26,4 @@ data class NoteEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 
-): Parcelable {
-}
+): Parcelable

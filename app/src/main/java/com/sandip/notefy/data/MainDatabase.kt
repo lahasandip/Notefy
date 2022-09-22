@@ -7,9 +7,11 @@ import com.sandip.notefy.util.Converters
 
 
 @TypeConverters(Converters::class)
-@Database(entities = [NoteEntity::class], version = 1)
-abstract class NoteDatabase : RoomDatabase() {
+@Database(entities = [NoteEntity::class, UserEntity::class], exportSchema = false, version = 1)
+abstract class MainDatabase : RoomDatabase() {
     abstract fun getNote(): NoteDao
+    abstract fun getUser(): UserDao
+
 //    class Callback @Inject constructor(
 //        private val database: Provider<NoteDatabase>,
 //        @ApplicationScope private val applicationScope: CoroutineScope

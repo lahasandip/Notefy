@@ -2,7 +2,7 @@ package com.sandip.notefy.di
 
 import android.app.Application
 import androidx.room.Room
-import com.sandip.notefy.data.NoteDatabase
+import com.sandip.notefy.data.MainDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,12 +20,15 @@ object AppModule {
     @Singleton
     fun provideDatabase(
         app: Application,
-    ) = Room.databaseBuilder(app, NoteDatabase::class.java, "note_database")
+    ) = Room.databaseBuilder(app, MainDatabase::class.java, "note_database")
         .fallbackToDestructiveMigration()
         .build()
 
     @Provides
-    fun provideTaskDao(db: NoteDatabase) = db.getNote()
+    fun provideTaskDao(db: MainDatabase) = db.getNote()
+
+    @Provides
+    fun provideUserDao(db: MainDatabase) = db.getUser()
 
     @ApplicationScope
     @Provides
