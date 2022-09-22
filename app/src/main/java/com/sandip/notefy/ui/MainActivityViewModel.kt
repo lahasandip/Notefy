@@ -2,15 +2,23 @@ package com.sandip.notefy.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sandip.notefy.data.UserDao
 import com.sandip.notefy.util.UiMode
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class MainActivityViewModel : ViewModel() {
+@HiltViewModel
+class MainActivityViewModel@Inject constructor(
+    private val userDao: UserDao) : ViewModel() {
 
     private val addEditTaskEventChannel = Channel<MainTaskEvent>()
     val addEditTaskEvent = addEditTaskEventChannel.receiveAsFlow()
+
+    val displayUser = userDao.getUser()
+
 
 
     fun onDarkTheme() = viewModelScope.launch {

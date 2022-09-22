@@ -37,7 +37,7 @@
             android:layout_marginStart="10dp"
             android:layout_marginEnd="15dp"
             android:elevation="10dp"
-            android:src="@drawable/img"
+            android:src="@drawable/img_1"
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
@@ -46,10 +46,9 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@null"
-            android:layout_marginStart="10dp"
+            android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:scrollbars="none"
-            android:text="Sandip Laha"
             android:textSize="18dp"
             android:textStyle="bold"
             android:theme="@style/SearchView" />

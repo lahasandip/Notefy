@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.RadioButton
 import androidx.appcompat.widget.SearchView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
@@ -152,41 +153,21 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
 //                    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                     dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                     dialog.window?.setGravity(Gravity.BOTTOM)
-                    val bookmarked: ConstraintLayout = dialog.findViewById(R.id.bookmarked)
-                    val titleName: ConstraintLayout = dialog.findViewById(R.id.title_name)
-                    val newest: ConstraintLayout = dialog.findViewById(R.id.newest)
-                    val oldest: ConstraintLayout = dialog.findViewById(R.id.oldest)
-                    val image1: ImageView = dialog.findViewById(R.id.image1)
-                    val image2: ImageView = dialog.findViewById(R.id.image2)
-                    val image3: ImageView = dialog.findViewById(R.id.image3)
-                    val image4: ImageView = dialog.findViewById(R.id.image4)
+                    val bookmarked: RadioButton = dialog.findViewById(R.id.bookmarked)
+                    val titleName: RadioButton = dialog.findViewById(R.id.title_name)
+                    val newest: RadioButton = dialog.findViewById(R.id.newest)
+                    val oldest: RadioButton = dialog.findViewById(R.id.oldest)
 
                     bookmarked.setOnClickListener {
-                        image1.setImageResource(R.drawable.ic_baseline_done_24)
-                        image2.setImageResource(0)
-                        image3.setImageResource(0)
-                        image4.setImageResource(0)
                         viewModel.onSortOrderSelected(SortOrder.BOOKMARKED)
                     }
                     titleName.setOnClickListener {
-                        image2.setImageResource(R.drawable.ic_baseline_done_24)
-                        image1.setImageResource(0)
-                        image3.setImageResource(0)
-                        image4.setImageResource(0)
                         viewModel.onSortOrderSelected(SortOrder.TITLE_ASC)
                     }
                     newest.setOnClickListener {
-                        image3.setImageResource(R.drawable.ic_baseline_done_24)
-                        image1.setImageResource(0)
-                        image2.setImageResource(0)
-                        image4.setImageResource(0)
                         viewModel.onSortOrderSelected(SortOrder.NEW_TO_OLD)
                     }
                     oldest.setOnClickListener {
-                        image4.setImageResource(R.drawable.ic_baseline_done_24)
-                        image1.setImageResource(0)
-                        image2.setImageResource(0)
-                        image3.setImageResource(0)
                         viewModel.onSortOrderSelected(SortOrder.OLD_TO_NEW)
                     }
                 }

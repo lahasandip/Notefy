@@ -4,10 +4,14 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
@@ -28,6 +32,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.sandip.notefy.R
@@ -42,7 +47,6 @@ import java.util.concurrent.Executor
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener{
     private val viewModel: MainActivityViewModel by viewModels()
-    private val languagesViewModel: LanguagesViewModel by viewModels()
     private lateinit var binding: ActivityMainBinding
     private lateinit var appBarConfiguration: AppBarConfiguration
     private var isDarkMode = true
@@ -107,7 +111,18 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         drawerLayout = binding.drawerLayout
 
         val headerView = navigationView.getHeaderView(0)
-//        val profileSection = headerView.findViewById<LinearLayout>(R.id.profile_section)
+        val userPhoto = headerView.findViewById<ImageView>(R.id.user_photo2)
+        val userName = headerView.findViewById<TextView>(R.id.user_name)
+        viewModel.displayUser.observe(this) {
+            if(it !=null){
+            if(!(it.name.isNullOrEmpty())) {
+                userName.text = it.name
+            }
+            if(!(it.image.isNullOrEmpty())){
+                val imageUri = Uri.parse(it.image)
+                this.let { it1 -> Glide.with(it1).load(imageUri).into(userPhoto) }
+                }
+        }}
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
@@ -135,16 +150,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
 
         }
-//        profileSection.setOnClickListener {
-//            finish();
-//            startActivity(intent);
-//            overridePendingTransition(0, 0);
-//            drawerLayout?.closeDrawer(Gravity.LEFT);
-//            val fragmentManager = supportFragmentManager
-//            val fragmentTransaction = fragmentManager.beginTransaction()
-//            fragmentTransaction.replace(R.id.nav_host_fragment, User()).addToBackStack(null).commit()
-//
-//        }
 
         lifecycleScope.launchWhenStarted {
             viewModel.addEditTaskEvent.collect { event ->

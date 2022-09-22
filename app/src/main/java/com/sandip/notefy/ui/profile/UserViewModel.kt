@@ -1,10 +1,13 @@
 package com.sandip.notefy.ui.profile
 
+import android.animation.ValueAnimator
 import android.util.Log
+import android.widget.TextView
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.sandip.notefy.data.NoteDao
 import com.sandip.notefy.data.UserDao
 import com.sandip.notefy.data.UserEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,10 +19,15 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel@Inject constructor(
     private val userDao: UserDao,
+    private val noteDao: NoteDao
 ): ViewModel() {
 
     val displayUser = userDao.getUser()
     val rowCount = userDao.getCount()
+    val noteCount = noteDao.getNotes()
+    val reminderCount = noteDao.getReminders()
+    val todoCount = noteDao.getTodos()
+
     var name = ""
     var email = ""
     var phone = ""
@@ -45,6 +53,19 @@ class UserViewModel@Inject constructor(
     private fun updateTask(userEntity: UserEntity) = viewModelScope.launch {
         userDao.updateDao(userEntity)
         addEditTaskEventChannel.send(AddEditTaskEvent.NavigateBackWithResult)
+    }
+
+    fun startAnimation(notesNumber: TextView, count: Int) {
+        val animator = ValueAnimator.ofInt(0, count)
+        when (count){
+            in 0..10 -> animator.duration = 1000 // 2 seconds
+            in 11..100 -> animator.duration = 2000 // 2 seconds
+            else -> animator.duration = 3000 // 2 seconds
+        }
+        animator.addUpdateListener { animation ->
+            notesNumber.text = animation.animatedValue.toString()
+        }
+        animator.start()
     }
 
     sealed class AddEditTaskEvent {

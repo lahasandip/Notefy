@@ -33,6 +33,10 @@ class User : Fragment(R.layout.fragment_user) {
     private val viewModel: UserViewModel by viewModels()
     private lateinit var binding: FragmentUserBinding
     private var rows : Int = 0
+    private var note : Int = 0
+    private var reminder : Int = 0
+    private var todo : Int = 0
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -69,12 +73,31 @@ class User : Fragment(R.layout.fragment_user) {
         }
         viewModel.rowCount.observe(viewLifecycleOwner) {
             rows = it.toInt()
-            println("Row: $rows")
         }
+
         binding.apply {
-            startAnimation(notesNumber)
-            startAnimation(reminderNumber)
-            startAnimation(todoNumber)
+            viewModel.noteCount.observe(viewLifecycleOwner) {
+                note = it.toInt()
+                viewModel.startAnimation(notesNumber, note)
+
+            }
+            viewModel.reminderCount.observe(viewLifecycleOwner) {
+                reminder = it.toInt()
+                viewModel.startAnimation(reminderNumber, reminder)
+
+
+            }
+            viewModel.todoCount.observe(viewLifecycleOwner) {
+                todo = it.toInt()
+                println("todo $todo")
+                viewModel.startAnimation(todoNumber, todo)
+
+
+
+            }
+//            startAnimation(notesNumber, note)
+//            startAnimation(reminderNumber, reminder)
+//            startAnimation(todoNumber, todo)
             editName.setOnClickListener {
                 textName.requestFocus(View.LAYOUT_DIRECTION_LTR)
             }
@@ -163,7 +186,7 @@ class User : Fragment(R.layout.fragment_user) {
                     when (event) {
 
                         is UserViewModel.AddEditTaskEvent.NavigateBackWithResult -> {
-                            Snackbar.make(view,"Details Saved", Snackbar.LENGTH_LONG).show()
+                            Snackbar.make(view,"Profile updated", Snackbar.LENGTH_LONG).show()
                         }
                     }.exhaustive
                 }
@@ -175,9 +198,13 @@ class User : Fragment(R.layout.fragment_user) {
 
 
 
-    private fun startAnimation(notesNumber: TextView) {
-        val animator = ValueAnimator.ofInt(0, 100)
-        animator.duration = 5000 // 5 seconds
+    private fun startAnimation(notesNumber: TextView, count: Int) {
+        val animator = ValueAnimator.ofInt(0, count)
+        when (count){
+            in 0..10 -> animator.duration = 1000 // 2 seconds
+            in 11..100 -> animator.duration = 2000 // 2 seconds
+            else -> animator.duration = 3000 // 2 seconds
+        }
         animator.addUpdateListener { animation ->
             notesNumber.text = animation.animatedValue.toString()
         }
