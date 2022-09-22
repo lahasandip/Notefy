@@ -12,4 +12,11 @@ interface UserDao {
 
     @Update
     suspend fun updateDao(entity: UserEntity)
+
+    @Query("select * from User")
+    fun getUser(): LiveData<UserEntity>
+
+    @Query("select count() from user")
+     fun getCount() : LiveData<Int>
+
 }

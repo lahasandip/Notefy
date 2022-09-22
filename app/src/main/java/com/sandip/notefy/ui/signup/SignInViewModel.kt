@@ -1,13 +1,10 @@
-package com.sandip.notefy.ui.user
+package com.sandip.notefy.ui.signup
 
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sandip.notefy.data.NoteEntity
 import com.sandip.notefy.data.UserDao
 import com.sandip.notefy.data.UserEntity
-import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK
-import com.sandip.notefy.ui.newupdate.NewUpdateNoteViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -15,13 +12,12 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class UserViewModel@Inject constructor(
+class SignInViewModel @Inject constructor(
     private val userDao: UserDao,
     private val state: SavedStateHandle
 ): ViewModel() {
 
     val user = state.get<UserEntity>("user")
-
 
     var name = state.get<String>("name") ?: user?.name ?: ""
         set(value) {
@@ -65,13 +61,15 @@ class UserViewModel@Inject constructor(
     private fun createTask(userEntity: UserEntity) = viewModelScope.launch {
         userDao.insertDao(userEntity)
         addEditTaskEventChannel.send(
-            AddEditTaskEvent.NavigateBackWithResult)
+            AddEditTaskEvent.NavigateBackWithResult
+        )
     }
 
     private fun updateTask(userEntity: UserEntity) = viewModelScope.launch {
         userDao.updateDao(userEntity)
         addEditTaskEventChannel.send(
-            AddEditTaskEvent.NavigateBackWithResult)
+            AddEditTaskEvent.NavigateBackWithResult
+        )
     }
 
     sealed class AddEditTaskEvent {

@@ -1,43 +1,33 @@
-package com.sandip.notefy.ui.user
+package com.sandip.notefy.ui.signup
 
-import android.animation.ValueAnimator
 import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
-import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
-import com.sandip.notefy.databinding.FragmentUserBinding
-import com.sandip.notefy.util.exhaustive
-import dagger.hilt.android.AndroidEntryPoint
+import com.sandip.notefy.databinding.FragmentSignInBinding
 
-@AndroidEntryPoint
-class User : Fragment(R.layout.fragment_user) {
+class SignIn : Fragment(R.layout.fragment_sign_in) {
 
-    private val viewModel: UserViewModel by viewModels()
-    private lateinit var binding: FragmentUserBinding
+    private val viewModel: SignInViewModel by viewModels()
+    private lateinit var binding: FragmentSignInBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        binding = FragmentUserBinding.bind(view)
+        binding = FragmentSignInBinding.bind(view)
 
-        Log.d("Laha", viewModel.user.toString())
         val startForProfileImageResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 val resultCode = result.resultCode
@@ -55,32 +45,11 @@ class User : Fragment(R.layout.fragment_user) {
             }
 
         binding.apply {
-            startAnimation(notesNumber)
-            startAnimation(reminderNumber)
-            startAnimation(todoNumber)
-            editName.setOnClickListener {
-                textName.requestFocus(View.LAYOUT_DIRECTION_LTR)
-            }
-            editEmail.setOnClickListener {
-                textEmail.requestFocus(View.LAYOUT_DIRECTION_LTR)
-            }
-            textName.setText(viewModel.name)
-            textEmail.setText(viewModel.email)
-            textPhone.setText(viewModel.phone)
-
-            textName.addTextChangedListener {
-                viewModel.name = it.toString()
-            }
-            textEmail.addTextChangedListener {
-                viewModel.email = it.toString()
-            }
-            textPhone.addTextChangedListener {
-                viewModel.phone = it.toString()
-            }
-
             save.setOnClickListener {
                 viewModel.onSaveClick()
             }
+
+
             camera.setOnClickListener {
 
                 val with: ImagePicker.Builder? = parentFragment?.let { it1 ->
@@ -125,45 +94,7 @@ class User : Fragment(R.layout.fragment_user) {
                 }
             }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                viewModel.addEditTaskEvent.collect { event ->
-                    when (event) {
-
-                        is UserViewModel.AddEditTaskEvent.NavigateBackWithResult -> {
-                            Snackbar.make(view,"Details Saved", Snackbar.LENGTH_LONG).show()
-                        }
-                    }.exhaustive
-                }
-            }
-
-        }}
-
-
-
-
-
-    private fun startAnimation(notesNumber: TextView) {
-        val animator = ValueAnimator.ofInt(0, 100)
-        animator.duration = 5000 // 5 seconds
-        animator.addUpdateListener { animation ->
-            notesNumber.text = animation.animatedValue.toString()
         }
-        animator.start()
+
     }
 }

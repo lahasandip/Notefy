@@ -71,7 +71,7 @@
 
     <fragment
         android:id="@+id/user"
-        android:name="com.sandip.notefy.ui.user.User"
+        android:name="com.sandip.notefy.ui.profile.User"
         android:label="user"
         tools:layout="@layout/fragment_user">
         <argument
