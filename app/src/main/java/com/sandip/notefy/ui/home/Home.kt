@@ -10,20 +10,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.view.Window
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.RadioButton
+import android.widget.RadioGroup
 import androidx.appcompat.widget.SearchView
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
 import com.sandip.notefy.data.NoteEntity
-import com.sandip.notefy.databinding.FragmentHelpFeedbackBinding
 import com.sandip.notefy.databinding.FragmentHomeBinding
 import com.sandip.notefy.ui.MainActivity
 import com.sandip.notefy.util.SortOrder
@@ -38,30 +37,40 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
     val noteAdapter = NoteAdapter(this)
     private lateinit var gridLayoutManager: StaggeredGridLayoutManager
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var bookmarked: RadioButton
+    private lateinit var titleName: RadioButton
+    private lateinit var newest: RadioButton
+    private lateinit var oldest: RadioButton
+    private lateinit var radioGroup : RadioGroup
+    private lateinit var dialog: Dialog
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
-        val profile_photo = view.findViewById<ImageView>(R.id.profile_photo)
+//        val profile_photo = view.findViewById<ImageView>(R.id.profile_photo)
         val drawerLayout = MainActivity.drawerLayout
+        displaySortByDialog()
 
-        profile_photo.setOnClickListener {
-            drawerLayout?.openDrawer(Gravity.LEFT)
-        }
+//        profile_photo.setOnClickListener {
+//            drawerLayout?.openDrawer(Gravity.LEFT)
+//        }
 
         gridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        observeGridLayout()
 
         binding.apply {
             recyclerView.apply {
                 adapter = noteAdapter
-                layoutManager = gridLayoutManager
-                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                    gridLayoutManager.spanCount = 2
-                } else {
-                    gridLayoutManager.spanCount = 4
-                }
+                layoutManager =         observeGridLayout()
+
+//                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
+//                    gridLayoutManager.spanCount = 2
+//                    gridLayoutManager
+//                } else {
+//                    gridLayoutManager.spanCount = 4
+//                    gridLayoutManager
+//
+//                }
 
                 gridView.setOnCheckedChangeListener { _, isChecked ->
                     val sharedPreferences =
@@ -97,11 +106,16 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
                     swipeRefreshLayout.isRefreshing = false
 
                 }
+                viewModel.isChecked.asLiveData().observe(viewLifecycleOwner) {
+                    val savedCheckedRadioButton =
+                        radioGroup.getChildAt(it) as RadioButton
+                    savedCheckedRadioButton.isChecked = true
+                }
 //                val pendingQuery = viewModel.searchQuery.value
 //                if (pendingQuery != null && pendingQuery.isNotEmpty()) {
 //                    searchView.setQuery(pendingQuery, false)
 //                }
-
+//
                 searchView.setOnQueryTextListener(object :
                     android.widget.SearchView.OnQueryTextListener,
                     SearchView.OnQueryTextListener {
@@ -137,56 +151,78 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
                         viewModel.onTaskSwiped(task, true)
                     }
                 }).attachToRecyclerView(recyclerView)
-
-                newNote.setOnClickListener {
-                    viewModel.onAddNewTaskClick()
-                }
-                sortBy.setOnClickListener {
-                    val dialog = Dialog(requireContext())
-                    dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-                    dialog.setContentView(R.layout.sortby_dialog)
-                    dialog.show()
-                    dialog.window?.setLayout(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                    )
-//                    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                    dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-                    dialog.window?.setGravity(Gravity.BOTTOM)
-                    val bookmarked: RadioButton = dialog.findViewById(R.id.bookmarked)
-                    val titleName: RadioButton = dialog.findViewById(R.id.title_name)
-                    val newest: RadioButton = dialog.findViewById(R.id.newest)
-                    val oldest: RadioButton = dialog.findViewById(R.id.oldest)
-
-                    bookmarked.setOnClickListener {
-                        viewModel.onSortOrderSelected(SortOrder.BOOKMARKED)
-                    }
-                    titleName.setOnClickListener {
-                        viewModel.onSortOrderSelected(SortOrder.TITLE_ASC)
-                    }
-                    newest.setOnClickListener {
-                        viewModel.onSortOrderSelected(SortOrder.NEW_TO_OLD)
-                    }
-                    oldest.setOnClickListener {
-                        viewModel.onSortOrderSelected(SortOrder.OLD_TO_NEW)
-                    }
-                }
             }
+            newNote.setOnClickListener {
+                viewModel.onAddNewTaskClick()
+            }
+//            sortBy.setOnClickListener {
+//                dialog.show()
+//                bookmarked.setOnClickListener {
+//                    viewModel.onSortOrderSelected(SortOrder.BOOKMARKED)
+//                }
+//                titleName.setOnClickListener {
+//                    viewModel.onSortOrderSelected(SortOrder.TITLE_ASC)
+//                }
+//                newest.setOnClickListener {
+//                    viewModel.onSortOrderSelected(SortOrder.NEW_TO_OLD)
+//                }
+//                oldest.setOnClickListener {
+//                    viewModel.onSortOrderSelected(SortOrder.OLD_TO_NEW)
+//                }
+//            }
+
             setFragmentResultListener("add_edit_delete_request") { _, bundle ->
                 val result = bundle.getInt("add_edit_delete_result")
                 viewModel.onAddEditResult(result)
             }
 
             viewModel.note.observe(viewLifecycleOwner) {
+                println("Observed live data")
+                noteAdapter.submitList(it)
+
                 if (it.isNullOrEmpty()) {
                     emptyNotes.emptyNotesError.visibility = View.VISIBLE
                 } else {
                     emptyNotes.emptyNotesError.visibility = View.GONE
                 }
-                noteAdapter.submitList(it)
+
 
             }
 
+            topAppBar.setNavigationOnClickListener {
+                // Handle navigation icon press
+                drawerLayout?.openDrawer(Gravity.LEFT)
+            }
+
+            topAppBar.setOnMenuItemClickListener { menuItem ->
+                when (menuItem.itemId) {
+                    R.id.sort -> {
+                        // Handle search icon press
+                        Snackbar.make(requireView(), "Sort", Snackbar.LENGTH_SHORT).show()
+                        dialog.show()
+                        bookmarked.setOnClickListener {
+                            viewModel.onSortOrderSelected(SortOrder.BOOKMARKED)
+                        }
+                        titleName.setOnClickListener {
+                            viewModel.onSortOrderSelected(SortOrder.TITLE_ASC)
+                        }
+                        newest.setOnClickListener {
+                            viewModel.onSortOrderSelected(SortOrder.NEW_TO_OLD)
+                        }
+                        oldest.setOnClickListener {
+                            viewModel.onSortOrderSelected(SortOrder.OLD_TO_NEW)
+                        }
+                        true
+                    }
+                    R.id.profile -> {
+                        // Handle favorite icon press
+                        Snackbar.make(requireView(), "Search", Snackbar.LENGTH_SHORT).show()
+
+                        true
+                    }
+                    else -> false
+                }
+            }
         }
 
 
@@ -231,9 +267,11 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
                 }.exhaustive
             }
         }
+
+
     }
 
-    private fun observeGridLayout() {
+    private fun observeGridLayout(): RecyclerView.LayoutManager? {
         val sharedPreferences = context?.getSharedPreferences("grid", Context.MODE_PRIVATE)
         sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
         val grid = sharedPreferences?.getBoolean("grid", false)
@@ -260,8 +298,10 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
                 binding.gridView.isChecked = false
 
             }
-            else -> {}
+            else -> {gridLayoutManager}
+
         }
+        return gridLayoutManager
     }
 
     override fun onItemClick(noteEntity: NoteEntity) {
@@ -295,5 +335,34 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
         if (key.equals("grid")) {
             observeGridLayout()
         }
+    }
+
+
+    private var radioGroupOnCheckedChangeListener: RadioGroup.OnCheckedChangeListener =
+        RadioGroup.OnCheckedChangeListener { _, checkedId ->
+            val checkedRadioButton = radioGroup.findViewById<View>(checkedId) as RadioButton
+            val checkedIndex = radioGroup.indexOfChild(checkedRadioButton)
+            viewModel.updateSortOrderIsChecked(checkedIndex)
+        }
+
+    private fun displaySortByDialog(){
+        dialog = Dialog(requireContext())
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.sortby_dialog)
+
+        dialog.window?.setLayout(
+            ViewGroup.LayoutParams.MATCH_PARENT,
+            ViewGroup.LayoutParams.WRAP_CONTENT,
+        )
+//                    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        dialog.window?.setGravity(Gravity.BOTTOM)
+        bookmarked = dialog.findViewById(R.id.bookmarked)
+        titleName = dialog.findViewById(R.id.title_name)
+        newest = dialog.findViewById(R.id.newest)
+        oldest = dialog.findViewById(R.id.oldest)
+
+        radioGroup = dialog.findViewById(R.id.radioGroup);
+        radioGroup.setOnCheckedChangeListener(radioGroupOnCheckedChangeListener);
     }
 }

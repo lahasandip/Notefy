@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/sort"
+        android:icon="@drawable/ic_baseline_filter_list_24"
+        app:showAsAction="always"
+        android:title="TODO" />
+
+    <item
+        android:id="@+id/profile"
+        app:actionLayout="@layout/profile_photo"
+        app:showAsAction="always"
+        android:title="TODsO" />
+
+
+</menu>

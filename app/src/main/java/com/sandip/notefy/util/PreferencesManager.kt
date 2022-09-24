@@ -20,7 +20,6 @@ enum class SortOrder { BOOKMARKED, TITLE_ASC, NEW_TO_OLD, OLD_TO_NEW}
 enum class UiMode { LIGHT, DARK }
 //enum class Biometric { ENABLE, DISABLE }
 
-
 data class FilterPreferences(val sortOrder: SortOrder)
 
 @Singleton
@@ -45,6 +44,7 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             val sortOrder = SortOrder.valueOf(
                 preference1[PreferencesKeys.SORT_ORDER] ?: SortOrder.TITLE_ASC.name
             )
+
             FilterPreferences(sortOrder)
 
         }
@@ -95,12 +95,31 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             val language = preference4[LANGUAGE] ?: 0
             language
         }
-
+    val isChecked = dataStore.data
+        .catch {
+            if (it is IOException) {
+                it.printStackTrace()
+                emit(emptyPreferences())
+            } else {
+                throw it
+            }
+        }
+        .map { preference2 ->
+            val isChecked = preference2[PreferencesKeys.SORT_ORDER_CHECKED] ?: 0
+            isChecked
+        }
     suspend fun updateSortOrder(sortOrder: SortOrder) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.SORT_ORDER] = sortOrder.name
+
         }
     }
+
+    suspend fun updateSortOrderIsChecked(isChecked: Int) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.SORT_ORDER_CHECKED] = isChecked        }
+    }
+
     suspend fun setUiMode(uiMode: UiMode) {
         dataStore.edit { preferences ->
             preferences[IS_DARK_MODE] = when (uiMode) {
@@ -126,6 +145,8 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
 
     private object PreferencesKeys {
         val SORT_ORDER = stringPreferencesKey("sort_order")
+        val SORT_ORDER_CHECKED = intPreferencesKey("sort_order_checked")
+
 
     }
 }

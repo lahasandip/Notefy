@@ -79,6 +79,7 @@
         <entry key="app/src/main/res/drawable/round_image.xml" value="0.1555" />
         <entry key="app/src/main/res/drawable/roundedbutton.xml" value="0.279" />
         <entry key="app/src/main/res/drawable/todo_popup.xml" value="0.266" />
+        <entry key="app/src/main/res/layout-v23/fragment_new_update_note.xml" value="0.33055555555555555" />
         <entry key="app/src/main/res/layout/activity_action1.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/activity_alarm.xml" value="0.3046875" />
         <entry key="app/src/main/res/layout/activity_alert_status.xml" value="0.3609375" />
@@ -88,8 +89,9 @@
         <entry key="app/src/main/res/layout/add_features_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/add_image_dialog.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/add_tick.xml" value="0.3609375" />
-        <entry key="app/src/main/res/layout/add_tick_display_note.xml" value="0.46563573883161513" />
+        <entry key="app/src/main/res/layout/add_tick_display_note.xml" value="0.33" />
         <entry key="app/src/main/res/layout/app_bar_main.xml" value="0.38446969696969696" />
+        <entry key="app/src/main/res/layout/backup_fragment_home.xml" value="0.29615384615384616" />
         <entry key="app/src/main/res/layout/biometric_toggle_button.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/choose_language.xml" value="0.32864583333333336" />
         <entry key="app/src/main/res/layout/color_popup.xml" value="0.2838541666666667" />
@@ -106,24 +108,28 @@
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_languages.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_navigation_drawer.xml" value="0.3302083333333333" />
+        <entry key="app/src/main/res/layout/fragment_new_update.xml" value="0.15555555555555556" />
         <entry key="app/src/main/res/layout/fragment_new_update_note.xml" value="0.33" />
         <entry key="app/src/main/res/layout/fragment_recycle_bin.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_screen_locked.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_settings.xml" value="0.3296875" />
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_todo.xml" value="0.3609375" />
-        <entry key="app/src/main/res/layout/fragment_user.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/fragment_user.xml" value="0.33" />
         <entry key="app/src/main/res/layout/help_card.xml" value="0.35989583333333336" />
         <entry key="app/src/main/res/layout/language_card.xml" value="0.1" />
         <entry key="app/src/main/res/layout/nav_header.xml" value="0.3609375" />
+        <entry key="app/src/main/res/layout/new_fragment_home.xml" value="0.2952991452991453" />
         <entry key="app/src/main/res/layout/new_note.xml" value="0.5" />
         <entry key="app/src/main/res/layout/note.xml" value="0.2957345971563981" />
-        <entry key="app/src/main/res/layout/sortby_dialog.xml" value="0.5" />
+        <entry key="app/src/main/res/layout/profile_photo.xml" value="0.1" />
+        <entry key="app/src/main/res/layout/sortby_dialog.xml" value="0.33" />
         <entry key="app/src/main/res/layout/todo_listview.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/toggle_button.xml" value="0.35989583333333336" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.3553846153846154" />
         <entry key="app/src/main/res/menu/main.xml" value="0.3609375" />
         <entry key="app/src/main/res/menu/navigation_drawer.xml" value="0.3609375" />
+        <entry key="app/src/main/res/menu/top_app_bar.xml" value="0.33" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/flag_usa_round.xml" value="0.1715" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1725" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1725" />

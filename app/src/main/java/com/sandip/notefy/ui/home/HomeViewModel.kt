@@ -23,9 +23,10 @@ class HomeViewModel @Inject constructor(
     private val preferencesManager: PreferencesManager,
     private val state: SavedStateHandle
 ): ViewModel() {
-//    val searchQuery = state.getLiveData("searchQuery", "")
+    val searchQuery = state.getLiveData("searchQuery", "")
 
     val preferencesFlow = preferencesManager.preferencesFlow
+    val isChecked = preferencesManager.isChecked
 
     private val tasksEventChannel = Channel<TasksEvent>()
     val tasksEvent = tasksEventChannel.receiveAsFlow()
@@ -43,6 +44,11 @@ class HomeViewModel @Inject constructor(
 
     fun onSortOrderSelected(sortOrder: SortOrder) = viewModelScope.launch {
         preferencesManager.updateSortOrder(sortOrder)
+
+    }
+    fun updateSortOrderIsChecked(index:Int) = viewModelScope.launch {
+        preferencesManager.updateSortOrderIsChecked(index)
+
     }
 
     fun onAddNewTaskClick() = viewModelScope.launch {

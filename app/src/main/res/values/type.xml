@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="TextAppearance.App.CollapsingToolbar.Expanded" parent="Widget.AppCompat.SearchView.ActionBar">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+    <style name="TextAppearance.App.CollapsingToolbar.Collapsed" parent="Widget.AppCompat.SearchView.ActionBar">
+        <item name="android:textColor">?attr/colorOnPrimary</item>
+    </style>
+
+</resources>
