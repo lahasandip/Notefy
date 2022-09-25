@@ -5,15 +5,21 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:theme="@style/Dialog"
     android:background="@drawable/popup_background">
+    <View
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:layout_gravity="center"
+       />
 
     <TextView
         android:id="@+id/choosetxt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAlignment="center"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="15dp"
+        android:layout_gravity="center"
         android:text="@string/sort_by"
         android:textSize="20dp"
         android:textStyle="bold"/>

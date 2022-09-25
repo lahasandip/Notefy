@@ -19,6 +19,9 @@
             android:id="@+id/action_home_to_new_update_note"
             app:destination="@id/new_update_note"
             />
+        <action
+            android:id="@+id/action_home_to_user"
+            app:destination="@id/user" />
     </fragment>
 
     <fragment

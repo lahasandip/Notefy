@@ -9,8 +9,8 @@
 
     <ImageView
         android:id="@+id/errorImage"
-        android:layout_width="90dp"
-        android:layout_height="100dp"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/error_notes"
         app:layout_constraintEnd_toEndOf="parent"

@@ -4,15 +4,20 @@ import android.app.Dialog
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
+import android.widget.FrameLayout
 import android.widget.ImageView
 import android.widget.RadioButton
 import android.widget.RadioGroup
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.MenuItemCompat.getActionProvider
+import androidx.core.view.MenuItemCompat.getActionView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -189,16 +194,24 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
 
             }
 
+
             topAppBar.setNavigationOnClickListener {
                 // Handle navigation icon press
                 drawerLayout?.openDrawer(Gravity.LEFT)
             }
 
+            val prof  = view.findViewById<ImageView>(R.id.profile_photo)
+            prof.setOnClickListener {
+                Snackbar.make(requireView(), "Profile clicked", Snackbar.LENGTH_LONG)
+
+                viewModel.onProfileClick()
+            }
+
             topAppBar.setOnMenuItemClickListener { menuItem ->
+
                 when (menuItem.itemId) {
+
                     R.id.sort -> {
-                        // Handle search icon press
-                        Snackbar.make(requireView(), "Sort", Snackbar.LENGTH_SHORT).show()
                         dialog.show()
                         bookmarked.setOnClickListener {
                             viewModel.onSortOrderSelected(SortOrder.BOOKMARKED)
@@ -214,12 +227,17 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
                         }
                         true
                     }
-                    R.id.profile -> {
-                        // Handle favorite icon press
-                        Snackbar.make(requireView(), "Search", Snackbar.LENGTH_SHORT).show()
+//                    R.id.profile -> {
+//                        // Handle favorite icon press
+//
+//
+////                        viewModel.onProfileClick()
+//                        Snackbar.make(requireView(), "Profile clicked", Snackbar.LENGTH_LONG)
+//
+//
+//                        true
+//                    }
 
-                        true
-                    }
                     else -> false
                 }
             }
@@ -262,6 +280,11 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
                                 "note",
                                 null,
                             )
+                        findNavController().navigate(action)
+                    }
+                    is HomeViewModel.TasksEvent.NavigateToUserScreen -> {
+                        val action =
+                            HomeDirections.actionHomeToUser()
                         findNavController().navigate(action)
                     }
                 }.exhaustive
@@ -354,7 +377,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
         )
-//                    dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         dialog.window?.setGravity(Gravity.BOTTOM)
         bookmarked = dialog.findViewById(R.id.bookmarked)

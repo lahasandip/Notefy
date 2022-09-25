@@ -98,7 +98,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
         )
-//                todoDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                todoDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         todoDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         todoDialog.window?.setGravity(Gravity.CENTER)
 
@@ -300,7 +300,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                 )
-//                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                 dialog.window?.setGravity(Gravity.BOTTOM)
                 val reminder: LinearLayout = dialog.findViewById(R.id.add_reminder_layout)
@@ -331,7 +331,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                 )
-//                colorDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                colorDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 colorDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                 colorDialog.window?.setGravity(Gravity.BOTTOM)
 
@@ -710,7 +710,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     ViewGroup.LayoutParams.WRAP_CONTENT,
                 )
-//                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                 dialog.window?.setGravity(Gravity.BOTTOM)
                 val camera: LinearLayout = dialog.findViewById(R.id.take_photo)

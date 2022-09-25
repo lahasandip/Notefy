@@ -54,6 +54,10 @@ class HomeViewModel @Inject constructor(
     fun onAddNewTaskClick() = viewModelScope.launch {
         tasksEventChannel.send(TasksEvent.NavigateToAddTaskScreen)
     }
+    fun onProfileClick() = viewModelScope.launch {
+        tasksEventChannel.send(TasksEvent.NavigateToUserScreen)
+    }
+
     fun onTaskSelected(noteEntity: NoteEntity) = viewModelScope.launch {
         tasksEventChannel.send(TasksEvent.NavigateToEditTaskScreen(noteEntity))
     }
@@ -92,6 +96,8 @@ class HomeViewModel @Inject constructor(
     sealed class TasksEvent {
         object NavigateToAddTaskScreen : TasksEvent()
         object NavigateToDrawer : TasksEvent()
+        object NavigateToUserScreen : TasksEvent()
+
 
         data class NavigateToEditTaskScreen(val noteEntity: NoteEntity) : TasksEvent()
         data class ShowTaskSavedConfirmationMessage(val msg: String) : TasksEvent()

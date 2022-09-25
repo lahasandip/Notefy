@@ -68,11 +68,12 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     }
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        preferencesManager = PreferencesManager(applicationContext)
+
         installSplashScreen()
+        super.onCreate(savedInstanceState)
         Log.d("Sandip", "oncreate called")
 
-        preferencesManager = PreferencesManager(applicationContext)
 
 
 

@@ -13,7 +13,7 @@
         android:id="@+id/profile"
         app:actionLayout="@layout/profile_photo"
         app:showAsAction="always"
-        android:title="TODsO" />
+        android:title="" />
 
 
 </menu>
