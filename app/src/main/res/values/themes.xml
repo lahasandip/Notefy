@@ -41,6 +41,10 @@
         <item name="android:background">@color/white</item>
     </style>
 
+    <style name="ProfileView" parent="">
+        <item name="android:background">#dddddd</item>
+    </style>
+
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
 <!--        <item name="windowSplashScreenBackground">#9575cd</item>-->
         <item name="windowSplashScreenBackground">@color/teal_200</item>

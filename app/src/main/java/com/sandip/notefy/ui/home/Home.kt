@@ -12,13 +12,8 @@ import android.view.Gravity
 import android.view.View
 import android.view.ViewGroup
 import android.view.Window
-import android.widget.FrameLayout
-import android.widget.ImageView
-import android.widget.RadioButton
-import android.widget.RadioGroup
+import android.widget.*
 import androidx.appcompat.widget.SearchView
-import androidx.core.view.MenuItemCompat.getActionProvider
-import androidx.core.view.MenuItemCompat.getActionView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -27,6 +22,9 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
 import com.bumptech.glide.Glide
+import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.google.android.material.bottomsheet.BottomSheetBehavior.BottomSheetCallback
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
 import com.sandip.notefy.data.NoteEntity
@@ -56,8 +54,14 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
 //        val profile_photo = view.findViewById<ImageView>(R.id.profile_photo)
+
+
+
         val drawerLayout = MainActivity.drawerLayout
         displaySortByDialog()
+
+
+//
 
 //        profile_photo.setOnClickListener {
 //            drawerLayout?.openDrawer(Gravity.LEFT)
@@ -250,6 +254,28 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
                     else -> false
                 }
             }
+//            val bottomSheet: LinearLayout = view.findViewById(R.id.bottom)
+//        val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
+//
+//        bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetCallback() {
+//            override fun onStateChanged(view: View, i: Int) {
+//                // ..
+//                // your code is here
+//            }
+//
+//            override fun onSlide(view: View, v: Float) {
+//                // ..
+//                // animating the view on top of Bottom Sheet
+//                binding.fragmentHome.animate()
+//                    .y(
+//                        (if (v <= 0)
+//                            view.y + bottomSheetBehavior.peekHeight - binding.fragmentHome.height
+//                        else
+//                            view.height -  binding.fragmentHome.height).toFloat()
+//                    )
+//                    .setDuration(0).start()
+//            }
+//        })
         }
 
 
@@ -378,10 +404,9 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
         }
 
     private fun displaySortByDialog(){
-        dialog = Dialog(requireContext())
+        dialog = BottomSheetDialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.sortby_dialog)
-
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.MATCH_PARENT,
             ViewGroup.LayoutParams.WRAP_CONTENT,
@@ -397,4 +422,5 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
         radioGroup = dialog.findViewById(R.id.radioGroup);
         radioGroup.setOnCheckedChangeListener(radioGroupOnCheckedChangeListener);
     }
+
 }

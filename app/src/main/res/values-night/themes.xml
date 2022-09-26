@@ -38,6 +38,11 @@
     <style name="LanguageCard" parent="Widget.MaterialComponents.CardView">
         <item name="android:backgroundTint">#424242</item>
     </style>
+
+    <style name="ProfileView" parent="">
+        <item name="android:background">#757575</item>
+    </style>
+
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">#424242</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_baseline_edit_note_24</item>

@@ -30,6 +30,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -90,7 +91,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 }
             }
         //Todo list view popup
-        val todoDialog = Dialog(requireContext())
+       val todoDialog = BottomSheetDialog(requireContext())
         todoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         todoDialog.setContentView(R.layout.todo_listview)
 //        todoDialog.show()
@@ -229,7 +230,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 recylerView?.layoutManager = LinearLayoutManager(context)
                 recylerView?.adapter = todoAdapter
                 taskLayout.visibility = View.VISIBLE
-                btn.visibility=View.VISIBLE
+                btn?.visibility=View.VISIBLE
 
             }
             noteEdited.append("${
@@ -292,7 +293,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
             addFeatures.setOnClickListener {
 //                viewModel.onAddFeaturesClick()
-                val dialog = Dialog(requireContext())
+                val dialog = BottomSheetDialog(requireContext())
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog.setContentView(R.layout.add_features_dialog)
                 dialog.show()
@@ -303,19 +304,19 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                 dialog.window?.setGravity(Gravity.BOTTOM)
-                val reminder: LinearLayout = dialog.findViewById(R.id.add_reminder_layout)
-                val place: LinearLayout = dialog.findViewById(R.id.add_place_layout)
-                val url: LinearLayout = dialog.findViewById(R.id.add_url_layout)
-                reminder.setOnClickListener {
+                val reminder: LinearLayout? = dialog.findViewById(R.id.add_reminder_layout)
+                val place: LinearLayout? = dialog.findViewById(R.id.add_place_layout)
+                val url: LinearLayout? = dialog.findViewById(R.id.add_url_layout)
+                reminder?.setOnClickListener {
 //                    viewModel.onReminderClick()
                     dialog.dismiss()
                     datePicker.show(childFragmentManager, "Date_Picker")
                 }
-                place.setOnClickListener {
+                place?.setOnClickListener {
                     dialog.dismiss()
                     showAlert("place")
                 }
-                url.setOnClickListener {
+                url?.setOnClickListener {
                     dialog.dismiss()
                     showAlert("url")
                 }
@@ -323,7 +324,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
             }
             addColor.setOnClickListener {
-                val colorDialog = Dialog(requireContext())
+                val colorDialog = BottomSheetDialog(requireContext())
                 colorDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 colorDialog.setContentView(R.layout.add_color_dialog)
                 colorDialog.show()
@@ -336,9 +337,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 colorDialog.window?.setGravity(Gravity.BOTTOM)
 
 
-                val frame_white: FrameLayout = colorDialog.findViewById(R.id.frame_white)
-                val white: ImageView = colorDialog.findViewById(R.id.white)
-                white.setImageResource(R.drawable.ic_baseline_done_24)
+//                val frame_white: FrameLayout = colorDialog.findViewById(R.id.frame_white)
+//                val white: ImageView = colorDialog.findViewById(R.id.white)
+//                white.setImageResource(R.drawable.ic_baseline_done_24)
 
 //                val frame_lightsteelblue: FrameLayout =
 //                    colorDialog.findViewById(R.id.frame_lightsteelblue)
@@ -393,7 +394,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 //                val frame_violet: FrameLayout = colorDialog.findViewById(R.id.frame_violet)
 //                val violet: ImageView = colorDialog.findViewById(R.id.violet)
 //
-                val colorPicker: Button = colorDialog.findViewById(R.id.color_picker)
+                val colorPicker: Button? = colorDialog.findViewById(R.id.color_picker)
 //
 //                frame_white.setOnClickListener {
 //                    white.setImageResource(R.drawable.ic_baseline_done_24)
@@ -679,7 +680,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 //                    thistle.setImageResource(0)
 //                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#EFC9FE"))
 //                }
-                colorPicker.setOnClickListener {
+                colorPicker?.setOnClickListener {
                     colorDialog.dismiss()
                     val picker: ColorPickerDialog = ColorPickerDialog.Builder()
                         .setInitialColor(121212)
@@ -702,7 +703,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                         it1
                     )
                 }
-                val dialog = Dialog(requireContext())
+                val dialog = BottomSheetDialog(requireContext())
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog.setContentView(R.layout.add_image_dialog)
                 dialog.show()
@@ -713,8 +714,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                 dialog.window?.setGravity(Gravity.BOTTOM)
-                val camera: LinearLayout = dialog.findViewById(R.id.take_photo)
-                camera.setOnClickListener {
+                val camera: LinearLayout ?= dialog.findViewById(R.id.take_photo)
+                camera?.setOnClickListener {
                     dialog.dismiss()
                     with?.crop()
                     with?.cameraOnly()
@@ -727,8 +728,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 //                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
                 }
-                    val image: LinearLayout = dialog.findViewById(R.id.add_photo)
-                    image.setOnClickListener {
+                    val image: LinearLayout? = dialog.findViewById(R.id.add_photo)
+                    image?.setOnClickListener {
                         dialog.dismiss()
 //                    val i = Intent()
 //                    i.type = "image/*"
@@ -789,9 +790,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 todoDialog.show()
             }
 
-            addToList.setOnClickListener {
-                if(!(descriptionTodo.text.isNullOrEmpty())) {
-                    todoList.add(Todo(checkBoxTodo.isChecked, descriptionTodo.text.toString()))
+            addToList?.setOnClickListener {
+                if(!(descriptionTodo?.text.isNullOrEmpty())) {
+                    todoList.add(Todo(checkBoxTodo?.isChecked, descriptionTodo?.text.toString()))
                     todoAdapter = NewUpdateAdapter(requireContext(), todoList)
                     recylerView?.setHasFixedSize(true)
                     recylerView?.layoutManager = LinearLayoutManager(context)
@@ -801,11 +802,11 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 }
 
 
-                descriptionTodo.setText("")
-                checkBoxTodo.isChecked = false
+                descriptionTodo?.setText("")
+                checkBoxTodo?.isChecked = false
                 println("My todo list $todoList")
             }
-            btn.setOnClickListener {
+            btn?.setOnClickListener {
                 todoDialog.dismiss()
                 if(!(todoList.isNullOrEmpty())){
                     binding.taskLayout.visibility = View.VISIBLE
@@ -949,20 +950,24 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
     private fun showAlert(s: String) {
         val builder = context?.let { AlertDialog.Builder(it) }
-        val input = EditText(context)
-        input.inputType = InputType.TYPE_TEXT_VARIATION_URI
-        input.background = null
+//        val input = EditText(context)
+//        input.inputType = InputType.TYPE_TEXT_VARIATION_URI or InputType.TYPE_CLASS_TEXT
+//        input.background = null
+//        input.requestFocus()
+        val input = layoutInflater.inflate(R.layout.alert_edittext, null)
+        val editText = input.findViewById<EditText>(R.id.input)
+        editText.requestFocus()
         builder?.setView(input)
 
         if(s=="url"){
             builder?.setTitle("URL")
-            input.hint = "https://"
+            editText?.hint = "https://www.google.com"
             builder?.setPositiveButton(
                 "OK"
             ) {
                     _, _ ->
-                if(input.text.isNotEmpty()) {
-                    binding.urlLink.text = input.text.toString()
+                if(editText?.text?.isNotEmpty() == true) {
+                    binding.urlLink.text = editText?.text.toString()
                     binding.urlParentLayout.visibility = View.VISIBLE
                 }
                 else{
@@ -975,13 +980,13 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         }
         else if(s=="place"){
             builder?.setTitle("Place")
-            input.hint = ""
+            editText?.hint = "New York, United States"
             builder?.setPositiveButton(
                 "OK"
             ) {
                     _, _ ->
-                if(input.text.isNotEmpty()) {
-                    binding.placeInput.text = input.text.toString()
+                if(editText?.text?.isNotEmpty() == true) {
+                    binding.placeInput.text = editText?.text.toString()
                     binding.locationParentLayout.visibility = View.VISIBLE
                 }
                 else{

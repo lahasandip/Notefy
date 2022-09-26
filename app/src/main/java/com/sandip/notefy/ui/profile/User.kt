@@ -23,6 +23,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
+import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.FragmentUserBinding
@@ -130,7 +131,7 @@ class User : Fragment(R.layout.fragment_user) {
                         it1
                     )
                 }
-                val dialog = Dialog(requireContext())
+                val dialog = BottomSheetDialog(requireContext())
                 dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog.setContentView(R.layout.add_image_dialog)
                 dialog.show()
@@ -141,8 +142,8 @@ class User : Fragment(R.layout.fragment_user) {
                 dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                 dialog.window?.setGravity(Gravity.BOTTOM)
-                val camera: LinearLayout = dialog.findViewById(R.id.take_photo)
-                camera.setOnClickListener {
+                val camera: LinearLayout? = dialog.findViewById(R.id.take_photo)
+                camera?.setOnClickListener {
                     dialog.dismiss()
                     with?.crop()
                     with?.cameraOnly()
@@ -153,8 +154,8 @@ class User : Fragment(R.layout.fragment_user) {
                         null
                     }
                 }
-                val image: LinearLayout = dialog.findViewById(R.id.add_photo)
-                image.setOnClickListener {
+                val image: LinearLayout? = dialog.findViewById(R.id.add_photo)
+                image?.setOnClickListener {
                     dialog.dismiss()
                     with?.crop()
                     with?.galleryOnly()

@@ -39,7 +39,7 @@
                     android:id="@+id/circleImageView"
                     android:layout_width="130dp"
                     android:layout_height="130dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="30dp"
                     android:src="@drawable/img_1"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
@@ -91,7 +91,7 @@
                     android:id="@+id/cardView2"
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
-                    android:layout_marginTop="25dp"
+                    android:layout_marginTop="30dp"
                     app:cardCornerRadius="10dp"
                     android:layout_marginStart="35dp"
                     android:layout_marginEnd="35dp"
@@ -135,6 +135,7 @@
                         </LinearLayout>
 
                         <LinearLayout
+                            android:id="@+id/linearLayout"
                             android:layout_width="wrap_content"
                             android:layout_height="50dp"
                             android:orientation="vertical"
@@ -156,10 +157,9 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Reminders"
                                 android:layout_marginTop="2dp"
-                                android:textSize="12dp"
-                                />
+                                android:text="Reminders"
+                                android:textSize="12dp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -191,6 +191,26 @@
                                 android:textSize="12dp"
                                 />
                         </LinearLayout>
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:orientation="vertical"
+                            android:theme="@style/ProfileView"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+                            app:layout_constraintStart_toEndOf="@+id/linearLayout3"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <View
+                            android:layout_width="1dp"
+                            android:layout_height="25dp"
+                            android:orientation="vertical"
+                            android:theme="@style/ProfileView"                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
+                            app:layout_constraintStart_toEndOf="@+id/linearLayout"
+                            app:layout_constraintTop_toTopOf="parent" />
+
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -200,7 +220,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="50dp"
                     android:layout_marginEnd="50dp"
-                    android:layout_marginTop="40dp"
+                    android:layout_marginTop="60dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cardView2">
@@ -298,7 +318,7 @@
                     android:id="@+id/save"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="80dp"
+                    android:layout_marginTop="60dp"
                     android:layout_marginStart="35dp"
                     android:layout_marginEnd="35dp"
                     android:text="Save"
