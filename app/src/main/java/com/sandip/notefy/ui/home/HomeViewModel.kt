@@ -4,6 +4,7 @@ package com.sandip.notefy.ui.home
 import androidx.lifecycle.*
 import com.sandip.notefy.data.NoteDao
 import com.sandip.notefy.data.NoteEntity
+import com.sandip.notefy.data.UserDao
 import com.sandip.notefy.ui.ADD_TASK_RESULT_OK
 import com.sandip.notefy.ui.DELETE_TASK_RESULT_OK
 import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK
@@ -20,10 +21,12 @@ import javax.inject.Inject
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val noteDao: NoteDao,
+    userDao: UserDao,
     private val preferencesManager: PreferencesManager,
-    private val state: SavedStateHandle
+    state: SavedStateHandle
 ): ViewModel() {
     val searchQuery = state.getLiveData("searchQuery", "")
+    val displayUser = userDao.getUser()
 
     val preferencesFlow = preferencesManager.preferencesFlow
     val isChecked = preferencesManager.isChecked

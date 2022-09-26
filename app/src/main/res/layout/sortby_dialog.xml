@@ -1,17 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/Dialog"
     android:background="@drawable/popup_background">
-    <View
+    <androidx.cardview.widget.CardView
         android:layout_width="40dp"
         android:layout_height="4dp"
+        android:elevation="0dp"
         android:layout_gravity="center"
-       />
+        android:theme="@style/DialogView"
+        />
 
     <TextView
         android:id="@+id/choosetxt"
@@ -23,13 +24,13 @@
         android:text="@string/sort_by"
         android:textSize="20dp"
         android:textStyle="bold"/>
-    <View
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="10dp"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:background="#dddddd" />
+        android:theme="@style/DialogView" />
 
     <!--    <androidx.constraintlayout.widget.ConstraintLayout-->
     <!--        android:id="@+id/bookmarked"-->
@@ -196,7 +197,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
-        android:layout_marginTop="5dp">
+       >
 
         <ImageView
             android:id="@+id/imageView11"

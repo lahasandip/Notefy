@@ -1,18 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="wrap_content"
+    android:layout_width="55dp"
     android:layout_height="wrap_content"
     android:padding="5dp"
-   >
+    >
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_photo"
-
         android:layout_width="30dp"
-        android:layout_height="26dp"
+        android:layout_height="30dp"
         android:src="@drawable/pro"
-
-        android:layout_marginEnd="10dp"
+        android:layout_gravity="center"
+        android:layout_marginEnd="5dp"
         android:background="?attr/selectableItemBackgroundBorderless"
         />
 

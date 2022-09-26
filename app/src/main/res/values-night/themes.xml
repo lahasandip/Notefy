@@ -18,13 +18,26 @@
         <item name="colorControlActivated">@color/white</item>
         <item name="queryHint">@string/search_note</item>
         <item name="android:backgroundTint">#424242</item>
+        <item name="android:textSize">15sp</item>
+
+
     </style>
 
-    <style name="Dialog" parent="Widget.AppCompat.SearchView">
+    <style name="Dialog" parent="">
         <item name="android:backgroundTint">#424242</item>
     </style>
 
+    <style name="DialogView" parent="">
+        <item name="android:backgroundTint">#757575</item>
+    </style>
 
+    <style name="Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">#121212</item>
+    </style>
+
+    <style name="LanguageCard" parent="Widget.MaterialComponents.CardView">
+        <item name="android:backgroundTint">#424242</item>
+    </style>
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
         <item name="windowSplashScreenBackground">#424242</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_baseline_edit_note_24</item>

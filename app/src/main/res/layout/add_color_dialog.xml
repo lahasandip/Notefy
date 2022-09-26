@@ -6,28 +6,38 @@
     android:layout_height="match_parent"
     android:theme="@style/Dialog"
     android:background="@drawable/popup_background"
-    app:layout_behavior="@string/bottom_sheet_behavior">
+    >
+    <androidx.cardview.widget.CardView
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:elevation="0dp"
+        android:layout_gravity="center"
+        android:theme="@style/DialogView"
+        />
+
     <LinearLayout
         android:id="@+id/layoutEdit"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
         android:padding="8dp">
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/color"
             android:textSize="16sp"/>
-        <View
+        <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:layout_marginTop="10dp"
-            android:background="#dddddd" />
+            android:theme="@style/DialogView" />
     </LinearLayout>
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:scrollbars="none">
+        android:scrollbars="none"
+       >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -37,276 +47,238 @@
             <FrameLayout
                 android:id="@+id/frame_white"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-                <View
+                android:layout_height="35dp">
+                <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
-                    android:background="@drawable/color_white" />
+                    app:cardCornerRadius="20sp" />
                 <ImageView
                     android:id="@+id/white"
                     android:layout_width="22sp"
                     android:layout_height="22sp"
                     android:layout_gravity="center"
-              />
+                    android:elevation="2dp"
+                    />
             </FrameLayout>
             <FrameLayout
-                android:id="@+id/frame_lightsteelblue"
+                android:id="@+id/frame_lightsteelblue1"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
-                <View
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                >
+                <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
-                    android:background="@drawable/color_lightsteelblue" />
+                    app:cardCornerRadius="20sp"
+                    android:backgroundTint="@color/LightSteelBlue"/>
                 <ImageView
-                    android:id="@+id/lightsteelblue"
+                    android:id="@+id/lightsteelblue1"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
-                    android:background="@color/LightSteelBlue"
+                    android:elevation="2dp"
+                    android:backgroundTint="@color/LightSteelBlue"
                     app:tint="@color/black" />
             </FrameLayout>
-            <FrameLayout
-                android:id="@+id/frame_lightgoldenyellow"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
-                <View
-                    android:layout_width="33sp"
-                    android:layout_height="33sp"
-                    android:background="@drawable/color_lightgoldenyellow" />
-                <ImageView
-                    android:id="@+id/lightgoldenyellow"
-                    android:layout_width="20sp"
-                    android:layout_height="20sp"
-                    android:layout_gravity="center"
-                    android:background="@color/LightGoldenrodYellow"
-                    app:tint="@color/black" />
-            </FrameLayout>
-            <FrameLayout
-                android:id="@+id/frame_darkgrey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
-                <View
-                    android:layout_width="33sp"
-                    android:layout_height="33sp"
-                    android:background="@drawable/color_darkgrey" />
-                <ImageView
-                    android:id="@+id/darkgrey"
-                    android:layout_width="20sp"
-                    android:layout_height="20sp"
-                    android:layout_gravity="center"
-                    android:background="@color/DarkGray"
-                    app:tint="@color/black" />
-            </FrameLayout>
-            <FrameLayout
-                android:id="@+id/frame_powderblue"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
-                <View
-                    android:layout_width="33sp"
-                    android:layout_height="33sp"
-                    android:background="@drawable/color_powderblue" />
-                <ImageView
-                    android:id="@+id/powderblue"
-                    android:layout_width="20sp"
-                    android:layout_height="20sp"
-                    android:layout_gravity="center"
-                    android:background="@color/PowderBlue"
 
-                app:tint="@color/black" />
-            </FrameLayout>
             <FrameLayout
-                android:id="@+id/frame_rosybrown"
+                android:id="@+id/frame_lightsteelblue2"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
-                <View
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                >
+                <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
-                    android:background="@drawable/color_rosybrown" />
+                    app:cardCornerRadius="20sp"
+                    android:backgroundTint="@color/LightSteelBlue"/>
                 <ImageView
-                    android:id="@+id/rosybrown"
+                    android:id="@+id/lightsteelblue2"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
-                    android:background="@color/RosyBrown"
+                    android:elevation="2dp"
+                    android:backgroundTint="@color/LightSteelBlue"
                     app:tint="@color/black" />
             </FrameLayout>
+
             <FrameLayout
-                android:id="@+id/frame_palegoldenrod"
+                android:id="@+id/frame_lightsteelblue3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
-                <View
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                >
+                <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
-                    android:background="@drawable/color_palegoldenrod" />
+                    app:cardCornerRadius="20sp"
+                    android:backgroundTint="@color/LightSteelBlue"/>
                 <ImageView
-                    android:id="@+id/palegoldenrod"
+                    android:id="@+id/lightsteelblue3"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
-                    android:background="@color/PaleGoldenrod"
-                app:tint="@color/black" />
-            </FrameLayout>
-            <FrameLayout
-                android:id="@+id/frame_sandybrown"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
-                <View
-                    android:layout_width="33sp"
-                    android:layout_height="33sp"
-                    android:background="@drawable/color_sandybrown" />
-                <ImageView
-                    android:id="@+id/sandybrown"
-                    android:layout_width="20sp"
-                    android:layout_height="20sp"
-                    android:layout_gravity="center"
-                    android:background="@color/SandyBrown"
-                app:tint="@color/black" />
-            </FrameLayout>
-            <FrameLayout
-                android:id="@+id/frame_thistle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
-                <View
-                    android:layout_width="33sp"
-                    android:layout_height="33sp"
-                    android:background="@drawable/color_thistle" />
-                <ImageView
-                    android:id="@+id/thistle"
-                    android:layout_width="20sp"
-                    android:layout_height="20sp"
-                    android:layout_gravity="center"
-                    android:background="@color/Thistle"
+                    android:elevation="2dp"
+                    android:backgroundTint="@color/LightSteelBlue"
                     app:tint="@color/black" />
             </FrameLayout>
+
             <FrameLayout
-                android:id="@+id/frame_aquamarine"
+                android:id="@+id/frame_lightsteelblue4"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
-                <View
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                >
+                <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
-                    android:background="@drawable/color_aquamarine" />
+                    app:cardCornerRadius="20sp"
+                    android:backgroundTint="@color/LightSteelBlue"/>
                 <ImageView
-                    android:id="@+id/aquamarine"
+                    android:id="@+id/lightsteelblue4"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
-                    android:background="@color/Aquamarine"
-                app:tint="@color/black" />
-            </FrameLayout>
-            <FrameLayout
-                android:id="@+id/frame_lightcyan"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
-                <View
-                    android:layout_width="33sp"
-                    android:layout_height="33sp"
-                    android:background="@drawable/color_lightcyan" />
-                <ImageView
-                    android:id="@+id/lightcyan"
-                    android:layout_width="20sp"
-                    android:layout_height="20sp"
-                    android:layout_gravity="center"
-                    android:background="@color/LightCyan"
-                app:tint="@color/black" />
-            </FrameLayout>
-            <FrameLayout
-                android:id="@+id/frame_grey"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
-                <View
-                    android:layout_width="33sp"
-                    android:layout_height="33sp"
-                    android:background="@drawable/color_grey" />
-                <ImageView
-                    android:id="@+id/grey"
-                    android:layout_width="20sp"
-                    android:layout_height="20sp"
-                    android:layout_gravity="center"
-                    android:background="@color/Gray"
+                    android:elevation="2dp"
+                    android:backgroundTint="@color/LightSteelBlue"
                     app:tint="@color/black" />
             </FrameLayout>
+
             <FrameLayout
-                android:id="@+id/frame_lightgreen"
+                android:id="@+id/frame_lightsteelblue5"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
-                <View
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                >
+                <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
-                    android:background="@drawable/color_lightgreen" />
+                    app:cardCornerRadius="20sp"
+                    android:backgroundTint="@color/LightSteelBlue"/>
                 <ImageView
-                    android:id="@+id/lightgreen"
+                    android:id="@+id/lightsteelblue5"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
-                    android:background="@color/LightGreen"
-                app:tint="@color/black" />
+                    android:elevation="2dp"
+                    android:backgroundTint="@color/LightSteelBlue"
+                    app:tint="@color/black" />
             </FrameLayout>
+
             <FrameLayout
-                android:id="@+id/frame_violet"
+                android:id="@+id/frame_lightsteelblue6"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
-                <View
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                >
+                <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
-                    android:background="@drawable/color_violet" />
+                    app:cardCornerRadius="20sp"
+                    android:backgroundTint="@color/LightSteelBlue"/>
                 <ImageView
-                    android:id="@+id/violet"
+                    android:id="@+id/lightsteelblue6"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
-                    android:background="@color/Violet" />
-                app:tint="@color/black" />
+                    android:elevation="2dp"
+                    android:backgroundTint="@color/LightSteelBlue"
+                    app:tint="@color/black" />
             </FrameLayout>
+
             <FrameLayout
-                android:id="@+id/frame_palevioletred"
+                android:id="@+id/frame_lightsteelblue7"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp">
-                <View
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                >
+                <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
-                    android:background="@drawable/color_palevioletred" />
+                    app:cardCornerRadius="20sp"
+                    android:backgroundTint="@color/LightSteelBlue"/>
                 <ImageView
-                    android:id="@+id/palevioletred"
+                    android:id="@+id/lightsteelblue7"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
-                    android:background="@color/PaleVioletRed"
-                app:tint="@color/black" />
+                    android:elevation="2dp"
+                    android:backgroundTint="@color/LightSteelBlue"
+                    app:tint="@color/black" />
             </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/frame_lightsteelblue8"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                >
+                <androidx.cardview.widget.CardView
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    app:cardCornerRadius="20sp"
+                    android:backgroundTint="@color/LightSteelBlue"/>
+                <ImageView
+                    android:id="@+id/lightsteelblue8"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    android:elevation="2dp"
+                    android:backgroundTint="@color/LightSteelBlue"
+                    app:tint="@color/black" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/frame_lightsteelblue9"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                >
+                <androidx.cardview.widget.CardView
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    app:cardCornerRadius="20sp"
+                    android:backgroundTint="@color/LightSteelBlue"/>
+                <ImageView
+                    android:id="@+id/lightsteelblue9"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    android:elevation="2dp"
+                    android:backgroundTint="@color/LightSteelBlue"
+                    app:tint="@color/black" />
+            </FrameLayout>
+
+            <FrameLayout
+                android:id="@+id/frame_lightsteelblue0"
+                android:layout_width="wrap_content"
+                android:layout_height="35dp"
+                android:layout_marginLeft="10dp"
+                >
+                <androidx.cardview.widget.CardView
+                    android:layout_width="33sp"
+                    android:layout_height="33sp"
+                    app:cardCornerRadius="20sp"
+                    android:backgroundTint="@color/LightSteelBlue"/>
+                <ImageView
+                    android:id="@+id/lightsteelblue0"
+                    android:layout_width="20sp"
+                    android:layout_height="20sp"
+                    android:layout_gravity="center"
+                    android:elevation="2dp"
+                    android:backgroundTint="@color/LightSteelBlue"
+                    app:tint="@color/black" />
+            </FrameLayout>
+
         </LinearLayout>
     </HorizontalScrollView>
-    <LinearLayout
-        android:id="@+id/color_wheel"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
+
+    <Button
+        android:id="@+id/color_picker"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="8dp">
-            <Button
-                android:id="@+id/color_picker"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/more"
-                android:textAllCaps="false"
-                android:textSize="16sp"
-                style="@style/Widget.MaterialComponents.Button.TextButton"
-                />
-
-
-    </LinearLayout>
+        android:text="@string/more"
+        android:layout_gravity="bottom|center"
+        style="@style/Widget.MaterialComponents.Button.TextButton"/>
 </LinearLayout>
 

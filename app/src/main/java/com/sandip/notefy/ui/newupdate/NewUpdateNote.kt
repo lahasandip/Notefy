@@ -100,7 +100,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         )
                 todoDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         todoDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-        todoDialog.window?.setGravity(Gravity.CENTER)
+        todoDialog.window?.setGravity(Gravity.BOTTOM)
 
         val addToList = todoDialog.findViewById<ImageView>(R.id.addTodo)
         val checkBoxTodo =   todoDialog.findViewById<CheckBox>(R.id.todoCheck)
@@ -340,345 +340,345 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 val white: ImageView = colorDialog.findViewById(R.id.white)
                 white.setImageResource(R.drawable.ic_baseline_done_24)
 
-                val frame_lightsteelblue: FrameLayout =
-                    colorDialog.findViewById(R.id.frame_lightsteelblue)
-                val lightsteelblue: ImageView = colorDialog.findViewById(R.id.lightsteelblue)
-
-                val frame_aquamarine: FrameLayout =
-                    colorDialog.findViewById(R.id.frame_aquamarine)
-                val aquamarine: ImageView = colorDialog.findViewById(R.id.aquamarine)
-
-                val frame_grey: FrameLayout = colorDialog.findViewById(R.id.frame_grey)
-                val grey: ImageView = colorDialog.findViewById(R.id.grey)
-
-                val frame_darkgrey: FrameLayout = colorDialog.findViewById(R.id.frame_darkgrey)
-                val darkgrey: ImageView = colorDialog.findViewById(R.id.darkgrey)
-
-                val frame_lightcyan: FrameLayout =
-                    colorDialog.findViewById(R.id.frame_lightcyan)
-                val lightcyan: ImageView = colorDialog.findViewById(R.id.lightcyan)
-
-                val frame_lightgoldenyellow: FrameLayout =
-                    colorDialog.findViewById(R.id.frame_lightgoldenyellow)
-                val lightgoldenyellow: ImageView =
-                    colorDialog.findViewById(R.id.lightgoldenyellow)
-
-                val frame_lightgreen: FrameLayout =
-                    colorDialog.findViewById(R.id.frame_lightgreen)
-                val lightgreen: ImageView = colorDialog.findViewById(R.id.lightgreen)
-
-                val frame_palegoldenrod: FrameLayout =
-                    colorDialog.findViewById(R.id.frame_palegoldenrod)
-                val palegoldenrod: ImageView = colorDialog.findViewById(R.id.palegoldenrod)
-
-                val frame_palevioletred: FrameLayout =
-                    colorDialog.findViewById(R.id.frame_palevioletred)
-                val palevioletred: ImageView = colorDialog.findViewById(R.id.palevioletred)
-
-                val frame_powderblue: FrameLayout =
-                    colorDialog.findViewById(R.id.frame_powderblue)
-                val powderblue: ImageView = colorDialog.findViewById(R.id.powderblue)
-
-                val frame_rosybrown: FrameLayout =
-                    colorDialog.findViewById(R.id.frame_rosybrown)
-                val rosybrown: ImageView = colorDialog.findViewById(R.id.rosybrown)
-
-                val frame_sandybrown: FrameLayout =
-                    colorDialog.findViewById(R.id.frame_sandybrown)
-                val sandybrown: ImageView = colorDialog.findViewById(R.id.sandybrown)
-
-                val frame_thistle: FrameLayout = colorDialog.findViewById(R.id.frame_thistle)
-                val thistle: ImageView = colorDialog.findViewById(R.id.thistle)
-
-                val frame_violet: FrameLayout = colorDialog.findViewById(R.id.frame_violet)
-                val violet: ImageView = colorDialog.findViewById(R.id.violet)
-
+//                val frame_lightsteelblue: FrameLayout =
+//                    colorDialog.findViewById(R.id.frame_lightsteelblue)
+//                val lightsteelblue: ImageView = colorDialog.findViewById(R.id.lightsteelblue)
+//
+//                val frame_aquamarine: FrameLayout =
+//                    colorDialog.findViewById(R.id.frame_aquamarine)
+//                val aquamarine: ImageView = colorDialog.findViewById(R.id.aquamarine)
+//
+//                val frame_grey: FrameLayout = colorDialog.findViewById(R.id.frame_grey)
+//                val grey: ImageView = colorDialog.findViewById(R.id.grey)
+//
+//                val frame_darkgrey: FrameLayout = colorDialog.findViewById(R.id.frame_darkgrey)
+//                val darkgrey: ImageView = colorDialog.findViewById(R.id.darkgrey)
+//
+//                val frame_lightcyan: FrameLayout =
+//                    colorDialog.findViewById(R.id.frame_lightcyan)
+//                val lightcyan: ImageView = colorDialog.findViewById(R.id.lightcyan)
+//
+//                val frame_lightgoldenyellow: FrameLayout =
+//                    colorDialog.findViewById(R.id.frame_lightgoldenyellow)
+//                val lightgoldenyellow: ImageView =
+//                    colorDialog.findViewById(R.id.lightgoldenyellow)
+//
+//                val frame_lightgreen: FrameLayout =
+//                    colorDialog.findViewById(R.id.frame_lightgreen)
+//                val lightgreen: ImageView = colorDialog.findViewById(R.id.lightgreen)
+//
+//                val frame_palegoldenrod: FrameLayout =
+//                    colorDialog.findViewById(R.id.frame_palegoldenrod)
+//                val palegoldenrod: ImageView = colorDialog.findViewById(R.id.palegoldenrod)
+//
+//                val frame_palevioletred: FrameLayout =
+//                    colorDialog.findViewById(R.id.frame_palevioletred)
+//                val palevioletred: ImageView = colorDialog.findViewById(R.id.palevioletred)
+//
+//                val frame_powderblue: FrameLayout =
+//                    colorDialog.findViewById(R.id.frame_powderblue)
+//                val powderblue: ImageView = colorDialog.findViewById(R.id.powderblue)
+//
+//                val frame_rosybrown: FrameLayout =
+//                    colorDialog.findViewById(R.id.frame_rosybrown)
+//                val rosybrown: ImageView = colorDialog.findViewById(R.id.rosybrown)
+//
+//                val frame_sandybrown: FrameLayout =
+//                    colorDialog.findViewById(R.id.frame_sandybrown)
+//                val sandybrown: ImageView = colorDialog.findViewById(R.id.sandybrown)
+//
+//                val frame_thistle: FrameLayout = colorDialog.findViewById(R.id.frame_thistle)
+//                val thistle: ImageView = colorDialog.findViewById(R.id.thistle)
+//
+//                val frame_violet: FrameLayout = colorDialog.findViewById(R.id.frame_violet)
+//                val violet: ImageView = colorDialog.findViewById(R.id.violet)
+//
                 val colorPicker: Button = colorDialog.findViewById(R.id.color_picker)
-
-                frame_white.setOnClickListener {
-                    white.setImageResource(R.drawable.ic_baseline_done_24)
-                    lightsteelblue.setImageResource(0)
-                    aquamarine.setImageResource(0)
-                    grey.setImageResource(0)
-                    darkgrey.setImageResource(0)
-                    lightcyan.setImageResource(0)
-                    lightgoldenyellow.setImageResource(0)
-                    lightgreen.setImageResource(0)
-                    palegoldenrod.setImageResource(0)
-                    palevioletred.setImageResource(0)
-                    powderblue.setImageResource(0)
-                    rosybrown.setImageResource(0)
-                    sandybrown.setImageResource(0)
-                    thistle.setImageResource(0)
-                    violet.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(0)
-                }
-
-                frame_lightsteelblue.setOnClickListener {
-                    lightsteelblue.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                    aquamarine.setImageResource(0)
-                    grey.setImageResource(0)
-                    darkgrey.setImageResource(0)
-                    lightcyan.setImageResource(0)
-                    lightgoldenyellow.setImageResource(0)
-                    lightgreen.setImageResource(0)
-                    palegoldenrod.setImageResource(0)
-                    palevioletred.setImageResource(0)
-                    powderblue.setImageResource(0)
-                    rosybrown.setImageResource(0)
-                    sandybrown.setImageResource(0)
-                    thistle.setImageResource(0)
-                    violet.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#B0C4DE"))
-                }
-
-                frame_aquamarine.setOnClickListener {
-                    aquamarine.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                    lightsteelblue.setImageResource(0)
-                    grey.setImageResource(0)
-                    darkgrey.setImageResource(0)
-                    lightcyan.setImageResource(0)
-                    lightgoldenyellow.setImageResource(0)
-                    lightgreen.setImageResource(0)
-                    palegoldenrod.setImageResource(0)
-                    palevioletred.setImageResource(0)
-                    powderblue.setImageResource(0)
-                    rosybrown.setImageResource(0)
-                    sandybrown.setImageResource(0)
-                    thistle.setImageResource(0)
-                    violet.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#7FFFD4"))
-                }
-
-                frame_grey.setOnClickListener {
-                    grey.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                    lightsteelblue.setImageResource(0)
-                    aquamarine.setImageResource(0)
-                    darkgrey.setImageResource(0)
-                    lightcyan.setImageResource(0)
-                    lightgoldenyellow.setImageResource(0)
-                    lightgreen.setImageResource(0)
-                    palegoldenrod.setImageResource(0)
-                    palevioletred.setImageResource(0)
-                    powderblue.setImageResource(0)
-                    rosybrown.setImageResource(0)
-                    sandybrown.setImageResource(0)
-                    thistle.setImageResource(0)
-                    violet.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#E8E9EB"))
-                }
-
-                frame_darkgrey.setOnClickListener {
-                    darkgrey.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                    lightsteelblue.setImageResource(0)
-                    aquamarine.setImageResource(0)
-                    grey.setImageResource(0)
-                    lightcyan.setImageResource(0)
-                    lightgoldenyellow.setImageResource(0)
-                    lightgreen.setImageResource(0)
-                    palegoldenrod.setImageResource(0)
-                    palevioletred.setImageResource(0)
-                    powderblue.setImageResource(0)
-                    rosybrown.setImageResource(0)
-                    sandybrown.setImageResource(0)
-                    thistle.setImageResource(0)
-                    violet.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#A9A9A9"))
-                }
-
-                frame_lightcyan.setOnClickListener {
-                    lightcyan.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                    lightsteelblue.setImageResource(0)
-                    aquamarine.setImageResource(0)
-                    grey.setImageResource(0)
-                    darkgrey.setImageResource(0)
-                    lightgoldenyellow.setImageResource(0)
-                    lightgreen.setImageResource(0)
-                    palegoldenrod.setImageResource(0)
-                    palevioletred.setImageResource(0)
-                    powderblue.setImageResource(0)
-                    rosybrown.setImageResource(0)
-                    sandybrown.setImageResource(0)
-                    thistle.setImageResource(0)
-                    violet.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#E0FFFF"))
-                }
-
-                frame_lightgoldenyellow.setOnClickListener {
-                    lightgoldenyellow.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                    lightsteelblue.setImageResource(0)
-                    aquamarine.setImageResource(0)
-                    grey.setImageResource(0)
-                    darkgrey.setImageResource(0)
-                    lightcyan.setImageResource(0)
-                    lightgreen.setImageResource(0)
-                    palegoldenrod.setImageResource(0)
-                    palevioletred.setImageResource(0)
-                    powderblue.setImageResource(0)
-                    rosybrown.setImageResource(0)
-                    sandybrown.setImageResource(0)
-                    thistle.setImageResource(0)
-                    violet.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#FAFAD2"))
-                }
-
-                frame_lightgreen.setOnClickListener {
-                    lightgreen.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                    lightsteelblue.setImageResource(0)
-                    aquamarine.setImageResource(0)
-                    grey.setImageResource(0)
-                    darkgrey.setImageResource(0)
-                    lightcyan.setImageResource(0)
-                    lightgoldenyellow.setImageResource(0)
-                    palegoldenrod.setImageResource(0)
-                    palevioletred.setImageResource(0)
-                    powderblue.setImageResource(0)
-                    rosybrown.setImageResource(0)
-                    sandybrown.setImageResource(0)
-                    thistle.setImageResource(0)
-                    violet.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#CEFAD0"))
-                }
-
-                frame_palegoldenrod.setOnClickListener {
-                    palegoldenrod.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                    lightsteelblue.setImageResource(0)
-                    aquamarine.setImageResource(0)
-                    grey.setImageResource(0)
-                    darkgrey.setImageResource(0)
-                    lightcyan.setImageResource(0)
-                    lightgoldenyellow.setImageResource(0)
-                    lightgreen.setImageResource(0)
-                    palevioletred.setImageResource(0)
-                    powderblue.setImageResource(0)
-                    rosybrown.setImageResource(0)
-                    sandybrown.setImageResource(0)
-                    thistle.setImageResource(0)
-                    violet.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#EEE8AA"))
-                }
-
-                frame_palevioletred.setOnClickListener {
-                    palevioletred.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                    lightsteelblue.setImageResource(0)
-                    aquamarine.setImageResource(0)
-                    grey.setImageResource(0)
-                    darkgrey.setImageResource(0)
-                    lightcyan.setImageResource(0)
-                    lightgoldenyellow.setImageResource(0)
-                    lightgreen.setImageResource(0)
-                    palegoldenrod.setImageResource(0)
-                    powderblue.setImageResource(0)
-                    rosybrown.setImageResource(0)
-                    sandybrown.setImageResource(0)
-                    thistle.setImageResource(0)
-                    violet.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#FFCBD1"))
-                }
-
-                frame_powderblue.setOnClickListener {
-                    powderblue.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                    lightsteelblue.setImageResource(0)
-                    aquamarine.setImageResource(0)
-                    grey.setImageResource(0)
-                    darkgrey.setImageResource(0)
-                    lightcyan.setImageResource(0)
-                    lightgoldenyellow.setImageResource(0)
-                    lightgreen.setImageResource(0)
-                    palegoldenrod.setImageResource(0)
-                    palevioletred.setImageResource(0)
-                    rosybrown.setImageResource(0)
-                    sandybrown.setImageResource(0)
-                    thistle.setImageResource(0)
-                    violet.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#B0E0E6"))
-                }
-
-                frame_rosybrown.setOnClickListener {
-                    rosybrown.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                    lightsteelblue.setImageResource(0)
-                    aquamarine.setImageResource(0)
-                    grey.setImageResource(0)
-                    darkgrey.setImageResource(0)
-                    lightcyan.setImageResource(0)
-                    lightgoldenyellow.setImageResource(0)
-                    lightgreen.setImageResource(0)
-                    palegoldenrod.setImageResource(0)
-                    palevioletred.setImageResource(0)
-                    powderblue.setImageResource(0)
-                    sandybrown.setImageResource(0)
-                    thistle.setImageResource(0)
-                    violet.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#BC8F8F"))
-                }
-
-                frame_sandybrown.setOnClickListener {
-                    sandybrown.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                    lightsteelblue.setImageResource(0)
-                    aquamarine.setImageResource(0)
-                    grey.setImageResource(0)
-                    darkgrey.setImageResource(0)
-                    lightcyan.setImageResource(0)
-                    lightgoldenyellow.setImageResource(0)
-                    lightgreen.setImageResource(0)
-                    palegoldenrod.setImageResource(0)
-                    palevioletred.setImageResource(0)
-                    powderblue.setImageResource(0)
-                    rosybrown.setImageResource(0)
-                    thistle.setImageResource(0)
-                    violet.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#F4A460"))
-                }
-
-                frame_thistle.setOnClickListener {
-                    thistle.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                    lightsteelblue.setImageResource(0)
-                    aquamarine.setImageResource(0)
-                    grey.setImageResource(0)
-                    darkgrey.setImageResource(0)
-                    lightcyan.setImageResource(0)
-                    lightgoldenyellow.setImageResource(0)
-                    lightgreen.setImageResource(0)
-                    palegoldenrod.setImageResource(0)
-                    palevioletred.setImageResource(0)
-                    powderblue.setImageResource(0)
-                    rosybrown.setImageResource(0)
-                    sandybrown.setImageResource(0)
-                    violet.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#D8BFD8"))
-                }
-
-                frame_violet.setOnClickListener {
-                    violet.setImageResource(R.drawable.ic_baseline_done_24)
-                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                    lightsteelblue.setImageResource(0)
-                    aquamarine.setImageResource(0)
-                    grey.setImageResource(0)
-                    darkgrey.setImageResource(0)
-                    lightcyan.setImageResource(0)
-                    lightgoldenyellow.setImageResource(0)
-                    lightgreen.setImageResource(0)
-                    palegoldenrod.setImageResource(0)
-                    palevioletred.setImageResource(0)
-                    powderblue.setImageResource(0)
-                    rosybrown.setImageResource(0)
-                    sandybrown.setImageResource(0)
-                    thistle.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#EFC9FE"))
-                }
+//
+//                frame_white.setOnClickListener {
+//                    white.setImageResource(R.drawable.ic_baseline_done_24)
+//                    lightsteelblue.setImageResource(0)
+//                    aquamarine.setImageResource(0)
+//                    grey.setImageResource(0)
+//                    darkgrey.setImageResource(0)
+//                    lightcyan.setImageResource(0)
+//                    lightgoldenyellow.setImageResource(0)
+//                    lightgreen.setImageResource(0)
+//                    palegoldenrod.setImageResource(0)
+//                    palevioletred.setImageResource(0)
+//                    powderblue.setImageResource(0)
+//                    rosybrown.setImageResource(0)
+//                    sandybrown.setImageResource(0)
+//                    thistle.setImageResource(0)
+//                    violet.setImageResource(0)
+//                    binding.fragmentNewUpdateNote.setBackgroundColor(0)
+//                }
+//
+//                frame_lightsteelblue.setOnClickListener {
+//                    lightsteelblue.setImageResource(R.drawable.ic_baseline_done_24)
+//                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+//                    aquamarine.setImageResource(0)
+//                    grey.setImageResource(0)
+//                    darkgrey.setImageResource(0)
+//                    lightcyan.setImageResource(0)
+//                    lightgoldenyellow.setImageResource(0)
+//                    lightgreen.setImageResource(0)
+//                    palegoldenrod.setImageResource(0)
+//                    palevioletred.setImageResource(0)
+//                    powderblue.setImageResource(0)
+//                    rosybrown.setImageResource(0)
+//                    sandybrown.setImageResource(0)
+//                    thistle.setImageResource(0)
+//                    violet.setImageResource(0)
+//                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#B0C4DE"))
+//                }
+//
+//                frame_aquamarine.setOnClickListener {
+//                    aquamarine.setImageResource(R.drawable.ic_baseline_done_24)
+//                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+//                    lightsteelblue.setImageResource(0)
+//                    grey.setImageResource(0)
+//                    darkgrey.setImageResource(0)
+//                    lightcyan.setImageResource(0)
+//                    lightgoldenyellow.setImageResource(0)
+//                    lightgreen.setImageResource(0)
+//                    palegoldenrod.setImageResource(0)
+//                    palevioletred.setImageResource(0)
+//                    powderblue.setImageResource(0)
+//                    rosybrown.setImageResource(0)
+//                    sandybrown.setImageResource(0)
+//                    thistle.setImageResource(0)
+//                    violet.setImageResource(0)
+//                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#7FFFD4"))
+//                }
+//
+//                frame_grey.setOnClickListener {
+//                    grey.setImageResource(R.drawable.ic_baseline_done_24)
+//                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+//                    lightsteelblue.setImageResource(0)
+//                    aquamarine.setImageResource(0)
+//                    darkgrey.setImageResource(0)
+//                    lightcyan.setImageResource(0)
+//                    lightgoldenyellow.setImageResource(0)
+//                    lightgreen.setImageResource(0)
+//                    palegoldenrod.setImageResource(0)
+//                    palevioletred.setImageResource(0)
+//                    powderblue.setImageResource(0)
+//                    rosybrown.setImageResource(0)
+//                    sandybrown.setImageResource(0)
+//                    thistle.setImageResource(0)
+//                    violet.setImageResource(0)
+//                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#E8E9EB"))
+//                }
+//
+//                frame_darkgrey.setOnClickListener {
+//                    darkgrey.setImageResource(R.drawable.ic_baseline_done_24)
+//                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+//                    lightsteelblue.setImageResource(0)
+//                    aquamarine.setImageResource(0)
+//                    grey.setImageResource(0)
+//                    lightcyan.setImageResource(0)
+//                    lightgoldenyellow.setImageResource(0)
+//                    lightgreen.setImageResource(0)
+//                    palegoldenrod.setImageResource(0)
+//                    palevioletred.setImageResource(0)
+//                    powderblue.setImageResource(0)
+//                    rosybrown.setImageResource(0)
+//                    sandybrown.setImageResource(0)
+//                    thistle.setImageResource(0)
+//                    violet.setImageResource(0)
+//                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#A9A9A9"))
+//                }
+//
+//                frame_lightcyan.setOnClickListener {
+//                    lightcyan.setImageResource(R.drawable.ic_baseline_done_24)
+//                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+//                    lightsteelblue.setImageResource(0)
+//                    aquamarine.setImageResource(0)
+//                    grey.setImageResource(0)
+//                    darkgrey.setImageResource(0)
+//                    lightgoldenyellow.setImageResource(0)
+//                    lightgreen.setImageResource(0)
+//                    palegoldenrod.setImageResource(0)
+//                    palevioletred.setImageResource(0)
+//                    powderblue.setImageResource(0)
+//                    rosybrown.setImageResource(0)
+//                    sandybrown.setImageResource(0)
+//                    thistle.setImageResource(0)
+//                    violet.setImageResource(0)
+//                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#E0FFFF"))
+//                }
+//
+//                frame_lightgoldenyellow.setOnClickListener {
+//                    lightgoldenyellow.setImageResource(R.drawable.ic_baseline_done_24)
+//                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+//                    lightsteelblue.setImageResource(0)
+//                    aquamarine.setImageResource(0)
+//                    grey.setImageResource(0)
+//                    darkgrey.setImageResource(0)
+//                    lightcyan.setImageResource(0)
+//                    lightgreen.setImageResource(0)
+//                    palegoldenrod.setImageResource(0)
+//                    palevioletred.setImageResource(0)
+//                    powderblue.setImageResource(0)
+//                    rosybrown.setImageResource(0)
+//                    sandybrown.setImageResource(0)
+//                    thistle.setImageResource(0)
+//                    violet.setImageResource(0)
+//                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#FAFAD2"))
+//                }
+//
+//                frame_lightgreen.setOnClickListener {
+//                    lightgreen.setImageResource(R.drawable.ic_baseline_done_24)
+//                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+//                    lightsteelblue.setImageResource(0)
+//                    aquamarine.setImageResource(0)
+//                    grey.setImageResource(0)
+//                    darkgrey.setImageResource(0)
+//                    lightcyan.setImageResource(0)
+//                    lightgoldenyellow.setImageResource(0)
+//                    palegoldenrod.setImageResource(0)
+//                    palevioletred.setImageResource(0)
+//                    powderblue.setImageResource(0)
+//                    rosybrown.setImageResource(0)
+//                    sandybrown.setImageResource(0)
+//                    thistle.setImageResource(0)
+//                    violet.setImageResource(0)
+//                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#CEFAD0"))
+//                }
+//
+//                frame_palegoldenrod.setOnClickListener {
+//                    palegoldenrod.setImageResource(R.drawable.ic_baseline_done_24)
+//                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+//                    lightsteelblue.setImageResource(0)
+//                    aquamarine.setImageResource(0)
+//                    grey.setImageResource(0)
+//                    darkgrey.setImageResource(0)
+//                    lightcyan.setImageResource(0)
+//                    lightgoldenyellow.setImageResource(0)
+//                    lightgreen.setImageResource(0)
+//                    palevioletred.setImageResource(0)
+//                    powderblue.setImageResource(0)
+//                    rosybrown.setImageResource(0)
+//                    sandybrown.setImageResource(0)
+//                    thistle.setImageResource(0)
+//                    violet.setImageResource(0)
+//                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#EEE8AA"))
+//                }
+//
+//                frame_palevioletred.setOnClickListener {
+//                    palevioletred.setImageResource(R.drawable.ic_baseline_done_24)
+//                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+//                    lightsteelblue.setImageResource(0)
+//                    aquamarine.setImageResource(0)
+//                    grey.setImageResource(0)
+//                    darkgrey.setImageResource(0)
+//                    lightcyan.setImageResource(0)
+//                    lightgoldenyellow.setImageResource(0)
+//                    lightgreen.setImageResource(0)
+//                    palegoldenrod.setImageResource(0)
+//                    powderblue.setImageResource(0)
+//                    rosybrown.setImageResource(0)
+//                    sandybrown.setImageResource(0)
+//                    thistle.setImageResource(0)
+//                    violet.setImageResource(0)
+//                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#FFCBD1"))
+//                }
+//
+//                frame_powderblue.setOnClickListener {
+//                    powderblue.setImageResource(R.drawable.ic_baseline_done_24)
+//                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+//                    lightsteelblue.setImageResource(0)
+//                    aquamarine.setImageResource(0)
+//                    grey.setImageResource(0)
+//                    darkgrey.setImageResource(0)
+//                    lightcyan.setImageResource(0)
+//                    lightgoldenyellow.setImageResource(0)
+//                    lightgreen.setImageResource(0)
+//                    palegoldenrod.setImageResource(0)
+//                    palevioletred.setImageResource(0)
+//                    rosybrown.setImageResource(0)
+//                    sandybrown.setImageResource(0)
+//                    thistle.setImageResource(0)
+//                    violet.setImageResource(0)
+//                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#B0E0E6"))
+//                }
+//
+//                frame_rosybrown.setOnClickListener {
+//                    rosybrown.setImageResource(R.drawable.ic_baseline_done_24)
+//                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+//                    lightsteelblue.setImageResource(0)
+//                    aquamarine.setImageResource(0)
+//                    grey.setImageResource(0)
+//                    darkgrey.setImageResource(0)
+//                    lightcyan.setImageResource(0)
+//                    lightgoldenyellow.setImageResource(0)
+//                    lightgreen.setImageResource(0)
+//                    palegoldenrod.setImageResource(0)
+//                    palevioletred.setImageResource(0)
+//                    powderblue.setImageResource(0)
+//                    sandybrown.setImageResource(0)
+//                    thistle.setImageResource(0)
+//                    violet.setImageResource(0)
+//                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#BC8F8F"))
+//                }
+//
+//                frame_sandybrown.setOnClickListener {
+//                    sandybrown.setImageResource(R.drawable.ic_baseline_done_24)
+//                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+//                    lightsteelblue.setImageResource(0)
+//                    aquamarine.setImageResource(0)
+//                    grey.setImageResource(0)
+//                    darkgrey.setImageResource(0)
+//                    lightcyan.setImageResource(0)
+//                    lightgoldenyellow.setImageResource(0)
+//                    lightgreen.setImageResource(0)
+//                    palegoldenrod.setImageResource(0)
+//                    palevioletred.setImageResource(0)
+//                    powderblue.setImageResource(0)
+//                    rosybrown.setImageResource(0)
+//                    thistle.setImageResource(0)
+//                    violet.setImageResource(0)
+//                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#F4A460"))
+//                }
+//
+//                frame_thistle.setOnClickListener {
+//                    thistle.setImageResource(R.drawable.ic_baseline_done_24)
+//                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+//                    lightsteelblue.setImageResource(0)
+//                    aquamarine.setImageResource(0)
+//                    grey.setImageResource(0)
+//                    darkgrey.setImageResource(0)
+//                    lightcyan.setImageResource(0)
+//                    lightgoldenyellow.setImageResource(0)
+//                    lightgreen.setImageResource(0)
+//                    palegoldenrod.setImageResource(0)
+//                    palevioletred.setImageResource(0)
+//                    powderblue.setImageResource(0)
+//                    rosybrown.setImageResource(0)
+//                    sandybrown.setImageResource(0)
+//                    violet.setImageResource(0)
+//                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#D8BFD8"))
+//                }
+//
+//                frame_violet.setOnClickListener {
+//                    violet.setImageResource(R.drawable.ic_baseline_done_24)
+//                    white.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+//                    lightsteelblue.setImageResource(0)
+//                    aquamarine.setImageResource(0)
+//                    grey.setImageResource(0)
+//                    darkgrey.setImageResource(0)
+//                    lightcyan.setImageResource(0)
+//                    lightgoldenyellow.setImageResource(0)
+//                    lightgreen.setImageResource(0)
+//                    palegoldenrod.setImageResource(0)
+//                    palevioletred.setImageResource(0)
+//                    powderblue.setImageResource(0)
+//                    rosybrown.setImageResource(0)
+//                    sandybrown.setImageResource(0)
+//                    thistle.setImageResource(0)
+//                    binding.fragmentNewUpdateNote.setBackgroundColor(Color.parseColor("#EFC9FE"))
+//                }
                 colorPicker.setOnClickListener {
                     colorDialog.dismiss()
                     val picker: ColorPickerDialog = ColorPickerDialog.Builder()
@@ -797,7 +797,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     recylerView?.layoutManager = LinearLayoutManager(context)
                     recylerView?.adapter = todoAdapter
                     todoAdapter?.notifyDataSetChanged()
-                    btn.visibility=View.VISIBLE
 
                 }
 

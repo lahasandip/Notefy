@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import android.view.View
@@ -25,6 +26,7 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.*
+import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
 import com.sandip.notefy.data.NoteEntity
@@ -60,6 +62,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
 //        profile_photo.setOnClickListener {
 //            drawerLayout?.openDrawer(Gravity.LEFT)
 //        }
+        val prof  = view.findViewById<ImageView>(R.id.profile_photo)
 
         gridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
@@ -102,6 +105,13 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
 //                    }
                 }
 
+                viewModel.displayUser.observe(viewLifecycleOwner) {
+                    if(it !=null){
+                        if(!(it.image.isNullOrEmpty())){
+                            val imageUri = Uri.parse(it.image)
+                            this.let { it1 -> Glide.with(it1).load(imageUri).into(prof) }
+                        }
+                    }}
 
                 swipeRefreshLayout.setOnRefreshListener {
 
@@ -200,7 +210,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
                 drawerLayout?.openDrawer(Gravity.LEFT)
             }
 
-            val prof  = view.findViewById<ImageView>(R.id.profile_photo)
             prof.setOnClickListener {
                 Snackbar.make(requireView(), "Profile clicked", Snackbar.LENGTH_LONG)
 

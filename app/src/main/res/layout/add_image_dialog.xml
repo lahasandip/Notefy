@@ -6,12 +6,20 @@
     android:theme="@style/Dialog"
     android:background="@drawable/popup_background">
 
-
+    <androidx.cardview.widget.CardView
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:elevation="0dp"
+        android:layout_gravity="center"
+        android:theme="@style/DialogView"
+        />
     <LinearLayout
         android:id="@+id/take_photo"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="?attr/selectableItemBackground"
         android:padding="8dp">
 
         <ImageView
@@ -33,6 +41,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
         android:padding="8dp">
 
 

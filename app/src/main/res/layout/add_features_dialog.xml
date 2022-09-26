@@ -28,12 +28,20 @@
 <!--            android:textSize="16sp"/>-->
 
 <!--    </LinearLayout>-->
-
+    <androidx.cardview.widget.CardView
+        android:layout_width="40dp"
+        android:layout_height="4dp"
+        android:elevation="0dp"
+        android:layout_gravity="center"
+        android:theme="@style/DialogView"
+        />
     <LinearLayout
         android:id="@+id/add_reminder_layout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:background="?attr/selectableItemBackground"
         android:padding="8dp">
 
 
@@ -55,6 +63,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
         android:padding="8dp">
 
 
@@ -77,6 +86,7 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
         android:padding="8dp">
 
         <ImageView

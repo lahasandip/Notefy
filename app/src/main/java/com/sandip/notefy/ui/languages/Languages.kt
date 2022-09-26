@@ -77,13 +77,13 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
                 }
             }
 
-            back.setOnClickListener {
+            topAppBar.setNavigationOnClickListener {
                 viewModel.onOkClick()
 //                viewModel.onTaskSelected(context,)
             }
-            ok.setOnClickListener {
-                viewModel.onOkClick()
-            }
+//            ok.setOnClickListener {
+//                viewModel.onOkClick()
+//            }
         }
     }
 

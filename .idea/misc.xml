@@ -50,6 +50,7 @@
         <entry key="app/src/main/res/drawable/ic_baseline_edit_note_24.xml" value="0.1725" />
         <entry key="app/src/main/res/drawable/ic_baseline_fingerprint_24.xml" value="0.182" />
         <entry key="app/src/main/res/drawable/ic_baseline_help_outline_24.xml" value="0.181" />
+        <entry key="app/src/main/res/drawable/ic_baseline_horizontal_rule_24.xml" value="0.176" />
         <entry key="app/src/main/res/drawable/ic_baseline_insert_link_24.xml" value="0.2735" />
         <entry key="app/src/main/res/drawable/ic_baseline_keyboard_arrow_up_24.xml" value="0.182" />
         <entry key="app/src/main/res/drawable/ic_baseline_mail_outline_24.xml" value="0.2895" />
@@ -95,6 +96,7 @@
         <entry key="app/src/main/res/drawable/item_selector.xml" value="0.1725" />
         <entry key="app/src/main/res/drawable/round_image.xml" value="0.1555" />
         <entry key="app/src/main/res/drawable/roundedbutton.xml" value="0.279" />
+        <entry key="app/src/main/res/drawable/todo_button.xml" value="0.156" />
         <entry key="app/src/main/res/drawable/todo_popup.xml" value="0.266" />
         <entry key="app/src/main/res/layout-v23/fragment_new_update_note.xml" value="0.33055555555555555" />
         <entry key="app/src/main/res/layout/activity_action1.xml" value="0.3609375" />
@@ -102,7 +104,7 @@
         <entry key="app/src/main/res/layout/activity_alert_status.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/activity_screen_lock.xml" value="0.3609375" />
-        <entry key="app/src/main/res/layout/add_color_dialog.xml" value="0.28888888888888886" />
+        <entry key="app/src/main/res/layout/add_color_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/add_features_dialog.xml" value="0.25" />
         <entry key="app/src/main/res/layout/add_image_dialog.xml" value="0.21666666666666667" />
         <entry key="app/src/main/res/layout/add_tick.xml" value="0.3609375" />
@@ -122,8 +124,8 @@
         <entry key="app/src/main/res/layout/fragment_about.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_delete_note.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_help_feedback.xml" value="0.3609375" />
-        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.5" />
-        <entry key="app/src/main/res/layout/fragment_languages.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_home.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_languages.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_navigation_drawer.xml" value="0.3302083333333333" />
         <entry key="app/src/main/res/layout/fragment_new_update.xml" value="0.15555555555555556" />
         <entry key="app/src/main/res/layout/fragment_new_update_note.xml" value="0.33" />
@@ -133,7 +135,7 @@
         <entry key="app/src/main/res/layout/fragment_sign_in.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_todo.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/fragment_user.xml" value="0.33" />
-        <entry key="app/src/main/res/layout/help_card.xml" value="0.35989583333333336" />
+        <entry key="app/src/main/res/layout/help_card.xml" value="0.1" />
         <entry key="app/src/main/res/layout/language_card.xml" value="0.1" />
         <entry key="app/src/main/res/layout/nav_header.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/new_fragment_home.xml" value="0.2952991452991453" />
@@ -144,9 +146,12 @@
         <entry key="app/src/main/res/layout/todo_listview.xml" value="0.3609375" />
         <entry key="app/src/main/res/layout/toggle_button.xml" value="0.35989583333333336" />
         <entry key="app/src/main/res/layout/toolbar.xml" value="0.3553846153846154" />
+        <entry key="app/src/main/res/menu/home_top_app_bar.xml" value="0.29074074074074074" />
+        <entry key="app/src/main/res/menu/language_top_app_bar.xml" value="0.2101851851851852" />
         <entry key="app/src/main/res/menu/main.xml" value="0.3609375" />
         <entry key="app/src/main/res/menu/navigation_drawer.xml" value="0.3609375" />
-        <entry key="app/src/main/res/menu/top_app_bar.xml" value="0.33" />
+        <entry key="app/src/main/res/menu/new_top_app_bar.xml" value="0.29074074074074074" />
+        <entry key="app/src/main/res/menu/top_app_bar.xml" value="0.5" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/flag_usa_round.xml" value="0.1715" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1725" />
         <entry key="app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1725" />

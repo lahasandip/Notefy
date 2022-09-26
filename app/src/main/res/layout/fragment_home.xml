@@ -94,9 +94,10 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            app:menu="@menu/top_app_bar"
+            app:menu="@menu/home_top_app_bar"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:navigationIcon="@drawable/ic_baseline_menu_24"
+            android:theme="@style/Toolbar"
             />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -174,8 +175,6 @@
         android:layout_margin="16dp"
         android:elevation="25dp"
         app:tint="@color/white"
-        android:src="@drawable/ic_outline_add_24"
-        app:layout_constraintBottom_toBottomOf="@+id/swipe_refresh_layout"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:src="@drawable/ic_outline_add_24" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

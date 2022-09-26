@@ -51,7 +51,8 @@
             android:scrollbars="none"
             android:textSize="18dp"
             android:textStyle="bold"
-            android:theme="@style/SearchView" />
+            android:theme="@style/SearchView"
+            android:visibility="gone"/>
 <!--        <TextView-->
 <!--            android:id="@+id/view_profile"-->
 <!--            android:layout_width="wrap_content"-->

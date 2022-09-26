@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel@Inject constructor(
-    private val userDao: UserDao) : ViewModel() {
+    userDao: UserDao) : ViewModel() {
 
     private val addEditTaskEventChannel = Channel<MainTaskEvent>()
     val addEditTaskEvent = addEditTaskEventChannel.receiveAsFlow()

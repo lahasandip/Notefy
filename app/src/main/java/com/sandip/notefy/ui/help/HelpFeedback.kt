@@ -62,7 +62,7 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
                     startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.imangi.templerun")))
                 }
             }
-            layoutWriteus.setOnClickListener {
+            layoutWriteUs.setOnClickListener {
                 val intent = Intent(Intent.ACTION_SENDTO).apply {
                     data = Uri.parse("mailto:") // only email apps should handle this
                     putExtra(Intent.EXTRA_EMAIL, "sandiplaha206@gmail.com")

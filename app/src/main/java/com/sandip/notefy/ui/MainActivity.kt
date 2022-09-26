@@ -9,8 +9,8 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
@@ -37,7 +37,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.ActivityMainBinding
-import com.sandip.notefy.ui.languages.LanguagesViewModel
 import com.sandip.notefy.util.PreferencesManager
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
@@ -118,6 +117,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             if(it !=null){
             if(!(it.name.isNullOrEmpty())) {
                 userName.text = it.name
+                userName.visibility = View.VISIBLE
             }
             if(!(it.image.isNullOrEmpty())){
                 val imageUri = Uri.parse(it.image)
@@ -127,7 +127,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
-                R.id.fragment_home, R.id.fragment_newUpdateNote, R.id.fragment_helpfeedback,
+                R.id.fragment_home, R.id.fragment_newUpdateNote, R.id.fragment_help_feedback,
                 R.id.fragment_about,  R.id.fragment_languages, R.id.fragment_user
             ), drawerLayout
         )
