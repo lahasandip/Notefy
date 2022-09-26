@@ -10,10 +10,7 @@ import android.os.Build
 import android.os.Bundle
 import android.text.InputType
 import android.text.format.DateFormat
-import android.view.Gravity
-import android.view.View
-import android.view.ViewGroup
-import android.view.Window
+import android.view.*
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -91,18 +88,19 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 }
             }
         //Todo list view popup
-       val todoDialog = BottomSheetDialog(requireContext())
-        todoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+       val todoDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+//        todoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         todoDialog.setContentView(R.layout.todo_listview)
 //        todoDialog.show()
-        todoDialog.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-        )
-                todoDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//        todoDialog.window?.setLayout(
+//            ViewGroup.LayoutParams.MATCH_PARENT,
+//            ViewGroup.LayoutParams.WRAP_CONTENT,
+//        )
+//                todoDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        todoDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
+
         todoDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         todoDialog.window?.setGravity(Gravity.BOTTOM)
-
         val addToList = todoDialog.findViewById<ImageView>(R.id.addTodo)
         val checkBoxTodo =   todoDialog.findViewById<CheckBox>(R.id.todoCheck)
         val descriptionTodo =   todoDialog.findViewById<EditText>(R.id.todoDesc)
@@ -293,15 +291,15 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
             addFeatures.setOnClickListener {
 //                viewModel.onAddFeaturesClick()
-                val dialog = BottomSheetDialog(requireContext())
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+//                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog.setContentView(R.layout.add_features_dialog)
                 dialog.show()
-                dialog.window?.setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                )
-                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//                dialog.window?.setLayout(
+//                    ViewGroup.LayoutParams.MATCH_PARENT,
+//                    ViewGroup.LayoutParams.WRAP_CONTENT,
+//                )
+//                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                 dialog.window?.setGravity(Gravity.BOTTOM)
                 val reminder: LinearLayout? = dialog.findViewById(R.id.add_reminder_layout)
@@ -324,15 +322,15 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
             }
             addColor.setOnClickListener {
-                val colorDialog = BottomSheetDialog(requireContext())
-                colorDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                val colorDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+//                colorDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 colorDialog.setContentView(R.layout.add_color_dialog)
                 colorDialog.show()
-                colorDialog.window?.setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                )
-                colorDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//                colorDialog.window?.setLayout(
+//                    ViewGroup.LayoutParams.MATCH_PARENT,
+//                    ViewGroup.LayoutParams.WRAP_CONTENT,
+//                )
+//                colorDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 colorDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                 colorDialog.window?.setGravity(Gravity.BOTTOM)
 
@@ -703,15 +701,15 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                         it1
                     )
                 }
-                val dialog = BottomSheetDialog(requireContext())
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+//                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog.setContentView(R.layout.add_image_dialog)
                 dialog.show()
-                dialog.window?.setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                )
-                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//                dialog.window?.setLayout(
+//                    ViewGroup.LayoutParams.MATCH_PARENT,
+//                    ViewGroup.LayoutParams.WRAP_CONTENT,
+//                )
+//                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                 dialog.window?.setGravity(Gravity.BOTTOM)
                 val camera: LinearLayout ?= dialog.findViewById(R.id.take_photo)

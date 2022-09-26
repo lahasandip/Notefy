@@ -131,15 +131,15 @@ class User : Fragment(R.layout.fragment_user) {
                         it1
                     )
                 }
-                val dialog = BottomSheetDialog(requireContext())
-                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+                val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+//                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog.setContentView(R.layout.add_image_dialog)
                 dialog.show()
-                dialog.window?.setLayout(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT,
-                )
-                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//                dialog.window?.setLayout(
+//                    ViewGroup.LayoutParams.MATCH_PARENT,
+//                    ViewGroup.LayoutParams.WRAP_CONTENT,
+//                )
+//                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                 dialog.window?.setGravity(Gravity.BOTTOM)
                 val camera: LinearLayout? = dialog.findViewById(R.id.take_photo)

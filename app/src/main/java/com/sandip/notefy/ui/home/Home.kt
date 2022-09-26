@@ -404,14 +404,16 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
         }
 
     private fun displaySortByDialog(){
-        dialog = BottomSheetDialog(requireContext())
-        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.sortby_dialog)
-        dialog.window?.setLayout(
-            ViewGroup.LayoutParams.MATCH_PARENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
-        )
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+//        dialog.window?.setLayout(
+//            ViewGroup.LayoutParams.MATCH_PARENT,
+//            ViewGroup.LayoutParams.WRAP_CONTENT,
+//        )
+
+
+//        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         dialog.window?.setGravity(Gravity.BOTTOM)
         bookmarked = dialog.findViewById(R.id.bookmarked)
