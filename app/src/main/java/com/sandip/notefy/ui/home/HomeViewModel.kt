@@ -1,6 +1,9 @@
 package com.sandip.notefy.ui.home
 
 
+import android.content.Context
+import android.content.res.Configuration
+import android.util.Log
 import androidx.lifecycle.*
 import com.sandip.notefy.data.dao.NoteDao
 import com.sandip.notefy.data.entity.NoteEntity
@@ -8,6 +11,7 @@ import com.sandip.notefy.data.dao.UserDao
 import com.sandip.notefy.ui.ADD_TASK_RESULT_OK
 import com.sandip.notefy.ui.DELETE_TASK_RESULT_OK
 import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK
+import com.sandip.notefy.ui.MainActivity
 import com.sandip.notefy.util.PreferencesManager
 import com.sandip.notefy.util.SortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +20,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,6 +32,8 @@ class HomeViewModel @Inject constructor(
 ): ViewModel() {
     val searchQuery = state.getLiveData("searchQuery", "")
     val displayUser = userDao.getUser()
+
+    val languageFlow = preferencesManager.languageCode
 
     val preferencesFlow = preferencesManager.preferencesFlow
     val isChecked = preferencesManager.isChecked
@@ -94,14 +101,53 @@ class HomeViewModel @Inject constructor(
     fun onAddToTrash(noteEntity: NoteEntity, isHide: Boolean) = viewModelScope.launch {
         noteDao.updateDao(noteEntity.copy(isHide = isHide))
     }
+//    fun savePreference(position: Int)  = viewModelScope.launch{
+//
+//        preferencesManager.storeLocale(position)
+//
+//    }
+
+    fun onTaskSelected(context: Context?, flag: Int) = viewModelScope.launch {
+        when(flag){
+            0 -> updateResource( context,"en")
+            1 -> updateResource(context, "hi")
+            2 -> updateResource(context, "es")
+            3 -> updateResource(context, "bn")
+            4 -> updateResource(context, "fr")
+            5 -> updateResource(context, "zh")
+            6 -> updateResource(context, "ta")
+            7 -> updateResource(context, "pt")
+            8 -> updateResource(context, "in")
+            9 -> updateResource(context, "ja")
+            10 -> updateResource(context, "ru")
+            11 -> updateResource(context, "te")
+            12 -> updateResource(context, "mr")
+            13 -> updateResource(context, "tr")
+            14 -> updateResource(context, "it")
+        }
+//        preferencesManager.storeLocale(flag)
+
+    }
+
+    fun updateResource(context: Context?, code: String)  = viewModelScope.launch{
+        val locale = Locale(code)
+        Locale.setDefault(locale)
+
+        val configuration = Configuration()
+        configuration.locale = locale
+
+        context?.resources?.updateConfiguration(configuration, context.resources?.displayMetrics
+        );
+        Log.d("Locale", "language set of $code")
+
+    }
+
 
 
     sealed class TasksEvent {
         object NavigateToAddTaskScreen : TasksEvent()
         object NavigateToDrawer : TasksEvent()
         object NavigateToUserScreen : TasksEvent()
-
-
         data class NavigateToEditTaskScreen(val noteEntity: NoteEntity) : TasksEvent()
         data class ShowTaskSavedConfirmationMessage(val msg: String) : TasksEvent()
         data class ShowUndoDeleteTaskMessage(val noteEntity: NoteEntity) : TasksEvent()

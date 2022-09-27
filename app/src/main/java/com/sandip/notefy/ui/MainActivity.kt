@@ -25,7 +25,9 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.drawerlayout.widget.DrawerLayout
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -35,11 +37,13 @@ import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.ActivityMainBinding
 import com.sandip.notefy.util.PreferencesManager
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.launch
 import java.util.concurrent.Executor
 
 
@@ -63,19 +67,13 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     companion object{
         var drawerLayout: DrawerLayout? = null
         lateinit var preferencesManager : PreferencesManager
-
-
-    }
+            }
     override fun onCreate(savedInstanceState: Bundle?) {
         preferencesManager = PreferencesManager(applicationContext)
 
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        Log.d("Sandip", "oncreate called")
-
-
-
-
+        Log.d("Sandip", "Inside Main")
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
@@ -171,11 +169,12 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             }
         }
         observeUiPreferences()
-
         observeBiometricPreferences()
 
-
     }
+
+
+
 
     override fun onDestroy() {
         super.onDestroy()
@@ -344,6 +343,8 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
         }
     }
+
+
 
 }
 const val ADD_TASK_RESULT_OK = Activity.RESULT_FIRST_USER

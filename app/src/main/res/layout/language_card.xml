@@ -12,6 +12,7 @@
         android:layout_height="120dp"
         android:layout_margin ="7dp"
         app:cardElevation="5dp"
+        android:background="@drawable/card_press"
         app:cardCornerRadius="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout

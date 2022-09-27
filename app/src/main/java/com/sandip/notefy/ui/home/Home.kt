@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.widget.*
@@ -24,6 +25,7 @@ import com.sandip.notefy.R
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.databinding.FragmentHomeBinding
 import com.sandip.notefy.ui.MainActivity
+import com.sandip.notefy.ui.MainActivity.Companion.preferencesManager
 import com.sandip.notefy.util.SortOrder
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
@@ -40,7 +42,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
     private lateinit var titleName: RadioButton
     private lateinit var newest: RadioButton
     private lateinit var oldest: RadioButton
-    private lateinit var radioGroup : RadioGroup
+    private lateinit var radioGroup: RadioGroup
     private lateinit var dialog: Dialog
 
 
@@ -48,8 +50,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
 //        val profile_photo = view.findViewById<ImageView>(R.id.profile_photo)
-
-
+        Log.d("Home", "Indside Home")
 
         val drawerLayout = MainActivity.drawerLayout
         displaySortByDialog()
@@ -60,14 +61,14 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
 //        profile_photo.setOnClickListener {
 //            drawerLayout?.openDrawer(Gravity.LEFT)
 //        }
-        val prof  = view.findViewById<ImageView>(R.id.profile_photo)
+        val prof = view.findViewById<ImageView>(R.id.profile_photo)
 
         gridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
 
         binding.apply {
             recyclerView.apply {
                 adapter = noteAdapter
-                layoutManager =         observeGridLayout()
+                layoutManager = observeGridLayout()
 
 //                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
 //                    gridLayoutManager.spanCount = 2
@@ -104,12 +105,13 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
                 }
 
                 viewModel.displayUser.observe(viewLifecycleOwner) {
-                    if(it !=null){
-                        if(!(it.image.isNullOrEmpty())){
+                    if (it != null) {
+                        if (!(it.image.isNullOrEmpty())) {
                             val imageUri = Uri.parse(it.image)
                             this.let { it1 -> Glide.with(it1).load(imageUri).into(prof) }
                         }
-                    }}
+                    }
+                }
 
                 swipeRefreshLayout.setOnRefreshListener {
 
@@ -320,6 +322,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
             }
         }
 
+        observeLanguagePreference()
 
     }
 
@@ -328,29 +331,29 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
         sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
         val grid = sharedPreferences?.getBoolean("grid", false)
 
-        when(grid){
+        when (grid) {
 
-            true ->  if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            true -> if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                gridLayoutManager.spanCount = 1
+                binding.gridView.isChecked = true
+
+            } else {
                 gridLayoutManager.spanCount = 1
                 binding.gridView.isChecked = true
 
             }
-            else {
-                gridLayoutManager.spanCount = 1
-                binding.gridView.isChecked = true
-
-            }
-            false ->  if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            false -> if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 gridLayoutManager.spanCount = 2
                 binding.gridView.isChecked = false
 
-            }
-            else{
-                gridLayoutManager.spanCount=4
+            } else {
+                gridLayoutManager.spanCount = 4
                 binding.gridView.isChecked = false
 
             }
-            else -> {gridLayoutManager}
+            else -> {
+                gridLayoutManager
+            }
 
         }
         return gridLayoutManager
@@ -397,7 +400,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
             viewModel.updateSortOrderIsChecked(checkedIndex)
         }
 
-    private fun displaySortByDialog(){
+    private fun displaySortByDialog() {
         dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
 //        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.sortby_dialog)
@@ -419,4 +422,16 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
         radioGroup.setOnCheckedChangeListener(radioGroupOnCheckedChangeListener);
     }
 
+    private fun observeLanguagePreference() {
+//        viewModel.languageFlow.asLiveData().observe(viewLifecycleOwner) {
+//
+//            viewModel.onTaskSelected(context, it)
+//            Log.d("Locale", it.toString())
+
+        val sharedPreferences =  context?.getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
+        val position = sharedPreferences?.getInt("position", 0)
+        if (position != null) {
+            viewModel.onTaskSelected(context, position)
+        }
+    }
 }
