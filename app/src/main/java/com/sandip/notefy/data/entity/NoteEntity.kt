@@ -1,12 +1,11 @@
-package com.sandip.notefy.data
+package com.sandip.notefy.data.entity
 
-import android.graphics.Bitmap
 import android.os.Parcelable
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.sandip.notefy.data.model.Todo
 import kotlinx.parcelize.Parcelize
-import java.text.DateFormat
 
 
 @Entity(tableName = "Note")

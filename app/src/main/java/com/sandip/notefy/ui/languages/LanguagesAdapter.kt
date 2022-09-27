@@ -5,16 +5,14 @@ import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.cardview.widget.CardView
-import androidx.core.app.ActivityCompat.recreate
-import androidx.core.os.LocaleListCompat
-import androidx.fragment.app.viewModels
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.sandip.notefy.R
-import com.sandip.notefy.data.Language
+import com.sandip.notefy.data.model.Language
 
 
 class LanguagesAdapter(
@@ -60,6 +58,8 @@ class LanguagesAdapter(
             selectedPosition = position
             listener.onItemClick(selectedPosition)
             println("Position $selectedPosition")
+            holder.isChecked.visibility = View.VISIBLE
+
         }
 
 
@@ -74,10 +74,15 @@ class LanguagesAdapter(
         var flagImage: ImageView
         var language: TextView
         var cardView : CardView
+        var isChecked : FloatingActionButton
+
         init {
             flagImage = itemView.findViewById(R.id.flag)
             language = itemView.findViewById(R.id.language)
             cardView = itemView.findViewById(R.id.language_cardview)
+            isChecked = itemView.findViewById(R.id.card_checked)
+
+
 
         }
     }

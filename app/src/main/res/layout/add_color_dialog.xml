@@ -45,7 +45,7 @@
             android:orientation="horizontal"
             android:padding="7sp">
             <FrameLayout
-                android:id="@+id/frame_white"
+                android:id="@+id/frame_no_gradient"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp">
                 <androidx.cardview.widget.CardView
@@ -53,7 +53,7 @@
                     android:layout_height="33sp"
                     app:cardCornerRadius="20sp" />
                 <ImageView
-                    android:id="@+id/white"
+                    android:id="@+id/no_gradient"
                     android:layout_width="22sp"
                     android:layout_height="22sp"
                     android:layout_gravity="center"
@@ -61,7 +61,7 @@
                     />
             </FrameLayout>
             <FrameLayout
-                android:id="@+id/frame_lightsteelblue1"
+                android:id="@+id/frame_gradient_1"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
@@ -69,10 +69,16 @@
                 <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
-                    app:cardCornerRadius="20sp"
-                    android:backgroundTint="@color/LightSteelBlue"/>
+                    app:cardCornerRadius="20sp">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:src="@drawable/gradient_1"/>
+
+                </androidx.cardview.widget.CardView>
+
                 <ImageView
-                    android:id="@+id/lightsteelblue1"
+                    android:id="@+id/gradient_1"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
@@ -82,7 +88,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/frame_lightsteelblue2"
+                android:id="@+id/frame_gradient_2"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
@@ -93,7 +99,7 @@
                     app:cardCornerRadius="20sp"
                     android:backgroundTint="@color/LightSteelBlue"/>
                 <ImageView
-                    android:id="@+id/lightsteelblue2"
+                    android:id="@+id/gradient_2"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
@@ -103,7 +109,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/frame_lightsteelblue3"
+                android:id="@+id/frame_gradient_3"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
@@ -114,7 +120,7 @@
                     app:cardCornerRadius="20sp"
                     android:backgroundTint="@color/LightSteelBlue"/>
                 <ImageView
-                    android:id="@+id/lightsteelblue3"
+                    android:id="@+id/gradient_3"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
@@ -124,7 +130,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/frame_lightsteelblue4"
+                android:id="@+id/frame_gradient_4"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
@@ -135,7 +141,7 @@
                     app:cardCornerRadius="20sp"
                     android:backgroundTint="@color/LightSteelBlue"/>
                 <ImageView
-                    android:id="@+id/lightsteelblue4"
+                    android:id="@+id/gradient_4"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
@@ -145,7 +151,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/frame_lightsteelblue5"
+                android:id="@+id/frame_gradient_5"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
@@ -156,7 +162,7 @@
                     app:cardCornerRadius="20sp"
                     android:backgroundTint="@color/LightSteelBlue"/>
                 <ImageView
-                    android:id="@+id/lightsteelblue5"
+                    android:id="@+id/gradient_5"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
@@ -166,7 +172,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/frame_lightsteelblue6"
+                android:id="@+id/frame_gradient_6"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
@@ -177,7 +183,7 @@
                     app:cardCornerRadius="20sp"
                     android:backgroundTint="@color/LightSteelBlue"/>
                 <ImageView
-                    android:id="@+id/lightsteelblue6"
+                    android:id="@+id/gradient_6"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
@@ -187,7 +193,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/frame_lightsteelblue7"
+                android:id="@+id/frame_gradient_7"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
@@ -198,7 +204,7 @@
                     app:cardCornerRadius="20sp"
                     android:backgroundTint="@color/LightSteelBlue"/>
                 <ImageView
-                    android:id="@+id/lightsteelblue7"
+                    android:id="@+id/gradient_7"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
@@ -208,7 +214,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/frame_lightsteelblue8"
+                android:id="@+id/frame_gradient_8"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
@@ -219,7 +225,7 @@
                     app:cardCornerRadius="20sp"
                     android:backgroundTint="@color/LightSteelBlue"/>
                 <ImageView
-                    android:id="@+id/lightsteelblue8"
+                    android:id="@+id/gradient_8"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
@@ -229,7 +235,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/frame_lightsteelblue9"
+                android:id="@+id/frame_gradient_9"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
@@ -240,7 +246,7 @@
                     app:cardCornerRadius="20sp"
                     android:backgroundTint="@color/LightSteelBlue"/>
                 <ImageView
-                    android:id="@+id/lightsteelblue9"
+                    android:id="@+id/gradient_9"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
@@ -250,7 +256,7 @@
             </FrameLayout>
 
             <FrameLayout
-                android:id="@+id/frame_lightsteelblue0"
+                android:id="@+id/frame_gradient_10"
                 android:layout_width="wrap_content"
                 android:layout_height="35dp"
                 android:layout_marginLeft="10dp"
@@ -261,7 +267,7 @@
                     app:cardCornerRadius="20sp"
                     android:backgroundTint="@color/LightSteelBlue"/>
                 <ImageView
-                    android:id="@+id/lightsteelblue0"
+                    android:id="@+id/gradient_10"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"

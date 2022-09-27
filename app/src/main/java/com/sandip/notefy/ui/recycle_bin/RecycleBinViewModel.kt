@@ -3,10 +3,9 @@ package com.sandip.notefy.ui.recycle_bin
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.sandip.notefy.data.NoteDao
-import com.sandip.notefy.data.NoteEntity
-import com.sandip.notefy.ui.home.HomeViewModel
-import com.sandip.notefy.ui.newupdate.NewUpdateNoteViewModel
+import com.sandip.notefy.data.dao.NoteDao
+import com.sandip.notefy.data.entity.NoteEntity
+import com.sandip.notefy.ui.profile.UserViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -15,7 +14,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecycleBinViewModel @Inject constructor(
-    private val noteDao: NoteDao) : ViewModel() {
+    private val noteDao: NoteDao
+) : ViewModel() {
 
     private val tasksEventChannel = Channel<TasksEvent>()
     val tasksEvent = tasksEventChannel.receiveAsFlow()
@@ -46,11 +46,13 @@ class RecycleBinViewModel @Inject constructor(
 //        noteDao.updateDao(updatedTask)
 //        tasksEventChannel.send(TasksEvent.NavigateToBackScreen)
     }
-
+    fun onOkClick()  = viewModelScope.launch {
+        tasksEventChannel.send(TasksEvent.NavigateToBackScreen)
+    }
     sealed class TasksEvent {
         object NavigateToBackScreen : TasksEvent()
 
-        data class ShowUndoDeleteTaskMessage(val noteEntity: NoteEntity) : RecycleBinViewModel.TasksEvent()
+        data class ShowUndoDeleteTaskMessage(val noteEntity: NoteEntity) : TasksEvent()
 
 
 

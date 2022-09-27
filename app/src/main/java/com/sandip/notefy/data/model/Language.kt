@@ -1,4 +1,4 @@
-package com.sandip.notefy.data
+package com.sandip.notefy.data.model
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo
@@ -6,8 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import kotlinx.android.parcel.Parcelize
 
-@Parcelize
-data class Todo(
-    var completed: Boolean?,
-    val todoDescription: String?,
-) : Parcelable
+data class Language(
+    var flag: Int?,
+    val language: String?,
+)

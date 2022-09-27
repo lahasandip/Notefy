@@ -1,12 +1,9 @@
 package com.sandip.notefy.util
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import com.sandip.notefy.data.Todo
-import java.io.ByteArrayOutputStream
+import com.sandip.notefy.data.model.Todo
 
 
 class Converters {

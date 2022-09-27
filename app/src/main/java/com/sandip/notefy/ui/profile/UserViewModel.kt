@@ -1,15 +1,13 @@
 package com.sandip.notefy.ui.profile
 
 import android.animation.ValueAnimator
-import android.util.Log
 import android.widget.TextView
-import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
-import com.sandip.notefy.data.NoteDao
-import com.sandip.notefy.data.UserDao
-import com.sandip.notefy.data.UserEntity
+import com.sandip.notefy.data.dao.NoteDao
+import com.sandip.notefy.data.dao.UserDao
+import com.sandip.notefy.data.entity.UserEntity
+import com.sandip.notefy.ui.languages.LanguagesViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -67,10 +65,15 @@ class UserViewModel@Inject constructor(
         }
         animator.start()
     }
-
+    fun onOkClick()  = viewModelScope.launch {
+        addEditTaskEventChannel.send(AddEditTaskEvent.NavigateToBackScreen)
+    }
     sealed class AddEditTaskEvent {
 
         object NavigateBackWithResult : AddEditTaskEvent()
+        object NavigateToBackScreen : AddEditTaskEvent() {
+
+        }
 
     }
 

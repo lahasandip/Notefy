@@ -1,32 +1,43 @@
 package com.sandip.notefy.ui.about_us
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.sandip.notefy.R
+import com.sandip.notefy.databinding.FragmentAboutBinding
+import com.sandip.notefy.util.exhaustive
 
 class About : Fragment(R.layout.fragment_about) {
 
-    companion object {
-        fun newInstance() = About()
-    }
+    private val viewModel: AboutViewModel by viewModels()
+    private lateinit var binding: FragmentAboutBinding
 
-    private lateinit var viewModel: AboutViewModel
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding = FragmentAboutBinding.bind(view)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        return inflater.inflate(R.layout.fragment_about, container, false)
-    }
+        binding.apply {
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProvider(this).get(AboutViewModel::class.java)
-        // TODO: Use the ViewModel
-    }
+            topAppBar.setNavigationOnClickListener {
+                viewModel.onOkClick()
+            }
 
+
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                viewModel.addEditTaskEvent.collect { event ->
+                    when (event) {
+                        is AboutViewModel.AddEditTaskEvent.NavigateToBackScreen -> {
+                            findNavController().popBackStack()
+                        }
+                    }.exhaustive
+                }
+            }
+
+        }}
 }
+
+
+

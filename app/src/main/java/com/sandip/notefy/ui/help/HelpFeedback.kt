@@ -2,21 +2,24 @@ package com.sandip.notefy.ui.help
 
 import android.content.ActivityNotFoundException
 import android.content.Intent
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
-import androidx.core.app.ActivityCompat
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
-import com.sandip.notefy.data.Help
+import com.sandip.notefy.data.model.Help
 import com.sandip.notefy.databinding.FragmentHelpFeedbackBinding
+import com.sandip.notefy.ui.profile.UserViewModel
+import com.sandip.notefy.util.exhaustive
 
 class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnItemClickListener {
 
-    private lateinit var viewModel: HelpFeedbackViewModel
+    private val viewModel: HelpFeedbackViewModel by viewModels()
     private lateinit var binding: FragmentHelpFeedbackBinding
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -28,7 +31,7 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
             "How to use Notefy?", "How to create a new Note?", "What can be keep in the note?",
             "How to set Reminders?", "How to create Todo list?", "How to delete Notes?",
             "Where can i find deleted Notes?", "How to change my Profile?", "How can I change the display view?",
-             "How can I sort my Notes?", "How i can share Notes?","How can I change app theme?",
+            "How can I sort my Notes?", "How i can share Notes?","How can I change app theme?",
             "How can I change app Language?", "How i can make Notes colorful?", "How to set enable biometric screen lock?",
         )
         val expandedText = arrayOf(
@@ -74,9 +77,27 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
                     startActivity(intent)
                 }
             }
-        }
+            topAppBar.setNavigationOnClickListener {
+                viewModel.onOkClick()
+            }
 
-    }
+
+
+
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                viewModel.addEditTaskEvent.collect { event ->
+                    when (event) {
+                        is HelpFeedbackViewModel.AddEditTaskEvent.NavigateToBackScreen -> {
+                            findNavController().popBackStack()
+                        }
+                    }.exhaustive
+                }
+            }
+
+        }}
+
+
+
     override fun onItemClick(flag: Int) {
 
     }

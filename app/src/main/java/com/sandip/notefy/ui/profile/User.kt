@@ -21,12 +21,14 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.FragmentUserBinding
+import com.sandip.notefy.ui.languages.LanguagesViewModel
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -170,7 +172,9 @@ class User : Fragment(R.layout.fragment_user) {
             }
 
 
-
+            topAppBar.setNavigationOnClickListener {
+                viewModel.onOkClick()
+            }
 
 
 
@@ -192,6 +196,9 @@ class User : Fragment(R.layout.fragment_user) {
                         is UserViewModel.AddEditTaskEvent.NavigateBackWithResult -> {
                             Snackbar.make(view,"Profile updated", Snackbar.LENGTH_LONG).show()
                         }
+                        is UserViewModel.AddEditTaskEvent.NavigateToBackScreen -> {
+                            findNavController().popBackStack()
+                        }
                     }.exhaustive
                 }
             }
@@ -202,16 +209,16 @@ class User : Fragment(R.layout.fragment_user) {
 
 
 
-    private fun startAnimation(notesNumber: TextView, count: Int) {
-        val animator = ValueAnimator.ofInt(0, count)
-        when (count){
-            in 0..10 -> animator.duration = 1000 // 2 seconds
-            in 11..100 -> animator.duration = 2000 // 2 seconds
-            else -> animator.duration = 3000 // 2 seconds
-        }
-        animator.addUpdateListener { animation ->
-            notesNumber.text = animation.animatedValue.toString()
-        }
-        animator.start()
-    }
+//    private fun startAnimation(notesNumber: TextView, count: Int) {
+//        val animator = ValueAnimator.ofInt(0, count)
+//        when (count){
+//            in 0..10 -> animator.duration = 1000 // 2 seconds
+//            in 11..100 -> animator.duration = 2000 // 2 seconds
+//            else -> animator.duration = 3000 // 2 seconds
+//        }
+//        animator.addUpdateListener { animation ->
+//            notesNumber.text = animation.animatedValue.toString()
+//        }
+//        animator.start()
+//    }
 }

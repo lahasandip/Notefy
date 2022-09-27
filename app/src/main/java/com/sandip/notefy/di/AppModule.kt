@@ -2,7 +2,7 @@ package com.sandip.notefy.di
 
 import android.app.Application
 import androidx.room.Room
-import com.sandip.notefy.data.MainDatabase
+import com.sandip.notefy.db.MainDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

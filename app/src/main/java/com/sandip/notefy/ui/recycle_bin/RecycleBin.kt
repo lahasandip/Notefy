@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
-import com.sandip.notefy.data.NoteEntity
+import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.databinding.FragmentRecycleBinBinding
 import com.sandip.notefy.ui.home.HomeViewModel
 import com.sandip.notefy.ui.home.NoteAdapter
@@ -70,6 +70,9 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), NoteAdapter.OnItemCl
                 else{
                     emptyRecycleBin.emptyRecycleBinError.visibility = View.GONE
                 }
+            }
+            topAppBar.setNavigationOnClickListener {
+                viewModel.onOkClick()
             }
 
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {

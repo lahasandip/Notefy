@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.recyclerview.widget.RecyclerView
 import com.sandip.notefy.R
-import com.sandip.notefy.data.Todo
-import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.todoAdapter
+import com.sandip.notefy.data.model.Todo
 
 class TodoAdapter(
     context: Context,

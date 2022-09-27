@@ -2,9 +2,9 @@ package com.sandip.notefy.ui.home
 
 
 import androidx.lifecycle.*
-import com.sandip.notefy.data.NoteDao
-import com.sandip.notefy.data.NoteEntity
-import com.sandip.notefy.data.UserDao
+import com.sandip.notefy.data.dao.NoteDao
+import com.sandip.notefy.data.entity.NoteEntity
+import com.sandip.notefy.data.dao.UserDao
 import com.sandip.notefy.ui.ADD_TASK_RESULT_OK
 import com.sandip.notefy.ui.DELETE_TASK_RESULT_OK
 import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK

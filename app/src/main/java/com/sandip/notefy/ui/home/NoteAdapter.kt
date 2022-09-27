@@ -11,8 +11,8 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sandip.notefy.NotefyApplication
-import com.sandip.notefy.data.NoteEntity
-import com.sandip.notefy.data.Todo
+import com.sandip.notefy.data.entity.NoteEntity
+import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.NewNoteBinding
 
 class NoteAdapter(private val listener: OnItemClickListener) :

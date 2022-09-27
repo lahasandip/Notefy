@@ -1,7 +1,8 @@
-package com.sandip.notefy.data
+package com.sandip.notefy.data.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.util.SortOrder
 import kotlinx.coroutines.flow.Flow
 

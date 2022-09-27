@@ -2,7 +2,7 @@ package com.sandip.notefy.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sandip.notefy.data.UserDao
+import com.sandip.notefy.data.dao.UserDao
 import com.sandip.notefy.util.UiMode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -12,7 +12,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel@Inject constructor(
-    userDao: UserDao) : ViewModel() {
+    userDao: UserDao
+) : ViewModel() {
 
     private val addEditTaskEventChannel = Channel<MainTaskEvent>()
     val addEditTaskEvent = addEditTaskEventChannel.receiveAsFlow()

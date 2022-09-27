@@ -1,4 +1,4 @@
-package com.sandip.notefy.data
+package com.sandip.notefy.data.entity
 
 import android.os.Parcelable
 import androidx.room.ColumnInfo

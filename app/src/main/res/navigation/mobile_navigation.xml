@@ -33,7 +33,7 @@
         <argument
             android:name="home"
             android:defaultValue="@null"
-            app:argType="com.sandip.notefy.data.NoteEntity"
+            app:argType="com.sandip.notefy.data.entity.NoteEntity"
             app:nullable="true" />
         <argument
             android:name="title"
@@ -80,7 +80,7 @@
         <argument
             android:name="user"
             android:defaultValue="@null"
-            app:argType="com.sandip.notefy.data.UserEntity"
+            app:argType="com.sandip.notefy.data.entity.UserEntity"
             app:nullable="true" />
 
 

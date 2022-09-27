@@ -10,7 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.sandip.notefy.R
-import com.sandip.notefy.data.Language
+import com.sandip.notefy.data.model.Language
 import com.sandip.notefy.databinding.FragmentLanguagesBinding
 import com.sandip.notefy.util.exhaustive
 import kotlin.collections.ArrayList

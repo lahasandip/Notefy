@@ -3,8 +3,8 @@ package com.sandip.notefy.ui.signup
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sandip.notefy.data.UserDao
-import com.sandip.notefy.data.UserEntity
+import com.sandip.notefy.data.dao.UserDao
+import com.sandip.notefy.data.entity.UserEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow

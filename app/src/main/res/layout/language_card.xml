@@ -3,15 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
 
-    <com.google.android.material.card.MaterialCardView
+    <androidx.cardview.widget.CardView
         android:id="@+id/language_cardview"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_margin ="7dp"
-        android:theme="@style/LanguageCard"
-        app:cardElevation="@dimen/cardview_default_elevation"
+        app:cardElevation="5dp"
         app:cardCornerRadius="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -54,8 +54,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/note_image_layout" />
 
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/card_checked"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:elevation="10dp"
+                android:layout_margin="5dp"
+                android:src="@drawable/ic_baseline_done_24"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:tint="@color/white"
+                android:visibility="gone"/>
+
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-    </com.google.android.material.card.MaterialCardView>
+    </androidx.cardview.widget.CardView>
 
 </FrameLayout>

@@ -1,8 +1,12 @@
-package com.sandip.notefy.data
+package com.sandip.notefy.db
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
 import androidx.room.TypeConverters
+import com.sandip.notefy.data.dao.NoteDao
+import com.sandip.notefy.data.entity.NoteEntity
+import com.sandip.notefy.data.dao.UserDao
+import com.sandip.notefy.data.entity.UserEntity
 import com.sandip.notefy.util.Converters
 
 

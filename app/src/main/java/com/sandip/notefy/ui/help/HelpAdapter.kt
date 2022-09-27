@@ -4,16 +4,12 @@ package com.sandip.notefy.ui.help
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.sandip.notefy.R
-import com.sandip.notefy.data.Help
-import com.sandip.notefy.data.Language
-import com.sandip.notefy.ui.languages.LanguagesViewModel
+import com.sandip.notefy.data.model.Help
 
 
 class HelpAdapter(

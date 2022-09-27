@@ -4,7 +4,8 @@
     android:id="@+id/fragment_home"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.home.Home">
+    tools:context=".ui.home.Home"
+    >
 
     <!--    <com.google.android.material.appbar.AppBarLayout-->
     <!--        android:id="@+id/appBarLayout"-->
@@ -150,13 +151,17 @@
 
         <androidx.core.widget.NestedScrollView
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scrollbars="none" />
+                android:scrollbars="none"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                />
         </androidx.core.widget.NestedScrollView>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
@@ -167,16 +172,15 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         />
+
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/new_note"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
         android:layout_margin="16dp"
+        android:contentDescription="fab"
         android:elevation="25dp"
-        app:tint="@color/white"
-        android:src="@drawable/ic_outline_add_24" />
-<!--<include-->
-<!--    android:id="@+id/bottom"-->
-<!--    layout="@layout/sortby_dialog"/>-->
+        android:src="@drawable/ic_outline_add_24"
+        app:tint="@color/white" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
