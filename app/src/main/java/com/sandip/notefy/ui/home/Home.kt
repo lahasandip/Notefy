@@ -25,7 +25,6 @@ import com.sandip.notefy.R
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.databinding.FragmentHomeBinding
 import com.sandip.notefy.ui.MainActivity
-import com.sandip.notefy.ui.MainActivity.Companion.preferencesManager
 import com.sandip.notefy.util.SortOrder
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
@@ -39,7 +38,8 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
     private lateinit var gridLayoutManager: StaggeredGridLayoutManager
     private lateinit var binding: FragmentHomeBinding
     private lateinit var bookmarked: RadioButton
-    private lateinit var titleName: RadioButton
+    private lateinit var titleAsc: RadioButton
+    private lateinit var titleDsc: RadioButton
     private lateinit var newest: RadioButton
     private lateinit var oldest: RadioButton
     private lateinit var radioGroup: RadioGroup
@@ -225,8 +225,11 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
                         bookmarked.setOnClickListener {
                             viewModel.onSortOrderSelected(SortOrder.BOOKMARKED)
                         }
-                        titleName.setOnClickListener {
+                        titleAsc.setOnClickListener {
                             viewModel.onSortOrderSelected(SortOrder.TITLE_ASC)
+                        }
+                        titleDsc.setOnClickListener {
+                            viewModel.onSortOrderSelected(SortOrder.TITLE_DSC)
                         }
                         newest.setOnClickListener {
                             viewModel.onSortOrderSelected(SortOrder.NEW_TO_OLD)
@@ -363,9 +366,10 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
         viewModel.onTaskSelected(noteEntity)
     }
 
-    override fun onAddToTrash(noteEntity: NoteEntity, isHide: Boolean) {
-//        viewModel.onAddToTrash(noteEntity, isHide)
-    }
+
+    override fun onItemLongClick(item: NoteEntity) {
+        val actionMode = activity?.startActionMode(viewModel.callback)
+        actionMode?.title = "1 selected"    }
 
     private fun getItemsFromDb(query: String) {
 
@@ -414,7 +418,8 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         dialog.window?.setGravity(Gravity.BOTTOM)
         bookmarked = dialog.findViewById(R.id.bookmarked)
-        titleName = dialog.findViewById(R.id.title_name)
+        titleAsc = dialog.findViewById(R.id.title_asc)
+        titleDsc = dialog.findViewById(R.id.title_desc)
         newest = dialog.findViewById(R.id.newest)
         oldest = dialog.findViewById(R.id.oldest)
 

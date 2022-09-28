@@ -4,7 +4,11 @@ package com.sandip.notefy.ui.home
 import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
+import android.view.ActionMode
+import android.view.Menu
+import android.view.MenuItem
 import androidx.lifecycle.*
+import com.sandip.notefy.R
 import com.sandip.notefy.data.dao.NoteDao
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.dao.UserDao
@@ -32,8 +36,6 @@ class HomeViewModel @Inject constructor(
 ): ViewModel() {
     val searchQuery = state.getLiveData("searchQuery", "")
     val displayUser = userDao.getUser()
-
-    val languageFlow = preferencesManager.languageCode
 
     val preferencesFlow = preferencesManager.preferencesFlow
     val isChecked = preferencesManager.isChecked
@@ -139,6 +141,44 @@ class HomeViewModel @Inject constructor(
         context?.resources?.updateConfiguration(configuration, context.resources?.displayMetrics
         );
         Log.d("Locale", "language set of $code")
+
+    }
+
+
+    val callback = object : ActionMode.Callback {
+
+        override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            mode?.menuInflater?.inflate(R.menu.contextual_action_bar, menu)
+            mode?.setTitle("Select option here");
+
+            return true
+        }
+
+        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
+            return false
+        }
+
+        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
+            return when (item?.itemId) {
+//                        R.id.share -> {
+//                            // Handle share icon press
+//                            true
+//                        }
+                R.id.delete -> {
+                    // Handle delete icon press
+
+                    true
+                }
+//                        R.id.more -> {
+//                            // Handle more item (inside overflow menu) press
+//                            true
+//                        }
+                else -> false
+            }
+        }
+
+        override fun onDestroyActionMode(mode: ActionMode?) {
+        }
 
     }
 

@@ -68,7 +68,7 @@
                 android:id="@+id/todoDesc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="60dp"
+                android:layout_marginStart="55dp"
                 android:layout_marginEnd="52dp"
                 android:layout_marginTop="15dp"
                 android:background="@null"
@@ -103,13 +103,12 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/header"
         android:layout_marginTop="125dp"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="60dp"
         android:scrollbars="none" />
     <Button
         android:id="@+id/done"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:text="@string/done"
         android:textColor="@color/teal_200"
         android:layout_gravity="bottom|center"

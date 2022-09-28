@@ -2,6 +2,8 @@ package com.sandip.notefy.ui.languages
 
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
+import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +11,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.card.MaterialCardView
 import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Language
@@ -50,7 +53,8 @@ class LanguagesAdapter(
         holder.language.text = myList?.get(position)?.language
 
         if (selectedPosition == position) {
-            holder.cardView.setCardBackgroundColor(Color.parseColor("#80CBC4"))
+            holder.cardView.strokeWidth = 3
+            holder.cardView.strokeColor = Color.parseColor("#80cbc4")
         }
     }
 
@@ -61,7 +65,7 @@ class LanguagesAdapter(
     inner class LanguagesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var flagImage: ImageView
         var language: TextView
-        var cardView : CardView
+        var cardView : MaterialCardView
 
         init {
             flagImage = itemView.findViewById(R.id.flag)

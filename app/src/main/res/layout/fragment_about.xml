@@ -20,12 +20,28 @@
             >
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
-
-    <TextView
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="336dp"
-        android:text="About"
-        android:gravity="center"
-       />
+        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            app:layout_constraintTop_toTopOf="parent"
+            android:text="The plugin adds a random text generator, capable of creating witty texts in different genres. Created text can be inserted newly at the caret, or replace a selection.
+The dummy text generator is added to the main menu, tools menu and into the generate... popup (Alt+Insert).
+
+Used from the main menu, text is generated in the previously selected genre.
+Used from the Tools menu or Generate popup, the plugin allows to choose from several genres::
+Culinary Inspirations
+Esoteric Wisdom
+Fake Latin (similar to Lorem Ipsum blindtext)
+Pirate Lingo
+Science Fiction
+" />
+    </androidx.core.widget.NestedScrollView>
+
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

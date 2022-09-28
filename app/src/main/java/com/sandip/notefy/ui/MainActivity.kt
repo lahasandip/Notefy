@@ -332,9 +332,9 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if(key.equals("darkMode"))  {
             observeUiPreferences()
-            finish();
-            startActivity(intent);
-            overridePendingTransition(0, 0);
+//            finish();
+//            startActivity(intent);
+//            overridePendingTransition(0, 0);
             Log.d("Sandip", "inside methods")
         }
         if(key.equals("biometric"))  {

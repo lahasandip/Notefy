@@ -30,6 +30,9 @@ interface NoteDao {
     @Query("select * from Note where Hide = 0 order by lower(Title) ASC ")
     fun getByTitleAscData(): Flow<List<NoteEntity>>
 
+    @Query("select * from Note where Hide = 0 order by lower(Title) DESC ")
+    fun getByTitleDscData(): Flow<List<NoteEntity>>
+
     @Query("select * from Note where Important = 1 and Hide = 0")
     fun getBookmarkedData(): Flow<List<NoteEntity>>
 
@@ -43,6 +46,7 @@ interface NoteDao {
         when (sortOrder) {
             SortOrder.BOOKMARKED -> getBookmarkedData()
             SortOrder.TITLE_ASC -> getByTitleAscData()
+            SortOrder.TITLE_DSC -> getByTitleDscData()
             SortOrder.NEW_TO_OLD -> getNewestToOldestData()
             SortOrder.OLD_TO_NEW -> getOldestToNewestData()
         }

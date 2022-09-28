@@ -21,8 +21,8 @@
 
     <CheckBox
         android:id="@+id/important"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"
         android:button="@drawable/ic_baseline_bookmark_border_24"
@@ -31,8 +31,8 @@
 
     <ImageView
         android:id="@+id/delete_note"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:layout_marginTop="15dp"
         android:layout_marginEnd="20dp"
         android:src="@drawable/ic_baseline_delete_outline_24"
@@ -42,8 +42,8 @@
 
     <ImageView
         android:id="@+id/share"
-        android:layout_width="24dp"
-        android:layout_height="24dp"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:layout_marginTop="15dp"
         android:src="@drawable/ic_baseline_share_24"
         app:layout_constraintEnd_toStartOf="@+id/new_update_guideline_2"
@@ -56,10 +56,10 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginStart="20dp"
-        android:layout_marginTop="18dp"
+        android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="@string/edited"
-        android:textSize="14dp"
+        android:textSize="13sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/back"
         app:layout_constraintTop_toTopOf="parent" />
@@ -84,7 +84,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/image_layout"
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
+                android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
                 android:visibility="gone"
                 >
@@ -92,7 +92,7 @@
                     android:id="@+id/remove_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="top|right"
+                    android:layout_gravity="top|end"
                     android:elevation="5dp"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
@@ -101,9 +101,8 @@
                 <ImageView
                     android:id="@+id/show_image"
                     android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_marginBottom="10dp"
-                    android:scaleType="centerCrop"
+                    android:layout_height="wrap_content"
+                    android:scaleType="fitXY"
                     tools:ignore="UnusedAttribute"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     />
@@ -117,7 +116,8 @@
                 android:hint="@string/title"
                 android:layout_marginTop="10dp"
                 android:scrollbars="none"
-                android:textSize="25dp"
+                android:textSize="20sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:theme="@style/SearchView" />
 
             <EditText
@@ -128,7 +128,8 @@
                 android:layout_marginStart="5dp"
                 android:background="@null"
                 android:hint="@string/note"
-                android:textSize="20dp"
+                android:textSize="18dp"
+                android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
                 android:theme="@style/SearchView" />
             <!--            <LinearLayout-->
             <!--                android:id="@+id/checkbox"-->
@@ -202,6 +203,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
+                        android:scaleX=".80"
+                        android:scaleY=".80"
                         android:src="@drawable/ic_baseline_insert_link_24" />
 
                     <TextView
@@ -210,8 +213,8 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:autoLink="web"
+                        android:textSize="13sp"
                         android:background="@null"
-                        android:textSize="16sp"
                         android:theme="@style/SearchView" />
                 </LinearLayout>
 
@@ -219,6 +222,8 @@
                     android:id="@+id/remove_url"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:scaleX=".80"
+                    android:scaleY=".80"
                     android:layout_gravity="center"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/ic_baseline_clear_24"
@@ -233,7 +238,7 @@
                 android:id="@+id/reminder_parent_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/search_view"
                 android:visibility="gone"
 
@@ -253,6 +258,8 @@
 
                     <ImageView
                         android:id="@+id/clock"
+                        android:scaleX=".80"
+                        android:scaleY=".80"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
@@ -264,7 +271,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:background="@null"
-                        android:textSize="16dp"
+                        android:textSize="13sp"
                         android:theme="@style/SearchView" />
 
                     <TextView
@@ -273,7 +280,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
                         android:background="@null"
-                        android:textSize="16dp"
+                        android:textSize="13sp"
                         android:theme="@style/SearchView" />
                 </LinearLayout>
 
@@ -281,6 +288,8 @@
                     android:id="@+id/remove_reminder"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:scaleX=".80"
+                    android:scaleY=".80"
                     android:layout_gravity="center"
                     android:layout_marginRight="10dp"
                     android:src="@drawable/ic_baseline_clear_24"
@@ -295,7 +304,7 @@
                 android:id="@+id/location_parent_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/search_view"
                 android:orientation="horizontal"
                 android:visibility="gone"
@@ -318,6 +327,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
+                        android:scaleX=".80"
+                        android:scaleY=".80"
                         android:src="@drawable/ic_outline_location_on_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
@@ -329,7 +340,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:background="@null"
-                        android:textSize="16dp"
+                        android:textSize="13sp"
                         android:theme="@style/SearchView"
                         />
                 </LinearLayout>
@@ -340,6 +351,8 @@
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
                     android:layout_marginRight="10dp"
+                    android:scaleX=".80"
+                    android:scaleY=".80"
                     android:src="@drawable/ic_baseline_clear_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -353,7 +366,7 @@
                 android:id="@+id/task_layout"
                 android:layout_width="45dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
+                android:layout_marginTop="10dp"
                 android:orientation="horizontal"
                 android:visibility="gone"
                 >

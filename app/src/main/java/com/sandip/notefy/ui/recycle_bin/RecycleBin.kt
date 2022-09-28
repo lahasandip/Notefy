@@ -21,7 +21,7 @@ import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RecycleBin : Fragment(R.layout.fragment_recycle_bin), NoteAdapter.OnItemClickListener{
+class RecycleBin : Fragment(R.layout.fragment_recycle_bin), NoteAdapter.OnItemClickListener {
 
     private val homeViewModel: HomeViewModel by viewModels()
     private val viewModel: RecycleBinViewModel by viewModels()
@@ -62,6 +62,7 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), NoteAdapter.OnItemCl
                 }
             }).attachToRecyclerView(trashRecyclerView)
 
+
             homeViewModel.trash.observe(viewLifecycleOwner){
                 noteAdapter.submitList(it)
                 if(it.isNullOrEmpty()){
@@ -90,6 +91,9 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), NoteAdapter.OnItemCl
                     }.exhaustive
                 }
             }
+
+
+
         }
 
     }
@@ -107,6 +111,11 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), NoteAdapter.OnItemCl
             .show()
     }
 
-    override fun onAddToTrash(noteEntity: NoteEntity, isHide: Boolean) {
 
-    }}
+    override fun onItemLongClick(item: NoteEntity) {
+
+        val actionMode = activity?.startActionMode(viewModel.callback)
+            actionMode?.title = "1 selected"
+
+    }
+}

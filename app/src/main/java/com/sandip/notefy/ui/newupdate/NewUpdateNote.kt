@@ -46,7 +46,7 @@ const val CHANNEL_NAME: String = "Notefy"
 const val CHANNEL_DESCRIPTION = "Reminder Message"
 @AndroidEntryPoint
 class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
-//    private val REQUEST_IMAGE_CAPTURE = 1
+    //    private val REQUEST_IMAGE_CAPTURE = 1
 //    private val SELECT_PICTURE = 2
     private val viewModel: NewUpdateNoteViewModel by viewModels()
     private lateinit var binding: FragmentNewUpdateNoteBinding
@@ -74,7 +74,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 if (resultCode == Activity.RESULT_OK) {
                     //Image Uri will not be null for RESULT_OK
                     val fileUri = data?.data!!
-                binding.imageLayout.visibility = View.VISIBLE
+                    binding.imageLayout.visibility = View.VISIBLE
                     context?.let { Glide.with(it).load(fileUri).into(binding.showImage) }
                     viewModel.noteImage = fileUri.toString()
                 } else if (resultCode == ImagePicker.RESULT_ERROR) {
@@ -84,7 +84,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 }
             }
         //Todo list view popup
-       val todoDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+        val todoDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
 //        todoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         todoDialog.setContentView(R.layout.todo_listview)
 //        todoDialog.show()
@@ -613,9 +613,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 //                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
                 }
-                    val image: LinearLayout? = dialog.findViewById(R.id.add_photo)
-                    image?.setOnClickListener {
-                        dialog.dismiss()
+                val image: LinearLayout? = dialog.findViewById(R.id.add_photo)
+                image?.setOnClickListener {
+                    dialog.dismiss()
 //                    val i = Intent()
 //                    i.type = "image/*"
 //                    i.action = Intent.ACTION_GET_CONTENT
@@ -633,17 +633,17 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 ////                    }
 
 
-                        with?.crop()
-                        with?.galleryOnly()
-                        with?.compress(1024)
-                        with?.maxResultSize(1080, 1080)
-                        with?.createIntent { Intent: Intent? ->
-                            startForProfileImageResult.launch(Intent)
-                            null
-                        }
-//                viewModel.onAddImageClick()
+                    with?.crop()
+                    with?.galleryOnly()
+                    with?.compress(1024)
+                    with?.maxResultSize(1080, 1080)
+                    with?.createIntent { Intent: Intent? ->
+                        startForProfileImageResult.launch(Intent)
+                        null
                     }
+//                viewModel.onAddImageClick()
                 }
+            }
             locationLayout.setOnClickListener {
                 viewModel.onLocationClick(placeInput.text)
             }

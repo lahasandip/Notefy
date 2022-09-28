@@ -50,6 +50,14 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                             listener.onItemClick(task)
                         }
                     }
+                overlay.setOnLongClickListener {
+                    val position = adapterPosition
+                    if (position != RecyclerView.NO_POSITION) {
+                        val task = getItem(position)
+                        listener.onItemLongClick(task)
+                    }
+                    true
+                }
 //                }
 //                checkBoxCompleted.setOnClickListener {
 //                    val position = adapterPosition
@@ -112,7 +120,8 @@ class NoteAdapter(private val listener: OnItemClickListener) :
 
     interface OnItemClickListener {
         fun onItemClick(noteEntity: NoteEntity)
-        fun onAddToTrash(noteEntity: NoteEntity, isHide: Boolean)
+        fun onItemLongClick(item: NoteEntity)
+
     }
 
     class DiffCallback : DiffUtil.ItemCallback<NoteEntity>() {

@@ -16,7 +16,7 @@ import javax.inject.Singleton
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_preferences")
 private const val TAG = "PreferencesManager"
 
-enum class SortOrder { BOOKMARKED, TITLE_ASC, NEW_TO_OLD, OLD_TO_NEW}
+enum class SortOrder { BOOKMARKED, TITLE_ASC, TITLE_DSC, NEW_TO_OLD, OLD_TO_NEW}
 enum class UiMode { LIGHT, DARK }
 //enum class Biometric { ENABLE, DISABLE }
 
@@ -27,7 +27,7 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
     companion object{
         val IS_DARK_MODE = booleanPreferencesKey("dark_mode")
 //        val IS_BIOMETRIC_ENABLE = booleanPreferencesKey("biometric")
-        val LANGUAGE = intPreferencesKey("language")
+//        val LANGUAGE = intPreferencesKey("language")
     }
     private val dataStore = context.dataStore
 
@@ -82,19 +82,19 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
 //                false -> Biometric.DISABLE
 //            }
 //        }
-    val languageCode: Flow<Int> = dataStore.data
-        .catch {
-            if (it is IOException) {
-                it.printStackTrace()
-                emit(emptyPreferences())
-            } else {
-                throw it
-            }
-        }
-        .map { preference4 ->
-            val language = preference4[LANGUAGE] ?: 0
-            language
-        }
+//    val languageCode: Flow<Int> = dataStore.data
+//        .catch {
+//            if (it is IOException) {
+//                it.printStackTrace()
+//                emit(emptyPreferences())
+//            } else {
+//                throw it
+//            }
+//        }
+//        .map { preference4 ->
+//            val language = preference4[LANGUAGE] ?: 0
+//            language
+//        }
     val isChecked = dataStore.data
         .catch {
             if (it is IOException) {
@@ -105,7 +105,7 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             }
         }
         .map { preference2 ->
-            val isChecked = preference2[PreferencesKeys.SORT_ORDER_CHECKED] ?: 0
+            val isChecked = preference2[PreferencesKeys.SORT_ORDER_CHECKED] ?: 3
             isChecked
         }
     suspend fun updateSortOrder(sortOrder: SortOrder) {
@@ -136,11 +136,11 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
 //            }
 //        }
 //    }
-    suspend fun storeLocale(language: Int) {
-        dataStore.edit { preferences ->
-            preferences[LANGUAGE] = language
-        }
-    }
+//    suspend fun storeLocale(language: Int) {
+//        dataStore.edit { preferences ->
+//            preferences[LANGUAGE] = language
+//        }
+//    }
 
 
     private object PreferencesKeys {

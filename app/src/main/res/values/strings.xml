@@ -19,7 +19,7 @@
     <!--  Sort By Dialog -->
     <string name="sort_by">Sort By</string>
     <string name="bookmarked_only">Bookmarked Only</string>
-    <string name="title_a_z">Title [A-Z]</string>
+    <string name="title_a_z">Title [ A-Z ]</string>
     <string name="newest_to_oldest">Newest to Oldest</string>
     <string name="oldest_to_newest">Oldest to Newest</string>
 

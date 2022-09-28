@@ -9,7 +9,7 @@
         android:id="@+id/profile_photo"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:src="@drawable/pro"
+        android:src="@drawable/img_1"
         android:layout_gravity="center"
         android:layout_marginEnd="5dp"
         android:background="?attr/selectableItemBackgroundBorderless"
