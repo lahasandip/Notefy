@@ -23,6 +23,7 @@ import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.asLiveData
@@ -67,6 +68,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     companion object{
         var drawerLayout: DrawerLayout? = null
         lateinit var preferencesManager : PreferencesManager
+
             }
     override fun onCreate(savedInstanceState: Bundle?) {
         preferencesManager = PreferencesManager(applicationContext)
@@ -342,8 +344,14 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 //            overridePendingTransition(0, 0);
 
         }
+//        if(key.equals("position"))  {
+//            observeUiPreferences()
+//            finish();
+//            startActivity(intent);
+//            overridePendingTransition(0, 0);
+//            Log.d("Sandip", "inside methods")
+//        }
     }
-
 
 
 }

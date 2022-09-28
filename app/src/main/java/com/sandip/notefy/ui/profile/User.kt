@@ -1,20 +1,13 @@
 package com.sandip.notefy.ui.profile
 
-import android.animation.ValueAnimator
 import android.app.Activity
-import android.app.Dialog
 import android.content.Intent
-import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.Gravity
 import androidx.fragment.app.Fragment
 import android.view.View
-import android.view.ViewGroup
-import android.view.Window
 import android.widget.LinearLayout
-import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -28,7 +21,6 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.FragmentUserBinding
-import com.sandip.notefy.ui.languages.LanguagesViewModel
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -96,13 +88,8 @@ class User : Fragment(R.layout.fragment_user) {
                 todo = it.toInt()
                 println("todo $todo")
                 viewModel.startAnimation(todoNumber, todo)
-
-
-
             }
-//            startAnimation(notesNumber, note)
-//            startAnimation(reminderNumber, reminder)
-//            startAnimation(todoNumber, todo)
+
             editName.setOnClickListener {
                 textName.requestFocus(View.LAYOUT_DIRECTION_LTR)
             }
@@ -127,21 +114,12 @@ class User : Fragment(R.layout.fragment_user) {
                 viewModel.onSaveClick(rows)
             }
             camera.setOnClickListener {
-
                 val with: ImagePicker.Builder? = parentFragment?.let { it1 ->
-                    ImagePicker.with(
-                        it1
-                    )
+                    ImagePicker.with(it1)
                 }
                 val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-//                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog.setContentView(R.layout.add_image_dialog)
                 dialog.show()
-//                dialog.window?.setLayout(
-//                    ViewGroup.LayoutParams.MATCH_PARENT,
-//                    ViewGroup.LayoutParams.WRAP_CONTENT,
-//                )
-//                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                 dialog.window?.setGravity(Gravity.BOTTOM)
                 val camera: LinearLayout? = dialog.findViewById(R.id.take_photo)
@@ -167,32 +145,16 @@ class User : Fragment(R.layout.fragment_user) {
                         startForProfileImageResult.launch(Intent)
                         null
                     }
-//                viewModel.onAddImageClick()
                 }
             }
-
 
             topAppBar.setNavigationOnClickListener {
                 viewModel.onOkClick()
             }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 viewModel.addEditTaskEvent.collect { event ->
                     when (event) {
-
                         is UserViewModel.AddEditTaskEvent.NavigateBackWithResult -> {
                             Snackbar.make(view,"Profile updated", Snackbar.LENGTH_LONG).show()
                         }
@@ -202,23 +164,6 @@ class User : Fragment(R.layout.fragment_user) {
                     }.exhaustive
                 }
             }
-
-        }}
-
-
-
-
-
-//    private fun startAnimation(notesNumber: TextView, count: Int) {
-//        val animator = ValueAnimator.ofInt(0, count)
-//        when (count){
-//            in 0..10 -> animator.duration = 1000 // 2 seconds
-//            in 11..100 -> animator.duration = 2000 // 2 seconds
-//            else -> animator.duration = 3000 // 2 seconds
-//        }
-//        animator.addUpdateListener { animation ->
-//            notesNumber.text = animation.animatedValue.toString()
-//        }
-//        animator.start()
-//    }
+        }
+    }
 }

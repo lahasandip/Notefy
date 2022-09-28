@@ -5,12 +5,10 @@ import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.GradientDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.activity.result.ActivityResult
@@ -43,14 +41,13 @@ import vadiole.colorpicker.ColorPickerDialog
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 const val CHANNEL_ID: String = "4"
 const val CHANNEL_NAME: String = "Notefy"
 const val CHANNEL_DESCRIPTION = "Reminder Message"
 @AndroidEntryPoint
 class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
-    private val REQUEST_IMAGE_CAPTURE = 1
-    private val SELECT_PICTURE = 2
+//    private val REQUEST_IMAGE_CAPTURE = 1
+//    private val SELECT_PICTURE = 2
     private val viewModel: NewUpdateNoteViewModel by viewModels()
     private lateinit var binding: FragmentNewUpdateNoteBinding
     private lateinit var date: String
@@ -59,8 +56,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private var todoList = ArrayList<Todo>()
 
     //Companion Object for Temp List
-
-
     companion object {
         var recylerView: RecyclerView? = null
         var todoAdapter: NewUpdateAdapter? = null
@@ -752,9 +747,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                             )
                             findNavController().popBackStack()
 
-                        }
-                        is NewUpdateNoteViewModel.AddEditTaskEvent.DisplayDialog -> {
-                            event.dialog.show(parentFragmentManager, "Add Feature Popup")
                         }
                         is NewUpdateNoteViewModel.AddEditTaskEvent.ShareIntent -> {
                             startActivity(event.shareIntent)

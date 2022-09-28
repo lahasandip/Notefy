@@ -10,11 +10,9 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Help
 import com.sandip.notefy.databinding.FragmentHelpFeedbackBinding
-import com.sandip.notefy.ui.profile.UserViewModel
 import com.sandip.notefy.util.exhaustive
 
 class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnItemClickListener {
@@ -25,7 +23,6 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHelpFeedbackBinding.bind(view)
-
 
         val questions = arrayOf(
             "How to use Notefy?", "How to create a new Note?", "What can be keep in the note?",
@@ -38,16 +35,13 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
             "English", "हिन्दी", "Española", "বাংলা", "Français", "中国人", "தமிழ்",
             "Português", "bahasa Indonesia", "日本", "తెలుగు", "Русский", "मराठी", "Türk", "Italiana"
         )
-
         val helpList = ArrayList<Help>()
 
         for (i in questions.indices) {
-
             val helpClass = Help(
                 questions[i], expandedText[i] , false
             )
             helpList.add(helpClass)
-
         }
 
         val helpAdapter = HelpAdapter(helpList, this)
@@ -81,9 +75,6 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
                 viewModel.onOkClick()
             }
 
-
-
-
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 viewModel.addEditTaskEvent.collect { event ->
                     when (event) {
@@ -95,7 +86,6 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
             }
 
         }}
-
 
 
     override fun onItemClick(flag: Int) {

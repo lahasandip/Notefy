@@ -10,7 +10,6 @@ import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.ui.ADD_TASK_RESULT_OK
 import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK
-import com.sandip.notefy.ui.dialogs.DisplayDialogs
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -224,10 +223,7 @@ class NewUpdateNoteViewModel @Inject constructor(
         data class NavigateToBackAfterDelete(val result: Int) : AddEditTaskEvent()
         data class ShowInvalidInputMessage(val msg: String) : AddEditTaskEvent()
         data class NavigateBackWithResult(val result: Int) : AddEditTaskEvent()
-        data class DisplayDialog(val dialog: DisplayDialogs) : AddEditTaskEvent()
         data class ShareIntent(val shareIntent: Intent) : AddEditTaskEvent()
         data class StartLocationIntent(val mapIntent: Intent) : AddEditTaskEvent()
-
     }
-
 }

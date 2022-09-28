@@ -51,7 +51,6 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
             R.drawable.india,
             R.drawable.turkey,
             R.drawable.italy
-
         )
         val language = arrayOf(
             "English", "हिन्दी", "Española", "বাংলা", "Français", "中国人", "தமிழ்",
@@ -60,16 +59,12 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
         val languageList = ArrayList<Language>()
 
         for (i in language.indices) {
-
             val languagesClass = Language(
                 flagImages[i], language[i]
             )
             languageList.add(languagesClass)
-
         }
         val languagesAdapter = LanguagesAdapter(languageList, this)
-
-
 
         binding.apply {
             languageRecyclerView.apply {
@@ -106,36 +101,16 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
                 viewModel.onContinueClick()
                 activity?.let { it1 ->
                     recreate(it1)
-
-
-//                val intent = requireActivity().intent
-//                intent.addFlags(
-//                    Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_NEW_TASK
-//                            or Intent.FLAG_ACTIVITY_NO_ANIMATION
-//                )
-//                requireActivity().overridePendingTransition(0, 0)
-//                requireActivity().finish()
-//
-//                requireActivity().overridePendingTransition(0, 0)
-//                startActivity(intent)
-
                 }
-
             }
         }
     }
 
 
     override fun onItemClick(position: Int) {
-//        viewModel.onTaskSelected(context, flag)
-//        activity?.let { it1 -> recreate(it1)
-//        }
         val sharedPreferences =  context?.getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
         val editor = sharedPreferences?.edit()
         editor?.putInt("position",position)
         editor?.commit()
-//        viewModel.savePreference(position)
-
     }
-
 }
