@@ -4,18 +4,13 @@ package com.sandip.notefy.ui.home
 import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
-import android.view.ActionMode
-import android.view.Menu
-import android.view.MenuItem
 import androidx.lifecycle.*
-import com.sandip.notefy.R
 import com.sandip.notefy.data.dao.NoteDao
-import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.dao.UserDao
+import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.ui.ADD_TASK_RESULT_OK
 import com.sandip.notefy.ui.DELETE_TASK_RESULT_OK
 import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK
-import com.sandip.notefy.ui.MainActivity
 import com.sandip.notefy.util.PreferencesManager
 import com.sandip.notefy.util.SortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,6 +22,7 @@ import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
 
+
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val noteDao: NoteDao,
@@ -34,6 +30,17 @@ class HomeViewModel @Inject constructor(
     private val preferencesManager: PreferencesManager,
     state: SavedStateHandle
 ): ViewModel() {
+
+    companion object{
+        var mutableLiveData = MutableLiveData<String?>()
+            set(value) {
+                field = value
+            }
+        get() = field
+
+    }
+
+
     val searchQuery = state.getLiveData("searchQuery", "")
     val displayUser = userDao.getUser()
 
@@ -73,11 +80,15 @@ class HomeViewModel @Inject constructor(
     fun onTaskSelected(noteEntity: NoteEntity) = viewModelScope.launch {
         tasksEventChannel.send(TasksEvent.NavigateToEditTaskScreen(noteEntity))
     }
-
+    fun onMenuTaskDelete(noteEntity: NoteEntity, isHide: Boolean) = viewModelScope.launch {
+        noteDao.updateDao(noteEntity.copy(isHide = isHide))
+        tasksEventChannel.send(TasksEvent.ShowDeletedTaskMessage("Note deleted"))
+    }
     fun onTaskSwiped(noteEntity: NoteEntity, isHide: Boolean) = viewModelScope.launch {
         noteDao.updateDao(noteEntity.copy(isHide = isHide))
         tasksEventChannel.send(TasksEvent.ShowUndoDeleteTaskMessage(noteEntity))
     }
+
     fun onUndoDeleteClick(noteEntity: NoteEntity) = viewModelScope.launch {
         noteDao.updateDao(noteEntity.copy(isHide = false))
     }
@@ -145,42 +156,7 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    val callback = object : ActionMode.Callback {
 
-        override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-            mode?.menuInflater?.inflate(R.menu.contextual_action_bar, menu)
-            mode?.setTitle("Select option here");
-
-            return true
-        }
-
-        override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
-            return false
-        }
-
-        override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
-            return when (item?.itemId) {
-//                        R.id.share -> {
-//                            // Handle share icon press
-//                            true
-//                        }
-                R.id.delete -> {
-                    // Handle delete icon press
-
-                    true
-                }
-//                        R.id.more -> {
-//                            // Handle more item (inside overflow menu) press
-//                            true
-//                        }
-                else -> false
-            }
-        }
-
-        override fun onDestroyActionMode(mode: ActionMode?) {
-        }
-
-    }
 
 
 
@@ -191,7 +167,9 @@ class HomeViewModel @Inject constructor(
         data class NavigateToEditTaskScreen(val noteEntity: NoteEntity) : TasksEvent()
         data class ShowTaskSavedConfirmationMessage(val msg: String) : TasksEvent()
         data class ShowUndoDeleteTaskMessage(val noteEntity: NoteEntity) : TasksEvent()
+        data class ShowDeletedTaskMessage(val text: String) : TasksEvent() {
 
+        }
 
 
     }

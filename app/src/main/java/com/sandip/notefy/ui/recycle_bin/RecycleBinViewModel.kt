@@ -1,5 +1,6 @@
 package com.sandip.notefy.ui.recycle_bin
 
+import android.util.Log
 import android.view.ActionMode
 import android.view.Menu
 import android.view.MenuItem
@@ -63,7 +64,7 @@ class RecycleBinViewModel @Inject constructor(
 
         override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
             mode?.menuInflater?.inflate(R.menu.contextual_action_bar, menu)
-            mode?.setTitle("Select option here");
+//            mode?.setTitle("Select option here");
 
             return true
         }
@@ -80,6 +81,8 @@ class RecycleBinViewModel @Inject constructor(
 //                        }
                 R.id.delete -> {
                     // Handle delete icon press
+                Log.d("Delete", "all deleted")
+                    mode?.finish()
 
                     true
                 }

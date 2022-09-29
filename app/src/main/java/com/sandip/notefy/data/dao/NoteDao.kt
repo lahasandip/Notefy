@@ -60,5 +60,8 @@ interface NoteDao {
     @Query("select count(TodoList) from Note where TodoList not like '[]'")
     fun getTodos() : LiveData<Int>
 
+    @Query("delete from Note where Hide in (:list)")
+    fun deleteAllTrash(list : List<Int>)
+
 
 }

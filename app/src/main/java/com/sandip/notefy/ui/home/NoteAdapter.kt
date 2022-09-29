@@ -1,35 +1,43 @@
 package com.sandip.notefy.ui.home
 
 
+import android.graphics.Color
 import android.net.Uri
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.provider.ContactsContract.CommonDataKinds.Note
+import android.util.Log
+import android.view.*
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.sandip.notefy.NotefyApplication
+import com.sandip.notefy.R
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.NewNoteBinding
 
+
 class NoteAdapter(private val listener: OnItemClickListener) :
     ListAdapter<NoteEntity, NoteAdapter.NoteViewHolder>(DiffCallback()) {
-//    var adp: TodoAdapter? = null
-
+    //    var adp: TodoAdapter? = null
+    var isEnable: Boolean = false
+    var isSelectAll = false
+    var selectList: ArrayList<NoteEntity> = ArrayList()
+    private lateinit var task :NoteEntity
+    companion object {
+        var actionMode : ActionMode ? = null
+    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val binding = NewNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-//        binding.overlay.setOnClickListener {
-//            binding.overlay.visibility = View.GONE;
-//        }
         return NoteViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val currentItem = getItem(position)
-        holder.bind(currentItem)
+        holder.bind(holder, currentItem)
 
     }
 
@@ -42,36 +50,161 @@ class NoteAdapter(private val listener: OnItemClickListener) :
 
         init {
             binding.apply {
-//                root.setOnClickListener {
-                    overlay.setOnClickListener {
+//                overlay.setOnClickListener {
+//                    val position = adapterPosition
+//                    if (position != RecyclerView.NO_POSITION) {
+//                        val task = getItem(position)
+//                        listener.onItemClick(task)
+//                    }
+//                }
+
+
+
+            }
+
+        }
+
+        fun bind(holder: NoteViewHolder, noteEntity: NoteEntity) {
+            binding.apply {
+                overlay.setOnClickListener {
+                    if (isEnable) {
+                        // when action mode is enable
+                        // call method
+                        clickItem(binding, holder);
+                    } else {
                         val position = adapterPosition
                         if (position != RecyclerView.NO_POSITION) {
                             val task = getItem(position)
                             listener.onItemClick(task)
                         }
                     }
-                overlay.setOnLongClickListener {
-                    val position = adapterPosition
-                    if (position != RecyclerView.NO_POSITION) {
-                        val task = getItem(position)
-                        listener.onItemLongClick(task)
-                    }
-                    true
                 }
-//                }
-//                checkBoxCompleted.setOnClickListener {
+                overlay.setOnLongClickListener {
 //                    val position = adapterPosition
 //                    if (position != RecyclerView.NO_POSITION) {
 //                        val task = getItem(position)
-//                        listener.onCheckBoxClick(task, checkBoxCompleted.isChecked)
+//                        listener.onItemLongClick(holder,task)
 //                    }
-//                }
-            }
 
-        }
+                    if (!isEnable) {
+                        val callback = object : ActionMode.Callback {
 
-        fun bind(noteEntity: NoteEntity) {
-            binding.apply {
+                            override fun onCreateActionMode(
+                                mode: ActionMode?,
+                                menu: Menu?
+                            ): Boolean {
+                                mode?.menuInflater?.inflate(R.menu.contextual_action_bar, menu)
+                                actionMode = mode
+                                return true
+                            }
+
+                            override fun onPrepareActionMode(
+                                mode: ActionMode?,
+                                menu: Menu?
+                            ): Boolean {
+                                isEnable = true
+                                clickItem(binding, holder)
+                                (Home.act as LifecycleOwner?)?.let { it1 ->
+                                    HomeViewModel.mutableLiveData.observe(
+                                        it1,
+                                        Observer<String?> { s -> // when text change
+                                            // set text on action mode title
+                                            if(!(s.equals("0"))){
+                                                mode?.title = String.format("%s selected", s)
+                                            }
+                                            else{
+                                                mode?.finish()
+                                            }
+                                        })
+                                };
+                                return false
+                            }
+
+                            override fun onActionItemClicked(
+                                mode: ActionMode?,
+                                item: MenuItem?
+                            ): Boolean {
+                                return when (item?.itemId) {
+
+                                    R.id.restore -> {
+                                        Log.d("Select all", "select all items")
+                                        if(selectList.size == 2)
+                                        {
+                                            // when all item selected
+                                            // set isselectall false
+                                            isSelectAll=false;
+                                            // create select array list
+                                            selectList.clear();
+                                        }
+                                        else
+                                        {
+                                            // when  all item unselected
+                                            // set isSelectALL true
+                                            isSelectAll=true;
+                                            // clear select array list
+                                            selectList.clear();
+                                            // add value in select array list
+                                            selectList.add(task)
+                                            selectList.add(task)
+                                            selectList.add(task)
+
+                                        }
+                                        // set text on view model
+                                        HomeViewModel.mutableLiveData.value = selectList.size.toString()
+
+                                        // notify adapter
+                                        notifyDataSetChanged();
+                                        true
+                                    }
+                                    R.id.delete -> {
+                                        Log.d("Delete", "deleted all items")
+                                        for (s in selectList) {
+                                            // remove selected item list
+                                            listener.onDeleteClick(s)
+                                        }
+                                        mode?.finish();
+                                        true
+                                    }
+                                    else -> false
+                                }
+                            }
+
+                            override fun onDestroyActionMode(mode: ActionMode?) {
+                                isEnable=false;
+                                isSelectAll=false;
+                                selectList.clear();
+                                // notify adapter
+                                notifyDataSetChanged();
+                            }
+                        }
+                        Home.act.startActionMode(callback)
+                    }
+                    else
+                    {
+                        // when action mode is already enable
+                        // call method
+                        clickItem(binding, holder);
+                    }
+                    true
+
+                    // check condition
+
+                }
+
+                if(isSelectAll)
+                {
+                    binding.cardView.strokeWidth = 5
+                    binding.cardView.strokeColor = Color.parseColor("#80cbc4")
+                }
+                else
+                { binding.cardView.strokeWidth = 0
+                    binding.cardView.strokeColor = Color.parseColor("#9e9e9e")
+                }
+
+
+
+
+
                 important.isChecked = noteEntity.important
 
                 noteTitle.text = noteEntity.title
@@ -118,9 +251,42 @@ class NoteAdapter(private val listener: OnItemClickListener) :
         }
     }
 
+    private fun clickItem(binding: NewNoteBinding, holder: NoteViewHolder) {
+        val position = holder.adapterPosition
+        if (position != RecyclerView.NO_POSITION) {
+            task = getItem(position)
+        }
+        // check condition
+        // check condition
+        if (binding.cardView.strokeWidth == 0) {
+            // when item not selected
+            // visible check box image
+            binding.cardView.strokeWidth = 5
+            binding.cardView.strokeColor = Color.parseColor("#80cbc4")
+            // set background color
+            // add value in select array list
+            selectList.add(task)
+        } else {
+            // when item selected
+            // hide check box image
+            binding.cardView.strokeWidth = 0
+            binding.cardView.strokeColor = Color.parseColor("#9e9e9e")
+            // remove value from select arrayList
+            selectList.remove(task)
+        }
+        // set text on view model
+        // set text on view model
+        HomeViewModel.mutableLiveData.value = selectList.size.toString()
+        Log.d("size", HomeViewModel.mutableLiveData.value.toString())
+//        if(selectList.size == 0){
+//            actionMode?.finish()
+//        }
+    }
+
     interface OnItemClickListener {
         fun onItemClick(noteEntity: NoteEntity)
-        fun onItemLongClick(item: NoteEntity)
+        fun onItemLongClick(holder: NoteViewHolder, item: NoteEntity)
+        fun onDeleteClick(noteEntity: NoteEntity)
 
     }
 
@@ -131,4 +297,6 @@ class NoteAdapter(private val listener: OnItemClickListener) :
         override fun areContentsTheSame(oldItem: NoteEntity, newItem: NoteEntity) =
             oldItem == newItem
     }
+
+
 }

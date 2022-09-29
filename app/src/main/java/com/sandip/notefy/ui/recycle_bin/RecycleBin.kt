@@ -112,10 +112,14 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), NoteAdapter.OnItemCl
     }
 
 
-    override fun onItemLongClick(item: NoteEntity) {
+    override fun onItemLongClick(holder: NoteAdapter.NoteViewHolder, item: NoteEntity) {
 
         val actionMode = activity?.startActionMode(viewModel.callback)
             actionMode?.title = "1 selected"
 
+    }
+
+    override fun onDeleteClick(noteEntity: NoteEntity) {
+        TODO("Not yet implemented")
     }
 }
