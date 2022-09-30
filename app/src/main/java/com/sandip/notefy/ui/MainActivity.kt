@@ -1,9 +1,11 @@
 package com.sandip.notefy.ui
 
 import android.app.Activity
+import android.app.UiModeManager.MODE_NIGHT_NO
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -23,12 +25,9 @@ import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
 import androidx.biometric.BiometricPrompt
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.startActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.viewModelScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -38,13 +37,13 @@ import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
-import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.ActivityMainBinding
+import com.sandip.notefy.ui.home.NoteAdapter
+import com.sandip.notefy.ui.recycle_bin.RecycleAdapter
 import com.sandip.notefy.util.PreferencesManager
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 import java.util.concurrent.Executor
 
 
@@ -173,6 +172,22 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         observeUiPreferences()
         observeBiometricPreferences()
 
+        drawerLayout?.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
+            }
+            override fun onDrawerOpened(drawerView: View) {
+            }
+            override fun onDrawerClosed(drawerView: View) {
+            }
+            override fun onDrawerStateChanged(newState: Int) {
+                if(NoteAdapter.homeActionMode != null){
+                    NoteAdapter.homeActionMode!!.finish()
+                }
+                if(RecycleAdapter.recycleActionMode != null){
+                    RecycleAdapter.recycleActionMode!!.finish()
+                }
+            }
+        })
     }
 
 
@@ -352,6 +367,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 //            Log.d("Sandip", "inside methods")
 //        }
     }
+
 
 
 }

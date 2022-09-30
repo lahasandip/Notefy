@@ -64,7 +64,7 @@
             android:elevation="10dp"
             android:id="@+id/shadow_bottom"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="76dp"
             android:layout_alignTop="@id/profile_pic"
             android:src="@drawable/bottom_shadow"/>
 

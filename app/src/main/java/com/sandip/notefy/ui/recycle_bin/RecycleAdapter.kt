@@ -1,10 +1,12 @@
 package com.sandip.notefy.ui.recycle_bin
 
 
+import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
 import android.util.Log
 import android.view.*
+import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -34,7 +36,7 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
 
     private lateinit var task :NoteEntity
     companion object {
-        var actionMode : ActionMode ? = null
+        var recycleActionMode : ActionMode ? = null
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val binding = NewNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -100,7 +102,7 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                                 menu: Menu?
                             ): Boolean {
                                 mode?.menuInflater?.inflate(R.menu.recycle_contextual_action_bar, menu)
-                                actionMode = mode
+                                recycleActionMode = mode
                                 return true
                             }
 
@@ -140,9 +142,13 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                                     }
 
                                     R.id.select_all -> {
-                                        item.icon = ContextCompat.getDrawable(NotefyApplication.appContext, R.drawable.ic_baseline_deselect_24);
+
+                                        item.icon = ContextCompat.getDrawable(NotefyApplication.appContext,
+                                            R.drawable.ic_baseline_deselect_24);
                                         if(selectList.size == noteList.size)
                                         {
+
+
                                             // when all item selected
                                             // set isselectall false
                                             isSelectAll=false;

@@ -30,7 +30,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
 
     private lateinit var task :NoteEntity
     companion object {
-        var actionMode : ActionMode ? = null
+        var homeActionMode : ActionMode ? = null
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val binding = NewNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
@@ -96,7 +96,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                 menu: Menu?
                             ): Boolean {
                                 mode?.menuInflater?.inflate(R.menu.home_contextual_action_bar, menu)
-                                actionMode = mode
+                                homeActionMode = mode
                                 return true
                             }
 

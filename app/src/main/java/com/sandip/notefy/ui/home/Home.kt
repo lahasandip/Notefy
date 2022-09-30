@@ -28,9 +28,6 @@ import com.sandip.notefy.ui.MainActivity
 import com.sandip.notefy.util.SortOrder
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
-import kotlin.collections.ArrayList
-import kotlin.properties.Delegates
 
 
 @AndroidEntryPoint
@@ -227,6 +224,8 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
                 drawerLayout?.openDrawer(Gravity.LEFT)
             }
 
+
+
             prof.setOnClickListener {
                 Snackbar.make(requireView(), "Profile clicked", Snackbar.LENGTH_LONG)
 
@@ -349,6 +348,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
 
     }
 
+
     private fun observeGridLayout(): RecyclerView.LayoutManager? {
         val sharedPreferences = context?.getSharedPreferences("grid", Context.MODE_PRIVATE)
         sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
@@ -461,9 +461,9 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
 
     override fun onPause() {
         super.onPause()
-        if (NoteAdapter.actionMode != null) {
-            NoteAdapter.actionMode?.finish()
-            NoteAdapter.actionMode = null
+        if (NoteAdapter.homeActionMode != null) {
+            NoteAdapter.homeActionMode?.finish()
+            NoteAdapter.homeActionMode = null
         }
     }
 
