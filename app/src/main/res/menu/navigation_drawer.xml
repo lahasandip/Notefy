@@ -6,11 +6,11 @@
     <group
         android:id="@+id/group"
         android:checkableBehavior="single">
-    <item
-        android:id="@+id/user"
-        android:title="Profile"
-        android:icon="@drawable/ic_outline_person_24"
-        />
+        <item
+            android:id="@+id/user"
+            android:title="Profile"
+            android:icon="@drawable/ic_outline_person_24"
+            />
     </group>
     <group
         android:id="@+id/group1"
@@ -32,17 +32,13 @@
             />
     </group>
 
-
-
     <group
         android:id="@+id/group3"
         android:checkableBehavior="single">
         <item
             android:id="@+id/languages"
             android:title="@string/languages"
-            android:icon="@drawable/ic_outline_language_24"
-            />
-
+            android:icon="@drawable/ic_outline_language_24"/>
         <item
             android:id="@+id/dark_theme"
             android:title="@string/dark_theme"

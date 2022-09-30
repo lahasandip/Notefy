@@ -40,7 +40,6 @@ class HomeViewModel @Inject constructor(
 
     }
 
-
     val searchQuery = state.getLiveData("searchQuery", "")
     val displayUser = userDao.getUser()
 
@@ -59,7 +58,7 @@ class HomeViewModel @Inject constructor(
     }
 
     val note = tasksFlow.asLiveData()
-    val trash = noteDao.getTrashData().asLiveData()
+
 
     fun onSortOrderSelected(sortOrder: SortOrder) = viewModelScope.launch {
         preferencesManager.updateSortOrder(sortOrder)
@@ -114,11 +113,6 @@ class HomeViewModel @Inject constructor(
     fun onAddToTrash(noteEntity: NoteEntity, isHide: Boolean) = viewModelScope.launch {
         noteDao.updateDao(noteEntity.copy(isHide = isHide))
     }
-//    fun savePreference(position: Int)  = viewModelScope.launch{
-//
-//        preferencesManager.storeLocale(position)
-//
-//    }
 
     fun onTaskSelected(context: Context?, flag: Int) = viewModelScope.launch {
         when(flag){
@@ -138,8 +132,6 @@ class HomeViewModel @Inject constructor(
             13 -> updateResource(context, "tr")
             14 -> updateResource(context, "it")
         }
-//        preferencesManager.storeLocale(flag)
-
     }
 
     fun updateResource(context: Context?, code: String)  = viewModelScope.launch{

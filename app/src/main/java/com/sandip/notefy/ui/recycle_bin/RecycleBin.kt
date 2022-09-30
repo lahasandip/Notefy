@@ -16,27 +16,28 @@ import com.sandip.notefy.R
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.databinding.FragmentRecycleBinBinding
 import com.sandip.notefy.ui.home.HomeViewModel
-import com.sandip.notefy.ui.home.NoteAdapter
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class RecycleBin : Fragment(R.layout.fragment_recycle_bin), NoteAdapter.OnItemClickListener {
+class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnItemClickListener {
 
-    private val homeViewModel: HomeViewModel by viewModels()
     private val viewModel: RecycleBinViewModel by viewModels()
 
     private lateinit var binding: FragmentRecycleBinBinding
-    private lateinit var noteAdapter: NoteAdapter
+    private lateinit var recycleAdapter: RecycleAdapter
+    companion object {
+        lateinit var noteList: List<NoteEntity>
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecycleBinBinding.bind(view)
-        noteAdapter = NoteAdapter(this)
+        recycleAdapter = RecycleAdapter(this)
 
         binding.apply {
             trashRecyclerView.apply {
-                adapter = noteAdapter
+                adapter = recycleAdapter
                 layoutManager =
                     if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
                         StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -57,20 +58,21 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), NoteAdapter.OnItemCl
                 }
 
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                    val task = noteAdapter.currentList[viewHolder.adapterPosition]
+                    val task = recycleAdapter.currentList[viewHolder.adapterPosition]
                     viewModel.onTaskSwiped(task)
                 }
             }).attachToRecyclerView(trashRecyclerView)
 
 
-            homeViewModel.trash.observe(viewLifecycleOwner){
-                noteAdapter.submitList(it)
+            viewModel.note.observe(viewLifecycleOwner){
+                recycleAdapter.submitList(it)
                 if(it.isNullOrEmpty()){
                     emptyRecycleBin.emptyRecycleBinError.visibility = View.VISIBLE
                 }
                 else{
                     emptyRecycleBin.emptyRecycleBinError.visibility = View.GONE
                 }
+                noteList = it
             }
             topAppBar.setNavigationOnClickListener {
                 viewModel.onOkClick()
@@ -88,6 +90,9 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), NoteAdapter.OnItemCl
                                     viewModel.onUndoDeleteClick(event.noteEntity)
                                 }.show()
                         }
+                        is RecycleBinViewModel.TasksEvent.ShowDeletedTaskMessage -> {
+                            Snackbar.make(requireView(), event.s, Snackbar.LENGTH_SHORT).show()
+                        }
                     }.exhaustive
                 }
             }
@@ -104,22 +109,19 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), NoteAdapter.OnItemCl
             .setMessage("Do you want to restore the note?")
             .setNegativeButton("Cancel", null)
             .setPositiveButton("Yes") { _, _ ->
-                homeViewModel.onAddToTrash(noteEntity,false)
+                viewModel.onMenuRestore(noteEntity, false)
                 Snackbar.make(requireView(), "Note Restored", Snackbar.LENGTH_LONG).show()
             }
             .create()
             .show()
     }
 
-
-    override fun onItemLongClick(holder: NoteAdapter.NoteViewHolder, item: NoteEntity) {
-
-        val actionMode = activity?.startActionMode(viewModel.callback)
-            actionMode?.title = "1 selected"
-
+    override fun onRestoreClick(noteEntity: NoteEntity) {
+        viewModel.onMenuRestore(noteEntity, false)
     }
 
-    override fun onDeleteClick(noteEntity: NoteEntity) {
-        TODO("Not yet implemented")
+    override fun onMenuDeleteClick(noteEntity: NoteEntity) {
+        viewModel.onMenuDelete(noteEntity)
+
     }
 }

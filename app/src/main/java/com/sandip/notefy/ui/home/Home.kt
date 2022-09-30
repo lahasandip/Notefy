@@ -29,6 +29,7 @@ import com.sandip.notefy.util.SortOrder
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.properties.Delegates
 
 
@@ -46,9 +47,11 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
     private lateinit var oldest: RadioButton
     private lateinit var radioGroup: RadioGroup
     private lateinit var dialog: Dialog
-    private var draggedIndex by Delegates.notNull<Int>()
+//    private var draggedIndex by Delegates.notNull<Int>()
+
     companion object{
         lateinit var act : Activity
+        lateinit var noteList: List<NoteEntity>
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -56,7 +59,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
         binding = FragmentHomeBinding.bind(view)
 //        val profile_photo = view.findViewById<ImageView>(R.id.profile_photo)
         Log.d("Home", "Indside Home")
-
         val drawerLayout = MainActivity.drawerLayout
         displaySortByDialog()
 
@@ -122,8 +124,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
 
                     viewModel.note.observe(viewLifecycleOwner) {
                         noteAdapter.submitList(it)
-
-
                     }
                     swipeRefreshLayout.isRefreshing = false
 
@@ -157,7 +157,8 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
 
 
                 ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-                    ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT,
+                    0,
+//                    ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT,
                     ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
                 ) {
 
@@ -166,11 +167,11 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
                         viewHolder: RecyclerView.ViewHolder,
                         target: RecyclerView.ViewHolder
                     ): Boolean {
-                        draggedIndex = viewHolder.adapterPosition
-                        val targetIndex = target.adapterPosition
-                        Log.d("Index", draggedIndex.toString() + targetIndex.toString())
-                        Collections.swap(noteAdapter.currentList.toMutableList(), draggedIndex, targetIndex)
-                        noteAdapter.notifyItemMoved(draggedIndex, targetIndex)
+//                        draggedIndex = viewHolder.adapterPosition
+//                        val targetIndex = target.adapterPosition
+//                        Log.d("Index", draggedIndex.toString() + targetIndex.toString())
+//                        Collections.swap(noteAdapter.currentList.toMutableList(), draggedIndex, targetIndex)
+//                        noteAdapter.notifyItemMoved(draggedIndex, targetIndex)
 
 
 
@@ -217,7 +218,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
                     emptyNotes.emptyNotesError.visibility = View.GONE
                 }
 
-
+                noteList = it
             }
 
 
@@ -383,16 +384,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
 
     override fun onItemClick(noteEntity: NoteEntity) {
         viewModel.onTaskSelected(noteEntity)
-    }
-
-
-    override fun onItemLongClick(holder: NoteAdapter.NoteViewHolder, item: NoteEntity) {
-//        if (!isEnable) {
-//
-//
-//            val actionMode = activity?.startActionMode(callback)
-//        }
-//        actionMode?.title = "1 selected"
     }
 
     override fun onDeleteClick(noteEntity: NoteEntity) {

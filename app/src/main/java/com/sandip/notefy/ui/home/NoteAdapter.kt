@@ -3,9 +3,9 @@ package com.sandip.notefy.ui.home
 
 import android.graphics.Color
 import android.net.Uri
-import android.provider.ContactsContract.CommonDataKinds.Note
 import android.util.Log
 import android.view.*
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
@@ -18,6 +18,7 @@ import com.sandip.notefy.R
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.NewNoteBinding
+import com.sandip.notefy.ui.home.Home.Companion.noteList
 
 
 class NoteAdapter(private val listener: OnItemClickListener) :
@@ -26,6 +27,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
     var isEnable: Boolean = false
     var isSelectAll = false
     var selectList: ArrayList<NoteEntity> = ArrayList()
+
     private lateinit var task :NoteEntity
     companion object {
         var actionMode : ActionMode ? = null
@@ -37,6 +39,8 @@ class NoteAdapter(private val listener: OnItemClickListener) :
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val currentItem = getItem(position)
+//        println("inside onbind")
+
         holder.bind(holder, currentItem)
 
     }
@@ -50,18 +54,16 @@ class NoteAdapter(private val listener: OnItemClickListener) :
 
         init {
             binding.apply {
-//                overlay.setOnClickListener {
-//                    val position = adapterPosition
-//                    if (position != RecyclerView.NO_POSITION) {
-//                        val task = getItem(position)
-//                        listener.onItemClick(task)
+
+//                val position = adapterPosition
+//                if (position != RecyclerView.NO_POSITION) {
+//                    val task = getItem(position)
+//                    if(!task.isHide) {
+//                        noteList.add(task)
 //                    }
 //                }
-
-
-
             }
-
+//            println("note size ${noteList.size}")
         }
 
         fun bind(holder: NoteViewHolder, noteEntity: NoteEntity) {
@@ -93,7 +95,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                 mode: ActionMode?,
                                 menu: Menu?
                             ): Boolean {
-                                mode?.menuInflater?.inflate(R.menu.contextual_action_bar, menu)
+                                mode?.menuInflater?.inflate(R.menu.home_contextual_action_bar, menu)
                                 actionMode = mode
                                 return true
                             }
@@ -110,7 +112,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                         Observer<String?> { s -> // when text change
                                             // set text on action mode title
                                             if(!(s.equals("0"))){
-                                                mode?.title = String.format("%s selected", s)
+                                                mode?.title = String.format("%s", s)
                                             }
                                             else{
                                                 mode?.finish()
@@ -126,9 +128,11 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                             ): Boolean {
                                 return when (item?.itemId) {
 
-                                    R.id.restore -> {
-                                        Log.d("Select all", "select all items")
-                                        if(selectList.size == 2)
+                                    R.id.select -> {
+                                        item.icon = ContextCompat.getDrawable(NotefyApplication.appContext, R.drawable.ic_baseline_deselect_24);
+                                        Log.d("Select all", "${selectList.size} , ${noteList.size}")
+
+                                        if(selectList.size == noteList.size)
                                         {
                                             // when all item selected
                                             // set isselectall false
@@ -144,16 +148,16 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                             // clear select array list
                                             selectList.clear();
                                             // add value in select array list
-                                            selectList.add(task)
-                                            selectList.add(task)
-                                            selectList.add(task)
+                                            selectList.addAll(noteList)
 
                                         }
                                         // set text on view model
                                         HomeViewModel.mutableLiveData.value = selectList.size.toString()
 
                                         // notify adapter
-                                        notifyDataSetChanged();
+                                        notifyDataSetChanged()
+                                        println("note list size in select ${noteList.size}")
+
                                         true
                                     }
                                     R.id.delete -> {
@@ -170,11 +174,11 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                             }
 
                             override fun onDestroyActionMode(mode: ActionMode?) {
-                                isEnable=false;
-                                isSelectAll=false;
-                                selectList.clear();
+                                isEnable=false
+                                isSelectAll=false
+                                selectList.clear()
                                 // notify adapter
-                                notifyDataSetChanged();
+                                notifyDataSetChanged()
                             }
                         }
                         Home.act.startActionMode(callback)
@@ -285,7 +289,6 @@ class NoteAdapter(private val listener: OnItemClickListener) :
 
     interface OnItemClickListener {
         fun onItemClick(noteEntity: NoteEntity)
-        fun onItemLongClick(holder: NoteViewHolder, item: NoteEntity)
         fun onDeleteClick(noteEntity: NoteEntity)
 
     }

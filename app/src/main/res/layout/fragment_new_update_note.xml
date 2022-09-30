@@ -59,7 +59,6 @@
         android:layout_marginTop="16dp"
         android:gravity="center"
         android:text="@string/edited"
-        android:textSize="13sp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/back"
         app:layout_constraintTop_toTopOf="parent" />
@@ -94,6 +93,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|end"
                     android:elevation="5dp"
+                    app:tint = "@color/white"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="10dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
@@ -116,7 +116,7 @@
                 android:hint="@string/title"
                 android:layout_marginTop="10dp"
                 android:scrollbars="none"
-                android:textSize="20sp"
+                android:textSize="22sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
                 android:theme="@style/SearchView" />
 
@@ -128,7 +128,7 @@
                 android:layout_marginStart="5dp"
                 android:background="@null"
                 android:hint="@string/note"
-                android:textSize="18dp"
+                android:textSize="18sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
                 android:theme="@style/SearchView" />
             <!--            <LinearLayout-->
@@ -423,7 +423,7 @@
             android:id="@+id/add_color"
             android:layout_width="25dp"
             android:layout_height="40dp"
-            android:layout_marginStart="28dp"
+            android:layout_marginStart="25dp"
             android:layout_marginBottom="5dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_outline_color_lens_24"/>
@@ -432,7 +432,7 @@
             android:id="@+id/add_image"
             android:layout_width="25dp"
             android:layout_height="40dp"
-            android:layout_marginStart="28dp"
+            android:layout_marginStart="25dp"
             android:layout_marginBottom="5dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_outline_image_24" />
@@ -441,7 +441,7 @@
             android:id="@+id/add_task"
             android:layout_width="25dp"
             android:layout_height="40dp"
-            android:layout_marginStart="28dp"
+            android:layout_marginStart="25dp"
             android:layout_marginBottom="5dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_outline_checklist_24" />

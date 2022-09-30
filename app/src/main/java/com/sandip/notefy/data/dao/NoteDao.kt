@@ -18,7 +18,7 @@ interface NoteDao {
     suspend fun deleteDao(entityPerson: NoteEntity)
 
     @Query("DELETE from Note where id = :iD")
-     suspend fun deleteById(iD:Int)
+    suspend fun deleteById(iD:Int)
 
 
     @Query("select * from Note where Hide = 0 order by id DESC",)
@@ -59,9 +59,4 @@ interface NoteDao {
 
     @Query("select count(TodoList) from Note where TodoList not like '[]'")
     fun getTodos() : LiveData<Int>
-
-    @Query("delete from Note where Hide in (:list)")
-    fun deleteAllTrash(list : List<Int>)
-
-
 }
