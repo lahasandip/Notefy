@@ -131,119 +131,14 @@
                 android:textSize="18sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
                 android:theme="@style/SearchView" />
-            <!--            <LinearLayout-->
-            <!--                android:id="@+id/checkbox"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_marginTop="10dp"-->
-            <!--                android:orientation="horizontal"-->
-            <!--                android:visibility="gone">-->
-
-            <!--                <CheckBox-->
-            <!--                    android:id="@+id/checkbox_meat"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content" />-->
-
-            <!--                <EditText-->
-            <!--                    android:id="@+id/tick_Desc"-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_gravity="center"-->
-            <!--                    android:layout_marginLeft="10dp"-->
-            <!--                    android:background="@null"-->
-            <!--                    android:hint="Enter Description"-->
-            <!--                    android:textSize="16dp"-->
-            <!--                    android:theme="@style/SearchView" />-->
-
-            <!--            </LinearLayout>-->
-
-            <!--            <LinearLayout-->
-            <!--                android:id="@+id/add_more"-->
-            <!--                android:layout_width="match_parent"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:layout_margin="10dp"-->
-            <!--                android:layout_marginTop="30dp"-->
-            <!--                android:orientation="horizontal"-->
-            <!--                android:visibility="gone">-->
-
-            <!--                <ImageView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_marginLeft="20dp"-->
-            <!--                    android:src="@drawable/ic_outline_add_24" />-->
-
-            <!--                <TextView-->
-            <!--                    android:layout_width="wrap_content"-->
-            <!--                    android:layout_height="wrap_content"-->
-            <!--                    android:layout_gravity="center"-->
-            <!--                    android:layout_marginLeft="10dp"-->
-            <!--                    android:text="Add" />-->
-            <!--            </LinearLayout>-->
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/url_parent_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:visibility="gone"
-                >
-
-                <LinearLayout
-                    android:id="@+id/url_link_layout"
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_marginEnd="11dp"
-                    android:orientation="horizontal"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/remove_url"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <ImageView
-                        android:id="@+id/url"
-                        android:layout_width="wrap_content"
-                        android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
-                        android:scaleX=".80"
-                        android:scaleY=".80"
-                        android:src="@drawable/ic_baseline_insert_link_24" />
-
-                    <TextView
-                        android:id="@+id/url_link"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:autoLink="web"
-                        android:textSize="13sp"
-                        android:background="@null"
-                        android:theme="@style/SearchView" />
-                </LinearLayout>
-
-                <ImageView
-                    android:id="@+id/remove_url"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:scaleX=".80"
-                    android:scaleY=".80"
-                    android:layout_gravity="center"
-                    android:layout_marginRight="10dp"
-                    android:src="@drawable/ic_baseline_clear_24"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/url_link_layout"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/reminder_parent_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="20dp"
                 android:background="@drawable/search_view"
-                android:visibility="gone"
-
-                >
-
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/reminder_layout"
@@ -262,15 +157,16 @@
                         android:scaleY=".80"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:src="@drawable/ic_outline_access_alarms_24" />
 
                     <TextView
                         android:id="@+id/date"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:background="@null"
+                        android:layout_gravity="center"
                         android:textSize="13sp"
                         android:theme="@style/SearchView" />
 
@@ -278,8 +174,9 @@
                         android:id="@+id/time"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginStart="5dp"
                         android:background="@null"
+                        android:layout_gravity="center"
                         android:textSize="13sp"
                         android:theme="@style/SearchView" />
                 </LinearLayout>
@@ -291,7 +188,7 @@
                     android:scaleX=".80"
                     android:scaleY=".80"
                     android:layout_gravity="center"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_baseline_clear_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -299,6 +196,8 @@
                     app:layout_constraintStart_toEndOf="@+id/reminder_layout"
                     app:layout_constraintTop_toTopOf="parent" />
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/location_parent_layout"
@@ -340,6 +239,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:background="@null"
+                        android:layout_gravity="center"
                         android:textSize="13sp"
                         android:theme="@style/SearchView"
                         />
@@ -361,6 +261,63 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/url_parent_layout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:visibility="gone"
+                >
+
+                <LinearLayout
+                    android:id="@+id/url_link_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_marginEnd="11dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/remove_url"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <ImageView
+                        android:id="@+id/url"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="10dp"
+                        android:scaleX=".80"
+                        android:scaleY=".80"
+                        android:src="@drawable/ic_baseline_insert_link_24" />
+
+                    <TextView
+                        android:id="@+id/url_link"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:autoLink="web"
+                        android:layout_gravity="center"
+                        android:textSize="13sp"
+                        android:background="@null"
+                        android:theme="@style/SearchView" />
+                </LinearLayout>
+
+                <ImageView
+                    android:id="@+id/remove_url"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:scaleX=".80"
+                    android:scaleY=".80"
+                    android:layout_gravity="center"
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/ic_baseline_clear_24"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/url_link_layout"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
 
             <LinearLayout
                 android:id="@+id/task_layout"

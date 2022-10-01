@@ -6,6 +6,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.sandip.notefy.data.model.Todo
 import kotlinx.parcelize.Parcelize
+import java.text.DateFormat
 
 
 @Entity(tableName = "Note")
@@ -22,7 +23,11 @@ data class NoteEntity(
     @ColumnInfo(name="Image") val image: String? = null,
     @ColumnInfo(name="Hide") val isHide: Boolean = false,
     @ColumnInfo(name = "TodoList") var todoList: List<Todo>? = null,
+    @ColumnInfo(name = "Created") val created: Long = System.currentTimeMillis(),
     @PrimaryKey(autoGenerate = true)
     val id: Int = 0
 
-): Parcelable
+): Parcelable{
+    val createdDateFormatted: String
+        get() = DateFormat.getDateTimeInstance().format(created)
+}

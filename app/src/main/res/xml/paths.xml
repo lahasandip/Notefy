@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<paths>
+    <external-path
+        name="external"
+        path="."
+      />
+    <external-cache-path
+        name="external-cache-path"
+        path="."/>
+    <external-files-path
+        name="shared_images"
+        path="images/*" />
+    <external-media-path
+        name="shared_images"
+        path="images/*" />
+    <cache-path
+        name="cache"
+        path="images" />
+    <files-path
+        name="files"
+        path="." />
+</paths>

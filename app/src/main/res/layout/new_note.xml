@@ -4,9 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="5dp"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@drawable/card_background"
-    >
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardView"
@@ -37,7 +35,7 @@
                 android:id="@+id/note_image_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="8dp"
+                app:cardCornerRadius="10dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -78,11 +76,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/note_title"
-                android:textSize="13sp"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:layout_marginRight="5dp"
                 android:layout_marginLeft="10dp"
-                android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
                 android:layout_marginTop="5dp"
                 app:layout_constraintTop_toBottomOf="@+id/note_title"
                 android:visibility="gone"/>
@@ -142,7 +139,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginStart="23dp"
+                    android:layout_marginStart="22dp"
                     android:layout_marginEnd="16dp"
                     android:textSize="12sp"
                     android:textStyle="bold"
@@ -198,7 +195,8 @@
             android:layout_height="match_parent"
             android:clickable="true"
             android:focusable="true"
-            android:background="?attr/selectableItemBackgroundBorderless"
+
+            android:background="@drawable/ripple_effect"
             />
     </com.google.android.material.card.MaterialCardView>
 </FrameLayout>

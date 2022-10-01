@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.activity.result.ActivityResult
@@ -40,6 +41,7 @@ import vadiole.colorpicker.ColorModel
 import vadiole.colorpicker.ColorPickerDialog
 import java.text.SimpleDateFormat
 import java.util.*
+
 
 const val CHANNEL_ID: String = "4"
 const val CHANNEL_NAME: String = "Notefy"
@@ -225,13 +227,20 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 recylerView?.adapter = todoAdapter
                 taskLayout.visibility = View.VISIBLE
                 btn?.visibility=View.VISIBLE
-
             }
-            noteEdited.append("${
-                SimpleDateFormat(" h:mm a", Locale.getDefault())
-                    .format(Date())
-            }")
 
+            if(viewModel.note?.createdDateFormatted != null){
+                val da = viewModel.note?.createdDateFormatted
+                val items1: Array<String> =
+                    da?.split(" ".toRegex())?.toTypedArray() ?: arrayOf("")
+                noteEdited.text = "Edited: ${items1[0]} ${items1[1]} ${items1[3]}"
+            }
+            else {
+                noteEdited.append(
+                    SimpleDateFormat(" h:mm a", Locale.getDefault())
+                        .format(Date())
+                )
+            }
 
 //            checkBoxImportant.jumpDrawablesToCurrentState()
 //            textViewDateCreated.isVisible = viewModel.task != null
@@ -648,7 +657,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.onLocationClick(placeInput.text)
             }
             share.setOnClickListener {
-                viewModel.onShareClick()
+
+                viewModel.onShareClick(showImage)
             }
 
             addTask.setOnClickListener {
@@ -764,6 +774,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
         }}
+
 
 //Private function to display Image
 

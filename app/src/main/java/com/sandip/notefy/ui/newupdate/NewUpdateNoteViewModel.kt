@@ -1,10 +1,16 @@
 package com.sandip.notefy.ui.newupdate
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
+import android.widget.ImageView
+import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.data.dao.NoteDao
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
@@ -14,6 +20,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.io.File
+import java.io.FileOutputStream
 import javax.inject.Inject
 
 @HiltViewModel
@@ -24,11 +32,11 @@ class NewUpdateNoteViewModel @Inject constructor(
     val note = state.get<NoteEntity>("home")
 
 
-    var noteId = state.get<Int>("noteId") ?: note?.id ?: 0
-        set(value) {
-            field = value
-            state["noteId"] = value
-        }
+//    var noteId = state.get<Int>("noteId") ?: note?.id ?: 0
+//        set(value) {
+//            field = value
+//            state["noteId"] = value
+//        }
 
     var noteTitle = state.get<String>("noteTitle") ?:note?.title ?: ""
         set(value) {
@@ -66,7 +74,6 @@ class NewUpdateNoteViewModel @Inject constructor(
             field = value
             state["noteLocation"] = value
         }
-
 
     var noteColor = state.get<Int>("noteColor") ?: note?.clr ?: 0
         set(value) {
@@ -168,21 +175,31 @@ class NewUpdateNoteViewModel @Inject constructor(
 //        addEditTaskEventChannel.send((AddEditTaskEvent.DisplayDialog(dialog)))
 //    }
 
-    fun onShareClick()  = viewModelScope.launch {
+    fun onShareClick(image: ImageView) = viewModelScope.launch {
+        val desc = if(noteDescription.isNotEmpty()) "Note: $noteDescription,\n" else ""
+        val url =  if(noteUrl.isNotEmpty()) "Url: $noteUrl,\n" else ""
+        val dateTime =    if(noteDate.isNotEmpty()) "Date: $noteDate, $noteTime,\n" else ""
+        val location = if(noteLocation.isNotEmpty()) "Place: $noteLocation" else ""
+        val arrayList : ArrayList<String> = ArrayList()
+        if(noteTodoList?.size != null) {
+            for (s in 0 until noteTodoList?.size!!){
+                arrayList.add(noteTodoList!![s].todoDescription.toString())
+            }
+        }
         try {
             val sendIntent = Intent().apply {
                 action = Intent.ACTION_SEND
-                if(noteImage != null){
+                if(image.drawable != null){
+                    val bitmap = (image.drawable as BitmapDrawable).bitmap
+                    val uri : Uri = getUri(bitmap)
                     type = "image/*"
-                    putExtra(Intent.EXTRA_STREAM, noteImage)
+                    putExtra(Intent.EXTRA_STREAM,uri)
                 }
                 else{
                     type = "text/plain"
                 }
+                putExtra(Intent.EXTRA_TEXT, "Title: $noteTitle,\n$desc$url$dateTime$location\nTodo: ${arrayList}")
                 putExtra(Intent.EXTRA_TITLE, "Share from Notefy:")
-                putExtra(Intent.EXTRA_TEXT, noteTitle + "\n" + noteDescription + "\n" + noteUrl
-                        + "\n" + noteDate+", "+noteTime + "\n" + noteLocation)
-                addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION )
             }
             val shareIntent = Intent.createChooser(sendIntent, null)
             addEditTaskEventChannel.send((AddEditTaskEvent.ShareIntent(shareIntent)))
@@ -210,11 +227,30 @@ class NewUpdateNoteViewModel @Inject constructor(
 
     }
 
-//    fun addTodoData(checked: Boolean, text: Editable) {
+    //    fun addTodoData(checked: Boolean, text: Editable) {
 //        completed.add(checked)
 //        todoDescription.add(text.toString())
 //        println(completed + "\n" + todoDescription)
 //    }
+    private fun getUri(bitmap: Bitmap?): Uri {
+        val imagefolder= File(NotefyApplication.appContext.externalCacheDir, "images")
+
+        var uri: Uri? = null
+        try {
+            imagefolder.mkdirs()
+            val file = File(imagefolder, "shared_image.png")
+            val outputStream = FileOutputStream(file)
+            bitmap?.compress(Bitmap.CompressFormat.PNG, 90, outputStream)
+            outputStream.flush()
+            outputStream.close()
+            uri = NotefyApplication.appContext.let { FileProvider.getUriForFile(it, "com.sandip.notefy.provider", file) }
+        } catch (e: Exception) {
+            Toast.makeText(NotefyApplication.appContext, "" + e.message, Toast.LENGTH_LONG).show()
+        }
+        return uri!!
+
+
+    }
 
 
     sealed class AddEditTaskEvent {

@@ -53,7 +53,7 @@ class LanguagesAdapter(
         holder.language.text = myList?.get(position)?.language
 
         if (selectedPosition == position) {
-            holder.cardView.strokeWidth = 3
+            holder.cardView.strokeWidth = 5
             holder.cardView.strokeColor = Color.parseColor("#80cbc4")
         }
     }
