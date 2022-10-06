@@ -59,7 +59,8 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
             "You can update your profile photo, name, email and phone in the profile page. You can open your profile by \n1. Click on profile " +
             "photo on the home screen at top-right corner. Or\n2. Click on Profile tab from navigation drawer.",
 
-            "bahasa Indonesia",
+            "To change the view, you can switch between grid view and linear view by clicking on the grid button right side of the Search view." +
+            "in the Home screen",
 
             "日本",
 
