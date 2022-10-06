@@ -62,7 +62,9 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
             "To change the view, you can switch between grid view and linear view by clicking on the grid button right side of the Search view." +
             "in the Home screen",
 
-            "日本",
+            "Once you add notes, you can display them by any of the following order:\n1. Bookmarked\n2. Title by Asc order\n3. Title by Desc order\n" +
+            "4. Newest to oldest\n5. Oldest to newest.\n To do so click on the Sort by icon on the top action bar of the home screen. " +
+            "The default order is Newest to oldest",
 
             "తెలుగు",
 
