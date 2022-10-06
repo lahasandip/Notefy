@@ -40,7 +40,9 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.ActivityMainBinding
 import com.sandip.notefy.ui.home.NoteAdapter
+import com.sandip.notefy.ui.home.NoteAdapter.Companion.homeActionMode
 import com.sandip.notefy.ui.recycle_bin.RecycleAdapter
+import com.sandip.notefy.ui.recycle_bin.RecycleAdapter.Companion.recycleActionMode
 import com.sandip.notefy.util.PreferencesManager
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
@@ -180,11 +182,11 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             override fun onDrawerClosed(drawerView: View) {
             }
             override fun onDrawerStateChanged(newState: Int) {
-                if(NoteAdapter.homeActionMode != null){
-                    NoteAdapter.homeActionMode!!.finish()
+                if(homeActionMode != null){
+                    homeActionMode!!.finish()
                 }
-                if(RecycleAdapter.recycleActionMode != null){
-                    RecycleAdapter.recycleActionMode!!.finish()
+                if(recycleActionMode != null){
+                    recycleActionMode!!.finish()
                 }
             }
         })

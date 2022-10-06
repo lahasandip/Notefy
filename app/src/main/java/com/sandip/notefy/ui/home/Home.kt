@@ -25,6 +25,7 @@ import com.sandip.notefy.R
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.databinding.FragmentHomeBinding
 import com.sandip.notefy.ui.MainActivity
+import com.sandip.notefy.ui.home.NoteAdapter.Companion.homeActionMode
 import com.sandip.notefy.util.SortOrder
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
@@ -155,10 +156,8 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
 
                 ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
                     0,
-//                    ItemTouchHelper.UP or ItemTouchHelper.DOWN or ItemTouchHelper.RIGHT or ItemTouchHelper.LEFT,
                     ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
                 ) {
-
                     override fun onMove(
                         recyclerView: RecyclerView,
                         viewHolder: RecyclerView.ViewHolder,
@@ -176,8 +175,12 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
                     }
 
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+
                         val task = noteAdapter.currentList[viewHolder.adapterPosition]
                         viewModel.onTaskSwiped(task, true)
+                        if(homeActionMode != null){
+                            homeActionMode!!.finish()
+                        }
                     }
                 }).attachToRecyclerView(recyclerView)
             }
@@ -388,6 +391,10 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
 
     override fun onDeleteClick(noteEntity: NoteEntity) {
     viewModel.onMenuTaskDelete(noteEntity, true)
+    }
+
+    override fun onUndo(noteEntity: NoteEntity) {
+        viewModel.onUndoDeleteClick(noteEntity)
     }
 
     private fun getItemsFromDb(query: String) {

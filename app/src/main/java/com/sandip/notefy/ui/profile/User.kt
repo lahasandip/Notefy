@@ -53,11 +53,11 @@ class User : Fragment(R.layout.fragment_user) {
         val back = dialog.findViewById<ImageView>(R.id.back_screen)
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.WRAP_CONTENT,
-            ViewGroup.LayoutParams.WRAP_CONTENT,
+            ViewGroup.LayoutParams.MATCH_PARENT,
         )
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
-        dialog.window?.setGravity(Gravity.CENTER)
+        dialog.window?.setGravity(Gravity.TOP)
 
         val startForProfileImageResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -128,6 +128,9 @@ class User : Fragment(R.layout.fragment_user) {
                 context?.let { it ->
                     Glide.with(it).load(R.drawable.img_1).into(profilePic)
                     Glide.with(it).load(R.drawable.img_1).into(circleImageView)
+                    val  imageURI= Uri.parse("android.resource://" + requireContext().packageName
+                            + "/" + R.drawable.img_1);
+                    viewModel.image = imageURI.toString()
                 }
             }
             back.setOnClickListener {
@@ -136,79 +139,79 @@ class User : Fragment(R.layout.fragment_user) {
 
 
 
-                textName.setText(viewModel.name)
-                textEmail.setText(viewModel.email)
-                textPhone.setText(viewModel.phone)
+            textName.setText(viewModel.name)
+            textEmail.setText(viewModel.email)
+            textPhone.setText(viewModel.phone)
 
-                textName.addTextChangedListener {
-                    viewModel.name = it.toString()
-                }
-                textEmail.addTextChangedListener {
-                    viewModel.email = it.toString()
-                }
-                textPhone.addTextChangedListener {
-                    viewModel.phone = it.toString()
-                }
+            textName.addTextChangedListener {
+                viewModel.name = it.toString()
+            }
+            textEmail.addTextChangedListener {
+                viewModel.email = it.toString()
+            }
+            textPhone.addTextChangedListener {
+                viewModel.phone = it.toString()
+            }
 
-                save.setOnClickListener {
-                    viewModel.onSaveClick(rows)
+            save.setOnClickListener {
+                viewModel.onSaveClick(rows)
+            }
+            camera.setOnClickListener {
+                val with: ImagePicker.Builder? = parentFragment?.let { it1 ->
+                    ImagePicker.with(it1)
                 }
-                camera.setOnClickListener {
-                    val with: ImagePicker.Builder? = parentFragment?.let { it1 ->
-                        ImagePicker.with(it1)
+                val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+                dialog.setContentView(R.layout.add_image_dialog)
+                dialog.show()
+                dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+                dialog.window?.setGravity(Gravity.BOTTOM)
+                val camera: LinearLayout? = dialog.findViewById(R.id.take_photo)
+                camera?.setOnClickListener {
+                    dialog.dismiss()
+                    with?.crop()
+                    with?.cameraOnly()
+                    with?.compress(1024)
+                    with?.maxResultSize(1080, 1080)
+                    with?.createIntent { Intent: Intent? ->
+                        startForProfileImageResult.launch(Intent)
+                        null
                     }
-                    val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-                    dialog.setContentView(R.layout.add_image_dialog)
-                    dialog.show()
-                    dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-                    dialog.window?.setGravity(Gravity.BOTTOM)
-                    val camera: LinearLayout? = dialog.findViewById(R.id.take_photo)
-                    camera?.setOnClickListener {
-                        dialog.dismiss()
-                        with?.crop()
-                        with?.cameraOnly()
-                        with?.compress(1024)
-                        with?.maxResultSize(1080, 1080)
-                        with?.createIntent { Intent: Intent? ->
-                            startForProfileImageResult.launch(Intent)
-                            null
+                }
+                val image: LinearLayout? = dialog.findViewById(R.id.add_photo)
+                image?.setOnClickListener {
+                    dialog.dismiss()
+                    with?.crop()
+                    with?.galleryOnly()
+                    with?.compress(1024)
+                    with?.maxResultSize(1080, 1080)
+                    with?.createIntent { Intent: Intent? ->
+                        startForProfileImageResult.launch(Intent)
+                        null
+                    }
+                }
+            }
+
+            topAppBar.setNavigationOnClickListener {
+                viewModel.onOkClick()
+            }
+
+            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+                viewModel.addEditTaskEvent.collect { event ->
+                    when (event) {
+                        is UserViewModel.AddEditTaskEvent.NavigateBackWithResult -> {
+                            setFragmentResult(
+                                "add_edit_delete_request",
+                                bundleOf("add_edit_delete_result" to event.result)
+                            )
+                            findNavController().popBackStack()
+
                         }
-                    }
-                    val image: LinearLayout? = dialog.findViewById(R.id.add_photo)
-                    image?.setOnClickListener {
-                        dialog.dismiss()
-                        with?.crop()
-                        with?.galleryOnly()
-                        with?.compress(1024)
-                        with?.maxResultSize(1080, 1080)
-                        with?.createIntent { Intent: Intent? ->
-                            startForProfileImageResult.launch(Intent)
-                            null
+                        is UserViewModel.AddEditTaskEvent.NavigateToBackScreen -> {
+                            findNavController().popBackStack()
                         }
-                    }
-                }
-
-                topAppBar.setNavigationOnClickListener {
-                    viewModel.onOkClick()
-                }
-
-                viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                    viewModel.addEditTaskEvent.collect { event ->
-                        when (event) {
-                            is UserViewModel.AddEditTaskEvent.NavigateBackWithResult -> {
-                                setFragmentResult(
-                                    "add_edit_delete_request",
-                                    bundleOf("add_edit_delete_result" to event.result)
-                                )
-                                findNavController().popBackStack()
-
-                            }
-                            is UserViewModel.AddEditTaskEvent.NavigateToBackScreen -> {
-                                findNavController().popBackStack()
-                            }
-                        }.exhaustive
-                    }
+                    }.exhaustive
                 }
             }
         }
     }
+}

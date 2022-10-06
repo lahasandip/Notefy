@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
+import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Todo
@@ -48,29 +49,15 @@ class NewUpdateAdapter(
                 todoList?.get(position)?.completed = false
             }
         }
+        holder.todoTitle.addTextChangedListener {
+            todoList?.get(position)?.todoDescription = it.toString()
+        }
+
         holder.removeButton.setOnClickListener {
             todoList?.removeAt(position)
             recylerView?.adapter = todoAdapter
             todoAdapter?.notifyDataSetChanged()
         }
-
-
-//
-//            holder.layoutTODO.setOnClickListener{
-//                    if (className == "createNote") {
-//                            if (todoList.size == 1) {
-//                                todoList.removeAt(0)
-//                                todoAdapter.notifyDataSetChanged()
-//                            } else {
-//                                todoList.removeAt(position)
-//                                todoAdapter.notifyItemRemoved(position)
-//                            }
-//                            dialog.dismiss()
-//                        }
-//                        dialog.setContentView(bottomDialogLayout)
-//                        dialog.show()
-//                    }
-//                }
     }
 
     override fun getItemCount(): Int {
@@ -88,6 +75,4 @@ class NewUpdateAdapter(
             removeButton = itemView.findViewById(R.id.rmve)
         }
     }
-
-
 }

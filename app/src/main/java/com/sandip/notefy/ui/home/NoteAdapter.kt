@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.entity.NoteEntity
@@ -27,6 +28,8 @@ class NoteAdapter(private val listener: OnItemClickListener) :
     var isEnable: Boolean = false
     var isSelectAll = false
     var selectList: ArrayList<NoteEntity> = ArrayList()
+    var undoList: ArrayList<NoteEntity> = ArrayList()
+
 
     private lateinit var task :NoteEntity
     companion object {
@@ -161,11 +164,17 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                         true
                                     }
                                     R.id.delete -> {
-                                        Log.d("Delete", "deleted all items")
                                         for (s in selectList) {
-                                            // remove selected item list
                                             listener.onDeleteClick(s)
+                                            undoList.add(s)
                                         }
+                                        Snackbar.make(itemView, "Note deleted", Snackbar.LENGTH_LONG)
+                                            .setAction("UNDO") {
+                                                for (s in undoList) {
+                                                    listener.onUndo(s)
+                                                }
+                                            }.show()
+
                                         mode?.finish();
                                         true
                                     }
@@ -177,6 +186,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                 isEnable=false
                                 isSelectAll=false
                                 selectList.clear()
+                                undoList.clear()
                                 // notify adapter
                                 notifyDataSetChanged()
                             }
@@ -290,6 +300,8 @@ class NoteAdapter(private val listener: OnItemClickListener) :
     interface OnItemClickListener {
         fun onItemClick(noteEntity: NoteEntity)
         fun onDeleteClick(noteEntity: NoteEntity)
+        fun onUndo(noteEntity: NoteEntity)
+
 
     }
 

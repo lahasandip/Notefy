@@ -33,6 +33,8 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
     var isEnable: Boolean = false
     var isSelectAll = false
     var selectList: ArrayList<NoteEntity> = ArrayList()
+    var undoList: ArrayList<NoteEntity> = ArrayList()
+
 
     private lateinit var task :NoteEntity
     companion object {
@@ -176,8 +178,14 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                                     R.id.delete_all -> {
                                         for (s in selectList) {
                                             listener.onMenuDeleteClick(s)
+                                            undoList.add(s)
                                         }
-                                        Snackbar.make(itemView, "Notes deleted permanently", Snackbar.LENGTH_LONG).show()
+                                        Snackbar.make(itemView, "Notes deleted forever", Snackbar.LENGTH_LONG)
+                                            .setAction("UNDO") {
+                                                for (s in undoList) {
+                                                    listener.onUndo(s)
+                                                }
+                                            }.show()
                                         mode?.finish();
                                         true
                                     }
@@ -303,6 +311,7 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
         fun onItemClick(noteEntity: NoteEntity)
         fun onRestoreClick(noteEntity: NoteEntity)
         fun onMenuDeleteClick(noteEntity: NoteEntity)
+        fun onUndo(noteEntity: NoteEntity)
 
 
     }

@@ -48,8 +48,7 @@ const val CHANNEL_NAME: String = "Notefy"
 const val CHANNEL_DESCRIPTION = "Reminder Message"
 @AndroidEntryPoint
 class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
-    //    private val REQUEST_IMAGE_CAPTURE = 1
-//    private val SELECT_PICTURE = 2
+
     private val viewModel: NewUpdateNoteViewModel by viewModels()
     private lateinit var binding: FragmentNewUpdateNoteBinding
     private lateinit var date: String
@@ -776,69 +775,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         }}
 
 
-//Private function to display Image
-
-//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//        super.onActivityResult(requestCode, resultCode, data)
-//        println("Inside onActivityResult")
-//
-//        binding.showImage.visibility = View.VISIBLE
-//        if ((requestCode == REQUEST_IMAGE_CAPTURE) && (resultCode == AppCompatActivity.RESULT_OK)) {
-////            val selectedImageUri: Uri? = data?.data
-//
-//            val imageBitmap = data?.extras?.get("data") as Bitmap
-////            Bitmap.createScaledBitmap(imageBitmap, 120,120,false)
-//            Glide.with(this).load(imageBitmap).into(binding.showImage);
-//
-////            binding.setImage.setImageBitmap(imageBitmap)
-//        } else if (requestCode == SELECT_PICTURE) {
-//            println("Inside select picture")
-//            val selectedImageUri: Uri? = data?.data
-//            if (null != selectedImageUri) {
-//                Glide.with(this).load(selectedImageUri).into(binding.showImage)
-////                var selectedImagePath = getPathFromUri(selectedImageUri)
-//                viewModel.noteImage = selectedImageUri.toString()
-////                binding.setImage.setImageURI(selectedImageUri)
-//            }
-//        } else {
-//            binding.showImage.visibility = View.GONE
-//        }
-//    }
-//override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-//    super.onActivityResult(requestCode, resultCode, data)
-//    binding.showImage.visibility = View.VISIBLE
-//    if (resultCode == Activity.RESULT_OK) {
-//        //Image Uri will not be null for RESULT_OK
-//        val uri: Uri = data?.data!!
-//
-//        // Use Uri object instead of File to avoid storage permissions
-//        binding.showImage.setImageURI(uri)
-//    } else if (resultCode == ImagePicker.RESULT_ERROR) {
-////        Toast.makeText(this, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-//    } else {
-////        Toast.makeText(this, "Task Cancelled", Toast.LENGTH_SHORT).show()
-//    }
-//}
-
-//    private fun getPathFromUri(contentUri: Uri): String? {
-//
-//
-//        var filePath: String?
-//        var cursor: Cursor? =null
-//        cursor?.moveToFirst()
-//
-//        cursor = context?.contentResolver?.query(contentUri, null, null, null, null)
-//        if (cursor == null) {
-//            filePath = contentUri.path
-//        } else {
-//            cursor.moveToFirst()
-//            val index = cursor.getColumnIndex("_data")
-//            filePath = cursor.getString(index)
-//            cursor.close()
-//        }
-//        return filePath
-//    }
-
 //Private function to display Place and URL
 
     private fun showAlert(s: String) {
@@ -991,25 +927,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 //        fun cancelAlarm(){
 //        alarmManager.cancel(pendingNotificationIntent)
 //    }
-        println("sandip alarm manager created" + time)
+        println("sandip alarm manager created $time")
 
     }
 
-//    private fun showAlert(time: Long, title: String, message: String) {
-//        val date = Date(time)
-//        val dateFormat = android.text.format.DateFormat.getLongDateFormat(context)
-//        val timeFormat = android.text.format.DateFormat.getTimeFormat(context)
-//
-//        android.app.AlertDialog.Builder(context)
-//            .setTitle("")
-//            .setMessage(
-//                "Title: $title\nMessage $message\nAt " + dateFormat.format(
-//                    date
-//                ) + " " + timeFormat.format(date)
-//            )
-//            .setPositiveButton("Okay") { _, _ -> }
-//            .show()
-//    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun getTime(): Long {

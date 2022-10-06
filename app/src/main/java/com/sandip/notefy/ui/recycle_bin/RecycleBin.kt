@@ -16,6 +16,7 @@ import com.sandip.notefy.R
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.databinding.FragmentRecycleBinBinding
 import com.sandip.notefy.ui.home.HomeViewModel
+import com.sandip.notefy.ui.recycle_bin.RecycleAdapter.Companion.recycleActionMode
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -60,6 +61,9 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val task = recycleAdapter.currentList[viewHolder.adapterPosition]
                     viewModel.onTaskSwiped(task)
+                    if(recycleActionMode != null){
+                        recycleActionMode!!.finish()
+                    }
                 }
             }).attachToRecyclerView(trashRecyclerView)
 
@@ -123,5 +127,9 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
     override fun onMenuDeleteClick(noteEntity: NoteEntity) {
         viewModel.onMenuDelete(noteEntity)
 
+    }
+
+    override fun onUndo(noteEntity: NoteEntity) {
+        viewModel.onUndoDeleteClick(noteEntity)
     }
 }

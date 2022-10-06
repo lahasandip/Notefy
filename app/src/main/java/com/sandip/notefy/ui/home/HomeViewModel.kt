@@ -81,7 +81,7 @@ class HomeViewModel @Inject constructor(
     }
     fun onMenuTaskDelete(noteEntity: NoteEntity, isHide: Boolean) = viewModelScope.launch {
         noteDao.updateDao(noteEntity.copy(isHide = isHide))
-        tasksEventChannel.send(TasksEvent.ShowDeletedTaskMessage("Note deleted"))
+//        tasksEventChannel.send(TasksEvent.ShowDeletedTaskMessage("Note deleted"))
     }
     fun onTaskSwiped(noteEntity: NoteEntity, isHide: Boolean) = viewModelScope.launch {
         noteDao.updateDao(noteEntity.copy(isHide = isHide))

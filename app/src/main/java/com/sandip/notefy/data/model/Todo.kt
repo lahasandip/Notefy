@@ -6,5 +6,5 @@ import kotlinx.android.parcel.Parcelize
 @Parcelize
 data class Todo(
     var completed: Boolean?,
-    val todoDescription: String?,
+    var todoDescription: String?,
 ) : Parcelable
