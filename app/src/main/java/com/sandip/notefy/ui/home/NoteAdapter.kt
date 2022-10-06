@@ -174,7 +174,6 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                                     listener.onUndo(s)
                                                 }
                                             }.show()
-
                                         mode?.finish();
                                         true
                                     }
@@ -186,7 +185,6 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                 isEnable=false
                                 isSelectAll=false
                                 selectList.clear()
-                                undoList.clear()
                                 // notify adapter
                                 notifyDataSetChanged()
                             }

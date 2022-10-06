@@ -32,7 +32,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, SharedPreferences.OnSharedPreferenceChangeListener {
+class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
+    SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val viewModel: HomeViewModel by viewModels()
     val noteAdapter = NoteAdapter(this)
@@ -145,7 +146,8 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
 
                     override fun onQueryTextChange(query: String?): Boolean {
                         if (query != null) {
-                            getItemsFromDb(query)
+//                            getItemsFromDb(query)
+                            viewModel.searchQuery.value = query
                         }
                         return true
                     }
@@ -390,31 +392,31 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
     }
 
     override fun onDeleteClick(noteEntity: NoteEntity) {
-    viewModel.onMenuTaskDelete(noteEntity, true)
+        viewModel.onMenuTaskDelete(noteEntity, true)
     }
 
     override fun onUndo(noteEntity: NoteEntity) {
         viewModel.onUndoDeleteClick(noteEntity)
     }
 
-    private fun getItemsFromDb(query: String) {
+//    private fun getItemsFromDb(query: String) {
+//
+//        viewModel.searchDatabase(query).observe(this) { list ->
+//            list?.let {
+//                noteAdapter.submitList(it)
+//            }
+//
+//        }
+//    }
 
-        viewModel.searchDatabase(query).observe(this) { list ->
-            list?.let {
-                noteAdapter.submitList(it)
-            }
-
-        }
-    }
-
-    private fun setLayout() {
+//    private fun setLayout() {
 //        if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
 //            gridLayoutManager.spanCount = 1
 //        }
 //        else{
 //           gridLayoutManager.spanCount = 4
 //        }
-    }
+//    }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key.equals("grid")) {
@@ -432,15 +434,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
 
     private fun displaySortByDialog() {
         dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-//        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         dialog.setContentView(R.layout.sortby_dialog)
-//        dialog.window?.setLayout(
-//            ViewGroup.LayoutParams.MATCH_PARENT,
-//            ViewGroup.LayoutParams.WRAP_CONTENT,
-//        )
-
-
-//        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         dialog.window?.setGravity(Gravity.BOTTOM)
         bookmarked = dialog.findViewById(R.id.bookmarked)
@@ -454,11 +448,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
     }
 
     private fun observeLanguagePreference() {
-//        viewModel.languageFlow.asLiveData().observe(viewLifecycleOwner) {
-//
-//            viewModel.onTaskSelected(context, it)
-//            Log.d("Locale", it.toString())
-
         val sharedPreferences =  context?.getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
         val position = sharedPreferences?.getInt("position", 0)
         if (position != null) {
@@ -468,9 +457,9 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener, 
 
     override fun onPause() {
         super.onPause()
-        if (NoteAdapter.homeActionMode != null) {
-            NoteAdapter.homeActionMode?.finish()
-            NoteAdapter.homeActionMode = null
+        if (homeActionMode != null) {
+            homeActionMode?.finish()
+            homeActionMode = null
         }
     }
 

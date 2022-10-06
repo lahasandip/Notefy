@@ -11,6 +11,7 @@ import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.ui.ADD_TASK_RESULT_OK
 import com.sandip.notefy.ui.DELETE_TASK_RESULT_OK
 import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK
+import com.sandip.notefy.ui.PROFILE_UPDATED_RESULT_OK
 import com.sandip.notefy.util.PreferencesManager
 import com.sandip.notefy.util.SortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -43,18 +44,19 @@ class HomeViewModel @Inject constructor(
     val searchQuery = state.getLiveData("searchQuery", "")
     val displayUser = userDao.getUser()
 
-    val preferencesFlow = preferencesManager.preferencesFlow
+    private val preferencesFlow = preferencesManager.preferencesFlow
     val isChecked = preferencesManager.isChecked
 
     private val tasksEventChannel = Channel<TasksEvent>()
     val tasksEvent = tasksEventChannel.receiveAsFlow()
 
     private val tasksFlow = combine(
+        searchQuery.asFlow(),
         preferencesFlow
-    ) { filterPreferences ->
-        filterPreferences
-    }.flatMapLatest { (filterPreferences) ->
-        noteDao.getTasks(filterPreferences.sortOrder)
+    ) { query, filterPreferences ->
+        Pair(query, filterPreferences)
+    }.flatMapLatest { (query, filterPreferences) ->
+        noteDao.getTasks(query, filterPreferences.sortOrder)
     }
 
     val note = tasksFlow.asLiveData()
@@ -90,6 +92,8 @@ class HomeViewModel @Inject constructor(
 
     fun onUndoDeleteClick(noteEntity: NoteEntity) = viewModelScope.launch {
         noteDao.updateDao(noteEntity.copy(isHide = false))
+        Log.d("DB updated", "db updated")
+
     }
 
     fun onAddEditResult(result: Int) {
@@ -97,7 +101,7 @@ class HomeViewModel @Inject constructor(
             ADD_TASK_RESULT_OK -> showTaskSavedConfirmationMessage("Note added")
             EDIT_TASK_RESULT_OK -> showTaskSavedConfirmationMessage("Note updated")
             DELETE_TASK_RESULT_OK -> showTaskSavedConfirmationMessage("Note deleted")
-
+            PROFILE_UPDATED_RESULT_OK -> showTaskSavedConfirmationMessage("Profile updated")
         }
     }
 

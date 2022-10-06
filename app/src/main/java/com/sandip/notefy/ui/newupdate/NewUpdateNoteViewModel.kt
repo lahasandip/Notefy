@@ -219,13 +219,13 @@ class NewUpdateNoteViewModel @Inject constructor(
 
     }
 
-    fun onAddTaskClick() = viewModelScope.launch {
-        addEditTaskEventChannel.send(AddEditTaskEvent.NavigateToTodoScreen)
-    }
-
-    fun onTaskSelected(todoEntity: Todo) {
-
-    }
+//    fun onAddTaskClick() = viewModelScope.launch {
+//        addEditTaskEventChannel.send(AddEditTaskEvent.NavigateToTodoScreen)
+//    }
+//
+//    fun onTaskSelected(todoEntity: Todo) {
+//
+//    }
 
     //    fun addTodoData(checked: Boolean, text: Editable) {
 //        completed.add(checked)

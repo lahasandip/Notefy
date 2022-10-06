@@ -25,15 +25,53 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
         binding = FragmentHelpFeedbackBinding.bind(view)
 
         val questions = arrayOf(
-            "How to use Notefy?", "How to create a new Note?", "What can be keep in the note?",
+            "How to use Notefy?", "How to create a new Note?", "What can be added in the note?",
             "How to set Reminders?", "How to create Todo list?", "How to delete Notes?",
-            "Where can i find deleted Notes?", "How to change my Profile?", "How can I change the display view?",
-            "How can I sort my Notes?", "How i can share Notes?","How can I change app theme?",
-            "How can I change app Language?", "How i can make Notes colorful?", "How to set enable biometric screen lock?",
+            "Where can I find deleted Notes?", "How to update my Profile?", "How can I change the display view?",
+            "How can I sort my Notes?", "How can I share Notes?","How can I change app theme?",
+            "How can I change app Language?", "How can I make Notes colorful?", "How to secure my app ?",
         )
         val expandedText = arrayOf(
-            "English", "हिन्दी", "Española", "বাংলা", "Français", "中国人", "தமிழ்",
-            "Português", "bahasa Indonesia", "日本", "తెలుగు", "Русский", "मराठी", "Türk", "Italiana"
+            "English",
+
+            "You can create a new note in two ways:\n1. Click on the + button at bottom-right side of Home screen. Or\n" +
+            "2. Click on Menu icon of top action bar, now click on New Note tab.\nA new window will open to create a new note.",
+
+            "You can add the following features in the Note:\n1. Note Title\n2. Note Description\n3. Reminder\n4. Place\n5. URL\n" +
+            "6. Colored background\n7. Image\n8. Todo list\n9. You can also bookmark the note",
+
+            "Click on the Add box icon at bottom side of New note screen, select Reminder. A calender will popup, choose the date " +
+            "you want to set the reminder, click on OK. Now a clock will popup, choose the time and click on OK. Now you have " +
+            "successfully set the reminder. A confirmation message will also display. Now based on the date and time you've chosen " +
+            "a Notification with note title, description and Image will be notified.",
+
+            "Click on the Checklist icon at bottom side of New note screen. Todo Checklist popup will occur. You can add, delete, update " +
+            "any number of todo items with tick boxes, once completed click on the Done button.",
+
+            "You can delete notes in the following ways:\n1. To delete a single note, you can simply swipe it to left or right side in the" +
+            " home screen.\n2. To delete multiple notes at the same time, long press on any note and select the notes you want to delete or" +
+            " click on select all in the action bar, then click on Delete icon.\n3. Open the note you want to delete, then click on delete " +
+            "icon at the top action bar.\nNote: You can UNDO the notes right after you delete them.",
+
+            "Once you delete the notes, it will be added in Recycle bin. And from there either you can restore them or delete them forever." +
+            "You can find Recycle bin from Navigation drawer",
+
+            "You can update your profile photo, name, email and phone in the profile page. You can open your profile by \n1. Click on profile " +
+            "photo on the home screen at top-right corner. Or\n2. Click on Profile tab from navigation drawer.",
+
+            "bahasa Indonesia",
+
+            "日本",
+
+            "తెలుగు",
+
+            "Русский",
+
+            "मराठी",
+
+            "Türk",
+
+            "Italiana"
         )
         val helpList = ArrayList<Help>()
 

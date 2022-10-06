@@ -37,7 +37,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/errorTitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="6dp"
+        android:layout_marginTop="2dp"
         android:gravity="center_horizontal"
         android:text="Add a new note to appear here"
         app:layout_constraintEnd_toEndOf="parent"

@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.activity.result.ActivityResult
@@ -281,7 +280,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 AlertDialog.Builder(requireContext())
                     .setTitle("Confirm deletion")
-                    .setMessage("Do you want to delete the note permanently?")
+                    .setMessage("Do you want to delete the note ?")
                     .setNegativeButton("Cancel", null)
                     .setPositiveButton("Yes") { _, _ ->
                         viewModel.noteIsHide = true

@@ -89,7 +89,7 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
                             findNavController().popBackStack()
                         }
                         is RecycleBinViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
-                            Snackbar.make(requireView(), "Note Deleted Permanently", Snackbar.LENGTH_LONG)
+                            Snackbar.make(requireView(), "Notes Deleted Forever", Snackbar.LENGTH_LONG)
                                 .setAction("UNDO") {
                                     viewModel.onUndoDeleteClick(event.noteEntity)
                                 }.show()

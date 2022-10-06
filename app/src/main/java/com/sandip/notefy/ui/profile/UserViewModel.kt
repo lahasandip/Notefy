@@ -9,6 +9,7 @@ import com.sandip.notefy.data.dao.UserDao
 import com.sandip.notefy.data.entity.UserEntity
 import com.sandip.notefy.ui.ADD_TASK_RESULT_OK
 import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK
+import com.sandip.notefy.ui.PROFILE_UPDATED_RESULT_OK
 import com.sandip.notefy.ui.newupdate.NewUpdateNoteViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -47,12 +48,12 @@ class UserViewModel@Inject constructor(
     }
     private fun createTask(userEntity: UserEntity) = viewModelScope.launch {
         userDao.insertDao(userEntity)
-        addEditTaskEventChannel.send(AddEditTaskEvent.NavigateBackWithResult(ADD_TASK_RESULT_OK))
+        addEditTaskEventChannel.send(AddEditTaskEvent.NavigateBackWithResult(PROFILE_UPDATED_RESULT_OK))
     }
 
     private fun updateTask(userEntity: UserEntity) = viewModelScope.launch {
         userDao.updateDao(userEntity)
-        addEditTaskEventChannel.send(AddEditTaskEvent.NavigateBackWithResult(EDIT_TASK_RESULT_OK))
+        addEditTaskEventChannel.send(AddEditTaskEvent.NavigateBackWithResult(PROFILE_UPDATED_RESULT_OK))
     }
 
     fun startAnimation(notesNumber: TextView, count: Int) {
