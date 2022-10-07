@@ -32,7 +32,10 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
             "How can I change app Language?", "How can I make Notes colorful?", "How to secure my app ?",
         )
         val expandedText = arrayOf(
-            "English",
+            "Notefy is used to take Notes, add Reminders, create Todo list and much more. You can save your notes with images, colors, " +
+            "place and URL. You can filter notes based on your preferences, search and share your notes. It supports Dark theme and light " +
+            "theme. For security it has screen lock feature. You can choose your preferred language, currently Notefy supports 15 different" +
+            " languages. For any help you can either read FAQ's or contact us.",
 
             "You can create a new note in two ways:\n1. Click on the + button at bottom-right side of Home screen. Or\n" +
             "2. Click on Menu icon of top action bar, now click on New Note tab.\nA new window will open to create a new note.",
@@ -66,15 +69,19 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
             "4. Newest to oldest\n5. Oldest to newest.\n To do so click on the Sort by icon on the top action bar of the home screen. " +
             "The default order is Newest to oldest",
 
-            "తెలుగు",
+            "To share your notes with friends, you can open the note that you want to share, click on the Share button on top-right action bar. You can" +
+            " choose any medium to share it.",
 
-            "Русский",
+            "Open the navigation drawer from left side, toggle the Dark theme switch to enable Dark mode, and disable the switch for light mode.",
 
-            "मराठी",
+            "Currently Notefy supports 15 different languages. English is the default language, you can change any language of your choice. Open the " +
+            "language screen from left side navigation drawer and select any language. Click on continue.",
 
-            "Türk",
+            "You can change notes background color of your choice. Click on color icon in new note screen. You can choose either from default colors " +
+            "or from the color picker.",
 
-            "Italiana"
+            "To secure your app, you can enable screen lock feature from left side navigation drawer, it will accept your phone password or biometric " +
+            "or pattern. You can enable or disable based on your need."
         )
         val helpList = ArrayList<Help>()
 

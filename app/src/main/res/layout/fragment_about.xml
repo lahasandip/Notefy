@@ -29,18 +29,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:layout_margin="10dp"
             app:layout_constraintTop_toTopOf="parent"
-            android:text="The plugin adds a random text generator, capable of creating witty texts in different genres. Created text can be inserted newly at the caret, or replace a selection.
-The dummy text generator is added to the main menu, tools menu and into the generate... popup (Alt+Insert).
-
-Used from the main menu, text is generated in the previously selected genre.
-Used from the Tools menu or Generate popup, the plugin allows to choose from several genres::
-Culinary Inspirations
-Esoteric Wisdom
-Fake Latin (similar to Lorem Ipsum blindtext)
-Pirate Lingo
-Science Fiction
-" />
+            android:text="Notefy is used to take Notes, add Reminders, create Todo list and much more. You can save your notes with images, colors, place and URL. You can filter notes based on your preferences, search and share your notes. It supports Dark theme and light theme. For security it has screen lock feature. You can choose your preferred language, currently Notefy supports 15 different languages. For any help you can either read FAQ's or contact us."/>
     </androidx.core.widget.NestedScrollView>
 
 
