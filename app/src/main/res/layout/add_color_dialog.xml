@@ -47,7 +47,7 @@
             <FrameLayout
                 android:id="@+id/frame_no_gradient"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp">
+                android:layout_height="wrap_content">
                 <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
@@ -63,26 +63,22 @@
             <FrameLayout
                 android:id="@+id/frame_gradient_1"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 >
                 <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
-                    app:cardCornerRadius="20sp">
-                    <ImageView
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:src="@drawable/gradient_1"/>
+                    app:cardCornerRadius="20sp"
+                    android:backgroundTint="@color/teal_200"/>
 
-                </androidx.cardview.widget.CardView>
 
                 <ImageView
                     android:id="@+id/gradient_1"
                     android:layout_width="20sp"
                     android:layout_height="20sp"
                     android:layout_gravity="center"
-                    android:elevation="2dp"
+                    android:elevation="12dp"
                     android:backgroundTint="@color/LightSteelBlue"
                     app:tint="@color/black" />
             </FrameLayout>
@@ -90,14 +86,14 @@
             <FrameLayout
                 android:id="@+id/frame_gradient_2"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 >
                 <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
                     app:cardCornerRadius="20sp"
-                    android:backgroundTint="@color/LightSteelBlue"/>
+                    android:backgroundTint="@color/Plum"/>
                 <ImageView
                     android:id="@+id/gradient_2"
                     android:layout_width="20sp"
@@ -111,14 +107,14 @@
             <FrameLayout
                 android:id="@+id/frame_gradient_3"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 >
                 <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
                     app:cardCornerRadius="20sp"
-                    android:backgroundTint="@color/LightSteelBlue"/>
+                    android:backgroundTint="@color/LimeGreen"/>
                 <ImageView
                     android:id="@+id/gradient_3"
                     android:layout_width="20sp"
@@ -132,14 +128,14 @@
             <FrameLayout
                 android:id="@+id/frame_gradient_4"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 >
                 <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
                     app:cardCornerRadius="20sp"
-                    android:backgroundTint="@color/LightSteelBlue"/>
+                    android:backgroundTint="@color/red"/>
                 <ImageView
                     android:id="@+id/gradient_4"
                     android:layout_width="20sp"
@@ -153,14 +149,14 @@
             <FrameLayout
                 android:id="@+id/frame_gradient_5"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 >
                 <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
                     app:cardCornerRadius="20sp"
-                    android:backgroundTint="@color/LightSteelBlue"/>
+                    android:backgroundTint="@color/Bisque"/>
                 <ImageView
                     android:id="@+id/gradient_5"
                     android:layout_width="20sp"
@@ -174,14 +170,14 @@
             <FrameLayout
                 android:id="@+id/frame_gradient_6"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 >
                 <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
                     app:cardCornerRadius="20sp"
-                    android:backgroundTint="@color/LightSteelBlue"/>
+                    android:backgroundTint="@color/blue"/>
                 <ImageView
                     android:id="@+id/gradient_6"
                     android:layout_width="20sp"
@@ -195,14 +191,14 @@
             <FrameLayout
                 android:id="@+id/frame_gradient_7"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 >
                 <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
                     app:cardCornerRadius="20sp"
-                    android:backgroundTint="@color/LightSteelBlue"/>
+                    android:backgroundTint="@color/Orange"/>
                 <ImageView
                     android:id="@+id/gradient_7"
                     android:layout_width="20sp"
@@ -216,14 +212,14 @@
             <FrameLayout
                 android:id="@+id/frame_gradient_8"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 >
                 <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
                     app:cardCornerRadius="20sp"
-                    android:backgroundTint="@color/LightSteelBlue"/>
+                    android:backgroundTint="@color/HotPink"/>
                 <ImageView
                     android:id="@+id/gradient_8"
                     android:layout_width="20sp"
@@ -237,14 +233,14 @@
             <FrameLayout
                 android:id="@+id/frame_gradient_9"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 >
                 <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
                     app:cardCornerRadius="20sp"
-                    android:backgroundTint="@color/LightSteelBlue"/>
+                    android:backgroundTint="@color/SaddleBrown"/>
                 <ImageView
                     android:id="@+id/gradient_9"
                     android:layout_width="20sp"
@@ -258,14 +254,14 @@
             <FrameLayout
                 android:id="@+id/frame_gradient_10"
                 android:layout_width="wrap_content"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 >
                 <androidx.cardview.widget.CardView
                     android:layout_width="33sp"
                     android:layout_height="33sp"
                     app:cardCornerRadius="20sp"
-                    android:backgroundTint="@color/LightSteelBlue"/>
+                    android:backgroundTint="@color/SlateGray"/>
                 <ImageView
                     android:id="@+id/gradient_10"
                     android:layout_width="20sp"

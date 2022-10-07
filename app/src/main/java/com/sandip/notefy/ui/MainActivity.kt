@@ -70,7 +70,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         var drawerLayout: DrawerLayout? = null
         lateinit var preferencesManager : PreferencesManager
 
-            }
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         preferencesManager = PreferencesManager(applicationContext)
 
@@ -116,15 +116,16 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         val userName = headerView.findViewById<TextView>(R.id.user_name)
         viewModel.displayUser.observe(this) {
             if(it !=null){
-            if(!(it.name.isNullOrEmpty())) {
                 userName.text = it.name
-                userName.visibility = View.VISIBLE
-            }
-            if(!(it.image.isNullOrEmpty())){
-                val imageUri = Uri.parse(it.image)
-                this.let { it1 -> Glide.with(it1).load(imageUri).into(userPhoto) }
+                when(userName.text){
+                    "" -> userName.visibility = View.GONE
+                    else -> userName.visibility = View.VISIBLE
                 }
-        }}
+                if(!(it.image.isNullOrEmpty())){
+                    val imageUri = Uri.parse(it.image)
+                    this.let { it1 -> Glide.with(it1).load(imageUri).into(userPhoto) }
+                }
+            }}
 
         appBarConfiguration = AppBarConfiguration(
             setOf(
