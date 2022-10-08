@@ -48,23 +48,23 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             FilterPreferences(sortOrder)
 
         }
-    val uiModeFlow = dataStore.data
-        .catch {
-            if (it is IOException) {
-                it.printStackTrace()
-                emit(emptyPreferences())
-            } else {
-                throw it
-            }
-        }
-        .map { preference2 ->
-            val isDarkMode = preference2[IS_DARK_MODE] ?: false
-
-            when (isDarkMode) {
-                true -> UiMode.DARK
-                false -> UiMode.LIGHT
-            }
-        }
+//    val uiModeFlow = dataStore.data
+//        .catch {
+//            if (it is IOException) {
+//                it.printStackTrace()
+//                emit(emptyPreferences())
+//            } else {
+//                throw it
+//            }
+//        }
+//        .map { preference2 ->
+//            val isDarkMode = preference2[IS_DARK_MODE] ?: false
+//
+//            when (isDarkMode) {
+//                true -> UiMode.DARK
+//                false -> UiMode.LIGHT
+//            }
+//        }
 //    val biometricAuth: Flow<Biometric> = dataStore.data
 //        .catch {
 //            if (it is IOException) {
@@ -108,6 +108,21 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             val isChecked = preference2[PreferencesKeys.SORT_ORDER_CHECKED] ?: 3
             isChecked
         }
+
+    val colorTick = dataStore.data
+        .catch {
+            if (it is IOException) {
+                it.printStackTrace()
+                emit(emptyPreferences())
+            } else {
+                throw it
+            }
+        }
+        .map { preference2 ->
+            val color = preference2[PreferencesKeys.COLOR_TICK] ?: 0
+            color
+        }
+
     suspend fun updateSortOrder(sortOrder: SortOrder) {
         dataStore.edit { preferences ->
             preferences[PreferencesKeys.SORT_ORDER] = sortOrder.name
@@ -128,6 +143,11 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             }
         }
     }
+
+    suspend fun colorTicked(isChecked: Int) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKeys.SORT_ORDER_CHECKED] = isChecked        }
+    }
 //    suspend fun setBiometric(biometric: Biometric) {
 //        dataStore.edit { preferences ->
 //            preferences[IS_BIOMETRIC_ENABLE] = when (biometric) {
@@ -146,6 +166,8 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
     private object PreferencesKeys {
         val SORT_ORDER = stringPreferencesKey("sort_order")
         val SORT_ORDER_CHECKED = intPreferencesKey("sort_order_checked")
+        val COLOR_TICK = intPreferencesKey("color_tick")
+
 
 
     }

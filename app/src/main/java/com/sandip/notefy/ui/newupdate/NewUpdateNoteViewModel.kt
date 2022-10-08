@@ -16,6 +16,8 @@ import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.ui.ADD_TASK_RESULT_OK
 import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK
+import com.sandip.notefy.util.PreferencesManager
+import com.sandip.notefy.util.SortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -27,9 +29,12 @@ import javax.inject.Inject
 @HiltViewModel
 class NewUpdateNoteViewModel @Inject constructor(
     private val noteDao: NoteDao,
+    private val preferencesManager: PreferencesManager,
     private val state: SavedStateHandle): ViewModel() {
 
     val note = state.get<NoteEntity>("home")
+    val colorTick = preferencesManager.colorTick
+
 
 
 //    var noteId = state.get<Int>("noteId") ?: note?.id ?: 0
@@ -232,6 +237,12 @@ class NewUpdateNoteViewModel @Inject constructor(
 //        todoDescription.add(text.toString())
 //        println(completed + "\n" + todoDescription)
 //    }
+
+    fun onColorTick(index: Int) = viewModelScope.launch {
+        preferencesManager.colorTicked(index)
+
+    }
+
     private fun getUri(bitmap: Bitmap?): Uri {
         val imagefolder= File(NotefyApplication.appContext.externalCacheDir, "images")
 

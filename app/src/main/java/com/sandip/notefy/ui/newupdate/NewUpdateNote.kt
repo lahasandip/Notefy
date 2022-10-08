@@ -3,12 +3,12 @@ package com.sandip.notefy.ui.newupdate
 import android.app.*
 import android.content.Context
 import android.content.Intent
-import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.activity.result.ActivityResult
@@ -20,6 +20,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -83,16 +84,69 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
                 }
             }
+
+        val colorDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+        colorDialog.setContentView(R.layout.add_color_dialog)
+        colorDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+        colorDialog.window?.setGravity(Gravity.BOTTOM)
+
+
+        val frame_white: FrameLayout? = colorDialog.findViewById(R.id.frame_no_gradient)
+        val white: ImageView? = colorDialog.findViewById(R.id.no_gradient)
+        white?.setImageResource(R.drawable.ic_baseline_done_24)
+
+        val frame_lightsteelblue: FrameLayout? =
+            colorDialog.findViewById(R.id.frame_gradient_1)
+        val lightsteelblue: ImageView? = colorDialog.findViewById(R.id.gradient_1)
+
+        val frame_aquamarine: FrameLayout? =
+            colorDialog.findViewById(R.id.frame_gradient_2)
+        val aquamarine: ImageView? = colorDialog.findViewById(R.id.gradient_2)
+
+        val frame_grey: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_3)
+        val grey: ImageView? = colorDialog.findViewById(R.id.gradient_3)
+
+        val frame_darkgrey: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_4)
+        val darkgrey: ImageView? = colorDialog.findViewById(R.id.gradient_4)
+
+        val frame_lightcyan: FrameLayout? =
+            colorDialog.findViewById(R.id.frame_gradient_5)
+        val lightcyan: ImageView? = colorDialog.findViewById(R.id.gradient_5)
+
+        val frame_lightgoldenyellow: FrameLayout? =
+            colorDialog.findViewById(R.id.frame_gradient_6)
+        val lightgoldenyellow: ImageView? =
+            colorDialog.findViewById(R.id.gradient_6)
+
+        val frame_lightgreen: FrameLayout? =
+            colorDialog.findViewById(R.id.frame_gradient_7)
+        val lightgreen: ImageView? = colorDialog.findViewById(R.id.gradient_7)
+
+        val frame_palegoldenrod: FrameLayout? =
+            colorDialog.findViewById(R.id.frame_gradient_8)
+        val palegoldenrod: ImageView? = colorDialog.findViewById(R.id.gradient_8)
+
+        val frame_palevioletred: FrameLayout? =
+            colorDialog.findViewById(R.id.frame_gradient_9)
+        val palevioletred: ImageView? = colorDialog.findViewById(R.id.gradient_9)
+
+        val frame_powderblue: FrameLayout? =
+            colorDialog.findViewById(R.id.frame_gradient_10)
+        val powderblue: ImageView? = colorDialog.findViewById(R.id.gradient_10)
+
+        val colorPicker: Button? = colorDialog.findViewById(R.id.color_picker)
+
+
+
+
+
+
+
+
+
         //Todo list view popup
         val todoDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-//        todoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
         todoDialog.setContentView(R.layout.todo_listview)
-//        todoDialog.show()
-//        todoDialog.window?.setLayout(
-//            ViewGroup.LayoutParams.MATCH_PARENT,
-//            ViewGroup.LayoutParams.WRAP_CONTENT,
-//        )
-//                todoDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
         todoDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
 
         todoDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
@@ -174,16 +228,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             // call back code
         }
 
-//        val viewColor = binding.newUpdateNote.background as ColorDrawable
-//        val colorId = viewColor.color
-//        viewModel.noteColor = colorId
-//
-//        val bitmap: Bitmap? = (binding.showImage.drawable as? BitmapDrawable)?.bitmap
-//        val height = bitmap?.height
-//        val width = bitmap?.width
-//        val bit= bitmap?.let { Bitmap.createScaledBitmap(it, width!!,height!!,false) }
-//        viewModel.noteImage = bit
-
         //Bind with View model and Onclick Listener
         binding.apply {
             noteTitle.setText(viewModel.noteTitle)
@@ -205,13 +249,39 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             if (viewModel.noteColor != null) {
                 fragmentNewUpdateNote.setBackgroundColor(viewModel.noteColor)
             }
+            when(viewModel.noteColor){
+                -13359 ->  { lightsteelblue?.setImageResource(R.drawable.ic_baseline_done_24)
+                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -2252579 -> {aquamarine?.setImageResource(R.drawable.ic_baseline_done_24)
+                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -16718218 -> {grey?.setImageResource(R.drawable.ic_baseline_done_24)
+                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -43230 -> { darkgrey?.setImageResource(R.drawable.ic_baseline_done_24)
+                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -6982195 -> { lightcyan?.setImageResource(R.drawable.ic_baseline_done_24)
+                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -12490271 -> { lightgoldenyellow?.setImageResource(R.drawable.ic_baseline_done_24)
+                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -23296 -> {lightgreen?.setImageResource(R.drawable.ic_baseline_done_24)
+                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -38476 -> { palegoldenrod?.setImageResource(R.drawable.ic_baseline_done_24)
+                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -7650029 -> { palevioletred?.setImageResource(R.drawable.ic_baseline_done_24)
+                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -9404272 -> { powderblue?.setImageResource(R.drawable.ic_baseline_done_24)
+                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                0 -> white?.setImageResource(R.drawable.ic_baseline_done_24)
+                else -> white?.setImageResource(0)
+            }
+
+            Log.d("color", viewModel.noteColor.toString())
+
             if (viewModel.noteImage != null) {
                 val imageUri = Uri.parse(viewModel.noteImage)
                 context?.let { Glide.with(it).load(imageUri).into(showImage) }
-
-//                showImage.setImageBitmap(BitmapFactory.decodeFile(viewModel.noteImage))
                 imageLayout.visibility = View.VISIBLE
             }
+
             if (viewModel.noteTodoList != null) {
                 todoList = viewModel.noteTodoList as ArrayList<Todo>
                 todoAdapter = context?.let {
@@ -240,8 +310,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 )
             }
 
-//            checkBoxImportant.jumpDrawablesToCurrentState()
-//            textViewDateCreated.isVisible = viewModel.task != null
 
             noteTitle.addTextChangedListener {
                 viewModel.noteTitle = it.toString()
@@ -295,19 +363,15 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             addFeatures.setOnClickListener {
 //                viewModel.onAddFeaturesClick()
                 val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-//                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog.setContentView(R.layout.add_features_dialog)
                 dialog.show()
-//                dialog.window?.setLayout(
-//                    ViewGroup.LayoutParams.MATCH_PARENT,
-//                    ViewGroup.LayoutParams.WRAP_CONTENT,
-//                )
-//                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                 dialog.window?.setGravity(Gravity.BOTTOM)
                 val reminder: LinearLayout? = dialog.findViewById(R.id.add_reminder_layout)
                 val place: LinearLayout? = dialog.findViewById(R.id.add_place_layout)
                 val url: LinearLayout? = dialog.findViewById(R.id.add_url_layout)
+
+
                 reminder?.setOnClickListener {
 //                    viewModel.onReminderClick()
                     dialog.dismiss()
@@ -325,78 +389,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
             }
             addColor.setOnClickListener {
-                val colorDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-//                colorDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-                colorDialog.setContentView(R.layout.add_color_dialog)
                 colorDialog.show()
-//                colorDialog.window?.setLayout(
-//                    ViewGroup.LayoutParams.MATCH_PARENT,
-//                    ViewGroup.LayoutParams.WRAP_CONTENT,
-//                )
-//                colorDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-                colorDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-                colorDialog.window?.setGravity(Gravity.BOTTOM)
-
-
-                val frame_white: FrameLayout? = colorDialog.findViewById(R.id.frame_no_gradient)
-                val white: ImageView? = colorDialog.findViewById(R.id.no_gradient)
-                white?.setImageResource(R.drawable.ic_baseline_done_24)
-
-                val frame_lightsteelblue: FrameLayout? =
-                    colorDialog.findViewById(R.id.frame_gradient_1)
-                val lightsteelblue: ImageView? = colorDialog.findViewById(R.id.gradient_1)
-
-                val frame_aquamarine: FrameLayout? =
-                    colorDialog.findViewById(R.id.frame_gradient_2)
-                val aquamarine: ImageView? = colorDialog.findViewById(R.id.gradient_2)
-
-                val frame_grey: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_3)
-                val grey: ImageView? = colorDialog.findViewById(R.id.gradient_3)
-
-                val frame_darkgrey: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_4)
-                val darkgrey: ImageView? = colorDialog.findViewById(R.id.gradient_4)
-
-                val frame_lightcyan: FrameLayout? =
-                    colorDialog.findViewById(R.id.frame_gradient_5)
-                val lightcyan: ImageView? = colorDialog.findViewById(R.id.gradient_5)
-
-                val frame_lightgoldenyellow: FrameLayout? =
-                    colorDialog.findViewById(R.id.frame_gradient_6)
-                val lightgoldenyellow: ImageView? =
-                    colorDialog.findViewById(R.id.gradient_6)
-
-                val frame_lightgreen: FrameLayout? =
-                    colorDialog.findViewById(R.id.frame_gradient_7)
-                val lightgreen: ImageView? = colorDialog.findViewById(R.id.gradient_7)
-
-                val frame_palegoldenrod: FrameLayout? =
-                    colorDialog.findViewById(R.id.frame_gradient_8)
-                val palegoldenrod: ImageView? = colorDialog.findViewById(R.id.gradient_8)
-
-                val frame_palevioletred: FrameLayout? =
-                    colorDialog.findViewById(R.id.frame_gradient_9)
-                val palevioletred: ImageView? = colorDialog.findViewById(R.id.gradient_9)
-
-                val frame_powderblue: FrameLayout? =
-                    colorDialog.findViewById(R.id.frame_gradient_10)
-                val powderblue: ImageView? = colorDialog.findViewById(R.id.gradient_10)
-
-//                val frame_rosybrown: FrameLayout =
-//                    colorDialog.findViewById(R.id.frame_rosybrown)
-//                val rosybrown: ImageView = colorDialog.findViewById(R.id.rosybrown)
-//
-//                val frame_sandybrown: FrameLayout =
-//                    colorDialog.findViewById(R.id.frame_sandybrown)
-//                val sandybrown: ImageView = colorDialog.findViewById(R.id.sandybrown)
-//
-//                val frame_thistle: FrameLayout = colorDialog.findViewById(R.id.frame_thistle)
-//                val thistle: ImageView = colorDialog.findViewById(R.id.thistle)
-//
-//                val frame_violet: FrameLayout = colorDialog.findViewById(R.id.frame_violet)
-//                val violet: ImageView = colorDialog.findViewById(R.id.violet)
-//
-                val colorPicker: Button? = colorDialog.findViewById(R.id.color_picker)
-//
+            }
                 frame_white?.setOnClickListener {
                     white?.setImageResource(R.drawable.ic_baseline_done_24)
                     lightsteelblue?.setImageResource(0)
@@ -410,6 +404,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     palevioletred?.setImageResource(0)
                     powderblue?.setImageResource(0)
                     binding.fragmentNewUpdateNote.setBackgroundColor(0)
+//                    viewModel.onColorTick(0)
                 }
 
                 frame_lightsteelblue?.setOnClickListener {
@@ -424,15 +419,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     palegoldenrod?.setImageResource(0)
                     palevioletred?.setImageResource(0)
                     powderblue?.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.teal_200, null))
-//                    val gfgGradient = GradientDrawable(
-//                        GradientDrawable.Orientation.TOP_BOTTOM,
-//                        intArrayOf(
-//                            0XFFD98880.toInt(),
-//                            0XFF48C9B0.toInt()
-//                        ))
-//                    binding.fragmentNewUpdateNote.background = gfgGradient
-//                    Log.d("Sandip", "gfgGradient as GradientDrawable" )
+                    binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.PaleVioletRed, null))
+//                    viewModel.onColorTick(1)
 
                 }
 
@@ -449,6 +437,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     palevioletred?.setImageResource(0)
                     powderblue?.setImageResource(0)
                     binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.Plum, null))
+//                    viewModel.onColorTick(2)
+
                 }
 
                 frame_grey?.setOnClickListener {
@@ -464,6 +454,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     palevioletred?.setImageResource(0)
                     powderblue?.setImageResource(0)
                     binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.LimeGreen, null))
+//                    viewModel.onColorTick(3)
+
                 }
 
                 frame_darkgrey?.setOnClickListener {
@@ -479,6 +471,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     palevioletred?.setImageResource(0)
                     powderblue?.setImageResource(0)
                     binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.red, null))
+//                    viewModel.onColorTick(4)
+
                 }
 
                 frame_lightcyan?.setOnClickListener {
@@ -494,6 +488,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     palevioletred?.setImageResource(0)
                     powderblue?.setImageResource(0)
                     binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.Bisque, null))
+//                    viewModel.onColorTick(5)
                 }
 
                 frame_lightgoldenyellow?.setOnClickListener {
@@ -508,7 +503,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     palegoldenrod?.setImageResource(0)
                     palevioletred?.setImageResource(0)
                     powderblue?.setImageResource(0)
-                    binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.blue, null))
+                    binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.RoyalBlue, null))
+//                    viewModel.onColorTick(6)
+
                 }
 
                 frame_lightgreen?.setOnClickListener {
@@ -524,6 +521,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     palevioletred?.setImageResource(0)
                     powderblue?.setImageResource(0)
                     binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.Orange, null))
+//                    viewModel.onColorTick(7)
+
                 }
 
                 frame_palegoldenrod?.setOnClickListener {
@@ -539,6 +538,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     palevioletred?.setImageResource(0)
                     powderblue?.setImageResource(0)
                     binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.HotPink, null))
+
+//                    viewModel.onColorTick(8)
                 }
 
                 frame_palevioletred?.setOnClickListener {
@@ -554,6 +555,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     palegoldenrod?.setImageResource(0)
                     powderblue?.setImageResource(0)
                     binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.SaddleBrown, null))
+//                    viewModel.onColorTick(9)
+
                 }
 
                 frame_powderblue?.setOnClickListener {
@@ -569,6 +572,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     palegoldenrod?.setImageResource(0)
                     palevioletred?.setImageResource(0)
                     binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.SlateGray, null))
+//                    viewModel.onColorTick(10)
+
                 }
 
 
@@ -587,7 +592,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     picker.show(childFragmentManager, "color_picker")
                 }
 
-            }
+
+
 
             addImage.setOnClickListener {
                 val with: ImagePicker.Builder? = parentFragment?.let { it1 ->
@@ -596,14 +602,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     )
                 }
                 val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-//                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
                 dialog.setContentView(R.layout.add_image_dialog)
                 dialog.show()
-//                dialog.window?.setLayout(
-//                    ViewGroup.LayoutParams.MATCH_PARENT,
-//                    ViewGroup.LayoutParams.WRAP_CONTENT,
-//                )
-//                dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
                 dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
                 dialog.window?.setGravity(Gravity.BOTTOM)
                 val camera: LinearLayout ?= dialog.findViewById(R.id.take_photo)
@@ -623,23 +623,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 val image: LinearLayout? = dialog.findViewById(R.id.add_photo)
                 image?.setOnClickListener {
                     dialog.dismiss()
-//                    val i = Intent()
-//                    i.type = "image/*"
-//                    i.action = Intent.ACTION_GET_CONTENT
-//                    startActivityForResult(
-//                        Intent.createChooser(i, "Select Picture"),
-//                        SELECT_PICTURE
-//                    )
-////                    parentFragment?.let { it1 ->
-////                        ImagePicker.with(it1)
-////                            .galleryOnly()
-////                            .crop()	    			//Crop image(Optional), Check Customization for more option
-////                            .compress(1024)			//Final image size will be less than 1 MB(Optional)
-////                            .maxResultSize(1080, 1080)	//Final image resolution will be less than 1080 x 1080(Optional)
-////                            .start()
-////                    }
-
-
                     with?.crop()
                     with?.galleryOnly()
                     with?.compress(1024)
@@ -660,25 +643,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             addTask.setOnClickListener {
-//                todoLayout.visibility = View.VISIBLE
-//                val todoDialog = Dialog(requireContext())
-//                todoDialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
-//                todoDialog.setContentView(R.layout.todo_listview)
                 todoDialog.show()
-//                todoDialog.window?.setLayout(
-//                    ViewGroup.LayoutParams.MATCH_PARENT,
-//                    ViewGroup.LayoutParams.WRAP_CONTENT,
-//                )
-//                todoDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-//                todoDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-//                todoDialog.window?.setGravity(Gravity.CENTER)
-//
-//                val addToList = todoDialog.findViewById<ImageView>(R.id.addTodo)
-//                val checkBoxTodo =   todoDialog.findViewById<CheckBox>(R.id.todoCheck)
-//                val descriptionTodo =   todoDialog.findViewById<EditText>(R.id.todoDesc)
-//                recylerView =   todoDialog.findViewById(R.id.todo_listview)
-//                val btn =   todoDialog.findViewById<Button>(R.id.done)
             }
+
             taskLayout.setOnClickListener {
                 todoDialog.show()
             }
@@ -778,10 +745,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
     private fun showAlert(s: String) {
         val builder = context?.let { AlertDialog.Builder(it) }
-//        val input = EditText(context)
-//        input.inputType = InputType.TYPE_TEXT_VARIATION_URI or InputType.TYPE_CLASS_TEXT
-//        input.background = null
-//        input.requestFocus()
         val input = layoutInflater.inflate(R.layout.alert_edittext, null)
         val editText = input.findViewById<EditText>(R.id.input)
         editText.requestFocus()
@@ -830,47 +793,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         ) { dialog, _ -> dialog.cancel() }
 
         builder?.show()    }
-
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//            colorImage()
-
-//        val viewColor = binding.newUpdateNote.background as ColorDrawable
-//        val colorId = viewColor.color
-//        viewModel.noteColor = colorId
-//
-//        val bitmap: Bitmap? = (binding.showImage.drawable as? BitmapDrawable)?.bitmap
-//        val height = bitmap?.height
-//        val width = bitmap?.width
-//        val bit= bitmap?.let { Bitmap.createScaledBitmap(it, width!!,height!!,false) }
-//        viewModel.noteImage = bit
-//    }
-//    fun colorImage() {
-//        val viewColor = binding.newUpdateNote.background as ColorDrawable
-//        val colorId = viewColor.color
-//        viewModel.noteColor = colorId
-//
-//        val bitmap: Bitmap? = (binding.showImage.drawable as? BitmapDrawable)?.bitmap
-//        val height = bitmap?.height
-//        val width = bitmap?.width
-//        val bit= bitmap?.let { Bitmap.createScaledBitmap(it, width!!,height!!,false) }
-//        viewModel.noteImage = bit
-//    }
-
-//Delete from Temp List
-//    fun removeItem(position: Int) {
-//        completed?.removeAt(position)
-//        todoDescription?.removeAt(position)
-//        lv?.setAdapter(adp)
-//        adp?.notifyDataSetChanged()
-//
-//    }
-//    //Update from Temp List
-//
-//    fun update(position: Int, checked: Boolean) {
-//        completed?.set(position,checked)
-//        adp?.notifyDataSetChanged()
-//    }
 
     // Reminder and Notification Logic
     private fun createNotificationChannel() {

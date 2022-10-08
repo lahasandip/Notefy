@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="yellow">#FFFF8D</color>
     <color name="fuchsia">#FF00FF</color>
-    <color name="red">#FF0000</color>
+    <color name="red">#FF5722</color>
     <color name="silver">#C0C0C0</color>
     <color name="olive">#808000</color>
     <color name="purple">#800080</color>
@@ -33,7 +33,7 @@
     <color name="PapayaWhip">#FFEFD5</color>
     <color name="BlanchedAlmond">#FFEBCD</color>
     <color name="MistyRose">#FFE4E1</color>
-    <color name="Bisque">#FFE4C4</color>
+    <color name="Bisque">#9575cd</color>
     <color name="Moccasin">#FFE4B5</color>
     <color name="NavajoWhite">#FFDEAD</color>
     <color name="PeachPuff">#FFDAB9</color>
@@ -137,7 +137,7 @@
     <color name="RoyalBlue">#4169E1</color>
     <color name="Turquoise">#40E0D0</color>
     <color name="MediumSeaGreen">#3CB371</color>
-    <color name="LimeGreen">#32CD32</color>
+    <color name="LimeGreen">#00e676</color>
     <color name="DarkSlateGray">#2F4F4F</color>
     <color name="SeaGreen">#2E8B57</color>
     <color name="ForestGreen">#228B22</color>

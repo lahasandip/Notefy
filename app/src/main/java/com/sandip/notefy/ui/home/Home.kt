@@ -7,10 +7,10 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.appcompat.widget.SearchView
+import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -36,7 +36,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val viewModel: HomeViewModel by viewModels()
-    val noteAdapter = NoteAdapter(this)
+    private val noteAdapter = NoteAdapter(this)
     private lateinit var gridLayoutManager: StaggeredGridLayoutManager
     private lateinit var binding: FragmentHomeBinding
     private lateinit var bookmarked: RadioButton
@@ -46,8 +46,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     private lateinit var oldest: RadioButton
     private lateinit var radioGroup: RadioGroup
     private lateinit var dialog: Dialog
-//    private var draggedIndex by Delegates.notNull<Int>()
-
     companion object{
         lateinit var act : Activity
         lateinit var noteList: List<NoteEntity>
@@ -56,17 +54,11 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
-//        val profile_photo = view.findViewById<ImageView>(R.id.profile_photo)
-        Log.d("Home", "Indside Home")
         val drawerLayout = MainActivity.drawerLayout
         displaySortByDialog()
 
         act = requireActivity()
-//
 
-//        profile_photo.setOnClickListener {
-//            drawerLayout?.openDrawer(Gravity.LEFT)
-//        }
         val prof = view.findViewById<ImageView>(R.id.profile_photo)
 
         gridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -76,38 +68,13 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                 adapter = noteAdapter
                 layoutManager = observeGridLayout()
 
-//                if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//                    gridLayoutManager.spanCount = 2
-//                    gridLayoutManager
-//                } else {
-//                    gridLayoutManager.spanCount = 4
-//                    gridLayoutManager
-//
-//                }
 
                 gridView.setOnCheckedChangeListener { _, isChecked ->
                     val sharedPreferences =
                         context.getSharedPreferences("grid", Context.MODE_PRIVATE)
-                    var editor = sharedPreferences.edit()
+                    val editor = sharedPreferences.edit()
                     editor.putBoolean("grid", isChecked)
-                    editor.commit()
-
-
-//                    when(isChecked){
-//
-//                        true ->  if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//                            gridLayoutManager.spanCount = 1
-//                        }
-//                        else {
-//                            gridLayoutManager.spanCount = 1
-//                        }
-//                        false -> if (context.resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//                            gridLayoutManager.spanCount = 2
-//                        }
-//                        else{
-//                            gridLayoutManager.spanCount=4
-//                        }
-//                    }
+                    editor.apply()
                 }
 
                 viewModel.displayUser.observe(viewLifecycleOwner) {
@@ -132,11 +99,9 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                         radioGroup.getChildAt(it) as RadioButton
                     savedCheckedRadioButton.isChecked = true
                 }
-//                val pendingQuery = viewModel.searchQuery.value
-//                if (pendingQuery != null && pendingQuery.isNotEmpty()) {
-//                    searchView.setQuery(pendingQuery, false)
-//                }
-//
+
+
+
                 searchView.setOnQueryTextListener(object :
                     android.widget.SearchView.OnQueryTextListener,
                     SearchView.OnQueryTextListener {
@@ -146,7 +111,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
 
                     override fun onQueryTextChange(query: String?): Boolean {
                         if (query != null) {
-//                            getItemsFromDb(query)
                             viewModel.searchQuery.value = query
                         }
                         return true
@@ -165,14 +129,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                         viewHolder: RecyclerView.ViewHolder,
                         target: RecyclerView.ViewHolder
                     ): Boolean {
-//                        draggedIndex = viewHolder.adapterPosition
-//                        val targetIndex = target.adapterPosition
-//                        Log.d("Index", draggedIndex.toString() + targetIndex.toString())
-//                        Collections.swap(noteAdapter.currentList.toMutableList(), draggedIndex, targetIndex)
-//                        noteAdapter.notifyItemMoved(draggedIndex, targetIndex)
-
-
-
                         return false
                     }
 
@@ -189,21 +145,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             newNote.setOnClickListener {
                 viewModel.onAddNewTaskClick()
             }
-//            sortBy.setOnClickListener {
-//                dialog.show()
-//                bookmarked.setOnClickListener {
-//                    viewModel.onSortOrderSelected(SortOrder.BOOKMARKED)
-//                }
-//                titleName.setOnClickListener {
-//                    viewModel.onSortOrderSelected(SortOrder.TITLE_ASC)
-//                }
-//                newest.setOnClickListener {
-//                    viewModel.onSortOrderSelected(SortOrder.NEW_TO_OLD)
-//                }
-//                oldest.setOnClickListener {
-//                    viewModel.onSortOrderSelected(SortOrder.OLD_TO_NEW)
-//                }
-//            }
+
 
             setFragmentResultListener("add_edit_delete_request") { _, bundle ->
                 val result = bundle.getInt("add_edit_delete_result")
@@ -211,7 +153,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             }
 
             viewModel.note.observe(viewLifecycleOwner) {
-                println("Observed live data")
                 noteAdapter.submitList(it)
 
                 if (it.isNullOrEmpty()) {
@@ -225,15 +166,12 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
 
 
             topAppBar.setNavigationOnClickListener {
-                // Handle navigation icon press
-                drawerLayout?.openDrawer(Gravity.LEFT)
+                drawerLayout?.openDrawer(GravityCompat.START)
             }
 
 
 
             prof.setOnClickListener {
-                Snackbar.make(requireView(), "Profile clicked", Snackbar.LENGTH_LONG)
-
                 viewModel.onProfileClick()
             }
 
@@ -261,42 +199,9 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                         }
                         true
                     }
-//                    R.id.profile -> {
-//                        // Handle favorite icon press
-//
-//
-////                        viewModel.onProfileClick()
-//                        Snackbar.make(requireView(), "Profile clicked", Snackbar.LENGTH_LONG)
-//
-//
-//                        true
-//                    }
-
                     else -> false
                 }
             }
-//            val bottomSheet: LinearLayout = view.findViewById(R.id.bottom)
-//        val bottomSheetBehavior: BottomSheetBehavior<*> = BottomSheetBehavior.from(bottomSheet)
-//
-//        bottomSheetBehavior.setBottomSheetCallback(object : BottomSheetCallback() {
-//            override fun onStateChanged(view: View, i: Int) {
-//                // ..
-//                // your code is here
-//            }
-//
-//            override fun onSlide(view: View, v: Float) {
-//                // ..
-//                // animating the view on top of Bottom Sheet
-//                binding.fragmentHome.animate()
-//                    .y(
-//                        (if (v <= 0)
-//                            view.y + bottomSheetBehavior.peekHeight - binding.fragmentHome.height
-//                        else
-//                            view.height -  binding.fragmentHome.height).toFloat()
-//                    )
-//                    .setDuration(0).start()
-//            }
-//        })
         }
 
 
@@ -354,12 +259,11 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     }
 
 
-    private fun observeGridLayout(): RecyclerView.LayoutManager? {
+    private fun observeGridLayout(): RecyclerView.LayoutManager {
         val sharedPreferences = context?.getSharedPreferences("grid", Context.MODE_PRIVATE)
         sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
-        val grid = sharedPreferences?.getBoolean("grid", false)
 
-        when (grid) {
+        when (sharedPreferences?.getBoolean("grid", false)) {
 
             true -> if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 gridLayoutManager.spanCount = 1
@@ -368,7 +272,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             } else {
                 gridLayoutManager.spanCount = 1
                 binding.gridView.isChecked = true
-
             }
             false -> if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 gridLayoutManager.spanCount = 2
@@ -377,12 +280,10 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             } else {
                 gridLayoutManager.spanCount = 4
                 binding.gridView.isChecked = false
-
             }
             else -> {
                 gridLayoutManager
             }
-
         }
         return gridLayoutManager
     }
@@ -399,31 +300,11 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         viewModel.onUndoDeleteClick(noteEntity)
     }
 
-//    private fun getItemsFromDb(query: String) {
-//
-//        viewModel.searchDatabase(query).observe(this) { list ->
-//            list?.let {
-//                noteAdapter.submitList(it)
-//            }
-//
-//        }
-//    }
-
-//    private fun setLayout() {
-//        if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-//            gridLayoutManager.spanCount = 1
-//        }
-//        else{
-//           gridLayoutManager.spanCount = 4
-//        }
-//    }
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if (key.equals("grid")) {
             observeGridLayout()
         }
     }
-
 
     private var radioGroupOnCheckedChangeListener: RadioGroup.OnCheckedChangeListener =
         RadioGroup.OnCheckedChangeListener { _, checkedId ->
@@ -443,8 +324,8 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         newest = dialog.findViewById(R.id.newest)
         oldest = dialog.findViewById(R.id.oldest)
 
-        radioGroup = dialog.findViewById(R.id.radioGroup);
-        radioGroup.setOnCheckedChangeListener(radioGroupOnCheckedChangeListener);
+        radioGroup = dialog.findViewById(R.id.radioGroup)
+        radioGroup.setOnCheckedChangeListener(radioGroupOnCheckedChangeListener)
     }
 
     private fun observeLanguagePreference() {

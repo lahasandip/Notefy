@@ -139,9 +139,9 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                         {
                                             // when all item selected
                                             // set isselectall false
-                                            isSelectAll=false;
+                                            isSelectAll=false
                                             // create select array list
-                                            selectList.clear();
+                                            selectList.clear()
                                         }
                                         else
                                         {
@@ -167,13 +167,18 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                         for (s in selectList) {
                                             listener.onDeleteClick(s)
                                             undoList.add(s)
+                                            Log.d("undo1", undoList.size.toString())
                                         }
                                         Snackbar.make(itemView, "Note deleted", Snackbar.LENGTH_LONG)
                                             .setAction("UNDO") {
                                                 for (s in undoList) {
                                                     listener.onUndo(s)
+                                                    Log.d("undo2", undoList.size.toString())
+
                                                 }
                                             }.show()
+                                        Log.d("undo3", undoList.size.toString())
+
                                         mode?.finish();
                                         true
                                     }
