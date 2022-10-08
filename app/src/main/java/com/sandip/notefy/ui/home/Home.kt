@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.appcompat.widget.SearchView
@@ -59,6 +60,8 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
 
         act = requireActivity()
 
+
+
         val prof = view.findViewById<ImageView>(R.id.profile_photo)
 
         gridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -85,6 +88,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                         }
                     }
                 }
+
 
                 swipeRefreshLayout.setOnRefreshListener {
 
@@ -154,16 +158,17 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
 
             viewModel.note.observe(viewLifecycleOwner) {
                 noteAdapter.submitList(it)
+                noteList = it
+            }
 
-                if (it.isNullOrEmpty()) {
+            viewModel.noteCount.observe(viewLifecycleOwner) {
+                Log.d("note count", it.toString())
+                if (it == 0) {
                     emptyNotes.emptyNotesError.visibility = View.VISIBLE
                 } else {
                     emptyNotes.emptyNotesError.visibility = View.GONE
                 }
-
-                noteList = it
             }
-
 
             topAppBar.setNavigationOnClickListener {
                 drawerLayout?.openDrawer(GravityCompat.START)

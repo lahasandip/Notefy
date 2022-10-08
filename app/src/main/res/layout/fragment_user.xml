@@ -82,7 +82,7 @@
                     android:inputType="text"
                     android:background="@null"
                     android:textStyle="bold"
-                    android:maxLength="26"
+                    android:maxLength="22"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/circleImageView"/>

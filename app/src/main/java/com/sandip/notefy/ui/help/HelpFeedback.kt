@@ -109,9 +109,9 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
             }
             layoutWriteUs.setOnClickListener {
                 val intent = Intent(Intent.ACTION_SENDTO).apply {
-                    data = Uri.parse("mailto:") // only email apps should handle this
-                    putExtra(Intent.EXTRA_EMAIL, "sandiplaha206@gmail.com")
-                    putExtra(Intent.EXTRA_SUBJECT, "subject")
+                    data = Uri.parse("mailto:sandiplaha206@gmail.com") // only email apps should handle this
+                    putExtra(Intent.EXTRA_EMAIL, "@gmail.com")
+                    putExtra(Intent.EXTRA_SUBJECT, "This is subject")
                     putExtra(Intent.EXTRA_TEXT, "Body")
 
                 }

@@ -17,7 +17,7 @@ import javax.inject.Inject
 @HiltViewModel
 class UserViewModel@Inject constructor(
     private val userDao: UserDao,
-    private val noteDao: NoteDao
+    noteDao: NoteDao
 ): ViewModel() {
 
     val displayUser = userDao.getUser()

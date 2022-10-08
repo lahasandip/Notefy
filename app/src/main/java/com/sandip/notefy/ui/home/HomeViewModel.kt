@@ -61,6 +61,9 @@ class HomeViewModel @Inject constructor(
 
     val note = tasksFlow.asLiveData()
 
+    val noteCount = noteDao.getNotes()
+
+
 
     fun onSortOrderSelected(sortOrder: SortOrder) = viewModelScope.launch {
         preferencesManager.updateSortOrder(sortOrder)

@@ -121,7 +121,6 @@ class User : Fragment(R.layout.fragment_user) {
 
             editName.setOnClickListener {
                 textName.requestFocus(View.LAYOUT_DIRECTION_LTR)
-
             }
             editEmail.setOnClickListener {
                 textEmail.requestFocus(View.LAYOUT_DIRECTION_LTR)
