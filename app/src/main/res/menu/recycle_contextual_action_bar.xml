@@ -6,21 +6,21 @@
         android:id="@+id/restore"
         android:icon="@drawable/ic_baseline_restore_24"
         android:title=""
-        android:contentDescription="delete"
-        app:showAsAction="ifRoom" />
+        android:contentDescription=""
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/select_all"
         android:icon="@drawable/ic_baseline_select_all_24"
         android:title=""
-        android:contentDescription="delete"
-        app:showAsAction="ifRoom" />
+        android:contentDescription=""
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/delete_all"
         android:icon="@drawable/ic_baseline_delete_outline_24"
         android:title=""
-        android:contentDescription="delete"
-        app:showAsAction="always" />
+        android:contentDescription=""
+        app:showAsAction="always"/>
 
 </menu>

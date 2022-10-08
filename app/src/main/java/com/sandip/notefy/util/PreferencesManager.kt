@@ -48,7 +48,7 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             FilterPreferences(sortOrder)
 
         }
-//    val uiModeFlow = dataStore.data
+    //    val uiModeFlow = dataStore.data
 //        .catch {
 //            if (it is IOException) {
 //                it.printStackTrace()

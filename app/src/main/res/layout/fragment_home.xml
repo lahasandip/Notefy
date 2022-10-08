@@ -51,7 +51,7 @@
             android:checked="false"
             android:scaleX=".90"
             android:scaleY=".90"
-            android:background = "@drawable/grid_view"
+            android:background ="@drawable/grid_view"
             android:theme="@style/SearchView"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

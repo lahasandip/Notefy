@@ -210,7 +210,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
 
                 if(isSelectAll)
                 {
-                    binding.cardView.strokeWidth = 5
+                    binding.cardView.strokeWidth = 8
                     binding.cardView.strokeColor = Color.parseColor("#80cbc4")
                 }
                 else
@@ -278,7 +278,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
         if (binding.cardView.strokeWidth == 0) {
             // when item not selected
             // visible check box image
-            binding.cardView.strokeWidth = 5
+            binding.cardView.strokeWidth = 8
             binding.cardView.strokeColor = Color.parseColor("#80cbc4")
             // set background color
             // add value in select array list

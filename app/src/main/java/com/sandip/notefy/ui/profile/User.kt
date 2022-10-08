@@ -2,12 +2,15 @@ package com.sandip.notefy.ui.profile
 
 import android.app.Activity
 import android.app.Dialog
+import android.content.Context
+import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
+import android.view.inputmethod.InputMethodManager
 import androidx.fragment.app.Fragment
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -15,6 +18,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.setFragmentResult
@@ -117,6 +121,7 @@ class User : Fragment(R.layout.fragment_user) {
 
             editName.setOnClickListener {
                 textName.requestFocus(View.LAYOUT_DIRECTION_LTR)
+
             }
             editEmail.setOnClickListener {
                 textEmail.requestFocus(View.LAYOUT_DIRECTION_LTR)

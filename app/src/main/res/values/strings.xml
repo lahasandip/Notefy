@@ -75,6 +75,7 @@
     <string name="notefy_is_used_to_take_notes_add_reminders_create_todo_list_and_much_more_you_can_save_your_notes_with_images_colors_place_and_url_you_can_filter_notes_based_on_your_preferences_search_and_share_your_notes_it_supports_dark_theme_and_light_theme_for_security_it_has_screen_lock_feature_you_can_choose_your_preferred_language_currently_notefy_supports_15_different_languages_for_any_help_you_can_either_read_faq_s_or_contact_us">Notefy is used to take Notes, add Reminders, create Todo list and much more. You can save your notes with images, colors, place and URL. You can filter notes based on your preferences, search and share your notes. It supports Dark theme and light theme. For security it has screen lock feature. You can choose your preferred language, currently Notefy supports 15 different languages. For any help you can either read FAQ\'s or contact us.</string>
     <string name="fab">fab</string>
     <string name="skip">Skip</string>
+    <string name="profile">Profile</string>
 
 
 </resources>

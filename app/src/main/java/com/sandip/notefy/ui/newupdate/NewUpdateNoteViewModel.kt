@@ -181,16 +181,18 @@ class NewUpdateNoteViewModel @Inject constructor(
 //    }
 
     fun onShareClick(image: ImageView) = viewModelScope.launch {
-        val desc = if(noteDescription.isNotEmpty()) "Note: $noteDescription,\n" else ""
+        val desc = if(noteDescription.isNotEmpty()) "\nNote: $noteDescription,\n" else ""
         val url =  if(noteUrl.isNotEmpty()) "Url: $noteUrl,\n" else ""
         val dateTime =    if(noteDate.isNotEmpty()) "Date: $noteDate, $noteTime,\n" else ""
-        val location = if(noteLocation.isNotEmpty()) "Place: $noteLocation" else ""
+        val location = if(noteLocation.isNotEmpty()) "Place: $noteLocation,\n" else ""
         val arrayList : ArrayList<String> = ArrayList()
         if(noteTodoList?.size != null) {
             for (s in 0 until noteTodoList?.size!!){
                 arrayList.add(noteTodoList!![s].todoDescription.toString())
             }
         }
+        val todo = if(arrayList.isNotEmpty()) "Todo: $arrayList" else ""
+
         try {
             val sendIntent = Intent().apply {
                 action = Intent.ACTION_SEND
@@ -203,7 +205,7 @@ class NewUpdateNoteViewModel @Inject constructor(
                 else{
                     type = "text/plain"
                 }
-                putExtra(Intent.EXTRA_TEXT, "Title: $noteTitle,\n$desc$url$dateTime$location\nTodo: ${arrayList}")
+                putExtra(Intent.EXTRA_TEXT, "Title: $noteTitle,$desc$url$dateTime$location$todo")
                 putExtra(Intent.EXTRA_TITLE, "Share from Notefy:")
             }
             val shareIntent = Intent.createChooser(sendIntent, null)
