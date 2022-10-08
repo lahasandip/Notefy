@@ -12,8 +12,7 @@
         android:layout_height="wrap_content"
         app:cardElevation="2dp"
         android:outlineProvider="none"
-        app:cardCornerRadius="10dp"
-        >
+        app:cardCornerRadius="10dp">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -29,7 +28,7 @@
                 android:scaleX="0.80"
                 android:scaleY="0.80"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/note_image_layout"
@@ -48,13 +47,6 @@
                     android:scaleType="fitXY"
                     android:transitionName="img"
                     tools:ignore="UnusedAttribute"/>
-
-<!--                <ImageView-->
-<!--                    android:id="@+id/shadow_bottom"-->
-<!--                    android:layout_width="match_parent"-->
-<!--                    android:layout_height="wrap_content"-->
-<!--                    android:layout_alignBottom="@id/img"-->
-<!--                    android:src="@drawable/bottom_shadow"/>-->
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -69,7 +61,7 @@
                 android:textStyle="bold"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/note_image_layout" />
+                app:layout_constraintTop_toBottomOf="@+id/note_image_layout"/>
 
             <TextView
                 android:id="@+id/note_body"
@@ -78,8 +70,8 @@
                 android:layout_below="@id/note_title"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:layout_marginRight="5dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginEnd="5dp"
+                android:layout_marginStart="10dp"
                 android:layout_marginTop="5dp"
                 app:layout_constraintTop_toBottomOf="@+id/note_title"
                 android:visibility="gone"/>
@@ -101,7 +93,7 @@
                     android:layout_height="wrap_content"
                     android:scaleX="0.70"
                     android:scaleY="0.70"
-                    android:src="@drawable/ic_outline_access_alarms_24" />
+                    android:src="@drawable/ic_outline_access_alarms_24"/>
 
                 <TextView
                     android:id="@+id/date"
@@ -111,7 +103,7 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginEnd="10dp"
                     android:textStyle="bold"
-                    android:textSize="12sp" />
+                    android:textSize="12sp"/>
             </FrameLayout>
 
             <FrameLayout
@@ -132,7 +124,7 @@
                     android:scaleY="0.70"
                     android:src="@drawable/ic_outline_location_on_24"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/note_body" />
+                    app:layout_constraintTop_toBottomOf="@+id/note_body"/>
 
                 <TextView
                     android:id="@+id/location"
@@ -144,7 +136,7 @@
                     android:textSize="12sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/location_image"
-                    app:layout_constraintTop_toBottomOf="@+id/note_body" />
+                    app:layout_constraintTop_toBottomOf="@+id/note_body"/>
             </FrameLayout>
 
             <FrameLayout
@@ -164,7 +156,7 @@
                     android:scaleX="0.70"
                     android:scaleY="0.70"
                     android:src="@drawable/ic_baseline_insert_link_24"
-                    app:layout_constraintStart_toStartOf="parent" />
+                    app:layout_constraintStart_toStartOf="parent"/>
 
                 <TextView
                     android:id="@+id/urlLink"
@@ -176,7 +168,7 @@
                     android:layout_gravity="center"
                     android:layout_marginEnd="10dp"
                     android:textStyle="bold"
-                    app:layout_constraintStart_toEndOf="@+id/url_image" />
+                    app:layout_constraintStart_toEndOf="@+id/url_image"/>
             </FrameLayout>
 
             <androidx.recyclerview.widget.RecyclerView
@@ -195,8 +187,6 @@
             android:layout_height="match_parent"
             android:clickable="true"
             android:focusable="true"
-
-            android:background="@drawable/ripple_effect"
-            />
+            android:background="@drawable/ripple_effect"/>
     </com.google.android.material.card.MaterialCardView>
 </FrameLayout>

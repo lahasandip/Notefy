@@ -7,10 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.sandip.notefy.data.dao.NoteDao
 import com.sandip.notefy.data.dao.UserDao
 import com.sandip.notefy.data.entity.UserEntity
-import com.sandip.notefy.ui.ADD_TASK_RESULT_OK
-import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK
 import com.sandip.notefy.ui.PROFILE_UPDATED_RESULT_OK
-import com.sandip.notefy.ui.newupdate.NewUpdateNoteViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow

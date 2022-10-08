@@ -20,11 +20,9 @@ class About : Fragment(R.layout.fragment_about) {
         binding = FragmentAboutBinding.bind(view)
 
         binding.apply {
-
             topAppBar.setNavigationOnClickListener {
                 viewModel.onOkClick()
             }
-
 
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 viewModel.addEditTaskEvent.collect { event ->
@@ -35,8 +33,8 @@ class About : Fragment(R.layout.fragment_about) {
                     }.exhaustive
                 }
             }
-
-        }}
+        }
+    }
 }
 
 

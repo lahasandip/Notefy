@@ -15,21 +15,4 @@ import com.sandip.notefy.util.Converters
 abstract class MainDatabase : RoomDatabase() {
     abstract fun getNote(): NoteDao
     abstract fun getUser(): UserDao
-
-//    class Callback @Inject constructor(
-//        private val database: Provider<NoteDatabase>,
-//        @ApplicationScope private val applicationScope: CoroutineScope
-//    ) : RoomDatabase.Callback()
-//    {
-//
-//        override fun onCreate(db: SupportSQLiteDatabase) {
-//            super.onCreate(db)
-//
-//            val dao = database.get().getNote()
-//            applicationScope.launch {
-//                dao.insertDao(NoteEntity("Trip to Goa", "This is my first trip", false,"https://www.google.com",
-//                "15 Aug, 2022","12:10", "Goa", -5185306, null))
-//            }
-//        }
-//    }
 }

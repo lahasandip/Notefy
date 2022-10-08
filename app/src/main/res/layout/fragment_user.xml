@@ -9,31 +9,31 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             app:title="Profile"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
-            style="@style/Toolbar"
-            >
+            style="@style/Toolbar">
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
+
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
         <FrameLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
+
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="15dp"
-                >
+                android:padding="15dp">
 
                 <de.hdodenhof.circleimageview.CircleImageView
                     android:id="@+id/circleImageView"
@@ -44,8 +44,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                    app:layout_constraintTop_toTopOf="parent"/>
 
                 <com.google.android.material.floatingactionbutton.FloatingActionButton
                     android:id="@+id/camera"
@@ -57,7 +56,7 @@
                     app:fabCustomSize="47dp"
                     app:layout_constraintStart_toStartOf="@+id/circleImageView"
                     app:layout_constraintTop_toTopOf="@+id/circleImageView"
-                    app:tint="@color/white" />
+                    app:tint="@color/white"/>
 
                 <Button
                     android:id="@+id/edit_name"
@@ -67,7 +66,7 @@
                     android:background="@drawable/ic_baseline_create_24"
                     android:clickable="false"
                     app:layout_constraintBottom_toBottomOf="@+id/text_name"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintEnd_toEndOf="parent"/>
 
                 <EditText
                     android:id="@+id/text_name"
@@ -78,14 +77,15 @@
                     android:layout_marginStart="65dp"
                     android:fontFamily="sans-serif-light"
                     android:gravity="center"
-                    android:hint="Alex Parker"
-                    android:textSize="24dp"
+                    android:hint="@string/alex_parker"
+                    android:textSize="24sp"
+                    android:inputType="text"
                     android:background="@null"
                     android:textStyle="bold"
                     android:maxLength="26"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/circleImageView" />
+                    app:layout_constraintTop_toBottomOf="@+id/circleImageView"/>
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView2"
@@ -122,17 +122,16 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:textSize="18dp"
-                                android:textStyle="bold"
-                                />
+                                android:textSize="18sp"
+                                android:textStyle="bold"/>
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Notes"
+                                android:text="@string/notes"
                                 android:layout_marginTop="2dp"
-                                android:textSize="12dp"/>
+                                android:textSize="12sp"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -150,8 +149,8 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:textSize="18dp"
-                                android:textStyle="bold" />
+                                android:textSize="18sp"
+                                android:textStyle="bold"/>
 
                             <TextView
                                 android:id="@+id/textView18"
@@ -159,8 +158,8 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:layout_marginTop="2dp"
-                                android:text="Reminders"
-                                android:textSize="12dp" />
+                                android:text="@string/reminders"
+                                android:textSize="12sp"/>
                         </LinearLayout>
 
                         <LinearLayout
@@ -178,19 +177,17 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:textSize="18dp"
-                                android:textStyle="bold"
-                                />
+                                android:textSize="18sp"
+                                android:textStyle="bold"/>
 
                             <TextView
                                 android:id="@+id/textView19"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
-                                android:text="Todos"
+                                android:text="@string/todos"
                                 android:layout_marginTop="2dp"
-                                android:textSize="12dp"
-                                />
+                                android:textSize="12sp"/>
                         </LinearLayout>
 
                         <View
@@ -201,17 +198,17 @@
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/linearLayout"
                             app:layout_constraintStart_toEndOf="@+id/linearLayout3"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"/>
 
                         <View
                             android:layout_width="1dp"
                             android:layout_height="25dp"
                             android:orientation="vertical"
-                            android:theme="@style/ProfileView"                            app:layout_constraintBottom_toBottomOf="parent"
+                            android:theme="@style/ProfileView"
+                            app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toStartOf="@+id/linearLayout4"
                             app:layout_constraintStart_toEndOf="@+id/linearLayout"
-                            app:layout_constraintTop_toTopOf="parent" />
-
+                            app:layout_constraintTop_toTopOf="parent"/>
                     </androidx.constraintlayout.widget.ConstraintLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -226,7 +223,6 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/cardView2">
 
-
                     <ImageView
                         android:id="@+id/imageView8"
                         android:layout_width="wrap_content"
@@ -235,8 +231,7 @@
                         android:src="@drawable/ic_baseline_mail_outline_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <EditText
                         android:id="@+id/text_email"
@@ -246,13 +241,14 @@
                         android:layout_marginStart="38dp"
                         android:layout_marginEnd="30dp"
                         android:background="@null"
-                        android:hint="alex.parker@gmail.com"
-                        android:textSize="15dp"
+                        android:hint="@string/alex_parker_gmail_com"
+                        android:textSize="15sp"
                         android:maxLines="1"
+                        android:inputType="textEmailAddress"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/edit_email"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <Button
                         android:id="@+id/edit_email"
@@ -263,9 +259,7 @@
                         android:clickable="false"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
-
-
+                        app:layout_constraintTop_toTopOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
@@ -287,7 +281,7 @@
                         android:src="@drawable/ic_baseline_call_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <EditText
                         android:id="@+id/text_phone"
@@ -297,12 +291,13 @@
                         android:layout_marginStart="38dp"
                         android:background="@null"
                         android:maxLength="16"
-                        android:hint="+1 012 345 6789"
-                        android:textSize="15dp"
+                        android:hint="@string/_1_012_345_6789"
+                        android:textSize="15sp"
+                        android:inputType="phone"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <Button
                         android:layout_width="20dp"
@@ -312,7 +307,7 @@
                         android:clickable="false"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"/>
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <Button
@@ -322,14 +317,13 @@
                     android:layout_marginTop="40dp"
                     android:layout_marginStart="35dp"
                     android:layout_marginEnd="35dp"
-                    android:text="Save"
+                    android:text="@string/save"
                     android:textColor="@color/white"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.466"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
-
         </FrameLayout>
     </androidx.core.widget.NestedScrollView>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

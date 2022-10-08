@@ -6,35 +6,13 @@
     android:theme="@style/Dialog"
     android:background="@drawable/popup_background">
 
-
-<!--    <LinearLayout-->
-<!--        android:id="@+id/tick_box"-->
-<!--        android:orientation="horizontal"-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content"-->
-<!--        android:padding="8dp">-->
-
-
-<!--        <ImageView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:src="@drawable/ic_baseline_check_box_24"/>-->
-
-<!--        <TextView-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:text="Tick box"-->
-<!--            android:layout_marginLeft="25dp"-->
-<!--            android:textSize="16sp"/>-->
-
-<!--    </LinearLayout>-->
     <androidx.cardview.widget.CardView
         android:layout_width="40dp"
         android:layout_height="4dp"
         android:elevation="0dp"
         android:layout_gravity="center"
-        android:theme="@style/DialogView"
-        />
+        android:theme="@style/DialogView"/>
+
     <LinearLayout
         android:id="@+id/add_reminder_layout"
         android:orientation="horizontal"
@@ -43,7 +21,6 @@
         android:layout_marginTop="15dp"
         android:background="?attr/selectableItemBackground"
         android:padding="8dp">
-
 
         <ImageView
             android:layout_width="wrap_content"
@@ -54,7 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/reminder"
-            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
             android:textSize="16sp"/>
     </LinearLayout>
 
@@ -66,7 +43,6 @@
         android:background="?attr/selectableItemBackground"
         android:padding="8dp">
 
-
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -76,9 +52,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/place"
-            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
             android:textSize="16sp"/>
-
     </LinearLayout>
 
     <LinearLayout
@@ -98,9 +73,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/url"
-            android:layout_marginLeft="25dp"
+            android:layout_marginStart="25dp"
             android:autoLink="web"
             android:textSize="16sp"/>
-
     </LinearLayout>
 </LinearLayout>

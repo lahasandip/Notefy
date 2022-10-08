@@ -51,15 +51,11 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
 
     }
 
-//    override fun getItemCount(): Int {
-////        return
-//    }
-
     inner class NoteViewHolder(private val binding: NewNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
 
-        init {
-            binding.apply {
+//        init {
+//            binding.apply {
 //                overlay.setOnClickListener {
 //                    val position = adapterPosition
 //                    if (position != RecyclerView.NO_POSITION) {
@@ -69,10 +65,10 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
 //                }
 
 
-
-            }
-
-        }
+//
+//            }
+//
+//        }
 
         fun bind(holder: NoteViewHolder, noteEntity: NoteEntity) {
             binding.apply {
@@ -312,8 +308,6 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
         fun onRestoreClick(noteEntity: NoteEntity)
         fun onMenuDeleteClick(noteEntity: NoteEntity)
         fun onUndo(noteEntity: NoteEntity)
-
-
     }
 
     class DiffCallback : DiffUtil.ItemCallback<NoteEntity>() {
@@ -323,6 +317,4 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
         override fun areContentsTheSame(oldItem: NoteEntity, newItem: NoteEntity) =
             oldItem == newItem
     }
-
-
 }

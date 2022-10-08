@@ -13,7 +13,6 @@ data class UserEntity(
     @ColumnInfo(name = "Email") val email: String? = null,
     @ColumnInfo(name = "Phone") val phone: String? = null,
     @ColumnInfo(name="Image") val image: String? = null,
-    @PrimaryKey()
+    @PrimaryKey
     val id: Int = 0
-
 ): Parcelable

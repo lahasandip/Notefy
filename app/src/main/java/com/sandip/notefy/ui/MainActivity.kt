@@ -1,11 +1,9 @@
 package com.sandip.notefy.ui
 
 import android.app.Activity
-import android.app.UiModeManager.MODE_NIGHT_NO
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -39,9 +37,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.ActivityMainBinding
-import com.sandip.notefy.ui.home.NoteAdapter
 import com.sandip.notefy.ui.home.NoteAdapter.Companion.homeActionMode
-import com.sandip.notefy.ui.recycle_bin.RecycleAdapter
 import com.sandip.notefy.ui.recycle_bin.RecycleAdapter.Companion.recycleActionMode
 import com.sandip.notefy.util.PreferencesManager
 import com.sandip.notefy.util.exhaustive
@@ -163,11 +159,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                     is MainActivityViewModel.MainTaskEvent.UpdateLightUI -> {
                         Snackbar.make(view, "Dark Mode Disabled", Snackbar.LENGTH_SHORT).show()
                     }
-//                        is MainActivityViewModel.MainTaskEvent.NavigateToMainActivity -> {
-//                            val action =
-//                                HomeDirections.actionHomeToNewUpdateNote()
-//                            findNavController().navigate(action)
-//                        }
                     else -> {}
                 }.exhaustive
             }
@@ -258,7 +249,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
     private fun onBiometricEnabled(){
         isBiometricEnable = true
-        val biometricManager = this?.let { BiometricManager.from(this) }
+        val biometricManager = this.let { BiometricManager.from(this) }
         when (biometricManager?.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
             BiometricManager.BIOMETRIC_SUCCESS ->
                 Log.d("MY_APP_TAG", "App can authenticate using biometrics.")

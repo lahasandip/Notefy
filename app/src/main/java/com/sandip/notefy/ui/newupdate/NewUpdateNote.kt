@@ -301,7 +301,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 val da = viewModel.note?.createdDateFormatted
                 val items1: Array<String> =
                     da?.split(" ".toRegex())?.toTypedArray() ?: arrayOf("")
-                noteEdited.text = "Edited: ${items1[0]} ${items1[1]} ${items1[3]}"
+                val tim = items1[3]
+                val t: Array<String> =
+                    tim.split(":".toRegex()).toTypedArray()
+                noteEdited.text = "Created: ${items1[0]} ${items1[1]} ${t[0]}:${t[1]}"
             }
             else {
                 noteEdited.append(

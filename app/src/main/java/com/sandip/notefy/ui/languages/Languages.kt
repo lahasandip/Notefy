@@ -1,30 +1,19 @@
 package com.sandip.notefy.ui.languages
 
 import android.content.Context
-import android.content.Intent
-import android.content.SharedPreferences
 import android.content.res.Configuration
-import android.graphics.Color
 import android.os.Bundle
 import android.view.*
-import androidx.cardview.widget.CardView
-import androidx.core.app.ActivityCompat.finishAffinity
 import androidx.core.app.ActivityCompat.recreate
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
-import com.google.android.material.internal.ContextUtils
-import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Language
 import com.sandip.notefy.databinding.FragmentLanguagesBinding
-import com.sandip.notefy.ui.home.HomeDirections
-import com.sandip.notefy.ui.home.HomeViewModel
 import com.sandip.notefy.util.exhaustive
-import dagger.hilt.android.AndroidEntryPoint
 import kotlin.collections.ArrayList
 
 class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItemClickListener  {
@@ -84,7 +73,6 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
                             findNavController().popBackStack()
                         }
                         is LanguagesViewModel.TasksEvent.NavigateToHomeScreen -> {
-
                             val action =
                                 LanguagesDirections.actionLanguagesToHome()
                             findNavController().navigate(action)
@@ -106,11 +94,10 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
         }
     }
 
-
     override fun onItemClick(position: Int) {
         val sharedPreferences =  context?.getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
         val editor = sharedPreferences?.edit()
         editor?.putInt("position",position)
-        editor?.commit()
+        editor?.apply()
     }
 }

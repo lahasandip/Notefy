@@ -14,8 +14,6 @@ class AboutViewModel : ViewModel() {
         addEditTaskEventChannel.send(AddEditTaskEvent.NavigateToBackScreen)
     }
     sealed class AddEditTaskEvent {
-
         object NavigateToBackScreen : AddEditTaskEvent()
-
     }
 }

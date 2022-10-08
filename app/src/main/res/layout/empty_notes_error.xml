@@ -3,8 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/empty_notes_error"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    >
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/errorImage"
@@ -15,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:contentDescription="empty_notes" />
+        android:contentDescription="@string/empty_notes"/>
 
     <TextView
         android:id="@+id/errorTitle"
@@ -24,12 +23,12 @@
         android:layout_below="@id/errorImage"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
-        android:text="Empty Notes"
+        android:text="@string/empty_note"
         android:textStyle="bold"
         android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/errorImage" />
+        app:layout_constraintTop_toBottomOf="@+id/errorImage"/>
 
     <TextView
         android:id="@+id/errorMessage"
@@ -39,9 +38,8 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="2dp"
         android:gravity="center_horizontal"
-        android:text="Add a new note to appear here"
+        android:text="@string/add_a_new_note_to_appear_here"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/errorTitle" />
-
+        app:layout_constraintTop_toBottomOf="@+id/errorTitle"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

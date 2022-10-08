@@ -132,11 +132,10 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
                     }.exhaustive
                 }
             }
-
-        }}
+        }
+    }
 
 
     override fun onItemClick(flag: Int) {
-
     }
 }

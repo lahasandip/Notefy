@@ -19,14 +19,15 @@
     <!--  Sort By Dialog -->
     <string name="sort_by">Sort By</string>
     <string name="bookmarked_only">Bookmarked Only</string>
-    <string name="title_a_z">Title [ A-Z ]</string>
+    <string name="title_a_z">Title [A-Z]</string>
+    <string name="title_z_a">Title [Z-A]</string>
     <string name="newest_to_oldest">Newest to Oldest</string>
     <string name="oldest_to_newest">Oldest to Newest</string>
 
     <!--  NewUpdate Screen  -->
     <string name="title">Title</string>
     <string name="note">Note</string>
-    <string name="edited">Edited:</string>
+    <string name="edited">Created:</string>
 
     <!--  Add Feature Dialog  -->
     <string name="reminder">Reminder</string>
@@ -52,6 +53,28 @@
     <string name="next">Continue</string>
     <string name="choose_language">Choose Language</string>
 
+    <!--  Profile Screen -->
+    <string name="alex_parker">Alex Parker</string>
+    <string name="reminders">Reminders</string>
+    <string name="todos">Todos</string>
+    <string name="alex_parker_gmail_com">alex.parker@gmail.com</string>
+    <string name="_1_012_345_6789">+1 012 345 6789</string>
+    <string name="save">Save</string>
+    <string name="notes">Notes</string>
+
+    <!--  Help and feedback Screen -->
+    <string name="provide_feedback">Provide Feedback</string>
+    <string name="write_us">Write Us</string>
+    <string name="faq_s">FAQ\'s :</string>
+    <string name="empty_notes">empty_notes</string>
+    <string name="empty_note">Empty Notes</string>
+    <string name="add_a_new_note_to_appear_here">Add a new note to appear here</string>
+    <string name="empty_recycle_bin">Empty Recycle Bin</string>
+    <string name="notes_you_delete_will_appear_here">Notes you delete will appear here</string>
+    <string name="version_1_0">Version 1.0</string>
+    <string name="notefy_is_used_to_take_notes_add_reminders_create_todo_list_and_much_more_you_can_save_your_notes_with_images_colors_place_and_url_you_can_filter_notes_based_on_your_preferences_search_and_share_your_notes_it_supports_dark_theme_and_light_theme_for_security_it_has_screen_lock_feature_you_can_choose_your_preferred_language_currently_notefy_supports_15_different_languages_for_any_help_you_can_either_read_faq_s_or_contact_us">Notefy is used to take Notes, add Reminders, create Todo list and much more. You can save your notes with images, colors, place and URL. You can filter notes based on your preferences, search and share your notes. It supports Dark theme and light theme. For security it has screen lock feature. You can choose your preferred language, currently Notefy supports 15 different languages. For any help you can either read FAQ\'s or contact us.</string>
+    <string name="fab">fab</string>
+    <string name="skip">Skip</string>
 
 
 </resources>

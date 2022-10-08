@@ -8,16 +8,15 @@
 
     <com.google.android.material.appbar.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
+
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             app:title="Recycle bin"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
-            style="@style/Toolbar"
-            >
+            style="@style/Toolbar">
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -31,14 +30,12 @@
             android:id="@+id/trash_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:scrollbars="none" />
-
+            android:scrollbars="none"/>
     </androidx.core.widget.NestedScrollView>
 
-    <include layout="@layout/empty_recyclebin_error"
+    <include layout="@layout/empty_recycle_bin_error"
         android:id="@+id/empty_recycle_bin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        />
+        android:layout_gravity="center"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

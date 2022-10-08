@@ -1,18 +1,13 @@
 package com.sandip.notefy.ui
 
-import android.content.Context
-import android.content.res.Configuration
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sandip.notefy.data.dao.UserDao
-import com.sandip.notefy.ui.MainActivity.Companion.preferencesManager
 import com.sandip.notefy.util.UiMode
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
@@ -57,10 +52,10 @@ class MainActivityViewModel@Inject constructor(
 //    }
 
     sealed class MainTaskEvent {
-        object NavigateToMainActivity : MainActivityViewModel.MainTaskEvent()
+        object NavigateToMainActivity : MainTaskEvent()
 
-        object UpdateDarkUI : MainActivityViewModel.MainTaskEvent()
-        object UpdateLightUI: MainActivityViewModel.MainTaskEvent()
+        object UpdateDarkUI : MainTaskEvent()
+        object UpdateLightUI: MainTaskEvent()
 
     }
 

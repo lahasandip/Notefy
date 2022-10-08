@@ -72,7 +72,7 @@ class NewUpdateAdapter(
         init {
             todoCheckBox = itemView.findViewById(R.id.check)
             todoTitle = itemView.findViewById(R.id.tick_de)
-            removeButton = itemView.findViewById(R.id.rmve)
+            removeButton = itemView.findViewById(R.id.remove)
         }
     }
 }

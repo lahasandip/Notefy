@@ -2,8 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
+    android:layout_height="match_parent">
 
     <RelativeLayout
         android:id="@+id/note_image_layout"
@@ -18,14 +17,12 @@
             android:id="@+id/back_screen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
             app:tint = "@color/white"
             android:layout_margin="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:elevation="15dp"
-            android:src="@drawable/ic_baseline_arrow_back_24"
-            />
-
+            android:src="@drawable/ic_baseline_arrow_back_24"/>
 
         <TextView
             android:id="@+id/name_user"
@@ -33,7 +30,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_marginStart="10dp"
-            android:layout_marginLeft="58dp"
             android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:layout_toStartOf="@+id/delete_photo"
@@ -42,32 +38,28 @@
             android:elevation="15dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
             android:textColor="@color/white"
-            android:textSize="20sp" />
+            android:textSize="20sp"/>
 
         <ImageView
             android:id="@+id/delete_photo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
             android:layout_margin="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:elevation="15dp"
-            android:src="@drawable/ic_baseline_delete_24"
-            />
+            android:src="@drawable/ic_baseline_delete_24"/>
 
         <ImageView
             android:id="@+id/profile_pic"
-
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <ImageView
             android:id="@+id/shadow_bottom"
             android:layout_width="match_parent"
             android:layout_height="65dp"
             android:elevation="10dp"
-            android:src="@drawable/bottom_shadow" />
-
-
+            android:src="@drawable/bottom_shadow"/>
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,36 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/Dialog"
     android:fitsSystemWindows="true"
     android:background="@drawable/popup_background">
+
     <androidx.cardview.widget.CardView
         android:layout_width="40dp"
         android:layout_height="4dp"
         android:layout_marginTop="8dp"
         android:elevation="0dp"
         android:layout_gravity="center|top"
-        android:theme="@style/DialogView"
-        />
+        android:theme="@style/DialogView"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="20dp">
+
         <TextView
-            android:id="@+id/choosetxt"
+            android:id="@+id/choose_txt"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/todo_checklist"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:layout_marginTop="15dp"
             android:gravity="center"
             android:layout_gravity="center"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
         <androidx.cardview.widget.CardView
             android:layout_width="match_parent"
@@ -38,20 +39,19 @@
             android:layout_marginTop="10dp"
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
-            android:theme="@style/DialogView" />
+            android:theme="@style/DialogView"/>
     </LinearLayout>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="70dp"
         android:orientation="horizontal">
 
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            >
+            android:layout_marginTop="2dp">
 
             <CheckBox
                 android:id="@+id/todoCheck"
@@ -62,7 +62,7 @@
                 android:gravity="top"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <EditText
                 android:id="@+id/todoDesc"
@@ -73,12 +73,13 @@
                 android:layout_marginTop="15dp"
                 android:background="@null"
                 android:hint="@string/enter_description"
-                android:textSize="16dp"
+                android:textSize="16sp"
                 android:maxLines="2"
+                android:inputType="text"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toStartOf="@+id/addTodo"
                 app:layout_constraintStart_toEndOf="@+id/todoCheck"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
 
             <ImageView
                 android:id="@+id/addTodo"
@@ -87,24 +88,22 @@
                 android:layout_gravity="top"
                 android:layout_marginEnd="12dp"
                 android:layout_marginTop="15dp"
-
                 android:src="@drawable/ic_outline_add_24"
                 app:layout_constraintBottom_toBottomOf="parent"
                 android:background="?attr/selectableItemBackgroundBorderless"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintTop_toTopOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/todo_listview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/header"
         android:layout_marginTop="125dp"
         android:layout_marginBottom="60dp"
-        android:scrollbars="none" />
+        android:scrollbars="none"/>
+
     <Button
         android:id="@+id/done"
         android:layout_width="wrap_content"
@@ -112,8 +111,5 @@
         android:text="@string/done"
         android:textColor="@color/teal_200"
         android:layout_gravity="bottom|center"
-        style="@style/Widget.MaterialComponents.Button.TextButton"
-        />
-
-
+        style="@style/Widget.MaterialComponents.Button.TextButton"/>
 </FrameLayout>

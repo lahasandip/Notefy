@@ -7,8 +7,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        >
+        android:layout_height="wrap_content">
 
         <CheckBox
             android:id="@+id/check"
@@ -17,7 +16,7 @@
             android:layout_marginStart="10dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <EditText
             android:id="@+id/tick_de"
@@ -26,14 +25,15 @@
             android:layout_marginStart="55dp"
             android:layout_marginEnd="60dp"
             android:background="@null"
-            android:textSize="16dp"
-            app:layout_constraintEnd_toStartOf="@+id/rmve"
+            android:textSize="16sp"
+            android:inputType="text"
+            app:layout_constraintEnd_toStartOf="@+id/remove"
             app:layout_constraintStart_toEndOf="@+id/check"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
-            android:id="@+id/rmve"
+            android:id="@+id/remove"
             android:layout_width="30sp"
             android:layout_height="20sp"
             android:layout_gravity="center"
@@ -42,10 +42,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            />
+            android:background="?attr/selectableItemBackgroundBorderless"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </LinearLayout>
 

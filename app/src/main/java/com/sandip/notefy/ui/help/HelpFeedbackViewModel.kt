@@ -18,5 +18,4 @@ class HelpFeedbackViewModel : ViewModel() {
     sealed class AddEditTaskEvent {
         object NavigateToBackScreen : AddEditTaskEvent()
     }
-
 }

@@ -2,14 +2,11 @@ package com.sandip.notefy.ui.languages
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
-import android.graphics.drawable.GradientDrawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
 import com.sandip.notefy.NotefyApplication
@@ -49,7 +46,9 @@ class LanguagesAdapter(
         }
 
         myList?.get(position)
-            ?.let { it.isChecked?.let { it1 -> holder.flagImage.setImageResource(it1) } }
+            ?.let { it.isChecked?.let { it1 -> holder.flagImage.setImageResource(it1)
+            }
+            }
         holder.language.text = myList?.get(position)?.language
 
         if (selectedPosition == position) {
@@ -70,7 +69,7 @@ class LanguagesAdapter(
         init {
             flagImage = itemView.findViewById(R.id.flag)
             language = itemView.findViewById(R.id.language)
-            cardView = itemView.findViewById(R.id.language_cardview)
+            cardView = itemView.findViewById(R.id.language_card_view)
 
             itemView.setOnClickListener {
                 if (adapterPosition == RecyclerView.NO_POSITION) return@setOnClickListener

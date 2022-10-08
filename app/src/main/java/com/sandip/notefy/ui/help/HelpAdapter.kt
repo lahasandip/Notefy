@@ -37,26 +37,24 @@ class HelpAdapter(
 
     override fun onBindViewHolder(holder: HelpFeedbackViewHolder, position: Int) {
 
-        val help : Help? = myList?.get(position)
-        holder.questions.text = myList?.get(position)?.question ?: ""
-        holder.expandedText.text =  myList?.get(position)?.expandedText ?: ""
-        if(help?.visibility == true){
-            holder.expandedLayout.visibility = View.VISIBLE
-            holder.arrowButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
-        }
-        else{
-            holder.expandedLayout.visibility = View.GONE
-            holder.arrowButton.setImageResource(R.drawable.ic_outline_keyboard_arrow_down_24)
-        }
-        holder.itemView.setOnClickListener {
-            selectedPosition = position
-//            listener.onItemClick(selectedPosition)
-            println("Position $selectedPosition")
-            help?.visibility = !(help?.visibility)!!
-            notifyItemChanged(position)
+        val help: Help? = myList?.get(position)
+        holder.apply {
+            questions.text = myList?.get(position)?.question ?: ""
+            expandedText.text = myList?.get(position)?.expandedText ?: ""
+            if (help?.visibility == true) {
+                expandedLayout.visibility = View.VISIBLE
+                arrowButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
+            } else {
+                expandedLayout.visibility = View.GONE
+                arrowButton.setImageResource(R.drawable.ic_outline_keyboard_arrow_down_24)
+            }
+            itemView.setOnClickListener {
+                selectedPosition = position
+                help?.visibility = !(help?.visibility)!!
+                notifyItemChanged(position)
+            }
         }
     }
-
     override fun getItemCount(): Int {
         return myList?.size ?: -1
     }
@@ -73,6 +71,7 @@ class HelpAdapter(
             expandedLayout = itemView.findViewById(R.id.layout_expanded_text)
         }
     }
+
     interface OnItemClickListener {
         fun onItemClick(flag: Int)
     }

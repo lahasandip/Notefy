@@ -5,8 +5,7 @@
     android:id="@+id/fragment_newUpdateNote"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sandip.notefy.ui.newupdate.NewUpdateNote"
-    >
+    tools:context="com.sandip.notefy.ui.newupdate.NewUpdateNote">
 
     <ImageView
         android:id="@+id/back"
@@ -16,8 +15,7 @@
         android:src="@drawable/ic_baseline_arrow_back_24"
         app:layout_constraintStart_toStartOf="@+id/new_update_guideline_1"
         android:background="?attr/selectableItemBackgroundBorderless"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <CheckBox
         android:id="@+id/important"
@@ -27,7 +25,7 @@
         android:layout_marginEnd="20dp"
         android:button="@drawable/ic_baseline_bookmark_border_24"
         app:layout_constraintEnd_toStartOf="@+id/delete_note"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
         android:id="@+id/delete_note"
@@ -38,7 +36,7 @@
         android:src="@drawable/ic_baseline_delete_outline_24"
         app:layout_constraintEnd_toStartOf="@+id/share"
         android:background="?attr/selectableItemBackgroundBorderless"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ImageView
         android:id="@+id/share"
@@ -61,7 +59,7 @@
         android:text="@string/edited"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/back"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.core.widget.NestedScrollView
         android:id="@+id/nestedScrollView"
@@ -80,13 +78,13 @@
             android:layout_marginStart="15dp"
             android:layout_marginEnd="15dp"
             android:orientation="vertical">
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/image_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="8dp"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
                 <ImageView
                     android:id="@+id/remove_image"
                     android:layout_width="wrap_content"
@@ -94,18 +92,18 @@
                     android:layout_gravity="top|end"
                     android:elevation="5dp"
                     app:tint = "@color/white"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:layout_marginTop="10dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_baseline_clear_24" />
+                    android:src="@drawable/ic_baseline_clear_24"/>
+
                 <ImageView
                     android:id="@+id/show_image"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:scaleType="fitXY"
                     tools:ignore="UnusedAttribute"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    />
+                    android:background="?attr/selectableItemBackgroundBorderless"/>
             </androidx.cardview.widget.CardView>
 
             <EditText
@@ -117,8 +115,9 @@
                 android:layout_marginTop="10dp"
                 android:scrollbars="none"
                 android:textSize="22sp"
+                android:inputType="text"
                 android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-                android:theme="@style/SearchView" />
+                android:theme="@style/SearchView"/>
 
             <EditText
                 android:id="@+id/note_description"
@@ -130,7 +129,7 @@
                 android:hint="@string/note"
                 android:textSize="18sp"
                 android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-                android:theme="@style/SearchView" />
+                android:theme="@style/SearchView"/>
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/reminder_parent_layout"
@@ -158,7 +157,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_marginStart="10dp"
-                        android:src="@drawable/ic_outline_access_alarms_24" />
+                        android:src="@drawable/ic_outline_access_alarms_24"/>
 
                     <TextView
                         android:id="@+id/date"
@@ -168,7 +167,7 @@
                         android:background="@null"
                         android:layout_gravity="center"
                         android:textSize="13sp"
-                        android:theme="@style/SearchView" />
+                        android:theme="@style/SearchView"/>
 
                     <TextView
                         android:id="@+id/time"
@@ -178,7 +177,7 @@
                         android:background="@null"
                         android:layout_gravity="center"
                         android:textSize="13sp"
-                        android:theme="@style/SearchView" />
+                        android:theme="@style/SearchView"/>
                 </LinearLayout>
 
                 <ImageView
@@ -194,10 +193,8 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:layout_constraintStart_toEndOf="@+id/reminder_layout"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/location_parent_layout"
@@ -206,10 +203,7 @@
                 android:layout_marginTop="10dp"
                 android:background="@drawable/search_view"
                 android:orientation="horizontal"
-                android:visibility="gone"
-
-                >
-
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/location_layout"
@@ -225,24 +219,23 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:scaleX=".80"
                         android:scaleY=".80"
                         android:src="@drawable/ic_outline_location_on_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent" />
+                        app:layout_constraintTop_toTopOf="parent"/>
 
                     <TextView
                         android:id="@+id/place_input"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:background="@null"
                         android:layout_gravity="center"
                         android:textSize="13sp"
-                        android:theme="@style/SearchView"
-                        />
+                        android:theme="@style/SearchView"/>
                 </LinearLayout>
 
                 <ImageView
@@ -250,7 +243,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:scaleX=".80"
                     android:scaleY=".80"
                     android:src="@drawable/ic_baseline_clear_24"
@@ -258,8 +251,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:layout_constraintStart_toEndOf="@+id/location_layout"
-                    app:layout_constraintTop_toTopOf="parent" />
-
+                    app:layout_constraintTop_toTopOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -267,8 +259,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
 
                 <LinearLayout
                     android:id="@+id/url_link_layout"
@@ -285,21 +276,21 @@
                         android:id="@+id/url"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:scaleX=".80"
                         android:scaleY=".80"
-                        android:src="@drawable/ic_baseline_insert_link_24" />
+                        android:src="@drawable/ic_baseline_insert_link_24"/>
 
                     <TextView
                         android:id="@+id/url_link"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
+                        android:layout_marginStart="10dp"
                         android:autoLink="web"
                         android:layout_gravity="center"
                         android:textSize="13sp"
                         android:background="@null"
-                        android:theme="@style/SearchView" />
+                        android:theme="@style/SearchView"/>
                 </LinearLayout>
 
                 <ImageView
@@ -309,15 +300,14 @@
                     android:scaleX=".80"
                     android:scaleY=".80"
                     android:layout_gravity="center"
-                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="10dp"
                     android:src="@drawable/ic_baseline_clear_24"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/url_link_layout"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toTopOf="parent"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
-
 
             <LinearLayout
                 android:id="@+id/task_layout"
@@ -325,16 +315,16 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:orientation="horizontal"
-                android:visibility="gone"
-                >
+                android:visibility="gone">
 
                 <ImageView
                     android:layout_width="25dp"
                     android:layout_height="40dp"
-                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
-                    android:src="@drawable/ic_outline_checklist_24" />
+                    android:src="@drawable/ic_outline_checklist_24"/>
             </LinearLayout>
+
             <LinearLayout
                 android:id="@+id/todo_layout"
                 android:layout_width="wrap_content"
@@ -347,12 +337,7 @@
                 <include
                     android:id="@+id/todo"
                     layout="@layout/todo_listview"/>
-
-
-
-
             </LinearLayout>
-
         </LinearLayout>
     </androidx.core.widget.NestedScrollView>
 
@@ -392,7 +377,7 @@
             android:layout_marginStart="25dp"
             android:layout_marginBottom="5dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_outline_image_24" />
+            android:src="@drawable/ic_outline_image_24"/>
 
         <ImageView
             android:id="@+id/add_task"
@@ -401,9 +386,7 @@
             android:layout_marginStart="25dp"
             android:layout_marginBottom="5dp"
             android:background="?attr/selectableItemBackgroundBorderless"
-            android:src="@drawable/ic_outline_checklist_24" />
-
-
+            android:src="@drawable/ic_outline_checklist_24"/>
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
@@ -411,14 +394,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_begin="16dp" />
+        app:layout_constraintGuide_begin="16dp"/>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/new_update_guideline_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_end="16dp" />
+        app:layout_constraintGuide_end="16dp"/>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/save_note"
@@ -429,7 +412,5 @@
         app:tint="@color/white"
         android:src="@drawable/ic_baseline_done_24"
         app:layout_constraintBottom_toBottomOf="@+id/bottom_nav_layout"
-        app:layout_constraintEnd_toStartOf="@+id/new_update_guideline_2" />
-
-
+        app:layout_constraintEnd_toStartOf="@+id/new_update_guideline_2"/>
 </androidx.constraintlayout.widget.ConstraintLayout>
