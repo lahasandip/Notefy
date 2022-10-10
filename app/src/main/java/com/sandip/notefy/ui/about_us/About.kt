@@ -6,6 +6,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import com.sandip.notefy.BuildConfig
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.FragmentAboutBinding
 import com.sandip.notefy.util.exhaustive
@@ -23,6 +24,8 @@ class About : Fragment(R.layout.fragment_about) {
             topAppBar.setNavigationOnClickListener {
                 viewModel.onOkClick()
             }
+
+            version.text =getString(R.string.version, BuildConfig.VERSION_NAME);
 
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 viewModel.addEditTaskEvent.collect { event ->

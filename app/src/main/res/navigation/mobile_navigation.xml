@@ -62,9 +62,6 @@
         android:name="com.sandip.notefy.ui.languages.Languages"
         android:label="languages"
         tools:layout="@layout/fragment_languages">
-        <action
-            android:id="@+id/action_languages_to_home"
-            app:destination="@id/home"/>
     </fragment>
 
     <fragment

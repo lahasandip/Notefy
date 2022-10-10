@@ -2,6 +2,7 @@ package com.sandip.notefy.ui.languages
 
 import android.content.Context
 import android.graphics.Color
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,7 @@ class LanguagesAdapter(
     RecyclerView.Adapter<LanguagesAdapter.LanguagesViewHolder?>() {
     private val myList : ArrayList<Language>?
     private val itemClickListener: OnItemClickListener?
-    private var selectedPosition  = -1
+    private var selectedPosition  = 0
 
     init {
         myList = langList
@@ -28,6 +29,7 @@ class LanguagesAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LanguagesViewHolder {
+
         return LanguagesViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.language_card,
@@ -46,15 +48,19 @@ class LanguagesAdapter(
         }
 
         myList?.get(position)
-            ?.let { it.isChecked?.let { it1 -> holder.flagImage.setImageResource(it1)
-            }
-            }
+            ?.let { it.isChecked?.let { it1 -> holder.flagImage.setImageResource(it1)}}
         holder.language.text = myList?.get(position)?.language
+
 
         if (selectedPosition == position) {
             holder.cardView.strokeWidth = 5
             holder.cardView.strokeColor = Color.parseColor("#80cbc4")
         }
+        else{
+            holder.cardView.strokeWidth = 0
+            holder.cardView.strokeColor = Color.TRANSPARENT
+        }
+
     }
 
     override fun getItemCount(): Int {
@@ -84,4 +90,5 @@ class LanguagesAdapter(
         fun onItemClick(flag: Int)
     }
 }
+
 

@@ -39,9 +39,9 @@
                 android:text="@string/notefy_is_used_to_take_notes_add_reminders_create_todo_list_and_much_more_you_can_save_your_notes_with_images_colors_place_and_url_you_can_filter_notes_based_on_your_preferences_search_and_share_your_notes_it_supports_dark_theme_and_light_theme_for_security_it_has_screen_lock_feature_you_can_choose_your_preferred_language_currently_notefy_supports_15_different_languages_for_any_help_you_can_either_read_faq_s_or_contact_us"/>
 
             <TextView
+                android:id="@+id/version"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/version_1_0"
                 android:gravity="center"
                 style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"/>
         </LinearLayout>

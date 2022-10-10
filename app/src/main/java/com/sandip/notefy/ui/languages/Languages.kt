@@ -73,9 +73,7 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
                             findNavController().popBackStack()
                         }
                         is LanguagesViewModel.TasksEvent.NavigateToHomeScreen -> {
-                            val action =
-                                LanguagesDirections.actionLanguagesToHome()
-                            findNavController().navigate(action)
+                            findNavController().popBackStack()
                         }
                     }.exhaustive
                 }
@@ -83,6 +81,9 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
 
             topAppBar.setNavigationOnClickListener {
                 viewModel.onOkClick()
+                activity?.let { it1 ->
+                    recreate(it1)
+                }
             }
 
             ok.setOnClickListener {

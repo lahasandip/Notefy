@@ -2,7 +2,6 @@ package com.sandip.notefy.ui.profile
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.graphics.Color
@@ -11,7 +10,6 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import androidx.fragment.app.Fragment
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
@@ -21,6 +19,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
+import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -32,6 +31,7 @@ import com.sandip.notefy.R
 import com.sandip.notefy.databinding.FragmentUserBinding
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class User : Fragment(R.layout.fragment_user) {
@@ -120,10 +120,14 @@ class User : Fragment(R.layout.fragment_user) {
             }
 
             editName.setOnClickListener {
-                textName.requestFocus(View.LAYOUT_DIRECTION_LTR)
+                textName.requestFocus()
+                val imm = view.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?
+                imm?.showSoftInput(textName, InputMethodManager.SHOW_FORCED)
             }
             editEmail.setOnClickListener {
-                textEmail.requestFocus(View.LAYOUT_DIRECTION_LTR)
+                textEmail.requestFocus()
+                val imm = view.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?
+                imm?.showSoftInput(textEmail, InputMethodManager.SHOW_FORCED)
             }
 
             circleImageView.setOnClickListener {

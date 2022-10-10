@@ -3,6 +3,7 @@ package com.sandip.notefy.ui.help
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.View
@@ -10,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.sandip.notefy.BuildConfig
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Help
 import com.sandip.notefy.databinding.FragmentHelpFeedbackBinding
@@ -108,11 +110,12 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
                 }
             }
             layoutWriteUs.setOnClickListener {
+                val address: Array<String> = arrayOf("instanotes.advise@gmail.com")
                 val intent = Intent(Intent.ACTION_SENDTO).apply {
-                    data = Uri.parse("mailto:sandiplaha206@gmail.com") // only email apps should handle this
-                    putExtra(Intent.EXTRA_EMAIL, "@gmail.com")
-                    putExtra(Intent.EXTRA_SUBJECT, "This is subject")
-                    putExtra(Intent.EXTRA_TEXT, "Body")
+                    data = Uri.parse("mailto:")
+                    putExtra(Intent.EXTRA_EMAIL, address)
+                    putExtra(Intent.EXTRA_SUBJECT, "Please Advise")
+                    putExtra(Intent.EXTRA_TEXT, "Android Version: ${Build.VERSION.SDK_INT},\nApp Version: ${BuildConfig.VERSION_NAME}")
 
                 }
                 if (activity?.let { it1 -> intent.resolveActivity(it1.packageManager) } != null) {
