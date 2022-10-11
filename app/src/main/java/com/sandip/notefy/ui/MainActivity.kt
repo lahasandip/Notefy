@@ -18,8 +18,7 @@ import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
-import androidx.biometric.BiometricManager.Authenticators.BIOMETRIC_STRONG
-import androidx.biometric.BiometricManager.Authenticators.DEVICE_CREDENTIAL
+import androidx.biometric.BiometricManager.Authenticators.*
 import androidx.biometric.BiometricPrompt
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -164,7 +163,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             }
         }
         observeUiPreferences()
-        observeBiometricPreferences()
 
         drawerLayout?.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
@@ -182,6 +180,9 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                 }
             }
         })
+
+        observeBiometricPreferences()
+
     }
 
 
@@ -232,25 +233,27 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         darkSwitch.isChecked = true
     }
+
+
+/*------------------------------------------------------------------------------------------------------------------------------------
+Biometric Login Feature
+ */
+
     private fun observeBiometricPreferences(){
-//        preferencesManager.biometricAuth.asLiveData().observe(this) { biometric ->
-//            when (biometric) {
-//                Biometric.ENABLE -> onBiometricEnabled()
-//                Biometric.DISABLE -> onBiometricDisabled()
-//            }
-//        }
         val sharedPreferences =  getSharedPreferences("BIOMETRIC",Context.MODE_PRIVATE)
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
         val biometric = sharedPreferences.getBoolean("biometric", false)
         if(biometric){
-            onBiometricEnabled()        }
+            onBiometricEnabled()
+        }
         else{
-            onBiometricDisabled()        }
+            onBiometricDisabled()
+        }
     }
     private fun onBiometricEnabled(){
         isBiometricEnable = true
         val biometricManager = this.let { BiometricManager.from(this) }
-        when (biometricManager?.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
+        when (biometricManager.canAuthenticate(BIOMETRIC_WEAK or DEVICE_CREDENTIAL)) {
             BiometricManager.BIOMETRIC_SUCCESS ->
                 Log.d("MY_APP_TAG", "App can authenticate using biometrics.")
             BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
@@ -273,8 +276,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             }
         }
 
-//
-        executor = this?.let { ContextCompat.getMainExecutor(this) }!!
+        executor = this.let { ContextCompat.getMainExecutor(this) }!!
         biometricPrompt = BiometricPrompt(this, executor,
             @RequiresApi(Build.VERSION_CODES.P)
             object : BiometricPrompt.AuthenticationCallback() {
@@ -295,37 +297,20 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                     result: BiometricPrompt.AuthenticationResult
                 ) {
                     super.onAuthenticationSucceeded(result)
-                    Toast.makeText(
-                        applicationContext,
-                        "Authentication succeeded!", Toast.LENGTH_SHORT
-                    )
-                        .show()
-//                    gotomain()
-
                 }
 
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
-                    Toast.makeText(
-                        applicationContext, "Authentication failed",
-                        Toast.LENGTH_SHORT
-                    )
-                        .show()
-                    finish()
+                    Log.e("Auth Failed", "Authentication failed")
+
+//                    finish()
                 }
             })
-//        Allows user to authenticate using either a Class 3 biometric or
-// their lock screen credential (PIN, pattern, or password).
+
         promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Biometric login for my app")
-            .setSubtitle("Log in using your biometric credential")
-            // Can't call setNegativeButtonText() and
-            // setAllowedAuthenticators(... or DEVICE_CREDENTIAL) at the same time.
-            // .setNegativeButtonText("Use account password")
+            .setTitle("Authenticate with Biometric")
             .setAllowedAuthenticators(
-                BiometricManager.Authenticators.BIOMETRIC_STRONG
-                        or
-                        BiometricManager.Authenticators.DEVICE_CREDENTIAL)
+                BIOMETRIC_WEAK or DEVICE_CREDENTIAL)
             .build()
 
         screenLock.isChecked = true
@@ -334,9 +319,10 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private fun onBiometricDisabled(){
         isBiometricEnable = false
         screenLock.isChecked = false
-
-
     }
+
+
+
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if(key.equals("darkMode"))  {

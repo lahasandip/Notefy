@@ -10,13 +10,9 @@ import android.net.Uri
 import android.os.Bundle
 import android.view.*
 import android.view.inputmethod.InputMethodManager
-import android.widget.ImageView
-import android.widget.LinearLayout
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -42,6 +38,9 @@ class User : Fragment(R.layout.fragment_user) {
     private var note : Int = 0
     private var reminder : Int = 0
     private var todo : Int = 0
+    val imm = view?.context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?
+
+
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -121,13 +120,12 @@ class User : Fragment(R.layout.fragment_user) {
 
             editName.setOnClickListener {
                 textName.requestFocus()
-                val imm = view.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?
-                imm?.showSoftInput(textName, InputMethodManager.SHOW_FORCED)
+//                openSoftKeyboard(textName)
             }
             editEmail.setOnClickListener {
                 textEmail.requestFocus()
-                val imm = view.context.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?
-                imm?.showSoftInput(textEmail, InputMethodManager.SHOW_FORCED)
+//                openSoftKeyboard(textEmail)
+
             }
 
             circleImageView.setOnClickListener {
@@ -223,4 +221,15 @@ class User : Fragment(R.layout.fragment_user) {
             }
         }
     }
+
+//    override fun onDestroyView() {
+//        super.onDestroyView()
+//        imm?.hideSoftInputFromWindow(view?.windowToken, 0)
+//
+//    }
+//
+//    fun openSoftKeyboard(editText: EditText) {
+//
+//        imm?.showSoftInput(editText, InputMethodManager.SHOW_FORCED)
+//    }
 }
