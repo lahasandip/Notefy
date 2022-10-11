@@ -19,6 +19,7 @@ import com.sandip.notefy.R
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.NewNoteBinding
+import com.sandip.notefy.ui.home.Home.Companion.act
 import com.sandip.notefy.ui.home.Home.Companion.noteList
 
 
@@ -159,17 +160,27 @@ class NoteAdapter(private val listener: OnItemClickListener) :
 
                                         // notify adapter
                                         notifyDataSetChanged()
-                                        println("note list size in select ${noteList.size}")
+                                        println("note list size in select ${noteList.size}  ${selectList.size}")
 
                                         true
                                     }
                                     R.id.delete -> {
-                                        for (s in selectList) {
-                                            listener.onDeleteClick(s)
-                                            undoList.add(s)
-                                            Log.d("undo1", undoList.size.toString())
+                                        if(undoList.size != 0){
+                                            undoList.clear()
+                                            Log.d("clear undo", "undo clear")
+
                                         }
-                                        Snackbar.make(itemView, "Note deleted", Snackbar.LENGTH_LONG)
+                                        for (s in selectList) {
+                                            undoList.add(s)
+                                            listener.onDeleteClick(s)
+                                            Log.d("deleted note", "deleted")
+
+                                        }
+                                        Log.d("undo1", undoList.size.toString())
+                                        val rootView: View = act.window.decorView
+                                            .findViewById(android.R.id.content)
+
+                                        Snackbar.make(rootView, "Note deleted", Snackbar.LENGTH_LONG)
                                             .setAction("UNDO") {
                                                 for (s in undoList) {
                                                     listener.onUndo(s)

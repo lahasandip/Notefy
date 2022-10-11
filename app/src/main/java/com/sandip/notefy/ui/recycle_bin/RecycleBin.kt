@@ -1,5 +1,6 @@
 package com.sandip.notefy.ui.recycle_bin
 
+import android.app.Activity
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
@@ -15,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.databinding.FragmentRecycleBinBinding
-import com.sandip.notefy.ui.home.HomeViewModel
+import com.sandip.notefy.ui.home.Home
 import com.sandip.notefy.ui.recycle_bin.RecycleAdapter.Companion.recycleActionMode
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,12 +30,16 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
     private lateinit var recycleAdapter: RecycleAdapter
     companion object {
         lateinit var noteList: List<NoteEntity>
+        lateinit var act : Activity
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecycleBinBinding.bind(view)
         recycleAdapter = RecycleAdapter(this)
+        act = requireActivity()
+
 
         binding.apply {
             trashRecyclerView.apply {

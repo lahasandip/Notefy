@@ -38,10 +38,6 @@ class User : Fragment(R.layout.fragment_user) {
     private var note : Int = 0
     private var reminder : Int = 0
     private var todo : Int = 0
-    val imm = view?.context?.getSystemService(INPUT_METHOD_SERVICE) as InputMethodManager?
-
-
-
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)

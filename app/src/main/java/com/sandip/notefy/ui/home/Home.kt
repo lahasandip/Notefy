@@ -162,7 +162,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             }
 
             viewModel.noteCount.observe(viewLifecycleOwner) {
-                Log.d("note count", it.toString())
                 if (it == 0) {
                     emptyNotes.emptyNotesError.visibility = View.VISIBLE
                 } else {

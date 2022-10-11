@@ -6,7 +6,6 @@ import android.graphics.Color
 import android.net.Uri
 import android.util.Log
 import android.view.*
-import androidx.appcompat.app.AppCompatDelegate
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.Observer
@@ -24,6 +23,7 @@ import com.sandip.notefy.databinding.NewNoteBinding
 import com.sandip.notefy.ui.home.Home
 import com.sandip.notefy.ui.home.HomeViewModel
 import com.sandip.notefy.ui.home.TodoAdapter
+import com.sandip.notefy.ui.recycle_bin.RecycleBin.Companion.act
 import com.sandip.notefy.ui.recycle_bin.RecycleBin.Companion.noteList
 
 
@@ -176,7 +176,9 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                                             listener.onMenuDeleteClick(s)
                                             undoList.add(s)
                                         }
-                                        Snackbar.make(itemView, "Notes deleted forever", Snackbar.LENGTH_LONG)
+                                        val rootView: View = act.window.decorView
+                                            .findViewById(android.R.id.content)
+                                        Snackbar.make(rootView, "Notes deleted forever", Snackbar.LENGTH_LONG)
                                             .setAction("UNDO") {
                                                 for (s in undoList) {
                                                     listener.onUndo(s)
