@@ -2,6 +2,7 @@ package com.sandip.notefy.ui.home
 
 
 import android.graphics.Color
+import android.graphics.Paint
 import android.net.Uri
 import android.util.Log
 import android.view.*
