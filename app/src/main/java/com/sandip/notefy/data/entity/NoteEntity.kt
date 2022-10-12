@@ -18,6 +18,7 @@ data class NoteEntity(
     @ColumnInfo(name = "URL") val url: String? = null,
     @ColumnInfo(name = "Date") val date: String? = null,
     @ColumnInfo(name = "Time") val time: String? = null,
+    @ColumnInfo(name = "Request Code") val requestCode: Int? = null,
     @ColumnInfo(name = "Location") val location: String? = null,
     @ColumnInfo(name = "Color") val clr: Int = 0,
     @ColumnInfo(name="Image") val image: String? = null,

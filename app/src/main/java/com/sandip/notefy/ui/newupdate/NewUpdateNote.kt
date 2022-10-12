@@ -9,7 +9,9 @@ import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
 import android.util.Log
-import android.view.*
+import android.view.Gravity
+import android.view.View
+import android.view.WindowManager
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -20,7 +22,6 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResult
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,10 +29,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.datepicker.CalendarConstraints.DateValidator
+import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.FragmentNewUpdateNoteBinding
@@ -60,12 +64,20 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     companion object {
         var recylerView: RecyclerView? = null
         var todoAdapter: NewUpdateAdapter? = null
+
+        val notificationIntent = Intent(NotefyApplication.appContext, Notifications::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        }
+
+        val alarmManager = NotefyApplication.appContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNewUpdateNoteBinding.bind(view)
+        Log.d("request code", viewModel.requestCode.toString())
         createNotificationChannel()
         val startForProfileImageResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -166,7 +178,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 .setTitleText("Select date")
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .build()
-
 
         val isSystem24Hour = DateFormat.is24HourFormat(context)
         val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
@@ -381,6 +392,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     dialog.dismiss()
                     datePicker.show(childFragmentManager, "Date_Picker")
                 }
+
+
+
                 place?.setOnClickListener {
                     dialog.dismiss()
                     showAlert("place")
@@ -389,9 +403,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     dialog.dismiss()
                     showAlert("url")
                 }
-
-
             }
+
+            reminderLayout.setOnClickListener {
+                datePicker.show(childFragmentManager, "Date_Picker")
+            }
+
             addColor.setOnClickListener {
                 colorDialog.show()
             }
@@ -687,6 +704,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             removeReminder.setOnClickListener {
                 date.text = null
                 time.text = null
+                cancelAlarm()
                 reminderParentLayout.visibility = View.GONE
             }
             removeUrl.setOnClickListener {
@@ -814,12 +832,13 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun displaySimpleNotification() {
-        println("sandip enter display function")
 
-        val notificationIntent = Intent(context, Notifications::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            println("sandip notification intent created")
-        }
+        val requestCode = System.currentTimeMillis().toInt()
+
+//        notificationIntent = Intent(context, Notifications::class.java).apply {
+//            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//            println("sandip notification intent created")
+//        }
 
         notificationIntent.putExtra("titleExtra", viewModel.noteTitle)
         notificationIntent.putExtra("messageExtra", viewModel.noteDescription)
@@ -827,33 +846,34 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
         val pendingNotificationIntent: PendingIntent = PendingIntent.getBroadcast(
             context,
-            System.currentTimeMillis().toInt(),
+            requestCode,
             notificationIntent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
-        println("sandip pending notification intent created")
+        viewModel.requestCode = requestCode
 
-
-
-//        val titleStatusChangeListener= binding.datePicker.year
-
-        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
         val time = getTime()
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             time,
             pendingNotificationIntent
         )
-//        showAlert(
-//            time,
-//            title,
-//            message
-//        )
-//        fun cancelAlarm(){
-//        alarmManager.cancel(pendingNotificationIntent)
-//    }
-        println("sandip alarm manager created $time")
+    }
 
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun cancelAlarm(){
+        if(viewModel.requestCode != null) {
+            val pendingNotificationIntent: PendingIntent? = viewModel.requestCode?.let {
+                PendingIntent.getBroadcast(
+                    context,
+                    it,
+                    notificationIntent,
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                )
+            }
+            alarmManager.cancel(pendingNotificationIntent)
+            viewModel.requestCode = null
+        }
     }
 
 

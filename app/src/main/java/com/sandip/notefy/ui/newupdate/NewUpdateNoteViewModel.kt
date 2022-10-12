@@ -74,6 +74,13 @@ class NewUpdateNoteViewModel @Inject constructor(
             field = value
             state["noteTime"] = value
         }
+
+    var requestCode = state.get<Int>("requestCode") ?: note?.requestCode
+        set(value) {
+            field = value
+            state["requestCode"] = value
+        }
+
     var noteLocation = state.get<String>("noteLocation") ?: note?.location ?: ""
         set(value) {
             field = value
@@ -119,6 +126,7 @@ class NewUpdateNoteViewModel @Inject constructor(
                 url = noteUrl,
                 date = noteDate,
                 time = noteTime,
+                requestCode = requestCode,
                 location = noteLocation,
                 clr = noteColor,
                 image = noteImage,
@@ -129,7 +137,8 @@ class NewUpdateNoteViewModel @Inject constructor(
             updateTask(updatedTask)
         } else {
             val newTask = NoteEntity(title = noteTitle, body = noteDescription, important = noteImportance,
-                url = noteUrl, date =  noteDate, time = noteTime, location =  noteLocation, clr =  noteColor,
+                url = noteUrl, date =  noteDate, time = noteTime, requestCode = requestCode,
+                location =  noteLocation, clr =  noteColor,
                 image =  noteImage, todoList = noteTodoList,  isHide = noteIsHide)
             createTask(newTask)
 
