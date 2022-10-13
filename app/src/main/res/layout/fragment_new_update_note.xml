@@ -160,20 +160,10 @@
                         android:src="@drawable/ic_outline_access_alarms_24"/>
 
                     <TextView
-                        android:id="@+id/date"
+                        android:id="@+id/newDateTime"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:background="@null"
-                        android:layout_gravity="center"
-                        android:textSize="13sp"
-                        android:theme="@style/SearchView"/>
-
-                    <TextView
-                        android:id="@+id/time"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="5dp"
                         android:background="@null"
                         android:layout_gravity="center"
                         android:textSize="13sp"

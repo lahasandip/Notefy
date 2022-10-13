@@ -71,35 +71,25 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
         installSplashScreen()
         super.onCreate(savedInstanceState)
-        Log.d("Sandip", "Inside Main")
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
 
         //Language
-
         val navigationView = binding.navView
         darkSwitch =
             navigationView.menu.findItem(R.id.dark_theme).actionView!!.findViewById(R.id.dark_switch)
 
         //Dark Mode
         darkSwitch.setOnCheckedChangeListener { _, isChecked ->
-//            when (isChecked) {
-//                true -> viewModel.onDarkTheme()
-//
-//                false -> viewModel.onLightTheme()
-//            }
             val sharedPreferences =  getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
             var editor = sharedPreferences.edit()
             editor.putBoolean("darkMode",isChecked)
             editor.commit()
             Log.d("Sandip", "inside switch")
-
-
         }
 
-//
         val navHostFragment =
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
@@ -136,32 +126,12 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
 
         screenLock.setOnCheckedChangeListener { _, isChecked ->
-//            when (isChecked) {
-//                true -> viewModel.onScreenLockEnabled()
-////                    Toast.makeText(this, "Screen Lock Enabled", Toast.LENGTH_LONG).show()
-//                false -> viewModel.onScreenLockDisabled()
-//            }
             val sharedPreferences =  getSharedPreferences("BIOMETRIC",Context.MODE_PRIVATE)
             var editor = sharedPreferences.edit()
             editor.putBoolean("biometric",isChecked)
             editor.commit()
-
-
         }
 
-        lifecycleScope.launchWhenStarted {
-            viewModel.addEditTaskEvent.collect { event ->
-                when (event) {
-                    is MainActivityViewModel.MainTaskEvent.UpdateDarkUI -> {
-                        Snackbar.make(view, "Dark Mode Enabled", Snackbar.LENGTH_SHORT).show()
-                    }
-                    is MainActivityViewModel.MainTaskEvent.UpdateLightUI -> {
-                        Snackbar.make(view, "Dark Mode Disabled", Snackbar.LENGTH_SHORT).show()
-                    }
-                    else -> {}
-                }.exhaustive
-            }
-        }
         observeUiPreferences()
 
         drawerLayout?.addDrawerListener(object : DrawerLayout.DrawerListener {
@@ -180,35 +150,14 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                 }
             }
         })
-
         observeBiometricPreferences()
-
-    }
-
-
-
-
-    override fun onDestroy() {
-        super.onDestroy()
-//        val sharedPreferences =  getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
-//        var editor = sharedPreferences.edit()
-//        editor.remove("darkMode");
-//        editor.commit();
     }
 
     override fun onSupportNavigateUp(): Boolean {
         return navController.navigateUp(appBarConfiguration) || super.onSupportNavigateUp()
     }
 
-
     private fun observeUiPreferences() {
-//        preferencesManager.uiModeFlow.asLiveData().observe(this) { uiMode ->
-//            when (uiMode) {
-//                UiMode.LIGHT -> onLightMode()
-//                UiMode.DARK -> onDarkMode()
-//            }
-//        }
-//        }
         val sharedPreferences =  getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
         val darkMode = sharedPreferences.getBoolean("darkMode", false)
@@ -218,14 +167,11 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         else{
             onLightMode()
         }
-
     }
     private fun onLightMode() {
         isDarkMode = false
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         darkSwitch.isChecked = false
-
-
     }
 
     private fun onDarkMode() {
@@ -238,7 +184,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 /*------------------------------------------------------------------------------------------------------------------------------------
 Biometric Login Feature
  */
-
     private fun observeBiometricPreferences(){
         val sharedPreferences =  getSharedPreferences("BIOMETRIC",Context.MODE_PRIVATE)
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
@@ -297,18 +242,18 @@ Biometric Login Feature
                     result: BiometricPrompt.AuthenticationResult
                 ) {
                     super.onAuthenticationSucceeded(result)
+                    Log.e("Auth Succeed", "Authentication Succeed")
+
                 }
 
                 override fun onAuthenticationFailed() {
                     super.onAuthenticationFailed()
                     Log.e("Auth Failed", "Authentication failed")
-
-//                    finish()
                 }
             })
 
         promptInfo = BiometricPrompt.PromptInfo.Builder()
-            .setTitle("Authenticate with Biometric")
+            .setTitle(getString(R.string.authenticate_with_biometric))
             .setAllowedAuthenticators(
                 BIOMETRIC_WEAK or DEVICE_CREDENTIAL)
             .build()
@@ -321,36 +266,16 @@ Biometric Login Feature
         screenLock.isChecked = false
     }
 
-
-
-
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if(key.equals("darkMode"))  {
             observeUiPreferences()
-//            finish();
-//            startActivity(intent);
-//            overridePendingTransition(0, 0);
-            Log.d("Sandip", "inside methods")
         }
         if(key.equals("biometric"))  {
             observeBiometricPreferences()
-//            finish();
-//            startActivity(intent);
-//            overridePendingTransition(0, 0);
-
         }
-//        if(key.equals("position"))  {
-//            observeUiPreferences()
-//            finish();
-//            startActivity(intent);
-//            overridePendingTransition(0, 0);
-//            Log.d("Sandip", "inside methods")
-//        }
     }
-
-
-
 }
+
 const val ADD_TASK_RESULT_OK = Activity.RESULT_FIRST_USER
 const val EDIT_TASK_RESULT_OK = Activity.RESULT_FIRST_USER + 1
 const val DELETE_TASK_RESULT_OK = Activity.RESULT_FIRST_USER + 2

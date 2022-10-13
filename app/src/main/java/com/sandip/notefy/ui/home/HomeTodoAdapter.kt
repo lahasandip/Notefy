@@ -10,10 +10,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Todo
 
-class TodoAdapter(
+class HomeTodoAdapter(
     context: Context,
     todoList: ArrayList<Todo>?,
-) : RecyclerView.Adapter<TodoAdapter.TodoViewHolder?>() {
+) : RecyclerView.Adapter<HomeTodoAdapter.TodoViewHolder?>() {
     private val context: Context
     private val todoList: ArrayList<Todo>?
     init {
@@ -35,12 +35,9 @@ class TodoAdapter(
         holder.todoTitle.text = todoList?.get(position)?.todoDescription ?: ""
         holder.todoCheckBox.isChecked = todoList?.get(position)?.completed ?: false
         if(todoList?.get(position)?.completed == true){
-            holder.todoTitle.setPaintFlags(holder.todoTitle.getPaintFlags() or Paint.STRIKE_THRU_TEXT_FLAG)
+            holder.todoTitle.paintFlags = holder.todoTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }
-
-
-        }
-
+    }
 
     override fun getItemCount(): Int {
         return todoList?.size ?: -1
@@ -55,6 +52,4 @@ class TodoAdapter(
 
         }
     }
-
-
 }

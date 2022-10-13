@@ -1,14 +1,10 @@
 package com.sandip.notefy.ui.recycle_bin
 
-
-import android.content.res.Configuration
 import android.graphics.Color
 import android.net.Uri
-import android.util.Log
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -22,14 +18,12 @@ import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.NewNoteBinding
 import com.sandip.notefy.ui.home.Home
 import com.sandip.notefy.ui.home.HomeViewModel
-import com.sandip.notefy.ui.home.TodoAdapter
+import com.sandip.notefy.ui.home.HomeTodoAdapter
 import com.sandip.notefy.ui.recycle_bin.RecycleBin.Companion.act
 import com.sandip.notefy.ui.recycle_bin.RecycleBin.Companion.noteList
 
-
 class RecycleAdapter(private val listener: OnItemClickListener) :
     ListAdapter<NoteEntity, RecycleAdapter.NoteViewHolder>(DiffCallback()) {
-    //    var adp: TodoAdapter? = null
     var isEnable: Boolean = false
     var isSelectAll = false
     var selectList: ArrayList<NoteEntity> = ArrayList()
@@ -53,23 +47,6 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
 
     inner class NoteViewHolder(private val binding: NewNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
-//        init {
-//            binding.apply {
-//                overlay.setOnClickListener {
-//                    val position = adapterPosition
-//                    if (position != RecyclerView.NO_POSITION) {
-//                        val task = getItem(position)
-//                        listener.onItemClick(task)
-//                    }
-//                }
-
-
-//
-//            }
-//
-//        }
-
         fun bind(holder: NoteViewHolder, noteEntity: NoteEntity) {
             binding.apply {
                 overlay.setOnClickListener {
@@ -86,11 +63,6 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                     }
                 }
                 overlay.setOnLongClickListener {
-//                    val position = adapterPosition
-//                    if (position != RecyclerView.NO_POSITION) {
-//                        val task = getItem(position)
-//                        listener.onItemLongClick(holder,task)
-//                    }
 
                     if (!isEnable) {
                         val callback = object : ActionMode.Callback {
@@ -112,16 +84,14 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                                 clickItem(binding, holder)
                                 (Home.act as LifecycleOwner?)?.let { it1 ->
                                     HomeViewModel.mutableLiveData.observe(
-                                        it1,
-                                        Observer<String?> { s -> // when text change
-                                            // set text on action mode title
-                                            if(!(s.equals("0"))){
-                                                mode?.title = String.format("%s", s)
-                                            }
-                                            else{
-                                                mode?.finish()
-                                            }
-                                        })
+                                        it1
+                                    ) { s ->
+                                        if (!(s.equals("0"))) {
+                                            mode?.title = String.format("%s", s)
+                                        } else {
+                                            mode?.finish()
+                                        }
+                                    }
                                 };
                                 return false
                             }
@@ -145,28 +115,16 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                                             R.drawable.ic_baseline_deselect_24);
                                         if(selectList.size == noteList.size)
                                         {
-
-
-                                            // when all item selected
-                                            // set isselectall false
                                             isSelectAll=false;
-                                            // create select array list
                                             selectList.clear();
                                         }
                                         else
                                         {
-                                            // when  all item unselected
-                                            // set isSelectALL true
                                             isSelectAll=true;
-                                            // clear select array list
                                             selectList.clear();
-                                            // add value in select array list
                                             selectList.addAll(noteList)
                                         }
-                                        // set text on view model
                                         HomeViewModel.mutableLiveData.value = selectList.size.toString()
-
-                                        // notify adapter
                                         notifyDataSetChanged();
                                         true
                                     }
@@ -203,14 +161,9 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                     }
                     else
                     {
-                        // when action mode is already enable
-                        // call method
                         clickItem(binding, holder);
                     }
                     true
-
-                    // check condition
-
                 }
 
                 if(isSelectAll)
@@ -223,10 +176,6 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                     binding.cardView.strokeColor = Color.parseColor("#9e9e9e")
                 }
 
-
-
-
-
                 important.isChecked = noteEntity.important
 
                 noteTitle.text = noteEntity.title
@@ -238,10 +187,9 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                     urlLink.text = noteEntity.url
                     layoutURL.visibility = View.VISIBLE
                 }
-                if ((!(noteEntity.date.isNullOrEmpty())) &&
-                    (!(noteEntity.time.isNullOrEmpty()))
+                if ((!(noteEntity.dateTime.isNullOrEmpty()))
                 ) {
-                    date.text = noteEntity.date
+                    dateTime.text = noteEntity.dateTime
 //                    time.text = noteEntity.time
                     layoutDate.visibility = View.VISIBLE
                 }
@@ -253,16 +201,13 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                 cardView.setCardBackgroundColor(noteEntity.clr)
 
                 if(noteEntity.image != null) {
-//                    img.setImageURI(noteEntity.image)
                     val imageUri = Uri.parse(noteEntity.image)
                     Glide.with(NotefyApplication.appContext).load(imageUri).into(img)
                     noteImageLayout.visibility = View.VISIBLE
                 }
-//                adp = TodoAdapter(NotefyApplication.appContext, noteEntity.completed, noteEntity.todoDescription)
-//                listview2.adapter = adp
 
                 if (noteEntity.todoList != null) {
-                    val todoAdapter = TodoAdapter(NotefyApplication.appContext,noteEntity.todoList as ArrayList<Todo>)
+                    val todoAdapter = HomeTodoAdapter(NotefyApplication.appContext,noteEntity.todoList as ArrayList<Todo>)
                     todoRecyclerView.setHasFixedSize(true)
                     todoRecyclerView.layoutManager = LinearLayoutManager(NotefyApplication.appContext)
                     todoRecyclerView.adapter = todoAdapter
@@ -278,31 +223,18 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
         if (position != RecyclerView.NO_POSITION) {
             task = getItem(position)
         }
-        // check condition
-        // check condition
+
         if (binding.cardView.strokeWidth == 0) {
-            // when item not selected
-            // visible check box image
             binding.cardView.strokeWidth = 8
             binding.cardView.strokeColor = Color.parseColor("#80cbc4")
-            // set background color
-            // add value in select array list
             selectList.add(task)
         } else {
-            // when item selected
-            // hide check box image
             binding.cardView.strokeWidth = 0
             binding.cardView.strokeColor = Color.parseColor("#9e9e9e")
-            // remove value from select arrayList
             selectList.remove(task)
         }
-        // set text on view model
-        // set text on view model
+
         HomeViewModel.mutableLiveData.value = selectList.size.toString()
-        Log.d("size", HomeViewModel.mutableLiveData.value.toString())
-//        if(selectList.size == 0){
-//            actionMode?.finish()
-//        }
     }
 
     interface OnItemClickListener {

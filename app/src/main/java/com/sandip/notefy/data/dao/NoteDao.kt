@@ -54,7 +54,7 @@ interface NoteDao {
     @Query("select count(id) from Note")
     fun getNotes() : LiveData<Int>
 
-    @Query("select count(Time) from Note where Time not like ''")
+    @Query("select count(DateTime) from Note where DateTime not like ''")
     fun getReminders() : LiveData<Int>
 
     @Query("select count(TodoList) from Note where TodoList not like '[]'")

@@ -12,10 +12,10 @@ import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.todoAdapter
 
-class NewUpdateAdapter(
+class NewUpdateTodoAdapter(
     context: Context,
     todoList: ArrayList<Todo>?,
-) : RecyclerView.Adapter<NewUpdateAdapter.TodoViewHolder?>() {
+) : RecyclerView.Adapter<NewUpdateTodoAdapter.TodoViewHolder?>() {
     private val context: Context
     private val todoList: ArrayList<Todo>?
     private val recylerView = NewUpdateNote.recylerView

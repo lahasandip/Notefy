@@ -3,6 +3,8 @@
 
     <!--  Home Screen  -->
     <string name="search_note">Search Note</string>
+    <string name="note_deleted">Note deleted</string>
+    <string name="undo">UNDO</string>
 
     <!--  Navigation Drawer  -->
     <string name="view_profile">View profile</string>
@@ -28,6 +30,18 @@
     <string name="title">Title</string>
     <string name="note">Note</string>
     <string name="edited">Created:</string>
+    <string name="select_date">Select date</string>
+    <string name="select_time">Select time</string>
+    <string name="confirm_deletion">Confirm deletion</string>
+    <string name="delete_note">Do you want to delete the note ?</string>
+    <string name="cancel">Cancel</string>
+    <string name="yes">Yes</string>
+    <string name="place_hint">place</string>
+    <string name="url_hint">url</string>
+    <string name="urlfd">URL</string>
+    <string name="please_enter_a_link">Please enter a link</string>
+    <string name="place_hint_">New York, United States</string>
+    <string name="please_enter_a_ace">Please enter a place</string>
 
     <!--  Add Feature Dialog  -->
     <string name="reminder">Reminder</string>
@@ -62,6 +76,14 @@
     <string name="save">Save</string>
     <string name="notes">Notes</string>
 
+    <!--  Share app dialog -->
+    <string name="share_ask">If you find Notefy useful, share it with your friends</string>
+    <string name="later">Later</string>
+    <string name="share">Share</string>
+    <string name="message">Hi there, I\'ve found a super cool Notes app that can make your life easier. You can create colorful notes with text and photos, share notes, set reminders, create Todo list and much more. Experience the app from play store:\nhttps://play.google.com/store/apps/details?id=com.imangi.templerun</string>
+    <string name="share_from_notefy">Share from Notefy:</string>
+    <string name="oops">Oops! cant be share</string>
+
     <!--  Help and feedback Screen -->
     <string name="provide_feedback">Provide Feedback</string>
     <string name="write_us">Write Us</string>
@@ -76,6 +98,37 @@
     <string name="fab">fab</string>
     <string name="skip">Skip</string>
     <string name="profile">Profile</string>
+    <string name="q1">How to use Notefy?</string>
+    <string name="q2">How to create a new Note?</string>
+    <string name="q3">What can be added in the note?</string>
+    <string name="q4">How to set Reminders?</string>
+    <string name="q5">How to create Todo list?</string>
+    <string name="q6">How to delete Notes?</string>
+    <string name="q7">Where can I find deleted Notes?</string>
+    <string name="q8">How to update my Profile?</string>
+    <string name="q9">How can I change the display view?</string>
+    <string name="q10">How can I sort my Notes?</string>
+    <string name="q11">How can I share Notes?</string>
+    <string name="q12">How can I change app theme?</string>
+    <string name="q13">How can I change app Language?</string>
+    <string name="q14">How can I make Notes colorful?</string>
+    <string name="q15">How to secure my app ?</string>
+    <string name="a1">Notefy is used to take Notes, add Reminders, create Todo list and much more. You can save your notes with images, colors, place and URL. You can filter notes based on your preferences, search and share your notes. It supports Dark theme and light theme. For security it has screen lock feature. You can choose your preferred language, currently Notefy supports 15 different languages. For any help you can either read FAQ\'s or contact us.</string>
+    <string name="a2">You can create a new note in two ways:\n1. Click on the + button at bottom-right side of Home screen. Or\n2. Click on Menu icon of top action bar, now click on New Note tab.\nA new window will open to create a new note.</string>
+    <string name="a3">You can add the following features in the Note:\n1. Note Title\n2. Note Description\n3. Reminder\n4. Place\n5. URL\n6. Colored background\n7. Image\n8. Todo list\n9. You can also bookmark the note.</string>
+    <string name="a4">Click on the Add box icon at bottom side of New note screen, select Reminder. A calender will popup, choose the date you want to set the reminder, click on OK. Now a clock will popup, choose the time and click on OK. Now you have successfully set the reminder. A confirmation message will also display. Now based on the date and time you\'ve chosen a Notification with note title, description and Image will be notified.</string>
+    <string name="a5">Click on the Checklist icon at bottom side of New note screen. Todo Checklist popup will occur. You can add, delete, update any number of todo items with tick boxes, once completed click on the Done button.</string>
+    <string name="a6">You can delete notes in the following ways:\n1. To delete a single note, you can simply swipe it to left or right side in the home screen.\n2. To delete multiple notes at the same time, long press on any note and select the notes you want to delete or click on select all in the action bar, then click on Delete icon.\n3. Open the note you want to delete, then click on delete icon at the top action bar.\nNote: You can UNDO the notes right after you delete them.</string>
+    <string name="a7">Once you delete the notes, it will be added in Recycle bin. And from there either you can restore them or delete them forever.You can find Recycle bin from Navigation drawer</string>
+    <string name="a8">You can update your profile photo, name, email and phone in the profile page. You can open your profile by \n1. Click on profile photo on the home screen at top-right corner. Or\n2. Click on Profile tab from navigation drawer.</string>
+    <string name="a9">To change the view, you can switch between grid view and linear view by clicking on the grid button right side of the Search view.in the Home screen</string>
+    <string name="a10">Once you add notes, you can display them by any of the following order:\n1. Bookmarked\n2. Title by Asc order\n3. Title by Desc order\n4. Newest to oldest\n5. Oldest to newest.\n To do so click on the Sort by icon on the top action bar of the home screen. The default order is Newest to oldest.</string>
+    <string name="a11">To share your notes with friends, you can open the note that you want to share, click on the Share button on top-right action bar. You can choose any medium to share it.</string>
+    <string name="a12">Open the navigation drawer from left side, toggle the Dark theme switch to enable Dark mode, and disable the switch for light mode.</string>
+    <string name="a13">Currently Notefy supports 15 different languages. English is the default language, you can change any language of your choice. Open the language screen from left side navigation drawer and select any language. Click on continue.</string>
+    <string name="a14">You can change notes background color of your choice. Click on color icon in new note screen. You can choose either from default colors or from the color picker.</string>
+    <string name="a15">To secure your app, you can enable screen lock feature from left side navigation drawer, it will accept your phone password or biometric or pattern. You can enable or disable based on your need.</string>
+    <string name="authenticate_with_biometric">Authenticate with Biometric</string>
 
 
 </resources>

@@ -16,8 +16,6 @@ import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.ui.ADD_TASK_RESULT_OK
 import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK
-import com.sandip.notefy.util.PreferencesManager
-import com.sandip.notefy.util.SortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -29,19 +27,9 @@ import javax.inject.Inject
 @HiltViewModel
 class NewUpdateNoteViewModel @Inject constructor(
     private val noteDao: NoteDao,
-    private val preferencesManager: PreferencesManager,
     private val state: SavedStateHandle): ViewModel() {
 
     val note = state.get<NoteEntity>("home")
-    val colorTick = preferencesManager.colorTick
-
-
-
-//    var noteId = state.get<Int>("noteId") ?: note?.id ?: 0
-//        set(value) {
-//            field = value
-//            state["noteId"] = value
-//        }
 
     var noteTitle = state.get<String>("noteTitle") ?:note?.title ?: ""
         set(value) {
@@ -64,21 +52,22 @@ class NewUpdateNoteViewModel @Inject constructor(
             field = value
             state["noteUrl"] = value
         }
-    var noteDate = state.get<String>("noteDate") ?: note?.date ?: ""
+    var noteDateTime = state.get<String>("noteDateTime") ?: note?.dateTime ?: ""
         set(value) {
             field = value
-            state["noteDate"] = value
-        }
-    var noteTime = state.get<String>("noteTime") ?: note?.time ?: ""
-        set(value) {
-            field = value
-            state["noteTime"] = value
+            state["noteDateTime"] = value
         }
 
     var requestCode = state.get<Int>("requestCode") ?: note?.requestCode
         set(value) {
             field = value
             state["requestCode"] = value
+        }
+
+    var isStriked = state.get<Boolean>("isStriked") ?: note?.isStriked ?: false
+        set(value) {
+            field = value
+            state["isStriked"] = value
         }
 
     var noteLocation = state.get<String>("noteLocation") ?: note?.location ?: ""
@@ -116,45 +105,65 @@ class NewUpdateNoteViewModel @Inject constructor(
             showInvalidInputMessage("Title cannot be empty")
             return
         }
-        println("Bittu $noteTitle ")
-        println("Bittu $noteDescription ")
 
         if (note != null) {
             val updatedTask = note.copy(title = noteTitle,
                 body = noteDescription,
                 important = noteImportance,
                 url = noteUrl,
-                date = noteDate,
-                time = noteTime,
+                dateTime = noteDateTime,
                 requestCode = requestCode,
+                isStriked = isStriked,
                 location = noteLocation,
                 clr = noteColor,
                 image = noteImage,
                 todoList = noteTodoList,
                 isHide = noteIsHide
-
             )
             updateTask(updatedTask)
         } else {
             val newTask = NoteEntity(title = noteTitle, body = noteDescription, important = noteImportance,
-                url = noteUrl, date =  noteDate, time = noteTime, requestCode = requestCode,
-                location =  noteLocation, clr =  noteColor,
-                image =  noteImage, todoList = noteTodoList,  isHide = noteIsHide)
+                url = noteUrl, dateTime =  noteDateTime, requestCode = requestCode, isStriked = isStriked,
+                location =  noteLocation, clr =  noteColor, image =  noteImage, todoList = noteTodoList,  isHide = noteIsHide)
             createTask(newTask)
-
-
-
         }
     }
 
-//    fun onConfirmDeleteClick() = viewModelScope.launch {
-//        noteDao.deleteById(noteId)
-//        onSaveClick()
-//
-//        addEditTaskEventChannel.send(AddEditTaskEvent.NavigateToBackAfterDelete(
-//            DELETE_TASK_RESULT_OK))
-//    }
-
+    fun getNoteData(): NoteEntity {
+        if (note != null) {
+            val updateNote = note.copy(
+                title = noteTitle,
+                body = noteDescription,
+                important = noteImportance,
+                url = noteUrl,
+                dateTime = noteDateTime,
+                requestCode = requestCode,
+                isStriked = isStriked,
+                location = noteLocation,
+                clr = noteColor,
+                image = noteImage,
+                todoList = noteTodoList,
+                isHide = noteIsHide
+            )
+            return updateNote
+        } else {
+            val newTask = NoteEntity(
+                title = noteTitle,
+                body = noteDescription,
+                important = noteImportance,
+                url = noteUrl,
+                dateTime = noteDateTime,
+                requestCode = requestCode,
+                isStriked = isStriked,
+                location = noteLocation,
+                clr = noteColor,
+                image = noteImage,
+                todoList = noteTodoList,
+                isHide = noteIsHide
+            )
+            return newTask
+        }
+    }
 
     fun onBackClick() = viewModelScope.launch {
         addEditTaskEventChannel.send(AddEditTaskEvent.NavigateToBackScreen)
@@ -174,25 +183,10 @@ class NewUpdateNoteViewModel @Inject constructor(
         addEditTaskEventChannel.send(AddEditTaskEvent.ShowInvalidInputMessage(text))
     }
 
-//    fun onAddFeaturesClick() = viewModelScope.launch {
-//        val dialog = DisplayDialogs(R.layout.add_features_dialog, Gravity.BOTTOM)
-//        addEditTaskEventChannel.send((AddEditTaskEvent.DisplayDialog(dialog)))
-//    }
-//
-//    fun onAddColorClick()  = viewModelScope.launch {
-//        val dialog = DisplayDialogs(R.layout.add_color_dialog, Gravity.BOTTOM)
-//        addEditTaskEventChannel.send((AddEditTaskEvent.DisplayDialog(dialog)))
-//    }
-//
-//    fun onAddImageClick() = viewModelScope.launch {
-//        val dialog = DisplayDialogs(R.layout.add_image_dialog, Gravity.BOTTOM)
-//        addEditTaskEventChannel.send((AddEditTaskEvent.DisplayDialog(dialog)))
-//    }
-
     fun onShareClick(image: ImageView) = viewModelScope.launch {
         val desc = if(noteDescription.isNotEmpty()) "\nNote: $noteDescription,\n" else ""
         val url =  if(noteUrl.isNotEmpty()) "Url: $noteUrl,\n" else ""
-        val dateTime =    if(noteDate.isNotEmpty()) "Date: $noteDate, $noteTime,\n" else ""
+        val dateTime =    if(noteDateTime.isNotEmpty()) "Date: $noteDateTime,\n" else ""
         val location = if(noteLocation.isNotEmpty()) "Place: $noteLocation,\n" else ""
         val arrayList : ArrayList<String> = ArrayList()
         if(noteTodoList?.size != null) {
@@ -232,26 +226,6 @@ class NewUpdateNoteViewModel @Inject constructor(
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
         addEditTaskEventChannel.send((AddEditTaskEvent.StartLocationIntent(mapIntent)))
-
-    }
-
-//    fun onAddTaskClick() = viewModelScope.launch {
-//        addEditTaskEventChannel.send(AddEditTaskEvent.NavigateToTodoScreen)
-//    }
-//
-//    fun onTaskSelected(todoEntity: Todo) {
-//
-//    }
-
-    //    fun addTodoData(checked: Boolean, text: Editable) {
-//        completed.add(checked)
-//        todoDescription.add(text.toString())
-//        println(completed + "\n" + todoDescription)
-//    }
-
-    fun onColorTick(index: Int) = viewModelScope.launch {
-        preferencesManager.colorTicked(index)
-
     }
 
     private fun getUri(bitmap: Bitmap?): Uri {
@@ -270,10 +244,7 @@ class NewUpdateNoteViewModel @Inject constructor(
             Toast.makeText(NotefyApplication.appContext, "" + e.message, Toast.LENGTH_LONG).show()
         }
         return uri!!
-
-
     }
-
 
     sealed class AddEditTaskEvent {
         object NavigateToBackScreen : AddEditTaskEvent()

@@ -33,8 +33,8 @@
             app:argType="com.sandip.notefy.data.entity.NoteEntity"
             app:nullable="true"/>
         <argument
-            android:name="title"
-            app:argType="string"/>
+            android:name="strike"
+            app:argType="boolean"/>
         <action
             android:id="@+id/action_new_update_note_to_todo"
             app:destination="@id/todo"/>

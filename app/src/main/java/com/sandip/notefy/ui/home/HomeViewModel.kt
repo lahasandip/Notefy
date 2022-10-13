@@ -37,7 +37,7 @@ class HomeViewModel @Inject constructor(
             set(value) {
                 field = value
             }
-        get() = field
+            get() = field
 
     }
 
@@ -113,13 +113,13 @@ class HomeViewModel @Inject constructor(
     }
 
 
-    fun searchDatabase(query: String) : LiveData<List<NoteEntity>>    {
-        return noteDao.searchDatabase(query)
-    }
+//    fun searchDatabase(query: String) : LiveData<List<NoteEntity>>    {
+//        return noteDao.searchDatabase(query)
+//    }
 
-    fun onAddToTrash(noteEntity: NoteEntity, isHide: Boolean) = viewModelScope.launch {
-        noteDao.updateDao(noteEntity.copy(isHide = isHide))
-    }
+//    fun onAddToTrash(noteEntity: NoteEntity, isHide: Boolean) = viewModelScope.launch {
+//        noteDao.updateDao(noteEntity.copy(isHide = isHide))
+//    }
 
     fun onTaskSelected(context: Context?, flag: Int) = viewModelScope.launch {
         when(flag){
@@ -141,7 +141,7 @@ class HomeViewModel @Inject constructor(
         }
     }
 
-    fun updateResource(context: Context?, code: String)  = viewModelScope.launch{
+    private fun updateResource(context: Context?, code: String)  = viewModelScope.launch{
         val locale = Locale(code)
         Locale.setDefault(locale)
 
@@ -150,14 +150,7 @@ class HomeViewModel @Inject constructor(
 
         context?.resources?.updateConfiguration(configuration, context.resources?.displayMetrics
         );
-        Log.d("Locale", "language set of $code")
-
     }
-
-
-
-
-
 
     sealed class TasksEvent {
         object NavigateToAddTaskScreen : TasksEvent()
@@ -166,10 +159,6 @@ class HomeViewModel @Inject constructor(
         data class NavigateToEditTaskScreen(val noteEntity: NoteEntity) : TasksEvent()
         data class ShowTaskSavedConfirmationMessage(val msg: String) : TasksEvent()
         data class ShowUndoDeleteTaskMessage(val noteEntity: NoteEntity) : TasksEvent()
-        data class ShowDeletedTaskMessage(val text: String) : TasksEvent() {
-
-        }
-
-
+        data class ShowDeletedTaskMessage(val text: String) : TasksEvent()
     }
 }

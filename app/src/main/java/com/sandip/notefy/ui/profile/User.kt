@@ -2,14 +2,12 @@ package com.sandip.notefy.ui.profile
 
 import android.app.Activity
 import android.app.Dialog
-import android.content.Context.INPUT_METHOD_SERVICE
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
 import android.view.*
-import android.view.inputmethod.InputMethodManager
 import android.widget.*
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -27,7 +25,6 @@ import com.sandip.notefy.R
 import com.sandip.notefy.databinding.FragmentUserBinding
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class User : Fragment(R.layout.fragment_user) {
@@ -70,10 +67,10 @@ class User : Fragment(R.layout.fragment_user) {
                         viewModel.image = fileUri.toString()
                     }
                     ImagePicker.RESULT_ERROR -> {
-                        Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
                     }
                     else -> {
-                        Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
+//                        Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
                     }
                 }
             }
@@ -116,12 +113,9 @@ class User : Fragment(R.layout.fragment_user) {
 
             editName.setOnClickListener {
                 textName.requestFocus()
-//                openSoftKeyboard(textName)
             }
             editEmail.setOnClickListener {
                 textEmail.requestFocus()
-//                openSoftKeyboard(textEmail)
-
             }
 
             circleImageView.setOnClickListener {
@@ -142,7 +136,6 @@ class User : Fragment(R.layout.fragment_user) {
             back.setOnClickListener {
                 dialog.dismiss()
             }
-
 
             textName.setText(viewModel.name)
             textEmail.setText(viewModel.email)
@@ -217,15 +210,4 @@ class User : Fragment(R.layout.fragment_user) {
             }
         }
     }
-
-//    override fun onDestroyView() {
-//        super.onDestroyView()
-//        imm?.hideSoftInputFromWindow(view?.windowToken, 0)
-//
-//    }
-//
-//    fun openSoftKeyboard(editText: EditText) {
-//
-//        imm?.showSoftInput(editText, InputMethodManager.SHOW_FORCED)
-//    }
 }

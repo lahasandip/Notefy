@@ -4,11 +4,9 @@ package com.sandip.notefy.ui.home
 import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
-import android.util.Log
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
@@ -22,16 +20,15 @@ import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.NewNoteBinding
 import com.sandip.notefy.ui.home.Home.Companion.act
 import com.sandip.notefy.ui.home.Home.Companion.noteList
+import java.text.SimpleDateFormat
 
 
 class NoteAdapter(private val listener: OnItemClickListener) :
     ListAdapter<NoteEntity, NoteAdapter.NoteViewHolder>(DiffCallback()) {
-    //    var adp: TodoAdapter? = null
     var isEnable: Boolean = false
     var isSelectAll = false
     var selectList: ArrayList<NoteEntity> = ArrayList()
     var undoList: ArrayList<NoteEntity> = ArrayList()
-
 
     private lateinit var task :NoteEntity
     companion object {
@@ -44,32 +41,11 @@ class NoteAdapter(private val listener: OnItemClickListener) :
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val currentItem = getItem(position)
-//        println("inside onbind")
-
         holder.bind(holder, currentItem)
-
     }
-
-//    override fun getItemCount(): Int {
-////        return
-//    }
 
     inner class NoteViewHolder(private val binding: NewNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
-
-        init {
-            binding.apply {
-
-//                val position = adapterPosition
-//                if (position != RecyclerView.NO_POSITION) {
-//                    val task = getItem(position)
-//                    if(!task.isHide) {
-//                        noteList.add(task)
-//                    }
-//                }
-            }
-//            println("note size ${noteList.size}")
-        }
 
         fun bind(holder: NoteViewHolder, noteEntity: NoteEntity) {
             binding.apply {
@@ -87,11 +63,6 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                     }
                 }
                 overlay.setOnLongClickListener {
-//                    val position = adapterPosition
-//                    if (position != RecyclerView.NO_POSITION) {
-//                        val task = getItem(position)
-//                        listener.onItemLongClick(holder,task)
-//                    }
 
                     if (!isEnable) {
                         val callback = object : ActionMode.Callback {
@@ -113,17 +84,15 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                 clickItem(binding, holder)
                                 (Home.act as LifecycleOwner?)?.let { it1 ->
                                     HomeViewModel.mutableLiveData.observe(
-                                        it1,
-                                        Observer<String?> { s -> // when text change
-                                            // set text on action mode title
-                                            if(!(s.equals("0"))){
-                                                mode?.title = String.format("%s", s)
-                                            }
-                                            else{
-                                                mode?.finish()
-                                            }
-                                        })
-                                };
+                                        it1
+                                    ) { s ->
+                                        if (!(s.equals("0"))) {
+                                            mode?.title = String.format("%s", s)
+                                        } else {
+                                            mode?.finish()
+                                        }
+                                    }
+                                }
                                 return false
                             }
 
@@ -135,49 +104,30 @@ class NoteAdapter(private val listener: OnItemClickListener) :
 
                                     R.id.select -> {
                                         item.icon = ContextCompat.getDrawable(NotefyApplication.appContext, R.drawable.ic_baseline_deselect_24);
-                                        Log.d("Select all", "${selectList.size} , ${noteList.size}")
-
                                         if(selectList.size == noteList.size)
                                         {
-                                            // when all item selected
-                                            // set isselectall false
                                             isSelectAll=false
-                                            // create select array list
                                             selectList.clear()
                                         }
                                         else
                                         {
-                                            // when  all item unselected
-                                            // set isSelectALL true
                                             isSelectAll=true;
-                                            // clear select array list
                                             selectList.clear();
-                                            // add value in select array list
                                             selectList.addAll(noteList)
 
                                         }
-                                        // set text on view model
                                         HomeViewModel.mutableLiveData.value = selectList.size.toString()
-
-                                        // notify adapter
                                         notifyDataSetChanged()
-                                        println("note list size in select ${noteList.size}  ${selectList.size}")
-
                                         true
                                     }
                                     R.id.delete -> {
                                         if(undoList.size != 0){
                                             undoList.clear()
-                                            Log.d("clear undo", "undo clear")
-
                                         }
                                         for (s in selectList) {
                                             undoList.add(s)
                                             listener.onDeleteClick(s)
-                                            Log.d("deleted note", "deleted")
-
                                         }
-                                        Log.d("undo1", undoList.size.toString())
                                         val rootView: View = act.window.decorView
                                             .findViewById(android.R.id.content)
 
@@ -185,12 +135,8 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                             .setAction("UNDO") {
                                                 for (s in undoList) {
                                                     listener.onUndo(s)
-                                                    Log.d("undo2", undoList.size.toString())
-
                                                 }
                                             }.show()
-                                        Log.d("undo3", undoList.size.toString())
-
                                         mode?.finish();
                                         true
                                     }
@@ -206,18 +152,13 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                 notifyDataSetChanged()
                             }
                         }
-                        Home.act.startActionMode(callback)
+                        act.startActionMode(callback)
                     }
                     else
                     {
-                        // when action mode is already enable
-                        // call method
                         clickItem(binding, holder);
                     }
                     true
-
-                    // check condition
-
                 }
 
                 if(isSelectAll)
@@ -230,10 +171,6 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                     binding.cardView.strokeColor = Color.parseColor("#9e9e9e")
                 }
 
-
-
-
-
                 important.isChecked = noteEntity.important
 
                 noteTitle.text = noteEntity.title
@@ -245,12 +182,19 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                     urlLink.text = noteEntity.url
                     layoutURL.visibility = View.VISIBLE
                 }
-                if ((!(noteEntity.date.isNullOrEmpty())) &&
-                    (!(noteEntity.time.isNullOrEmpty()))
+                if ((!(noteEntity.dateTime.isNullOrEmpty()))
                 ) {
-                    date.text = noteEntity.date
-//                    time.text = noteEntity.time
+                    var date2 = noteEntity.dateTime
+                    var spf = SimpleDateFormat("yyyy-MM-dd-h:m")
+                    val newDate = spf.parse(date2)
+                    spf = SimpleDateFormat("MMM d, ''yy, h:m")
+                    date2 = spf.format(newDate)
+                    dateTime.text = date2
                     layoutDate.visibility = View.VISIBLE
+                    if (noteEntity.isStriked) {
+                        dateTime.paintFlags =
+                            dateTime.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    }
                 }
                 if (!(noteEntity.location.isNullOrEmpty())) {
                     location.text = noteEntity.location
@@ -260,16 +204,13 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                 cardView.setCardBackgroundColor(noteEntity.clr)
 
                 if(noteEntity.image != null) {
-//                    img.setImageURI(noteEntity.image)
                     val imageUri = Uri.parse(noteEntity.image)
                     Glide.with(NotefyApplication.appContext).load(imageUri).into(img)
                     noteImageLayout.visibility = View.VISIBLE
                 }
-//                adp = TodoAdapter(NotefyApplication.appContext, noteEntity.completed, noteEntity.todoDescription)
-//                listview2.adapter = adp
 
                 if (noteEntity.todoList != null) {
-                    val todoAdapter = TodoAdapter(NotefyApplication.appContext,noteEntity.todoList as ArrayList<Todo>)
+                    val todoAdapter = HomeTodoAdapter(NotefyApplication.appContext,noteEntity.todoList as ArrayList<Todo>)
                     todoRecyclerView.setHasFixedSize(true)
                     todoRecyclerView.layoutManager = LinearLayoutManager(NotefyApplication.appContext)
                     todoRecyclerView.adapter = todoAdapter
@@ -285,39 +226,22 @@ class NoteAdapter(private val listener: OnItemClickListener) :
         if (position != RecyclerView.NO_POSITION) {
             task = getItem(position)
         }
-        // check condition
-        // check condition
         if (binding.cardView.strokeWidth == 0) {
-            // when item not selected
-            // visible check box image
             binding.cardView.strokeWidth = 8
             binding.cardView.strokeColor = Color.parseColor("#80cbc4")
-            // set background color
-            // add value in select array list
             selectList.add(task)
         } else {
-            // when item selected
-            // hide check box image
             binding.cardView.strokeWidth = 0
             binding.cardView.strokeColor = Color.parseColor("#9e9e9e")
-            // remove value from select arrayList
             selectList.remove(task)
         }
-        // set text on view model
-        // set text on view model
         HomeViewModel.mutableLiveData.value = selectList.size.toString()
-        Log.d("size", HomeViewModel.mutableLiveData.value.toString())
-//        if(selectList.size == 0){
-//            actionMode?.finish()
-//        }
     }
 
     interface OnItemClickListener {
         fun onItemClick(noteEntity: NoteEntity)
         fun onDeleteClick(noteEntity: NoteEntity)
         fun onUndo(noteEntity: NoteEntity)
-
-
     }
 
     class DiffCallback : DiffUtil.ItemCallback<NoteEntity>() {
@@ -327,6 +251,4 @@ class NoteAdapter(private val listener: OnItemClickListener) :
         override fun areContentsTheSame(oldItem: NoteEntity, newItem: NoteEntity) =
             oldItem == newItem
     }
-
-
 }

@@ -16,7 +16,7 @@ import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.databinding.FragmentRecycleBinBinding
-import com.sandip.notefy.ui.home.Home
+import com.sandip.notefy.ui.home.HomeViewModel
 import com.sandip.notefy.ui.recycle_bin.RecycleAdapter.Companion.recycleActionMode
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +31,6 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
     companion object {
         lateinit var noteList: List<NoteEntity>
         lateinit var act : Activity
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -39,7 +38,6 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
         binding = FragmentRecycleBinBinding.bind(view)
         recycleAdapter = RecycleAdapter(this)
         act = requireActivity()
-
 
         binding.apply {
             trashRecyclerView.apply {
@@ -71,7 +69,6 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
                     }
                 }
             }).attachToRecyclerView(trashRecyclerView)
-
 
             viewModel.note.observe(viewLifecycleOwner){
                 recycleAdapter.submitList(it)
@@ -105,11 +102,7 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
                     }.exhaustive
                 }
             }
-
-
-
         }
-
     }
 
     override fun onItemClick(noteEntity: NoteEntity) {
@@ -131,7 +124,6 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
 
     override fun onMenuDeleteClick(noteEntity: NoteEntity) {
         viewModel.onMenuDelete(noteEntity)
-
     }
 
     override fun onUndo(noteEntity: NoteEntity) {

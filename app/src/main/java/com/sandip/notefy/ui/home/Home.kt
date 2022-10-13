@@ -216,7 +216,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                     is HomeViewModel.TasksEvent.NavigateToAddTaskScreen -> {
                         val action =
                             HomeDirections.actionHomeToNewUpdateNote(
-                                "note",
+                                false,
                                 null,
                             )
                         findNavController().navigate(action)
@@ -224,7 +224,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                     is HomeViewModel.TasksEvent.NavigateToEditTaskScreen -> {
                         val action =
                             HomeDirections.actionHomeToNewUpdateNote(
-                                "edit note",
+                                false,
                                 event.noteEntity,
                             )
                         findNavController().navigate(action)
@@ -236,15 +236,15 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                         Snackbar.make(requireView(), event.text, Snackbar.LENGTH_SHORT).show()
                     }
                     is HomeViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
-                        Snackbar.make(requireView(), "Note deleted", Snackbar.LENGTH_LONG)
-                            .setAction("UNDO") {
+                        Snackbar.make(requireView(), getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
+                            .setAction(getString(R.string.undo)) {
                                 viewModel.onUndoDeleteClick(event.noteEntity)
                             }.show()
                     }
                     is HomeViewModel.TasksEvent.NavigateToDrawer -> {
                         val action =
                             HomeDirections.actionHomeToNewUpdateNote(
-                                "note",
+                                false,
                                 null,
                             )
                         findNavController().navigate(action)
@@ -347,5 +347,4 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             homeActionMode = null
         }
     }
-
 }

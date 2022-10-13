@@ -3,6 +3,7 @@ package com.sandip.notefy.ui.newupdate
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
@@ -29,8 +30,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
-import com.google.android.material.datepicker.CalendarConstraints.DateValidator
-import com.google.android.material.datepicker.DateValidatorPointForward
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
@@ -59,11 +58,13 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private lateinit var datePicker: MaterialDatePicker<Long>
     private lateinit var timePicker: MaterialTimePicker
     private var todoList : ArrayList<Todo>? = arrayListOf()
+    private val requestCode = System.currentTimeMillis().toInt()
+
 
     //Companion Object for Temp List
     companion object {
         var recylerView: RecyclerView? = null
-        var todoAdapter: NewUpdateAdapter? = null
+        var todoAdapter: NewUpdateTodoAdapter? = null
 
         val notificationIntent = Intent(NotefyApplication.appContext, Notifications::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -77,7 +78,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentNewUpdateNoteBinding.bind(view)
-        Log.d("request code", viewModel.requestCode.toString())
         createNotificationChannel()
         val startForProfileImageResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -91,9 +91,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     context?.let { Glide.with(it).load(fileUri).into(binding.showImage) }
                     viewModel.noteImage = fileUri.toString()
                 } else if (resultCode == ImagePicker.RESULT_ERROR) {
-                    Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
                 } else {
-                    Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
+//                    Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
                 }
             }
 
@@ -175,7 +175,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         var minute = calendar.get(Calendar.MINUTE)
         datePicker =
             MaterialDatePicker.Builder.datePicker()
-                .setTitleText("Select date")
+                .setTitleText(getString(R.string.select_date))
                 .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
                 .build()
 
@@ -187,7 +187,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 .setTimeFormat(clockFormat)
                 .setHour(hour)
                 .setMinute(minute)
-                .setTitleText("Select time")
+                .setTitleText(getString(R.string.select_time))
                 .build()
         datePicker.addOnPositiveButtonClickListener {
             // Respond to positive button click.
@@ -195,10 +195,21 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             utc.timeInMillis = it
             val format = SimpleDateFormat("yyyy-MM-dd")
             date = format.format(utc.time)
-            val format2=SimpleDateFormat("EEE, MMM d, ''yy")
-            val date2 = format2.format(utc.time)
+//            viewModel.noteDateTime = date
 
-            (date2.toString()).also { binding.date.text = it }
+//            var date2 = viewModel.noteDateTime
+//            var spf = SimpleDateFormat("yyyy-MM-dd")
+//            val newDate = spf.parse(date2)
+//            spf = SimpleDateFormat("MMM d, ''yy")
+//            date2 = spf.format(newDate)
+//            println(date2)
+
+
+//            val format2=SimpleDateFormat("MMM d, ''yy")
+//            val date2 = format2.format(utc.time)
+
+
+//            binding.newDateTime.text = date2
             timePicker.show(childFragmentManager, "Time_Piker")
 
         }
@@ -217,16 +228,27 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             // call back code
 
             if(!(viewModel.noteTitle.isNullOrEmpty())) {
-                "${timePicker.hour}:${timePicker.minute}".also { binding.time.text = it }
+                viewModel.isStriked = false
+                "${timePicker.hour}:${timePicker.minute}".also {
+                    viewModel.noteDateTime = "$date-$it"
+                    var date2 = viewModel.noteDateTime
+                    var spf = SimpleDateFormat("yyyy-MM-dd-h:m")
+                    val newDate = spf.parse(date2)
+                    spf = SimpleDateFormat("MMM d, ''yy, h:m")
+                    date2 = spf.format(newDate)
+                    binding.newDateTime.text = date2}
                 binding.reminderParentLayout.visibility = View.VISIBLE
-                displaySimpleNotification()
-                Snackbar.make(requireView(), "Reminder set Successfully ", Snackbar.LENGTH_LONG).show()
+//
+//                viewModel.noteDateTime = binding.newDateTime.text.toString()
+//                viewModel.isStriked = false
+//                viewModel.updatedReminder()
+//                Snackbar.make(requireView(), "Reminder set Successfully ", Snackbar.LENGTH_LONG).show()
 
             }
-            else{
-                Snackbar.make(requireView(), "Please Add a Title to Set Reminder", Snackbar.LENGTH_LONG).show()
-
-            }
+//            else{
+//                Snackbar.make(requireView(), "Please Add a Title to Set Reminder", Snackbar.LENGTH_LONG).show()
+//
+//            }
 
         }
         timePicker.addOnNegativeButtonClickListener {
@@ -248,11 +270,20 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 urlLink.text = viewModel.noteUrl
                 urlParentLayout.visibility = View.VISIBLE
             }
-            if ((!(viewModel.noteDate.isNullOrEmpty())) && (!(viewModel.noteTime.isNullOrEmpty()))) {
-                date.text = viewModel.noteDate
-                time.text = viewModel.noteTime
+            if (!(viewModel.noteDateTime.isNullOrEmpty())) {
+                var date = viewModel.noteDateTime
+                var spf = SimpleDateFormat("yyyy-MM-dd-h:m")
+                val newDate = spf.parse(date)
+                spf = SimpleDateFormat("MMM d, ''yy, h:m")
+                date = spf.format(newDate)
+                newDateTime.text = date
                 reminderParentLayout.visibility = View.VISIBLE
+                if(viewModel.isStriked) {
+                    newDateTime.paintFlags =
+                        newDateTime.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                }
             }
+
             if (!(viewModel.noteLocation.isNullOrEmpty())) {
                 placeInput.text = viewModel.noteLocation
                 locationParentLayout.visibility = View.VISIBLE
@@ -285,8 +316,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 else -> white?.setImageResource(0)
             }
 
-            Log.d("color", viewModel.noteColor.toString())
-
             if (viewModel.noteImage != null) {
                 val imageUri = Uri.parse(viewModel.noteImage)
                 context?.let { Glide.with(it).load(imageUri).into(showImage) }
@@ -294,10 +323,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             if (viewModel.noteTodoList?.isNullOrEmpty() == false) {
-                Log.d("todolist", viewModel.noteTodoList?.size.toString())
                 todoList = viewModel.noteTodoList as ArrayList<Todo>?
                 todoAdapter = context?.let {
-                    NewUpdateAdapter(
+                    NewUpdateTodoAdapter(
                         it,
                         todoList,
                     )
@@ -339,12 +367,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             urlLink.addTextChangedListener {
                 viewModel.noteUrl = it.toString()
             }
-            date.addTextChangedListener {
-                viewModel.noteDate = it.toString()
-            }
-            time.addTextChangedListener {
-                viewModel.noteTime = it.toString()
-            }
+//            newDateTime.addTextChangedListener {
+//                viewModel.noteDateTime = it.toString()
+//            }
+//            time.addTextChangedListener {
+//                viewModel.noteTime = it.toString()
+//            }
             placeInput.addTextChangedListener {
                 viewModel.noteLocation = it.toString()
             }
@@ -354,18 +382,18 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 val colorId = viewColor.color
                 viewModel.noteColor = colorId
                 viewModel.noteTodoList = todoList
-
+                viewModel.isStriked = false
+                viewModel.requestCode = requestCode
                 viewModel.onSaveClick()
-
             }
 
             deleteNote.setOnClickListener {
 
                 AlertDialog.Builder(requireContext())
-                    .setTitle("Confirm deletion")
-                    .setMessage("Do you want to delete the note ?")
-                    .setNegativeButton("Cancel", null)
-                    .setPositiveButton("Yes") { _, _ ->
+                    .setTitle(getString(R.string.confirm_deletion))
+                    .setMessage(getString(R.string.delete_note))
+                    .setNegativeButton(getString(R.string.cancel), null)
+                    .setPositiveButton(getString(R.string.yes)) { _, _ ->
                         viewModel.noteIsHide = true
                         viewModel.onSaveClick()
                     }
@@ -397,11 +425,11 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 place?.setOnClickListener {
                     dialog.dismiss()
-                    showAlert("place")
+                    showAlert(getString(R.string.place_hint))
                 }
                 url?.setOnClickListener {
                     dialog.dismiss()
-                    showAlert("url")
+                    showAlert(getString(R.string.url_hint))
                 }
             }
 
@@ -674,7 +702,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             addToList?.setOnClickListener {
                 if(!(descriptionTodo?.text.isNullOrEmpty())) {
                     todoList?.add(Todo(checkBoxTodo?.isChecked, descriptionTodo?.text.toString()))
-                    todoAdapter = NewUpdateAdapter(requireContext(), todoList)
+                    todoAdapter = NewUpdateTodoAdapter(requireContext(), todoList)
                     recylerView?.setHasFixedSize(true)
                     recylerView?.layoutManager = LinearLayoutManager(context)
                     recylerView?.adapter = todoAdapter
@@ -685,7 +713,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 descriptionTodo?.setText("")
                 checkBoxTodo?.isChecked = false
-                println("My todo list $todoList")
             }
             btn?.setOnClickListener {
                 todoDialog.dismiss()
@@ -702,8 +729,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 locationParentLayout.visibility = View.GONE
             }
             removeReminder.setOnClickListener {
-                date.text = null
-                time.text = null
+                newDateTime.text = null
+                viewModel.noteDateTime = ""
+//                viewModel.note?.let { it1 -> viewModel.onReminderSet(noteEntity = it1, false, binding.newDateTime.text.toString()) }
                 cancelAlarm()
                 reminderParentLayout.visibility = View.GONE
             }
@@ -719,7 +747,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
 //            }
 
-            //Updating UI with ViewModel Data
+            //Updating UI with ViewModel Data100847802
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 viewModel.addEditTaskEvent.collect { event ->
                     when (event) {
@@ -727,6 +755,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                             Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_LONG).show()
                         }
                         is NewUpdateNoteViewModel.AddEditTaskEvent.NavigateBackWithResult -> {
+                            if(!(newDateTime.text.isNullOrEmpty())) {
+                                displaySimpleNotification()
+                            }
                             binding.noteTitle.clearFocus()
                             setFragmentResult(
                                 "add_edit_delete_request",
@@ -773,7 +804,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         builder?.setView(input)
 
         if(s=="url"){
-            builder?.setTitle("URL")
+            builder?.setTitle(getString(R.string.urlfd))
             editText?.hint = "https://www.google.com"
             builder?.setPositiveButton(
                 "OK"
@@ -784,7 +815,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     binding.urlParentLayout.visibility = View.VISIBLE
                 }
                 else{
-                    Toast.makeText(context, "Please enter a link", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, getString(R.string.please_enter_a_link), Toast.LENGTH_LONG).show()
                     showAlert("url")
                 }
             }
@@ -792,8 +823,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
         }
         else if(s=="place"){
-            builder?.setTitle("Place")
-            editText?.hint = "New York, United States"
+            builder?.setTitle(getString(R.string.place))
+            editText?.hint = getString(R.string.place_hint_)
             builder?.setPositiveButton(
                 "OK"
             ) {
@@ -803,7 +834,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     binding.locationParentLayout.visibility = View.VISIBLE
                 }
                 else{
-                    Toast.makeText(context, "Please enter a place", Toast.LENGTH_LONG).show()
+                    Toast.makeText(context, getString(R.string.please_enter_a_ace), Toast.LENGTH_LONG).show()
                     showAlert("place")
                 }
             }
@@ -811,7 +842,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
 
         builder?.setNegativeButton(
-            "Cancel"
+            getString(R.string.cancel)
         ) { dialog, _ -> dialog.cancel() }
 
         builder?.show()    }
@@ -825,7 +856,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             channel.description = CHANNEL_DESCRIPTION
             val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
-            println("sandip chanel created")
         }
     }
 
@@ -833,16 +863,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     @RequiresApi(Build.VERSION_CODES.M)
     private fun displaySimpleNotification() {
 
-        val requestCode = System.currentTimeMillis().toInt()
+        val note = viewModel.getNoteData()
 
-//        notificationIntent = Intent(context, Notifications::class.java).apply {
-//            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-//            println("sandip notification intent created")
-//        }
-
-        notificationIntent.putExtra("titleExtra", viewModel.noteTitle)
-        notificationIntent.putExtra("messageExtra", viewModel.noteDescription)
-        notificationIntent.putExtra("imageExtra", viewModel.noteImage)
+        notificationIntent.putExtra("note", note)
 
         val pendingNotificationIntent: PendingIntent = PendingIntent.getBroadcast(
             context,
@@ -850,7 +873,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             notificationIntent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
-        viewModel.requestCode = requestCode
 
         val time = getTime()
         alarmManager.setExactAndAllowWhileIdle(
@@ -859,6 +881,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             pendingNotificationIntent
         )
     }
+
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun cancelAlarm(){
@@ -879,15 +903,22 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun getTime(): Long {
-        val minute = timePicker.minute
-        val hour = timePicker.hour
-        val items1: Array<String> =
-            date.split("-".toRegex()).toTypedArray()
+        Log.d("Note datetime", viewModel.note?.dateTime.toString())
 
+
+
+//        val minute = timePicker.minute
+//        val hour = timePicker.hour
+        val items1: Array<String> =
+            viewModel.noteDateTime.split("-".toRegex()).toTypedArray()
+        val items2: Array<String> =
+            items1[3].split(":".toRegex()).toTypedArray()
+        val minute = items2[1].toInt()
+        val hour = items2[0].toInt()
         val day =items1[2].toInt()
         val month = items1[1].toInt() - 1
         val year = items1[0].toInt()
-        println("sandip $day $month $year $minute $hour")
+        Log.d("Note datetime","$hour:$minute,  $day-$month-$year" )
 
         val calendar = Calendar.getInstance()
         calendar.set(year, month, day, hour, minute)
