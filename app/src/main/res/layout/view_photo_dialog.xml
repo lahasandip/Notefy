@@ -60,6 +60,6 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:elevation="10dp"
-            android:src="#33000000"/>
+            android:src="#4D000000"/>
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

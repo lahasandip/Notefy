@@ -5,6 +5,8 @@ import android.content.Context
 import android.content.res.Configuration
 import android.util.Log
 import androidx.lifecycle.*
+import com.sandip.notefy.NotefyApplication
+import com.sandip.notefy.R
 import com.sandip.notefy.data.dao.NoteDao
 import com.sandip.notefy.data.dao.UserDao
 import com.sandip.notefy.data.entity.NoteEntity
@@ -38,7 +40,6 @@ class HomeViewModel @Inject constructor(
                 field = value
             }
             get() = field
-
     }
 
     val searchQuery = state.getLiveData("searchQuery", "")
@@ -60,18 +61,13 @@ class HomeViewModel @Inject constructor(
     }
 
     val note = tasksFlow.asLiveData()
-
     val noteCount = noteDao.getNotes()
-
-
 
     fun onSortOrderSelected(sortOrder: SortOrder) = viewModelScope.launch {
         preferencesManager.updateSortOrder(sortOrder)
-
     }
     fun updateSortOrderIsChecked(index:Int) = viewModelScope.launch {
         preferencesManager.updateSortOrderIsChecked(index)
-
     }
 
     fun onAddNewTaskClick() = viewModelScope.launch {
@@ -86,8 +82,8 @@ class HomeViewModel @Inject constructor(
     }
     fun onMenuTaskDelete(noteEntity: NoteEntity, isHide: Boolean) = viewModelScope.launch {
         noteDao.updateDao(noteEntity.copy(isHide = isHide))
-//        tasksEventChannel.send(TasksEvent.ShowDeletedTaskMessage("Note deleted"))
     }
+    
     fun onTaskSwiped(noteEntity: NoteEntity, isHide: Boolean) = viewModelScope.launch {
         noteDao.updateDao(noteEntity.copy(isHide = isHide))
         tasksEventChannel.send(TasksEvent.ShowUndoDeleteTaskMessage(noteEntity))
@@ -95,31 +91,20 @@ class HomeViewModel @Inject constructor(
 
     fun onUndoDeleteClick(noteEntity: NoteEntity) = viewModelScope.launch {
         noteDao.updateDao(noteEntity.copy(isHide = false))
-        Log.d("DB updated", "db updated")
-
     }
 
     fun onAddEditResult(result: Int) {
         when (result) {
-            ADD_TASK_RESULT_OK -> showTaskSavedConfirmationMessage("Note added")
-            EDIT_TASK_RESULT_OK -> showTaskSavedConfirmationMessage("Note updated")
-            DELETE_TASK_RESULT_OK -> showTaskSavedConfirmationMessage("Note deleted")
-            PROFILE_UPDATED_RESULT_OK -> showTaskSavedConfirmationMessage("Profile updated")
+            ADD_TASK_RESULT_OK -> showTaskSavedConfirmationMessage(NotefyApplication.appContext.getString(R.string.note_added))
+            EDIT_TASK_RESULT_OK -> showTaskSavedConfirmationMessage(NotefyApplication.appContext.getString(R.string.note_updated))
+            DELETE_TASK_RESULT_OK -> showTaskSavedConfirmationMessage(NotefyApplication.appContext.getString(R.string.note_deleted))
+            PROFILE_UPDATED_RESULT_OK -> showTaskSavedConfirmationMessage(NotefyApplication.appContext.getString(R.string.profile_updated))
         }
     }
 
     private fun showTaskSavedConfirmationMessage(text: String) = viewModelScope.launch {
         tasksEventChannel.send(TasksEvent.ShowTaskSavedConfirmationMessage(text))
     }
-
-
-//    fun searchDatabase(query: String) : LiveData<List<NoteEntity>>    {
-//        return noteDao.searchDatabase(query)
-//    }
-
-//    fun onAddToTrash(noteEntity: NoteEntity, isHide: Boolean) = viewModelScope.launch {
-//        noteDao.updateDao(noteEntity.copy(isHide = isHide))
-//    }
 
     fun onTaskSelected(context: Context?, flag: Int) = viewModelScope.launch {
         when(flag){

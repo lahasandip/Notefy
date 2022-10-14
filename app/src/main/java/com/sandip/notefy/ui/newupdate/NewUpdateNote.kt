@@ -38,6 +38,7 @@ import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.FragmentNewUpdateNoteBinding
+import com.sandip.notefy.ui.newupdate.NewUpdateNoteViewModel.*
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import vadiole.colorpicker.ColorModel
@@ -85,16 +86,16 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 val data = result.data
 
                 if (resultCode == Activity.RESULT_OK) {
-                    //Image Uri will not be null for RESULT_OK
                     val fileUri = data?.data!!
                     binding.imageLayout.visibility = View.VISIBLE
                     context?.let { Glide.with(it).load(fileUri).into(binding.showImage) }
                     viewModel.noteImage = fileUri.toString()
-                } else if (resultCode == ImagePicker.RESULT_ERROR) {
-//                    Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-                } else {
-//                    Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
                 }
+//                else if (resultCode == ImagePicker.RESULT_ERROR) {
+////                    Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+//                } else {
+////                    Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
+//                }
             }
 
         val colorDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
@@ -148,14 +149,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
         val colorPicker: Button? = colorDialog.findViewById(R.id.color_picker)
 
-
-
-
-
-
-
-
-
         //Todo list view popup
         val todoDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
         todoDialog.setContentView(R.layout.todo_listview)
@@ -171,8 +164,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
         //Date & Time Picker
         val calendar = Calendar.getInstance()
-        var hour = calendar.get(Calendar.HOUR_OF_DAY)
-        var minute = calendar.get(Calendar.MINUTE)
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
         datePicker =
             MaterialDatePicker.Builder.datePicker()
                 .setTitleText(getString(R.string.select_date))
@@ -227,7 +220,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         timePicker.addOnPositiveButtonClickListener {
             // call back code
 
-            if(!(viewModel.noteTitle.isNullOrEmpty())) {
+            if(viewModel.noteTitle.isNotEmpty()) {
                 viewModel.isStriked = false
                 "${timePicker.hour}:${timePicker.minute}".also {
                     viewModel.noteDateTime = "$date-$it"
@@ -235,7 +228,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     var spf = SimpleDateFormat("yyyy-MM-dd-h:m")
                     val newDate = spf.parse(date2)
                     spf = SimpleDateFormat("MMM d, ''yy, h:m")
-                    date2 = spf.format(newDate)
+                    date2 = newDate?.let { it1 -> spf.format(it1) }.toString()
                     binding.newDateTime.text = date2}
                 binding.reminderParentLayout.visibility = View.VISIBLE
 //
@@ -266,16 +259,16 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             noteTitle.setText(viewModel.noteTitle)
             noteDescription.setText(viewModel.noteDescription)
             important.isChecked = viewModel.noteImportance
-            if (!(viewModel.noteUrl.isNullOrEmpty())) {
+            if (viewModel.noteUrl.isNotEmpty()) {
                 urlLink.text = viewModel.noteUrl
                 urlParentLayout.visibility = View.VISIBLE
             }
-            if (!(viewModel.noteDateTime.isNullOrEmpty())) {
+            if (viewModel.noteDateTime.isNotEmpty()) {
                 var date = viewModel.noteDateTime
                 var spf = SimpleDateFormat("yyyy-MM-dd-h:m")
                 val newDate = spf.parse(date)
                 spf = SimpleDateFormat("MMM d, ''yy, h:m")
-                date = spf.format(newDate)
+                date = newDate?.let { spf.format(it) }.toString()
                 newDateTime.text = date
                 reminderParentLayout.visibility = View.VISIBLE
                 if(viewModel.isStriked) {
@@ -284,7 +277,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 }
             }
 
-            if (!(viewModel.noteLocation.isNullOrEmpty())) {
+            if (viewModel.noteLocation.isNotEmpty()) {
                 placeInput.text = viewModel.noteLocation
                 locationParentLayout.visibility = View.VISIBLE
             }
@@ -322,7 +315,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 imageLayout.visibility = View.VISIBLE
             }
 
-            if (viewModel.noteTodoList?.isNullOrEmpty() == false) {
+            if (viewModel.noteTodoList?.isEmpty() == false) {
                 todoList = viewModel.noteTodoList as ArrayList<Todo>?
                 todoAdapter = context?.let {
                     NewUpdateTodoAdapter(
@@ -664,7 +657,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     with?.maxResultSize(1080, 1080)
                     with?.createIntent { Intent: Intent? ->
                         startForProfileImageResult.launch(Intent)
-                        null
                     }
 //                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
 //                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
@@ -678,7 +670,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     with?.maxResultSize(1080, 1080)
                     with?.createIntent { Intent: Intent? ->
                         startForProfileImageResult.launch(Intent)
-                        null
                     }
 //                viewModel.onAddImageClick()
                 }
@@ -751,10 +742,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 viewModel.addEditTaskEvent.collect { event ->
                     when (event) {
-                        is NewUpdateNoteViewModel.AddEditTaskEvent.ShowInvalidInputMessage -> {
+                        is AddEditTaskEvent.ShowInvalidInputMessage -> {
                             Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_LONG).show()
                         }
-                        is NewUpdateNoteViewModel.AddEditTaskEvent.NavigateBackWithResult -> {
+                        is AddEditTaskEvent.NavigateBackWithResult -> {
                             if(!(newDateTime.text.isNullOrEmpty())) {
                                 displaySimpleNotification()
                             }
@@ -765,10 +756,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                             )
                             findNavController().popBackStack()
                         }
-                        is NewUpdateNoteViewModel.AddEditTaskEvent.NavigateToBackScreen -> {
+                        is AddEditTaskEvent.NavigateToBackScreen -> {
                             findNavController().popBackStack()
                         }
-                        is NewUpdateNoteViewModel.AddEditTaskEvent.NavigateToBackAfterDelete -> {
+                        is AddEditTaskEvent.NavigateToBackAfterDelete -> {
                             setFragmentResult(
                                 "add_edit_delete_request",
                                 bundleOf("add_edit_delete_result" to event.result)
@@ -776,13 +767,13 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                             findNavController().popBackStack()
 
                         }
-                        is NewUpdateNoteViewModel.AddEditTaskEvent.ShareIntent -> {
+                        is AddEditTaskEvent.ShareIntent -> {
                             startActivity(event.shareIntent)
                         }
-                        is NewUpdateNoteViewModel.AddEditTaskEvent.StartLocationIntent -> {
+                        is AddEditTaskEvent.StartLocationIntent -> {
                             startActivity(event.mapIntent)
                         }
-                        is NewUpdateNoteViewModel.AddEditTaskEvent.NavigateToTodoScreen -> {
+                        is AddEditTaskEvent.NavigateToTodoScreen -> {
                             val action =
                                 NewUpdateNoteDirections.actionNewUpdateNoteToTodo()
                             findNavController().navigate(action)
@@ -804,14 +795,14 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         builder?.setView(input)
 
         if(s=="url"){
-            builder?.setTitle(getString(R.string.urlfd))
-            editText?.hint = "https://www.google.com"
+            builder?.setTitle(getString(R.string.url))
+            editText?.hint = getString(R.string.url_hint)
             builder?.setPositiveButton(
                 "OK"
             ) {
                     _, _ ->
                 if(editText?.text?.isNotEmpty() == true) {
-                    binding.urlLink.text = editText?.text.toString()
+                    binding.urlLink.text = editText.text.toString()
                     binding.urlParentLayout.visibility = View.VISIBLE
                 }
                 else{
@@ -824,13 +815,13 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         }
         else if(s=="place"){
             builder?.setTitle(getString(R.string.place))
-            editText?.hint = getString(R.string.place_hint_)
+            editText?.hint = getString(R.string.place_hint)
             builder?.setPositiveButton(
-                "OK"
+                getString(R.string.ok)
             ) {
                     _, _ ->
                 if(editText?.text?.isNotEmpty() == true) {
-                    binding.placeInput.text = editText?.text.toString()
+                    binding.placeInput.text = editText.text.toString()
                     binding.locationParentLayout.visibility = View.VISIBLE
                 }
                 else{
@@ -903,12 +894,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun getTime(): Long {
-        Log.d("Note datetime", viewModel.note?.dateTime.toString())
 
-
-
-//        val minute = timePicker.minute
-//        val hour = timePicker.hour
         val items1: Array<String> =
             viewModel.noteDateTime.split("-".toRegex()).toTypedArray()
         val items2: Array<String> =
@@ -918,8 +904,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         val day =items1[2].toInt()
         val month = items1[1].toInt() - 1
         val year = items1[0].toInt()
-        Log.d("Note datetime","$hour:$minute,  $day-$month-$year" )
-
         val calendar = Calendar.getInstance()
         calendar.set(year, month, day, hour, minute)
         return calendar.timeInMillis

@@ -22,5 +22,4 @@
         android:title=""
         android:contentDescription=""
         app:showAsAction="always"/>
-
 </menu>

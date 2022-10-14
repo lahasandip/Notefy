@@ -10,11 +10,13 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.View
+import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
@@ -66,6 +68,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         lateinit var preferencesManager : PreferencesManager
 
     }
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         preferencesManager = PreferencesManager(applicationContext)
 
@@ -87,7 +90,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             var editor = sharedPreferences.edit()
             editor.putBoolean("darkMode",isChecked)
             editor.commit()
-            Log.d("Sandip", "inside switch")
         }
 
         val navHostFragment =
@@ -129,7 +131,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             val sharedPreferences =  getSharedPreferences("BIOMETRIC",Context.MODE_PRIVATE)
             var editor = sharedPreferences.edit()
             editor.putBoolean("biometric",isChecked)
-            editor.commit()
+            editor.apply()
         }
 
         observeUiPreferences()
@@ -181,9 +183,9 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
 
 
-/*------------------------------------------------------------------------------------------------------------------------------------
-Biometric Login Feature
- */
+    /*------------------------------------------------------------------------------------------------------------------------------------
+    Biometric Login Feature
+     */
     private fun observeBiometricPreferences(){
         val sharedPreferences =  getSharedPreferences("BIOMETRIC",Context.MODE_PRIVATE)
         sharedPreferences.registerOnSharedPreferenceChangeListener(this)
@@ -207,10 +209,14 @@ Biometric Login Feature
                 Log.e("MY_APP_TAG", "Biometric features are currently unavailable.")
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
                 // Prompts the user to create credentials that your app accepts.
-                val enrollIntent = Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
-                    putExtra(
-                        Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED, BIOMETRIC_STRONG or DEVICE_CREDENTIAL
-                    )
+                val enrollIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                    Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
+                        putExtra(
+                            Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED, BIOMETRIC_STRONG or DEVICE_CREDENTIAL
+                        )
+                    }
+                } else {
+                    TODO("VERSION.SDK_INT < R")
                 }
                 ActivityCompat.startActivityForResult(
                     this,
@@ -221,7 +227,7 @@ Biometric Login Feature
             }
         }
 
-        executor = this.let { ContextCompat.getMainExecutor(this) }!!
+        executor = this.let { ContextCompat.getMainExecutor(this) }
         biometricPrompt = BiometricPrompt(this, executor,
             @RequiresApi(Build.VERSION_CODES.P)
             object : BiometricPrompt.AuthenticationCallback() {
@@ -243,7 +249,6 @@ Biometric Login Feature
                 ) {
                     super.onAuthenticationSucceeded(result)
                     Log.e("Auth Succeed", "Authentication Succeed")
-
                 }
 
                 override fun onAuthenticationFailed() {

@@ -25,30 +25,30 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
     val preferencesFlow = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
-                Log.e(TAG, "Error reading preferences", exception)
+                exception.printStackTrace()
                 emit(emptyPreferences())
             } else {
                 throw exception
             }
         }
-        .map { preference1 ->
+        .map { preference ->
             val sortOrder = SortOrder.valueOf(
-                preference1[PreferencesKeys.SORT_ORDER] ?: SortOrder.TITLE_ASC.name
+                preference[PreferencesKeys.SORT_ORDER] ?: SortOrder.TITLE_ASC.name
             )
             FilterPreferences(sortOrder)
         }
 
     val isChecked = dataStore.data
-        .catch {
-            if (it is IOException) {
-                it.printStackTrace()
+        .catch {exception ->
+            if (exception is IOException) {
+                exception.printStackTrace()
                 emit(emptyPreferences())
             } else {
-                throw it
+                throw exception
             }
         }
-        .map { preference2 ->
-            val isChecked = preference2[PreferencesKeys.SORT_ORDER_CHECKED] ?: 3
+        .map { preference ->
+            val isChecked = preference[PreferencesKeys.SORT_ORDER_CHECKED] ?: 3
             isChecked
         }
 

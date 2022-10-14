@@ -11,6 +11,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sandip.notefy.NotefyApplication
+import com.sandip.notefy.R
 import com.sandip.notefy.data.dao.NoteDao
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
@@ -102,7 +103,7 @@ class NewUpdateNoteViewModel @Inject constructor(
 
     fun onSaveClick() {
         if (noteTitle.isBlank()) {
-            showInvalidInputMessage("Title cannot be empty")
+            showInvalidInputMessage(NotefyApplication.appContext.getString(R.string.title_cannot_be_empty))
             return
         }
 
@@ -209,13 +210,13 @@ class NewUpdateNoteViewModel @Inject constructor(
                     type = "text/plain"
                 }
                 putExtra(Intent.EXTRA_TEXT, "Title: $noteTitle,$desc$url$dateTime$location$todo")
-                putExtra(Intent.EXTRA_TITLE, "Share from Notefy:")
+                putExtra(Intent.EXTRA_TITLE, NotefyApplication.appContext.getString(R.string.share_from_notefy))
             }
             val shareIntent = Intent.createChooser(sendIntent, null)
             addEditTaskEventChannel.send((AddEditTaskEvent.ShareIntent(shareIntent)))
         }
         catch (e: Exception) {
-            showInvalidInputMessage("Oops! cant be share")
+            showInvalidInputMessage(NotefyApplication.appContext.getString(R.string.oops))
         }
     }
 

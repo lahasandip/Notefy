@@ -95,10 +95,10 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
         }
     }
 
-    override fun onItemClick(position: Int) {
+    override fun onItemClick(flag: Int) {
         val sharedPreferences =  context?.getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
         val editor = sharedPreferences?.edit()
-        editor?.putInt("position",position)
+        editor?.putInt("position",flag)
         editor?.apply()
     }
 }

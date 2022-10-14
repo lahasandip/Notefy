@@ -25,7 +25,7 @@ class About : Fragment(R.layout.fragment_about) {
                 viewModel.onOkClick()
             }
 
-            version.text =getString(R.string.version, BuildConfig.VERSION_NAME);
+            version.text =getString(R.string.version, BuildConfig.VERSION_NAME)
 
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 viewModel.addEditTaskEvent.collect { event ->

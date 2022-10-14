@@ -91,8 +91,8 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
                             findNavController().popBackStack()
                         }
                         is RecycleBinViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
-                            Snackbar.make(requireView(), "Notes Deleted Forever", Snackbar.LENGTH_LONG)
-                                .setAction("UNDO") {
+                            Snackbar.make(requireView(), getString(R.string.notes_deleted_forever), Snackbar.LENGTH_LONG)
+                                .setAction(getString(R.string.undo)) {
                                     viewModel.onUndoDeleteClick(event.noteEntity)
                                 }.show()
                         }
@@ -107,12 +107,12 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
 
     override fun onItemClick(noteEntity: NoteEntity) {
         AlertDialog.Builder(requireContext())
-            .setTitle("Restore")
-            .setMessage("Do you want to restore the note?")
-            .setNegativeButton("Cancel", null)
-            .setPositiveButton("Yes") { _, _ ->
+            .setTitle(getString(R.string.restore))
+            .setMessage(getString(R.string.do_you_want_to_restore_the_note))
+            .setNegativeButton(getString(R.string.cancel), null)
+            .setPositiveButton(getString(R.string.yes)) { _, _ ->
                 viewModel.onMenuRestore(noteEntity, false)
-                Snackbar.make(requireView(), "Note Restored", Snackbar.LENGTH_LONG).show()
+                Snackbar.make(requireView(), getString(R.string.note_restored), Snackbar.LENGTH_LONG).show()
             }
             .create()
             .show()

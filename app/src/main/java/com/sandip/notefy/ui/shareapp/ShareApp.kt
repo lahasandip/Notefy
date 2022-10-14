@@ -17,12 +17,11 @@ class ShareApp : DialogFragment() {
             .setNegativeButton(getString(R.string.later), null)
             .setPositiveButton(getString(R.string.share)) { _, _ ->
                 try {
-                    val message = R.string.message
                     val sendIntent = Intent().apply {
                         action = Intent.ACTION_SEND
                         type = "text/plain"
                         putExtra(Intent.EXTRA_TITLE, getString(R.string.share_from_notefy))
-                        putExtra(Intent.EXTRA_TEXT, message)
+                        putExtra(Intent.EXTRA_TEXT, getString(R.string.message))
                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION )
                     }
                     val shareIntent = Intent.createChooser(sendIntent, null)

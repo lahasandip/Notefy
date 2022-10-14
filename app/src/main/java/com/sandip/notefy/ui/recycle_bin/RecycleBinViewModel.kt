@@ -3,6 +3,8 @@ package com.sandip.notefy.ui.recycle_bin
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.sandip.notefy.NotefyApplication
+import com.sandip.notefy.R
 import com.sandip.notefy.data.dao.NoteDao
 import com.sandip.notefy.data.entity.NoteEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,6 +18,7 @@ class RecycleBinViewModel @Inject constructor(
     private val noteDao: NoteDao
 ) : ViewModel() {
 
+    val noteRestored = NotefyApplication.appContext.getString(R.string.note_restored)
     private val tasksEventChannel = Channel<TasksEvent>()
     val tasksEvent = tasksEventChannel.receiveAsFlow()
     val note = noteDao.getTrashData().asLiveData()
@@ -32,7 +35,7 @@ class RecycleBinViewModel @Inject constructor(
 
     fun onMenuRestore(noteEntity: NoteEntity, isHide: Boolean) = viewModelScope.launch {
         noteDao.updateDao(noteEntity.copy(isHide = isHide))
-        tasksEventChannel.send(TasksEvent.ShowDeletedTaskMessage("Note restored"))
+        tasksEventChannel.send(TasksEvent.ShowDeletedTaskMessage(noteRestored))
     }
 
     fun onOkClick() = viewModelScope.launch {

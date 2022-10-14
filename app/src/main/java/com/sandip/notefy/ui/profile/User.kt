@@ -107,7 +107,6 @@ class User : Fragment(R.layout.fragment_user) {
             }
             viewModel.todoCount.observe(viewLifecycleOwner) {
                 todo = it.toInt()
-                println("todo $todo")
                 viewModel.startAnimation(todoNumber, todo)
             }
 

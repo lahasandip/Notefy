@@ -51,8 +51,6 @@ class NoteAdapter(private val listener: OnItemClickListener) :
             binding.apply {
                 overlay.setOnClickListener {
                     if (isEnable) {
-                        // when action mode is enable
-                        // call method
                         clickItem(binding, holder);
                     } else {
                         val position = adapterPosition
@@ -148,7 +146,6 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                 isEnable=false
                                 isSelectAll=false
                                 selectList.clear()
-                                // notify adapter
                                 notifyDataSetChanged()
                             }
                         }
@@ -188,7 +185,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                     var spf = SimpleDateFormat("yyyy-MM-dd-h:m")
                     val newDate = spf.parse(date2)
                     spf = SimpleDateFormat("MMM d, ''yy, h:m")
-                    date2 = spf.format(newDate)
+                    date2 = newDate?.let { spf.format(it) }
                     dateTime.text = date2
                     layoutDate.visibility = View.VISIBLE
                     if (noteEntity.isStriked) {

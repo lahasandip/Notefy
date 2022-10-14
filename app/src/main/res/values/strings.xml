@@ -5,6 +5,9 @@
     <string name="search_note">Search Note</string>
     <string name="note_deleted">Note deleted</string>
     <string name="undo">UNDO</string>
+    <string name="note_added">Note added</string>
+    <string name="note_updated">Note updated</string>
+    <string name="profile_updated">Profile updated</string>
 
     <!--  Navigation Drawer  -->
     <string name="view_profile">View profile</string>
@@ -36,17 +39,17 @@
     <string name="delete_note">Do you want to delete the note ?</string>
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
-    <string name="place_hint">place</string>
-    <string name="url_hint">url</string>
-    <string name="urlfd">URL</string>
+    <string name="url_hint">https://wwww.google.com</string>
+    <string name="place">Place</string>
+    <string name="url">URL</string>
     <string name="please_enter_a_link">Please enter a link</string>
-    <string name="place_hint_">New York, United States</string>
+    <string name="place_hint">New York, United States</string>
     <string name="please_enter_a_ace">Please enter a place</string>
+    <string name="title_cannot_be_empty">Title cannot be empty</string>
+    <string name="ok">OK</string>
 
     <!--  Add Feature Dialog  -->
     <string name="reminder">Reminder</string>
-    <string name="place">Place</string>
-    <string name="url">URL</string>
 
     <!--  Add Color Dialog  -->
     <string name="color">Color</string>
@@ -56,12 +59,10 @@
     <string name="take_photo">Take Photo</string>
     <string name="add_image">Add Image</string>
 
-
-    <!--  Add todo-Checklist Dialog  -->
+    <!--  Add TodoChecklist Dialog  -->
     <string name="todo_checklist">Todo Checklist</string>
     <string name="enter_description">Enter Description</string>
     <string name="done">Done</string>
-
 
     <!--  Choose Language Dialog  -->
     <string name="next">Continue</string>
@@ -90,14 +91,6 @@
     <string name="faq_s">FAQ\'s :</string>
     <string name="empty_notes">empty_notes</string>
     <string name="empty_note">Empty Notes</string>
-    <string name="add_a_new_note_to_appear_here">Add a new note to appear here</string>
-    <string name="empty_recycle_bin">Empty Recycle Bin</string>
-    <string name="notes_you_delete_will_appear_here">Notes you delete will appear here</string>
-    <string name="version">App Version: %s</string>
-    <string name="notefy_is_used_to_take_notes_add_reminders_create_todo_list_and_much_more_you_can_save_your_notes_with_images_colors_place_and_url_you_can_filter_notes_based_on_your_preferences_search_and_share_your_notes_it_supports_dark_theme_and_light_theme_for_security_it_has_screen_lock_feature_you_can_choose_your_preferred_language_currently_notefy_supports_15_different_languages_for_any_help_you_can_either_read_faq_s_or_contact_us">Notefy is used to take Notes, add Reminders, create Todo list and much more. You can save your notes with images, colors, place and URL. You can filter notes based on your preferences, search and share your notes. It supports Dark theme and light theme. For security it has screen lock feature. You can choose your preferred language, currently Notefy supports 15 different languages. For any help you can either read FAQ\'s or contact us.</string>
-    <string name="fab">fab</string>
-    <string name="skip">Skip</string>
-    <string name="profile">Profile</string>
     <string name="q1">How to use Notefy?</string>
     <string name="q2">How to create a new Note?</string>
     <string name="q3">What can be added in the note?</string>
@@ -128,7 +121,25 @@
     <string name="a13">Currently Notefy supports 15 different languages. English is the default language, you can change any language of your choice. Open the language screen from left side navigation drawer and select any language. Click on continue.</string>
     <string name="a14">You can change notes background color of your choice. Click on color icon in new note screen. You can choose either from default colors or from the color picker.</string>
     <string name="a15">To secure your app, you can enable screen lock feature from left side navigation drawer, it will accept your phone password or biometric or pattern. You can enable or disable based on your need.</string>
+
+    <!--  Main Activity Screen -->
     <string name="authenticate_with_biometric">Authenticate with Biometric</string>
 
+    <!--  Recycle bin Screen -->
+    <string name="add_a_new_note_to_appear_here">Add a new note to appear here</string>
+    <string name="empty_recycle_bin">Empty Recycle Bin</string>
+    <string name="notes_you_delete_will_appear_here">Notes you delete will appear here</string>
+    <string name="notes_deleted_forever">Notes Deleted Forever</string>
+    <string name="restore">Restore</string>
+    <string name="do_you_want_to_restore_the_note">Do you want to restore the note?</string>
+    <string name="note_restored">Note Restored</string>
 
+    <!--  About Screen -->
+    <string name="version">App Version: %s</string>
+    <string name="notefy_is_used_to_take_notes_add_reminders_create_todo_list_and_much_more_you_can_save_your_notes_with_images_colors_place_and_url_you_can_filter_notes_based_on_your_preferences_search_and_share_your_notes_it_supports_dark_theme_and_light_theme_for_security_it_has_screen_lock_feature_you_can_choose_your_preferred_language_currently_notefy_supports_15_different_languages_for_any_help_you_can_either_read_faq_s_or_contact_us">Notefy is used to take Notes, add Reminders, create Todo list and much more. You can save your notes with images, colors, place and URL. You can filter notes based on your preferences, search and share your notes. It supports Dark theme and light theme. For security it has screen lock feature. You can choose your preferred language, currently Notefy supports 15 different languages. For any help you can either read FAQ\'s or contact us.</string>
+
+    <!--  Login Screen -->
+    <string name="fab">fab</string>
+    <string name="skip">Skip</string>
+    <string name="profile">Profile</string>
 </resources>
