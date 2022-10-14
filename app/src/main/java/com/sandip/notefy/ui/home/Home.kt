@@ -261,7 +261,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
 
     }
 
-
     private fun observeGridLayout(): RecyclerView.LayoutManager {
         val sharedPreferences = context?.getSharedPreferences("grid", Context.MODE_PRIVATE)
         sharedPreferences?.registerOnSharedPreferenceChangeListener(this)

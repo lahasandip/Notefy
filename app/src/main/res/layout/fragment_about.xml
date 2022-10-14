@@ -20,30 +20,29 @@
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
 
-            <TextView
+
+        <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:layout_margin="10dp"
                 app:layout_constraintTop_toTopOf="parent"
-                android:text="@string/notefy_is_used_to_take_notes_add_reminders_create_todo_list_and_much_more_you_can_save_your_notes_with_images_colors_place_and_url_you_can_filter_notes_based_on_your_preferences_search_and_share_your_notes_it_supports_dark_theme_and_light_theme_for_security_it_has_screen_lock_feature_you_can_choose_your_preferred_language_currently_notefy_supports_15_different_languages_for_any_help_you_can_either_read_faq_s_or_contact_us"/>
+                android:text="@string/about_info"/>
 
             <TextView
                 android:id="@+id/version"
+                style="@style/TextAppearance.Material3.BodyMedium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                style="@style/TextAppearance.AppCompat.Widget.ActionBar.Subtitle"/>
-        </LinearLayout>
-    </androidx.core.widget.NestedScrollView>
+                android:layout_marginBottom="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

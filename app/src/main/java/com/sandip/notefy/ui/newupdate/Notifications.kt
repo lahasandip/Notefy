@@ -13,6 +13,7 @@ import androidx.navigation.NavDeepLinkBuilder
 import com.sandip.notefy.R
 import com.sandip.notefy.data.dao.NoteDao
 import com.sandip.notefy.data.entity.NoteEntity
+import com.sandip.notefy.ui.CHANNEL_ID
 import com.sandip.notefy.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.GlobalScope

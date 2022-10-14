@@ -37,6 +37,9 @@ import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.FragmentNewUpdateNoteBinding
+import com.sandip.notefy.ui.CHANNEL_DESCRIPTION
+import com.sandip.notefy.ui.CHANNEL_ID
+import com.sandip.notefy.ui.CHANNEL_NAME
 import com.sandip.notefy.ui.newupdate.NewUpdateNoteViewModel.*
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,9 +48,7 @@ import vadiole.colorpicker.ColorPickerDialog
 import java.text.SimpleDateFormat
 import java.util.*
 
-const val CHANNEL_ID: String = "4"
-const val CHANNEL_NAME: String = "Notefy"
-const val CHANNEL_DESCRIPTION = "Reminder Message"
+
 @Suppress("IMPLICIT_CAST_TO_ANY")
 @AndroidEntryPoint
 class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
@@ -69,37 +70,38 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
         val alarmManager = NotefyApplication.appContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding = FragmentNewUpdateNoteBinding.bind(view)
+
         createNotificationChannel()
+
+
+
+
         val startForProfileImageResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
                 val resultCode = result.resultCode
                 val data = result.data
-
                 if (resultCode == Activity.RESULT_OK) {
                     val fileUri = data?.data!!
                     binding.imageLayout.visibility = View.VISIBLE
                     context?.let { Glide.with(it).load(fileUri).into(binding.showImage) }
                     viewModel.noteImage = fileUri.toString()
                 }
-//                else if (resultCode == ImagePicker.RESULT_ERROR) {
-////                    Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-//                } else {
-////                    Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
-//                }
             }
+
+//----------------------------------------------------------------------------------------------------------------------------------
+//Color Dialog Initialization
 
         val colorDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
         colorDialog.setContentView(R.layout.add_color_dialog)
         colorDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         colorDialog.window?.setGravity(Gravity.BOTTOM)
-
 
         val frame1: FrameLayout? = colorDialog.findViewById(R.id.frame_no_gradient)
         val image1: ImageView? = colorDialog.findViewById(R.id.no_gradient)
@@ -146,6 +148,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
         val colorPicker: Button? = colorDialog.findViewById(R.id.color_picker)
 
+//----------------------------------------------------------------------------------------------------------------------------------
+//TodoDialog Initialization
+
         val todoDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
         todoDialog.setContentView(R.layout.todo_listview)
         todoDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
@@ -184,21 +189,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             utc.timeInMillis = it
             val format = SimpleDateFormat("yyyy-MM-dd")
             date = format.format(utc.time)
-//            viewModel.noteDateTime = date
-
-//            var date2 = viewModel.noteDateTime
-//            var spf = SimpleDateFormat("yyyy-MM-dd")
-//            val newDate = spf.parse(date2)
-//            spf = SimpleDateFormat("MMM d, ''yy")
-//            date2 = spf.format(newDate)
-//            println(date2)
-
-
-//            val format2=SimpleDateFormat("MMM d, ''yy")
-//            val date2 = format2.format(utc.time)
-
-
-//            binding.newDateTime.text = date2
             timePicker.show(childFragmentManager, "Time_Piker")
 
         }
@@ -321,7 +311,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 val tim = items1[3]
                 val t: Array<String> =
                     tim.split(":".toRegex()).toTypedArray()
-                noteEdited.text = "Created: ${items1[0]} ${items1[1]} ${t[0]}:${t[1]}"
+                noteEdited.text = getString(R.string.edited) + "${items1[0]} ${items1[1]} ${t[0]}:${t[1]}"
             }
             else {
                 noteEdited.append(
@@ -344,12 +334,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             urlLink.addTextChangedListener {
                 viewModel.noteUrl = it.toString()
             }
-//            newDateTime.addTextChangedListener {
-//                viewModel.noteDateTime = it.toString()
-//            }
-//            time.addTextChangedListener {
-//                viewModel.noteTime = it.toString()
-//            }
+
             placeInput.addTextChangedListener {
                 viewModel.noteLocation = it.toString()
             }
@@ -365,7 +350,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             deleteNote.setOnClickListener {
-
                 AlertDialog.Builder(requireContext())
                     .setTitle(getString(R.string.confirm_deletion))
                     .setMessage(getString(R.string.delete_note))
@@ -390,7 +374,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 val place: LinearLayout? = dialog.findViewById(R.id.add_place_layout)
                 val url: LinearLayout? = dialog.findViewById(R.id.add_url_layout)
 
-
                 reminder?.setOnClickListener {
                     dialog.dismiss()
                     datePicker.show(childFragmentManager, "Date_Picker")
@@ -398,11 +381,11 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 place?.setOnClickListener {
                     dialog.dismiss()
-                    showAlert(getString(R.string.place_hint))
+                    showAlert("place")
                 }
                 url?.setOnClickListener {
                     dialog.dismiss()
-                    showAlert(getString(R.string.url_hint))
+                    showAlert("url")
                 }
             }
 
@@ -413,6 +396,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             addColor.setOnClickListener {
                 colorDialog.show()
             }
+
             frame1?.setOnClickListener {
                 image1?.setImageResource(R.drawable.ic_baseline_done_24)
                 image2?.setImageResource(0)
@@ -577,9 +561,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image9?.setImageResource(0)
                 image10?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.SlateGray, null))
-
             }
-
 
             colorPicker?.setOnClickListener {
                 colorDialog.dismiss()
@@ -602,6 +584,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                         it1
                     )
                 }
+
                 val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
                 dialog.setContentView(R.layout.add_image_dialog)
                 dialog.show()
@@ -617,8 +600,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     with?.createIntent { Intent: Intent? ->
                         startForProfileImageResult.launch(Intent)
                     }
-//                    val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-//                    startActivityForResult(intent, REQUEST_IMAGE_CAPTURE)
                 }
                 val image: LinearLayout? = dialog.findViewById(R.id.add_photo)
                 image?.setOnClickListener {
@@ -630,14 +611,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     with?.createIntent { Intent: Intent? ->
                         startForProfileImageResult.launch(Intent)
                     }
-//                viewModel.onAddImageClick()
                 }
             }
             locationLayout.setOnClickListener {
                 viewModel.onLocationClick(placeInput.text)
             }
             share.setOnClickListener {
-
                 viewModel.onShareClick(showImage)
             }
 
@@ -679,7 +658,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             removeReminder.setOnClickListener {
                 newDateTime.text = null
                 viewModel.noteDateTime = ""
-//                viewModel.note?.let { it1 -> viewModel.onReminderSet(noteEntity = it1, false, binding.newDateTime.text.toString()) }
                 cancelAlarm()
                 reminderParentLayout.visibility = View.GONE
             }
@@ -736,8 +714,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     }.exhaustive
                 }
             }
-
-        }}
+        }
+    }
 
 
 //Private function to display Place and URL
@@ -748,7 +726,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         val editText = input.findViewById<EditText>(R.id.input)
         editText.requestFocus()
         builder?.setView(input)
-
         if(s=="url"){
             builder?.setTitle(getString(R.string.url))
             editText?.hint = getString(R.string.url_hint)
@@ -765,8 +742,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     showAlert("url")
                 }
             }
-
-
         }
         else if(s=="place"){
             builder?.setTitle(getString(R.string.place))
@@ -785,8 +760,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 }
             }
         }
-
-
         builder?.setNegativeButton(
             getString(R.string.cancel)
         ) { dialog, _ -> dialog.cancel() }
@@ -808,9 +781,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun displaySimpleNotification() {
-
         val note = viewModel.getNoteData()
-
         notificationIntent.putExtra("note", note)
 
         val pendingNotificationIntent: PendingIntent = PendingIntent.getBroadcast(
@@ -847,7 +818,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun getTime(): Long {
-
         val items1: Array<String> =
             viewModel.noteDateTime.split("-".toRegex()).toTypedArray()
         val items2: Array<String> =

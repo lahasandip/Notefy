@@ -228,12 +228,12 @@ class NewUpdateNoteViewModel @Inject constructor(
     }
 
     private fun getUri(bitmap: Bitmap?): Uri {
-        val imagefolder= File(NotefyApplication.appContext.externalCacheDir, "images")
+        val imageFolder= File(NotefyApplication.appContext.externalCacheDir, "images")
 
         var uri: Uri? = null
         try {
-            imagefolder.mkdirs()
-            val file = File(imagefolder, "shared_image.png")
+            imageFolder.mkdirs()
+            val file = File(imageFolder, "shared_image.png")
             val outputStream = FileOutputStream(file)
             bitmap?.compress(Bitmap.CompressFormat.PNG, 90, outputStream)
             outputStream.flush()
