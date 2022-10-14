@@ -17,7 +17,7 @@ class HelpAdapter(
     RecyclerView.Adapter<HelpAdapter.HelpFeedbackViewHolder?>() {
     private val myList : ArrayList<Help>?
     private val itemClickListener: OnItemClickListener?
-    var selectedPosition = -1
+    private var selectedPosition = -1
     private val viewModel: HelpFeedbackViewModel
 
     init {

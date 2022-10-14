@@ -1,7 +1,6 @@
 package com.sandip.notefy.util
 
 import android.content.Context
-import android.util.Log
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore
@@ -13,7 +12,6 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "user_preferences")
-private const val TAG = "PreferencesManager"
 enum class SortOrder { BOOKMARKED, TITLE_ASC, TITLE_DSC, NEW_TO_OLD, OLD_TO_NEW}
 data class FilterPreferences(val sortOrder: SortOrder)
 

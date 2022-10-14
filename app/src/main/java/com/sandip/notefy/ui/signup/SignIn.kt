@@ -33,14 +33,18 @@ class SignIn : Fragment(R.layout.fragment_sign_in) {
                 val resultCode = result.resultCode
                 val data = result.data
 
-                if (resultCode == Activity.RESULT_OK) {
-                    val fileUri = data?.data!!
-                    context?.let { Glide.with(it).load(fileUri).into(binding.circleImageView) }
-                    viewModel.image = fileUri.toString()
-                } else if (resultCode == ImagePicker.RESULT_ERROR) {
-                    Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-                } else {
-                    Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        val fileUri = data?.data!!
+                        context?.let { Glide.with(it).load(fileUri).into(binding.circleImageView) }
+                        viewModel.image = fileUri.toString()
+                    }
+                    ImagePicker.RESULT_ERROR -> {
+                        Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
+                    }
                 }
             }
 
@@ -76,7 +80,6 @@ class SignIn : Fragment(R.layout.fragment_sign_in) {
                     with?.maxResultSize(1080, 1080)
                     with?.createIntent { Intent: Intent? ->
                         startForProfileImageResult.launch(Intent)
-                        null
                     }
                 }
                 val image: LinearLayout = dialog.findViewById(R.id.add_photo)
@@ -88,9 +91,7 @@ class SignIn : Fragment(R.layout.fragment_sign_in) {
                     with?.maxResultSize(1080, 1080)
                     with?.createIntent { Intent: Intent? ->
                         startForProfileImageResult.launch(Intent)
-                        null
                     }
-//                viewModel.onAddImageClick()
                 }
             }
 

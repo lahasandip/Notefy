@@ -132,7 +132,7 @@ class NewUpdateNoteViewModel @Inject constructor(
 
     fun getNoteData(): NoteEntity {
         if (note != null) {
-            val updateNote = note.copy(
+            return note.copy(
                 title = noteTitle,
                 body = noteDescription,
                 important = noteImportance,
@@ -146,9 +146,8 @@ class NewUpdateNoteViewModel @Inject constructor(
                 todoList = noteTodoList,
                 isHide = noteIsHide
             )
-            return updateNote
         } else {
-            val newTask = NoteEntity(
+            return NoteEntity(
                 title = noteTitle,
                 body = noteDescription,
                 important = noteImportance,
@@ -162,7 +161,6 @@ class NewUpdateNoteViewModel @Inject constructor(
                 todoList = noteTodoList,
                 isHide = noteIsHide
             )
-            return newTask
         }
     }
 

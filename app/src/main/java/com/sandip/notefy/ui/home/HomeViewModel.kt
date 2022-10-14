@@ -3,7 +3,6 @@ package com.sandip.notefy.ui.home
 
 import android.content.Context
 import android.content.res.Configuration
-import android.util.Log
 import androidx.lifecycle.*
 import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
@@ -17,6 +16,7 @@ import com.sandip.notefy.ui.PROFILE_UPDATED_RESULT_OK
 import com.sandip.notefy.util.PreferencesManager
 import com.sandip.notefy.util.SortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
@@ -36,10 +36,6 @@ class HomeViewModel @Inject constructor(
 
     companion object{
         var mutableLiveData = MutableLiveData<String?>()
-            set(value) {
-                field = value
-            }
-            get() = field
     }
 
     val searchQuery = state.getLiveData("searchQuery", "")
@@ -51,6 +47,7 @@ class HomeViewModel @Inject constructor(
     private val tasksEventChannel = Channel<TasksEvent>()
     val tasksEvent = tasksEventChannel.receiveAsFlow()
 
+    @OptIn(ExperimentalCoroutinesApi::class)
     private val tasksFlow = combine(
         searchQuery.asFlow(),
         preferencesFlow
@@ -134,7 +131,7 @@ class HomeViewModel @Inject constructor(
         configuration.locale = locale
 
         context?.resources?.updateConfiguration(configuration, context.resources?.displayMetrics
-        );
+        )
     }
 
     sealed class TasksEvent {

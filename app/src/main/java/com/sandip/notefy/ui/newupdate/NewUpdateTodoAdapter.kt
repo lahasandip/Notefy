@@ -18,7 +18,7 @@ class NewUpdateTodoAdapter(
 ) : RecyclerView.Adapter<NewUpdateTodoAdapter.TodoViewHolder?>() {
     private val context: Context
     private val todoList: ArrayList<Todo>?
-    private val recylerView = NewUpdateNote.recylerView
+    private val recyclerView = NewUpdateNote.recyclerView
     init {
         this.context = context
         this.todoList = todoList
@@ -55,7 +55,7 @@ class NewUpdateTodoAdapter(
 
         holder.removeButton.setOnClickListener {
             todoList?.removeAt(position)
-            recylerView?.adapter = todoAdapter
+            recyclerView?.adapter = todoAdapter
             todoAdapter?.notifyDataSetChanged()
         }
     }

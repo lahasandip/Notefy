@@ -124,12 +124,12 @@ class User : Fragment(R.layout.fragment_user) {
             }
 
             deletePhoto.setOnClickListener {
-                context?.let { it ->
-                    Glide.with(it).load(R.drawable.img_1).into(profilePic)
-                    Glide.with(it).load(R.drawable.img_1).into(circleImageView)
+                context?.let { delete ->
+                    Glide.with(delete).load(R.drawable.img_1).into(profilePic)
+                    Glide.with(delete).load(R.drawable.img_1).into(circleImageView)
                     val  imageURI= Uri.parse("android.resource://" + requireContext().packageName
-                            + "/" + R.drawable.img_1);
-                    viewModel.image = imageURI.toString()
+                            + "/" + R.drawable.img_1)
+                    imageURI.toString().also { viewModel.image = it }
                 }
             }
             back.setOnClickListener {
@@ -157,14 +157,14 @@ class User : Fragment(R.layout.fragment_user) {
                 val with: ImagePicker.Builder? = parentFragment?.let { it1 ->
                     ImagePicker.with(it1)
                 }
-                val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-                dialog.setContentView(R.layout.add_image_dialog)
-                dialog.show()
-                dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-                dialog.window?.setGravity(Gravity.BOTTOM)
-                val camera: LinearLayout? = dialog.findViewById(R.id.take_photo)
+                val imageDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+                imageDialog.setContentView(R.layout.add_image_dialog)
+                imageDialog.show()
+                imageDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+                imageDialog.window?.setGravity(Gravity.BOTTOM)
+                val camera: LinearLayout? = imageDialog.findViewById(R.id.take_photo)
                 camera?.setOnClickListener {
-                    dialog.dismiss()
+                    imageDialog.dismiss()
                     with?.crop()
                     with?.cameraOnly()
                     with?.compress(1024)
@@ -173,9 +173,9 @@ class User : Fragment(R.layout.fragment_user) {
                         startForProfileImageResult.launch(Intent)
                     }
                 }
-                val image: LinearLayout? = dialog.findViewById(R.id.add_photo)
+                val image: LinearLayout? = imageDialog.findViewById(R.id.add_photo)
                 image?.setOnClickListener {
-                    dialog.dismiss()
+                    imageDialog.dismiss()
                     with?.crop()
                     with?.galleryOnly()
                     with?.compress(1024)

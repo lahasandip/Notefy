@@ -51,7 +51,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
             binding.apply {
                 overlay.setOnClickListener {
                     if (isEnable) {
-                        clickItem(binding, holder);
+                        clickItem(binding, holder)
                     } else {
                         val position = adapterPosition
                         if (position != RecyclerView.NO_POSITION) {
@@ -80,7 +80,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                             ): Boolean {
                                 isEnable = true
                                 clickItem(binding, holder)
-                                (Home.act as LifecycleOwner?)?.let { it1 ->
+                                (act as LifecycleOwner?)?.let { it1 ->
                                     HomeViewModel.mutableLiveData.observe(
                                         it1
                                     ) { s ->
@@ -101,7 +101,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                 return when (item?.itemId) {
 
                                     R.id.select -> {
-                                        item.icon = ContextCompat.getDrawable(NotefyApplication.appContext, R.drawable.ic_baseline_deselect_24);
+                                        item.icon = ContextCompat.getDrawable(NotefyApplication.appContext, R.drawable.ic_baseline_deselect_24)
                                         if(selectList.size == noteList.size)
                                         {
                                             isSelectAll=false
@@ -109,8 +109,8 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                         }
                                         else
                                         {
-                                            isSelectAll=true;
-                                            selectList.clear();
+                                            isSelectAll=true
+                                            selectList.clear()
                                             selectList.addAll(noteList)
 
                                         }
@@ -135,7 +135,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                                     listener.onUndo(s)
                                                 }
                                             }.show()
-                                        mode?.finish();
+                                        mode?.finish()
                                         true
                                     }
                                     else -> false
@@ -153,7 +153,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                     }
                     else
                     {
-                        clickItem(binding, holder);
+                        clickItem(binding, holder)
                     }
                     true
                 }

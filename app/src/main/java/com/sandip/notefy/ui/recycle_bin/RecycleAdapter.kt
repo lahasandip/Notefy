@@ -53,7 +53,7 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                     if (isEnable) {
                         // when action mode is enable
                         // call method
-                        clickItem(binding, holder);
+                        clickItem(binding, holder)
                     } else {
                         val position = adapterPosition
                         if (position != RecyclerView.NO_POSITION) {
@@ -92,7 +92,7 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                                             mode?.finish()
                                         }
                                     }
-                                };
+                                }
                                 return false
                             }
 
@@ -105,27 +105,27 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                                         for (s in selectList) {
                                             listener.onRestoreClick(s)
                                         }
-                                        mode?.finish();
+                                        mode?.finish()
                                         true
                                     }
 
                                     R.id.select_all -> {
 
                                         item.icon = ContextCompat.getDrawable(NotefyApplication.appContext,
-                                            R.drawable.ic_baseline_deselect_24);
+                                            R.drawable.ic_baseline_deselect_24)
                                         if(selectList.size == noteList.size)
                                         {
-                                            isSelectAll=false;
-                                            selectList.clear();
+                                            isSelectAll=false
+                                            selectList.clear()
                                         }
                                         else
                                         {
-                                            isSelectAll=true;
-                                            selectList.clear();
+                                            isSelectAll=true
+                                            selectList.clear()
                                             selectList.addAll(noteList)
                                         }
                                         HomeViewModel.mutableLiveData.value = selectList.size.toString()
-                                        notifyDataSetChanged();
+                                        notifyDataSetChanged()
                                         true
                                     }
 
@@ -142,7 +142,7 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                                                     listener.onUndo(s)
                                                 }
                                             }.show()
-                                        mode?.finish();
+                                        mode?.finish()
                                         true
                                     }
                                     else -> false
@@ -150,17 +150,17 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                             }
 
                             override fun onDestroyActionMode(mode: ActionMode?) {
-                                isEnable=false;
-                                isSelectAll=false;
-                                selectList.clear();
-                                notifyDataSetChanged();
+                                isEnable=false
+                                isSelectAll=false
+                                selectList.clear()
+                                notifyDataSetChanged()
                             }
                         }
                         Home.act.startActionMode(callback)
                     }
                     else
                     {
-                        clickItem(binding, holder);
+                        clickItem(binding, holder)
                     }
                     true
                 }

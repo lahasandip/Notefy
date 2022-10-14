@@ -14,7 +14,7 @@ class Converters {
     @TypeConverter
     fun stringToTODOList(data: String?): List<Todo>? {
         if (data == null) {
-            return emptyList<Todo>()
+            return emptyList()
         }
         val listType = object : TypeToken<List<Todo?>?>() {}.type
         return gson.fromJson<List<Todo>>(

@@ -18,7 +18,7 @@ class RecycleBinViewModel @Inject constructor(
     private val noteDao: NoteDao
 ) : ViewModel() {
 
-    val noteRestored = NotefyApplication.appContext.getString(R.string.note_restored)
+    private val noteRestored = NotefyApplication.appContext.getString(R.string.note_restored)
     private val tasksEventChannel = Channel<TasksEvent>()
     val tasksEvent = tasksEventChannel.receiveAsFlow()
     val note = noteDao.getTrashData().asLiveData()

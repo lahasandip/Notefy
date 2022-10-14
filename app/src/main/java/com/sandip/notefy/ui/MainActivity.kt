@@ -10,13 +10,11 @@ import android.os.Bundle
 import android.provider.Settings
 import android.util.Log
 import android.view.View
-import android.widget.EditText
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
-import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
@@ -26,7 +24,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -34,14 +31,12 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
-import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.ActivityMainBinding
 import com.sandip.notefy.ui.home.NoteAdapter.Companion.homeActionMode
 import com.sandip.notefy.ui.recycle_bin.RecycleAdapter.Companion.recycleActionMode
 import com.sandip.notefy.util.PreferencesManager
-import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.Executor
 
@@ -60,7 +55,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
-    private val REQUEST_CODE = 1
+    private val requestCode = 1
 
     private lateinit var navController: NavController
     companion object{
@@ -87,9 +82,9 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         //Dark Mode
         darkSwitch.setOnCheckedChangeListener { _, isChecked ->
             val sharedPreferences =  getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
-            var editor = sharedPreferences.edit()
+            val editor = sharedPreferences.edit()
             editor.putBoolean("darkMode",isChecked)
-            editor.commit()
+            editor.apply()
         }
 
         val navHostFragment =
@@ -129,7 +124,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
         screenLock.setOnCheckedChangeListener { _, isChecked ->
             val sharedPreferences =  getSharedPreferences("BIOMETRIC",Context.MODE_PRIVATE)
-            var editor = sharedPreferences.edit()
+            val editor = sharedPreferences.edit()
             editor.putBoolean("biometric",isChecked)
             editor.apply()
         }
@@ -221,7 +216,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                 ActivityCompat.startActivityForResult(
                     this,
                     enrollIntent,
-                    REQUEST_CODE,
+                    requestCode,
                     null
                 )
             }

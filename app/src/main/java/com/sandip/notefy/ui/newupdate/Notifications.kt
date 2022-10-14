@@ -37,9 +37,7 @@ class Notifications : BroadcastReceiver() {
         }
 
         GlobalScope.launch {
-            if (note != null) {
-                noteDao.updateDao(note.copy(isStriked = true))
-            }
+            if (note != null) noteDao.updateDao(note.copy(isStriked = true))
         }
         val bundle = Bundle()
         bundle.putParcelable("home",note)

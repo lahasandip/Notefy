@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -46,10 +45,10 @@ import vadiole.colorpicker.ColorPickerDialog
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 const val CHANNEL_ID: String = "4"
 const val CHANNEL_NAME: String = "Notefy"
 const val CHANNEL_DESCRIPTION = "Reminder Message"
+@Suppress("IMPLICIT_CAST_TO_ANY")
 @AndroidEntryPoint
 class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
@@ -61,16 +60,14 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private var todoList : ArrayList<Todo>? = arrayListOf()
     private val requestCode = System.currentTimeMillis().toInt()
 
-
     //Companion Object for Temp List
     companion object {
-        var recylerView: RecyclerView? = null
+        var recyclerView: RecyclerView? = null
         var todoAdapter: NewUpdateTodoAdapter? = null
 
         val notificationIntent = Intent(NotefyApplication.appContext, Notifications::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
-
         val alarmManager = NotefyApplication.appContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
     }
@@ -104,52 +101,51 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         colorDialog.window?.setGravity(Gravity.BOTTOM)
 
 
-        val frame_white: FrameLayout? = colorDialog.findViewById(R.id.frame_no_gradient)
-        val white: ImageView? = colorDialog.findViewById(R.id.no_gradient)
-        white?.setImageResource(R.drawable.ic_baseline_done_24)
+        val frame1: FrameLayout? = colorDialog.findViewById(R.id.frame_no_gradient)
+        val image1: ImageView? = colorDialog.findViewById(R.id.no_gradient)
+        image1?.setImageResource(R.drawable.ic_baseline_done_24)
 
-        val frame_lightsteelblue: FrameLayout? =
+        val frame2: FrameLayout? =
             colorDialog.findViewById(R.id.frame_gradient_1)
-        val lightsteelblue: ImageView? = colorDialog.findViewById(R.id.gradient_1)
+        val image2: ImageView? = colorDialog.findViewById(R.id.gradient_1)
 
-        val frame_aquamarine: FrameLayout? =
+        val frame3: FrameLayout? =
             colorDialog.findViewById(R.id.frame_gradient_2)
-        val aquamarine: ImageView? = colorDialog.findViewById(R.id.gradient_2)
+        val image3: ImageView? = colorDialog.findViewById(R.id.gradient_2)
 
-        val frame_grey: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_3)
-        val grey: ImageView? = colorDialog.findViewById(R.id.gradient_3)
+        val frame4: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_3)
+        val image4: ImageView? = colorDialog.findViewById(R.id.gradient_3)
 
-        val frame_darkgrey: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_4)
-        val darkgrey: ImageView? = colorDialog.findViewById(R.id.gradient_4)
+        val frame5: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_4)
+        val image5: ImageView? = colorDialog.findViewById(R.id.gradient_4)
 
-        val frame_lightcyan: FrameLayout? =
+        val frame6: FrameLayout? =
             colorDialog.findViewById(R.id.frame_gradient_5)
-        val lightcyan: ImageView? = colorDialog.findViewById(R.id.gradient_5)
+        val image6: ImageView? = colorDialog.findViewById(R.id.gradient_5)
 
-        val frame_lightgoldenyellow: FrameLayout? =
+        val frame7: FrameLayout? =
             colorDialog.findViewById(R.id.frame_gradient_6)
-        val lightgoldenyellow: ImageView? =
+        val image7: ImageView? =
             colorDialog.findViewById(R.id.gradient_6)
 
-        val frame_lightgreen: FrameLayout? =
+        val frame8: FrameLayout? =
             colorDialog.findViewById(R.id.frame_gradient_7)
-        val lightgreen: ImageView? = colorDialog.findViewById(R.id.gradient_7)
+        val image8: ImageView? = colorDialog.findViewById(R.id.gradient_7)
 
-        val frame_palegoldenrod: FrameLayout? =
+        val frame9: FrameLayout? =
             colorDialog.findViewById(R.id.frame_gradient_8)
-        val palegoldenrod: ImageView? = colorDialog.findViewById(R.id.gradient_8)
+        val image9: ImageView? = colorDialog.findViewById(R.id.gradient_8)
 
-        val frame_palevioletred: FrameLayout? =
+        val frame10: FrameLayout? =
             colorDialog.findViewById(R.id.frame_gradient_9)
-        val palevioletred: ImageView? = colorDialog.findViewById(R.id.gradient_9)
+        val image10: ImageView? = colorDialog.findViewById(R.id.gradient_9)
 
-        val frame_powderblue: FrameLayout? =
+        val frame11: FrameLayout? =
             colorDialog.findViewById(R.id.frame_gradient_10)
-        val powderblue: ImageView? = colorDialog.findViewById(R.id.gradient_10)
+        val image11: ImageView? = colorDialog.findViewById(R.id.gradient_10)
 
         val colorPicker: Button? = colorDialog.findViewById(R.id.color_picker)
 
-        //Todo list view popup
         val todoDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
         todoDialog.setContentView(R.layout.todo_listview)
         todoDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
@@ -159,7 +155,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         val addToList = todoDialog.findViewById<ImageView>(R.id.addTodo)
         val checkBoxTodo =   todoDialog.findViewById<CheckBox>(R.id.todoCheck)
         val descriptionTodo =   todoDialog.findViewById<EditText>(R.id.todoDesc)
-        recylerView =   todoDialog.findViewById(R.id.todo_listview)
+        recyclerView =   todoDialog.findViewById(R.id.todo_listview)
         val btn =   todoDialog.findViewById<Button>(R.id.done)
 
         //Date & Time Picker
@@ -231,18 +227,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     date2 = newDate?.let { it1 -> spf.format(it1) }.toString()
                     binding.newDateTime.text = date2}
                 binding.reminderParentLayout.visibility = View.VISIBLE
-//
-//                viewModel.noteDateTime = binding.newDateTime.text.toString()
-//                viewModel.isStriked = false
-//                viewModel.updatedReminder()
-//                Snackbar.make(requireView(), "Reminder set Successfully ", Snackbar.LENGTH_LONG).show()
-
             }
-//            else{
-//                Snackbar.make(requireView(), "Please Add a Title to Set Reminder", Snackbar.LENGTH_LONG).show()
-//
-//            }
-
         }
         timePicker.addOnNegativeButtonClickListener {
             // call back code
@@ -281,32 +266,31 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 placeInput.text = viewModel.noteLocation
                 locationParentLayout.visibility = View.VISIBLE
             }
-            if (viewModel.noteColor != null) {
-                fragmentNewUpdateNote.setBackgroundColor(viewModel.noteColor)
-            }
+            fragmentNewUpdateNote.setBackgroundColor(viewModel.noteColor)
+
             when(viewModel.noteColor){
-                -13359 ->  { lightsteelblue?.setImageResource(R.drawable.ic_baseline_done_24)
-                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -2252579 -> {aquamarine?.setImageResource(R.drawable.ic_baseline_done_24)
-                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -16718218 -> {grey?.setImageResource(R.drawable.ic_baseline_done_24)
-                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -43230 -> { darkgrey?.setImageResource(R.drawable.ic_baseline_done_24)
-                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -6982195 -> { lightcyan?.setImageResource(R.drawable.ic_baseline_done_24)
-                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -12490271 -> { lightgoldenyellow?.setImageResource(R.drawable.ic_baseline_done_24)
-                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -23296 -> {lightgreen?.setImageResource(R.drawable.ic_baseline_done_24)
-                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -38476 -> { palegoldenrod?.setImageResource(R.drawable.ic_baseline_done_24)
-                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -7650029 -> { palevioletred?.setImageResource(R.drawable.ic_baseline_done_24)
-                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -9404272 -> { powderblue?.setImageResource(R.drawable.ic_baseline_done_24)
-                    white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                0 -> white?.setImageResource(R.drawable.ic_baseline_done_24)
-                else -> white?.setImageResource(0)
+                -13359 ->  { image2?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -2252579 -> {image3?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -16718218 -> {image4?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -43230 -> { image5?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -6982195 -> { image6?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -12490271 -> { image7?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -23296 -> {image8?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -38476 -> { image9?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -7650029 -> { image10?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                -9404272 -> { image11?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+                0 -> image1?.setImageResource(R.drawable.ic_baseline_done_24)
+                else -> image1?.setImageResource(0)
             }
 
             if (viewModel.noteImage != null) {
@@ -323,9 +307,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                         todoList,
                     )
                 }
-                recylerView?.setHasFixedSize(true)
-                recylerView?.layoutManager = LinearLayoutManager(context)
-                recylerView?.adapter = todoAdapter
+                recyclerView?.setHasFixedSize(true)
+                recyclerView?.layoutManager = LinearLayoutManager(context)
+                recyclerView?.adapter = todoAdapter
                 taskLayout.visibility = View.VISIBLE
                 btn?.visibility=View.VISIBLE
             }
@@ -354,7 +338,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteDescription = it.toString()
             }
 
-            important.setOnCheckedChangeListener() { _, isChecked ->
+            important.setOnCheckedChangeListener { _, isChecked ->
                 viewModel.noteImportance = isChecked
             }
             urlLink.addTextChangedListener {
@@ -397,7 +381,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.onBackClick()
             }
             addFeatures.setOnClickListener {
-//                viewModel.onAddFeaturesClick()
                 val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
                 dialog.setContentView(R.layout.add_features_dialog)
                 dialog.show()
@@ -409,12 +392,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
 
                 reminder?.setOnClickListener {
-//                    viewModel.onReminderClick()
                     dialog.dismiss()
                     datePicker.show(childFragmentManager, "Date_Picker")
                 }
-
-
 
                 place?.setOnClickListener {
                     dialog.dismiss()
@@ -433,188 +413,170 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             addColor.setOnClickListener {
                 colorDialog.show()
             }
-            frame_white?.setOnClickListener {
-                white?.setImageResource(R.drawable.ic_baseline_done_24)
-                lightsteelblue?.setImageResource(0)
-                aquamarine?.setImageResource(0)
-                grey?.setImageResource(0)
-                darkgrey?.setImageResource(0)
-                lightcyan?.setImageResource(0)
-                lightgoldenyellow?.setImageResource(0)
-                lightgreen?.setImageResource(0)
-                palegoldenrod?.setImageResource(0)
-                palevioletred?.setImageResource(0)
-                powderblue?.setImageResource(0)
+            frame1?.setOnClickListener {
+                image1?.setImageResource(R.drawable.ic_baseline_done_24)
+                image2?.setImageResource(0)
+                image3?.setImageResource(0)
+                image4?.setImageResource(0)
+                image5?.setImageResource(0)
+                image6?.setImageResource(0)
+                image7?.setImageResource(0)
+                image8?.setImageResource(0)
+                image9?.setImageResource(0)
+                image10?.setImageResource(0)
+                image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(0)
-//                    viewModel.onColorTick(0)
             }
 
-            frame_lightsteelblue?.setOnClickListener {
-                lightsteelblue?.setImageResource(R.drawable.ic_baseline_done_24)
-                white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                aquamarine?.setImageResource(0)
-                grey?.setImageResource(0)
-                darkgrey?.setImageResource(0)
-                lightcyan?.setImageResource(0)
-                lightgoldenyellow?.setImageResource(0)
-                lightgreen?.setImageResource(0)
-                palegoldenrod?.setImageResource(0)
-                palevioletred?.setImageResource(0)
-                powderblue?.setImageResource(0)
+            frame2?.setOnClickListener {
+                image2?.setImageResource(R.drawable.ic_baseline_done_24)
+                image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                image3?.setImageResource(0)
+                image4?.setImageResource(0)
+                image5?.setImageResource(0)
+                image6?.setImageResource(0)
+                image7?.setImageResource(0)
+                image8?.setImageResource(0)
+                image9?.setImageResource(0)
+                image10?.setImageResource(0)
+                image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.PaleVioletRed, null))
-//                    viewModel.onColorTick(1)
-
             }
 
-            frame_aquamarine?.setOnClickListener {
-                aquamarine?.setImageResource(R.drawable.ic_baseline_done_24)
-                white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                lightsteelblue?.setImageResource(0)
-                grey?.setImageResource(0)
-                darkgrey?.setImageResource(0)
-                lightcyan?.setImageResource(0)
-                lightgoldenyellow?.setImageResource(0)
-                lightgreen?.setImageResource(0)
-                palegoldenrod?.setImageResource(0)
-                palevioletred?.setImageResource(0)
-                powderblue?.setImageResource(0)
+            frame3?.setOnClickListener {
+                image3?.setImageResource(R.drawable.ic_baseline_done_24)
+                image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                image2?.setImageResource(0)
+                image4?.setImageResource(0)
+                image5?.setImageResource(0)
+                image6?.setImageResource(0)
+                image7?.setImageResource(0)
+                image8?.setImageResource(0)
+                image9?.setImageResource(0)
+                image10?.setImageResource(0)
+                image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.Plum, null))
-//                    viewModel.onColorTick(2)
-
             }
 
-            frame_grey?.setOnClickListener {
-                grey?.setImageResource(R.drawable.ic_baseline_done_24)
-                white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                lightsteelblue?.setImageResource(0)
-                aquamarine?.setImageResource(0)
-                darkgrey?.setImageResource(0)
-                lightcyan?.setImageResource(0)
-                lightgoldenyellow?.setImageResource(0)
-                lightgreen?.setImageResource(0)
-                palegoldenrod?.setImageResource(0)
-                palevioletred?.setImageResource(0)
-                powderblue?.setImageResource(0)
+            frame4?.setOnClickListener {
+                image4?.setImageResource(R.drawable.ic_baseline_done_24)
+                image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                image2?.setImageResource(0)
+                image3?.setImageResource(0)
+                image5?.setImageResource(0)
+                image6?.setImageResource(0)
+                image7?.setImageResource(0)
+                image8?.setImageResource(0)
+                image9?.setImageResource(0)
+                image10?.setImageResource(0)
+                image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.LimeGreen, null))
-//                    viewModel.onColorTick(3)
-
             }
 
-            frame_darkgrey?.setOnClickListener {
-                darkgrey?.setImageResource(R.drawable.ic_baseline_done_24)
-                white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                lightsteelblue?.setImageResource(0)
-                aquamarine?.setImageResource(0)
-                grey?.setImageResource(0)
-                lightcyan?.setImageResource(0)
-                lightgoldenyellow?.setImageResource(0)
-                lightgreen?.setImageResource(0)
-                palegoldenrod?.setImageResource(0)
-                palevioletred?.setImageResource(0)
-                powderblue?.setImageResource(0)
+            frame5?.setOnClickListener {
+                image5?.setImageResource(R.drawable.ic_baseline_done_24)
+                image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                image2?.setImageResource(0)
+                image3?.setImageResource(0)
+                image4?.setImageResource(0)
+                image6?.setImageResource(0)
+                image7?.setImageResource(0)
+                image8?.setImageResource(0)
+                image9?.setImageResource(0)
+                image10?.setImageResource(0)
+                image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.red, null))
-//                    viewModel.onColorTick(4)
-
             }
 
-            frame_lightcyan?.setOnClickListener {
-                lightcyan?.setImageResource(R.drawable.ic_baseline_done_24)
-                white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                lightsteelblue?.setImageResource(0)
-                aquamarine?.setImageResource(0)
-                grey?.setImageResource(0)
-                darkgrey?.setImageResource(0)
-                lightgoldenyellow?.setImageResource(0)
-                lightgreen?.setImageResource(0)
-                palegoldenrod?.setImageResource(0)
-                palevioletred?.setImageResource(0)
-                powderblue?.setImageResource(0)
+            frame6?.setOnClickListener {
+                image6?.setImageResource(R.drawable.ic_baseline_done_24)
+                image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                image2?.setImageResource(0)
+                image3?.setImageResource(0)
+                image4?.setImageResource(0)
+                image5?.setImageResource(0)
+                image7?.setImageResource(0)
+                image8?.setImageResource(0)
+                image9?.setImageResource(0)
+                image10?.setImageResource(0)
+                image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.Bisque, null))
-//                    viewModel.onColorTick(5)
             }
 
-            frame_lightgoldenyellow?.setOnClickListener {
-                lightgoldenyellow?.setImageResource(R.drawable.ic_baseline_done_24)
-                white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                lightsteelblue?.setImageResource(0)
-                aquamarine?.setImageResource(0)
-                grey?.setImageResource(0)
-                darkgrey?.setImageResource(0)
-                lightcyan?.setImageResource(0)
-                lightgreen?.setImageResource(0)
-                palegoldenrod?.setImageResource(0)
-                palevioletred?.setImageResource(0)
-                powderblue?.setImageResource(0)
+            frame7?.setOnClickListener {
+                image7?.setImageResource(R.drawable.ic_baseline_done_24)
+                image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                image2?.setImageResource(0)
+                image3?.setImageResource(0)
+                image4?.setImageResource(0)
+                image5?.setImageResource(0)
+                image6?.setImageResource(0)
+                image8?.setImageResource(0)
+                image9?.setImageResource(0)
+                image10?.setImageResource(0)
+                image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.RoyalBlue, null))
-//                    viewModel.onColorTick(6)
-
             }
 
-            frame_lightgreen?.setOnClickListener {
-                lightgreen?.setImageResource(R.drawable.ic_baseline_done_24)
-                white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                lightsteelblue?.setImageResource(0)
-                aquamarine?.setImageResource(0)
-                grey?.setImageResource(0)
-                darkgrey?.setImageResource(0)
-                lightcyan?.setImageResource(0)
-                lightgoldenyellow?.setImageResource(0)
-                palegoldenrod?.setImageResource(0)
-                palevioletred?.setImageResource(0)
-                powderblue?.setImageResource(0)
+            frame8?.setOnClickListener {
+                image8?.setImageResource(R.drawable.ic_baseline_done_24)
+                image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                image2?.setImageResource(0)
+                image3?.setImageResource(0)
+                image4?.setImageResource(0)
+                image5?.setImageResource(0)
+                image6?.setImageResource(0)
+                image7?.setImageResource(0)
+                image9?.setImageResource(0)
+                image10?.setImageResource(0)
+                image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.Orange, null))
-//                    viewModel.onColorTick(7)
-
             }
 
-            frame_palegoldenrod?.setOnClickListener {
-                palegoldenrod?.setImageResource(R.drawable.ic_baseline_done_24)
-                white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                lightsteelblue?.setImageResource(0)
-                aquamarine?.setImageResource(0)
-                grey?.setImageResource(0)
-                darkgrey?.setImageResource(0)
-                lightcyan?.setImageResource(0)
-                lightgoldenyellow?.setImageResource(0)
-                lightgreen?.setImageResource(0)
-                palevioletred?.setImageResource(0)
-                powderblue?.setImageResource(0)
+            frame9?.setOnClickListener {
+                image9?.setImageResource(R.drawable.ic_baseline_done_24)
+                image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                image2?.setImageResource(0)
+                image3?.setImageResource(0)
+                image4?.setImageResource(0)
+                image5?.setImageResource(0)
+                image6?.setImageResource(0)
+                image7?.setImageResource(0)
+                image8?.setImageResource(0)
+                image10?.setImageResource(0)
+                image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.HotPink, null))
-
-//                    viewModel.onColorTick(8)
             }
 
-            frame_palevioletred?.setOnClickListener {
-                palevioletred?.setImageResource(R.drawable.ic_baseline_done_24)
-                white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                lightsteelblue?.setImageResource(0)
-                aquamarine?.setImageResource(0)
-                grey?.setImageResource(0)
-                darkgrey?.setImageResource(0)
-                lightcyan?.setImageResource(0)
-                lightgoldenyellow?.setImageResource(0)
-                lightgreen?.setImageResource(0)
-                palegoldenrod?.setImageResource(0)
-                powderblue?.setImageResource(0)
+            frame10?.setOnClickListener {
+                image10?.setImageResource(R.drawable.ic_baseline_done_24)
+                image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                image2?.setImageResource(0)
+                image3?.setImageResource(0)
+                image4?.setImageResource(0)
+                image5?.setImageResource(0)
+                image6?.setImageResource(0)
+                image7?.setImageResource(0)
+                image8?.setImageResource(0)
+                image9?.setImageResource(0)
+                image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.SaddleBrown, null))
-//                    viewModel.onColorTick(9)
 
             }
 
-            frame_powderblue?.setOnClickListener {
-                powderblue?.setImageResource(R.drawable.ic_baseline_done_24)
-                white?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
-                lightsteelblue?.setImageResource(0)
-                aquamarine?.setImageResource(0)
-                grey?.setImageResource(0)
-                darkgrey?.setImageResource(0)
-                lightcyan?.setImageResource(0)
-                lightgoldenyellow?.setImageResource(0)
-                lightgreen?.setImageResource(0)
-                palegoldenrod?.setImageResource(0)
-                palevioletred?.setImageResource(0)
+            frame11?.setOnClickListener {
+                image11?.setImageResource(R.drawable.ic_baseline_done_24)
+                image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                image2?.setImageResource(0)
+                image3?.setImageResource(0)
+                image4?.setImageResource(0)
+                image5?.setImageResource(0)
+                image6?.setImageResource(0)
+                image7?.setImageResource(0)
+                image8?.setImageResource(0)
+                image9?.setImageResource(0)
+                image10?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.SlateGray, null))
-//                    viewModel.onColorTick(10)
 
             }
 
@@ -633,9 +595,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     .create()
                 picker.show(childFragmentManager, "color_picker")
             }
-
-
-
 
             addImage.setOnClickListener {
                 val with: ImagePicker.Builder? = parentFragment?.let { it1 ->
@@ -694,13 +653,11 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 if(!(descriptionTodo?.text.isNullOrEmpty())) {
                     todoList?.add(Todo(checkBoxTodo?.isChecked, descriptionTodo?.text.toString()))
                     todoAdapter = NewUpdateTodoAdapter(requireContext(), todoList)
-                    recylerView?.setHasFixedSize(true)
-                    recylerView?.layoutManager = LinearLayoutManager(context)
-                    recylerView?.adapter = todoAdapter
+                    recyclerView?.setHasFixedSize(true)
+                    recyclerView?.layoutManager = LinearLayoutManager(context)
+                    recyclerView?.adapter = todoAdapter
                     todoAdapter?.notifyDataSetChanged()
-
                 }
-
 
                 descriptionTodo?.setText("")
                 checkBoxTodo?.isChecked = false
@@ -735,8 +692,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteImage = null
                 imageLayout.visibility = View.GONE
             }
-
-//            }
 
             //Updating UI with ViewModel Data100847802
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -872,8 +827,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             pendingNotificationIntent
         )
     }
-
-
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun cancelAlarm(){
