@@ -7,6 +7,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavDeepLinkBuilder
@@ -23,12 +24,20 @@ import javax.inject.Inject
 const val notificationId = 10
 
 @AndroidEntryPoint
-class Notifications : BroadcastReceiver() {
+class Notifications: BroadcastReceiver() {
     @Inject
     lateinit var noteDao: NoteDao
     private var flag = false
     override fun onReceive(context: Context?, intent: Intent?) {
         val note  = intent?.getParcelableExtra<NoteEntity>("note")
+
+        GlobalScope.launch {
+            Log.d("reminder", "strike true")
+            if (note != null) {
+                noteDao.updateDao(note.copy(isStriked = true))
+            }
+        }
+
         var icon : Bitmap? = null
         try {
             icon = BitmapFactory.decodeStream(
@@ -38,11 +47,9 @@ class Notifications : BroadcastReceiver() {
             e.printStackTrace()
         }
 
-        GlobalScope.launch {
-            if (note != null) noteDao.updateDao(note.copy(isStriked = true))
-        }
+
         val bundle = Bundle()
-        bundle.putParcelable("home",note)
+        bundle.putParcelable("home",note?.copy(isStriked = true))
 
         val pendingIntent = context?.let {
             NavDeepLinkBuilder(it)

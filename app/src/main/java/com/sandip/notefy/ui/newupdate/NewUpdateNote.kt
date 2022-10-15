@@ -311,7 +311,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             if(viewModel.note?.createdDateFormatted != null){
-                noteEdited.text = getString(R.string.edited) + " " +viewModel.note?.createdDateFormatted
+                "${getString(R.string.edited)} ${viewModel.note?.createdDateFormatted}".also { noteEdited.text = it }
             }
             else {
                 noteEdited.append(

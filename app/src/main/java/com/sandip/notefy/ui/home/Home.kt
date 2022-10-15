@@ -7,6 +7,7 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.appcompat.widget.SearchView
@@ -69,6 +70,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             recyclerView.apply {
                 adapter = noteAdapter
                 layoutManager = observeGridLayout()
+//                setHasFixedSize(true)
 
 
                 gridView.setOnCheckedChangeListener { _, isChecked ->
@@ -158,6 +160,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             viewModel.note.observe(viewLifecycleOwner) {
                 noteAdapter.submitList(it)
                 noteList = it
+                Log.d("live data", it.toString())
             }
 
             viewModel.noteCount.observe(viewLifecycleOwner) {

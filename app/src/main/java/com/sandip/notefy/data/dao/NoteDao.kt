@@ -20,7 +20,6 @@ interface NoteDao {
     @Query("DELETE from Note where id = :iD")
     suspend fun deleteById(iD:Int)
 
-
     @Query("select * from Note where Hide = 0 and title like '%' || :query || '%' order by id DESC",)
     fun getNewestToOldestData(query: String): Flow<List<NoteEntity>>
 
@@ -54,7 +53,7 @@ interface NoteDao {
     @Query("select count(id) from Note")
     fun getNotes() : LiveData<Int>
 
-    @Query("select count(DateTime) from Note where DateTime not like ''")
+    @Query("select count(DateTime) from Note where DateTime not like '' and IsStrike = 0")
     fun getReminders() : LiveData<Int>
 
     @Query("select count(TodoList) from Note where TodoList not like '[]'")
