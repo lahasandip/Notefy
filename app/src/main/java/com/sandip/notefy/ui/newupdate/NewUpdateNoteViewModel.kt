@@ -4,6 +4,7 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
+import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.FileProvider
@@ -132,6 +133,8 @@ class NewUpdateNoteViewModel @Inject constructor(
 
     fun getNoteData(): NoteEntity {
         if (note != null) {
+            Log.d("broadscast", "update called")
+
             return note.copy(
                 title = noteTitle,
                 body = noteDescription,
@@ -139,7 +142,7 @@ class NewUpdateNoteViewModel @Inject constructor(
                 url = noteUrl,
                 dateTime = noteDateTime,
                 requestCode = requestCode,
-                isStriked = isStriked,
+                isStriked = true,
                 location = noteLocation,
                 clr = noteColor,
                 image = noteImage,
@@ -147,6 +150,7 @@ class NewUpdateNoteViewModel @Inject constructor(
                 isHide = noteIsHide
             )
         } else {
+            Log.d("broadscast", "update called")
             return NoteEntity(
                 title = noteTitle,
                 body = noteDescription,
@@ -154,7 +158,7 @@ class NewUpdateNoteViewModel @Inject constructor(
                 url = noteUrl,
                 dateTime = noteDateTime,
                 requestCode = requestCode,
-                isStriked = isStriked,
+                isStriked = true,
                 location = noteLocation,
                 clr = noteColor,
                 image = noteImage,

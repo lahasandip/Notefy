@@ -20,6 +20,10 @@ interface NoteDao {
     @Query("DELETE from Note where id = :iD")
     suspend fun deleteById(iD:Int)
 
+    @Query("select * from Note where id = :id")
+    fun getBroadcastNote(id: Int): Flow<List<NoteEntity>>
+
+
     @Query("select * from Note where Hide = 0 and title like '%' || :query || '%' order by id DESC",)
     fun getNewestToOldestData(query: String): Flow<List<NoteEntity>>
 

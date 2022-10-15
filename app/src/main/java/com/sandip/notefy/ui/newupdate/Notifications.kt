@@ -7,19 +7,25 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
+import android.os.Handler
+import android.os.HandlerThread
 import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavDeepLinkBuilder
+import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.dao.NoteDao
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.ui.CHANNEL_ID
 import com.sandip.notefy.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.DelicateCoroutinesApi
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
 
 const val notificationId = 10
 
@@ -28,15 +34,32 @@ class Notifications: BroadcastReceiver() {
     @Inject
     lateinit var noteDao: NoteDao
     private var flag = false
+    @OptIn(DelicateCoroutinesApi::class)
     override fun onReceive(context: Context?, intent: Intent?) {
         val note  = intent?.getParcelableExtra<NoteEntity>("note")
 
-        GlobalScope.launch {
-            Log.d("reminder", "strike true")
+        Log.d("Note received", note.toString())
+
+
+        GlobalScope.launch{
             if (note != null) {
-                noteDao.updateDao(note.copy(isStriked = true))
+                noteDao.updateDao(note)
+                Log.d("reminder", "strike true")
             }
         }
+
+//        val handlerThread = HandlerThread("database_helper")
+//        handlerThread.start()
+//        val handler = Handler(handlerThread.looper)
+//        handler.post{
+//
+//            if (note != null) {
+//                noteDao.updateDao(note)
+//                Log.d("reminder", "strike true")
+//            }
+//        }
+
+
 
         var icon : Bitmap? = null
         try {
@@ -49,7 +72,7 @@ class Notifications: BroadcastReceiver() {
 
 
         val bundle = Bundle()
-        bundle.putParcelable("home",note?.copy(isStriked = true))
+        bundle.putParcelable("home",note)
 
         val pendingIntent = context?.let {
             NavDeepLinkBuilder(it)

@@ -45,6 +45,8 @@ import com.sandip.notefy.ui.CHANNEL_NAME
 import com.sandip.notefy.ui.newupdate.NewUpdateNoteViewModel.*
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import vadiole.colorpicker.ColorModel
 import vadiole.colorpicker.ColorPickerDialog
 import java.text.SimpleDateFormat
@@ -346,6 +348,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteTodoList = todoList
                 viewModel.isStriked = false
                 viewModel.requestCode = requestCode
+//                if(!(newDateTime.text.isNullOrEmpty())) {
+//                    displaySimpleNotification()
+//                }
                 viewModel.onSaveClick()
             }
 
