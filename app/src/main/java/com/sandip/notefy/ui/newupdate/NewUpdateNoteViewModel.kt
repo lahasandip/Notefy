@@ -183,17 +183,17 @@ class NewUpdateNoteViewModel @Inject constructor(
     }
 
     fun onShareClick(image: ImageView) = viewModelScope.launch {
-        val desc = if(noteDescription.isNotEmpty()) "\nNote: $noteDescription,\n" else ""
-        val url =  if(noteUrl.isNotEmpty()) "Url: $noteUrl,\n" else ""
-        val dateTime =    if(noteDateTime.isNotEmpty()) "Date: $noteDateTime,\n" else ""
-        val location = if(noteLocation.isNotEmpty()) "Place: $noteLocation,\n" else ""
+        val desc = if(noteDescription.isNotEmpty()) "\nNote: $noteDescription," else ""
+        val url =  if(noteUrl.isNotEmpty()) "\nUrl: $noteUrl," else ""
+        val dateTime =    if(noteDateTime.isNotEmpty()) "\nDate: $noteDateTime," else ""
+        val location = if(noteLocation.isNotEmpty()) "\nPlace: $noteLocation," else ""
         val arrayList : ArrayList<String> = ArrayList()
         if(noteTodoList?.size != null) {
             for (s in 0 until noteTodoList?.size!!){
                 arrayList.add(noteTodoList!![s].todoDescription.toString())
             }
         }
-        val todo = if(arrayList.isNotEmpty()) "Todo: $arrayList" else ""
+        val todo = if(arrayList.isNotEmpty()) "\nTodo: $arrayList" else ""
 
         try {
             val sendIntent = Intent().apply {

@@ -26,13 +26,14 @@ const val notificationId = 10
 class Notifications : BroadcastReceiver() {
     @Inject
     lateinit var noteDao: NoteDao
-
+    private var flag = false
     override fun onReceive(context: Context?, intent: Intent?) {
         val note  = intent?.getParcelableExtra<NoteEntity>("note")
         var icon : Bitmap? = null
         try {
             icon = BitmapFactory.decodeStream(
                 context?.contentResolver?.openInputStream(Uri.parse(note?.image)))
+            flag =true
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -59,12 +60,14 @@ class Notifications : BroadcastReceiver() {
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
-            .setLargeIcon(icon)
-            .setStyle(
-                NotificationCompat.BigPictureStyle()
-                    .bigPicture(icon)
-                    .bigLargeIcon(null)
-            )
+        if(flag) {
+            builder.setLargeIcon(icon)
+                .setStyle(
+                    NotificationCompat.BigPictureStyle()
+                        .bigPicture(icon)
+                        .bigLargeIcon(null)
+                )
+        }
         with(NotificationManagerCompat.from(context)) {
             notify(notificationId, builder.build())
         }

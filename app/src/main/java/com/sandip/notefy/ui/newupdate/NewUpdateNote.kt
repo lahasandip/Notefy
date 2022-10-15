@@ -9,6 +9,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
+import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -33,6 +34,7 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
+import com.sandip.notefy.BuildConfig
 import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Todo
@@ -210,13 +212,17 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.isStriked = false
                 "${timePicker.hour}:${timePicker.minute}".also {
                     viewModel.noteDateTime = "$date-$it"
-                    var date2 = viewModel.noteDateTime
-                    var spf = SimpleDateFormat("yyyy-MM-dd-h:m")
-                    val newDate = spf.parse(date2)
-                    spf = SimpleDateFormat("MMM d, ''yy, h:m")
-                    date2 = newDate?.let { it1 -> spf.format(it1) }.toString()
-                    binding.newDateTime.text = date2}
-                binding.reminderParentLayout.visibility = View.VISIBLE
+                }
+                var date2 = viewModel.noteDateTime
+                var spf = SimpleDateFormat("yyyy-MM-dd-h:m")
+                val newDate = spf.parse(date2)
+                spf = SimpleDateFormat("MMM d, ''yy, h:m")
+                date2 = newDate?.let { it1 -> spf.format(it1) }.toString()
+                binding.apply {
+                    newDateTime.paintFlags = 0
+                    newDateTime.text = date2
+                    reminderParentLayout.visibility = View.VISIBLE
+                }
             }
         }
         timePicker.addOnNegativeButtonClickListener {
@@ -305,13 +311,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             if(viewModel.note?.createdDateFormatted != null){
-                val da = viewModel.note?.createdDateFormatted
-                val items1: Array<String> =
-                    da?.split(" ".toRegex())?.toTypedArray() ?: arrayOf("")
-                val tim = items1[3]
-                val t: Array<String> =
-                    tim.split(":".toRegex()).toTypedArray()
-                noteEdited.text = getString(R.string.edited) + "${items1[0]} ${items1[1]} ${t[0]}:${t[1]}"
+                noteEdited.text = getString(R.string.edited) + " " +viewModel.note?.createdDateFormatted
             }
             else {
                 noteEdited.append(
@@ -783,14 +783,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private fun displaySimpleNotification() {
         val note = viewModel.getNoteData()
         notificationIntent.putExtra("note", note)
-
         val pendingNotificationIntent: PendingIntent = PendingIntent.getBroadcast(
             context,
             requestCode,
             notificationIntent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
-
         val time = getTime()
         alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
@@ -814,7 +812,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             viewModel.requestCode = null
         }
     }
-
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun getTime(): Long {

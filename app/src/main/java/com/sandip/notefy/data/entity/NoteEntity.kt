@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 import com.sandip.notefy.data.model.Todo
 import kotlinx.parcelize.Parcelize
 import java.text.DateFormat
+import java.text.SimpleDateFormat
 
 
 @Entity(tableName = "Note")
@@ -30,5 +31,5 @@ data class NoteEntity(
 
 ): Parcelable{
     val createdDateFormatted: String
-        get() = DateFormat.getDateTimeInstance().format(created)
+        get() = SimpleDateFormat("MMM d, h:m").format(created)
 }
