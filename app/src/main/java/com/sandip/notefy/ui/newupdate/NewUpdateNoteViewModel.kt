@@ -18,6 +18,7 @@ import com.sandip.notefy.data.dao.NoteDao
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.ui.ADD_TASK_RESULT_OK
+import com.sandip.notefy.ui.DELETE_TASK_RESULT_OK
 import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -183,6 +184,16 @@ class NewUpdateNoteViewModel @Inject constructor(
         addEditTaskEventChannel.send(AddEditTaskEvent.NavigateBackWithResult(EDIT_TASK_RESULT_OK))
     }
 
+    private fun createDeleteTask(noteEntity: NoteEntity) = viewModelScope.launch {
+        noteDao.insertDao(noteEntity)
+        addEditTaskEventChannel.send(AddEditTaskEvent.NavigateBackWithDelete(DELETE_TASK_RESULT_OK))
+    }
+
+    private fun updateDeleteTask(noteEntity: NoteEntity) = viewModelScope.launch {
+        noteDao.updateDao(noteEntity)
+        addEditTaskEventChannel.send(AddEditTaskEvent.NavigateBackWithDelete(DELETE_TASK_RESULT_OK))
+    }
+
     private fun showInvalidInputMessage(text: String) = viewModelScope.launch {
         addEditTaskEventChannel.send(AddEditTaskEvent.ShowInvalidInputMessage(text))
     }
@@ -250,12 +261,42 @@ class NewUpdateNoteViewModel @Inject constructor(
         return uri!!
     }
 
+    fun onDeleteClick() {
+        if (noteTitle.isBlank()) {
+            showInvalidInputMessage(NotefyApplication.appContext.getString(R.string.title_cannot_be_empty))
+            return
+        }
+
+        if (note != null) {
+            val updatedTask = note.copy(title = noteTitle,
+                body = noteDescription,
+                important = noteImportance,
+                url = noteUrl,
+                dateTime = noteDateTime,
+                requestCode = requestCode,
+                isStriked = isStriked,
+                location = noteLocation,
+                clr = noteColor,
+                image = noteImage,
+                todoList = noteTodoList,
+                isHide = noteIsHide
+            )
+            updateDeleteTask(updatedTask)
+        } else {
+            val newTask = NoteEntity(title = noteTitle, body = noteDescription, important = noteImportance,
+                url = noteUrl, dateTime =  noteDateTime, requestCode = requestCode, isStriked = isStriked,
+                location =  noteLocation, clr =  noteColor, image =  noteImage, todoList = noteTodoList,  isHide = noteIsHide)
+            createDeleteTask(newTask)
+        }
+    }
+
     sealed class AddEditTaskEvent {
         object NavigateToBackScreen : AddEditTaskEvent()
         object NavigateToTodoScreen : AddEditTaskEvent()
         data class NavigateToBackAfterDelete(val result: Int) : AddEditTaskEvent()
         data class ShowInvalidInputMessage(val msg: String) : AddEditTaskEvent()
         data class NavigateBackWithResult(val result: Int) : AddEditTaskEvent()
+        data class NavigateBackWithDelete(val result: Int) : AddEditTaskEvent()
         data class ShareIntent(val shareIntent: Intent) : AddEditTaskEvent()
         data class StartLocationIntent(val mapIntent: Intent) : AddEditTaskEvent()
     }

@@ -309,13 +309,13 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             if(viewModel.note?.createdDateFormatted != null){
-                "${getString(R.string.edited)} ${viewModel.note?.createdDateFormatted}".also { noteEdited.text = it }
+                " ${viewModel.note?.createdDateFormatted}".also { noteEdited.text = it }
             }
             else {
-                noteEdited.append(
+                noteEdited.text =
                     SimpleDateFormat(" h:mm a", Locale.getDefault())
                         .format(Date())
-                )
+
             }
 
 
@@ -357,7 +357,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     .setNegativeButton(getString(R.string.cancel), null)
                     .setPositiveButton(getString(R.string.yes)) { _, _ ->
                         viewModel.noteIsHide = true
-                        viewModel.onSaveClick()
+                        viewModel.onDeleteClick()
                     }
                     .create()
                     .show()
@@ -683,6 +683,14 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                             if(!(newDateTime.text.isNullOrEmpty())) {
                                 displaySimpleNotification()
                             }
+                            binding.noteTitle.clearFocus()
+                            setFragmentResult(
+                                "add_edit_delete_request",
+                                bundleOf("add_edit_delete_result" to event.result)
+                            )
+                            findNavController().popBackStack()
+                        }
+                        is AddEditTaskEvent.NavigateBackWithDelete -> {
                             binding.noteTitle.clearFocus()
                             setFragmentResult(
                                 "add_edit_delete_request",
