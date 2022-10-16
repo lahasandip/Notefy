@@ -1,6 +1,5 @@
 package com.sandip.notefy.ui.home
 
-
 import android.content.Context
 import android.content.res.Configuration
 import androidx.lifecycle.*
@@ -16,7 +15,6 @@ import com.sandip.notefy.ui.PROFILE_UPDATED_RESULT_OK
 import com.sandip.notefy.util.PreferencesManager
 import com.sandip.notefy.util.SortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.combine
@@ -25,7 +23,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.util.*
 import javax.inject.Inject
-
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -91,12 +88,12 @@ class HomeViewModel @Inject constructor(
         noteDao.updateDao(noteEntity.copy(isHide = false))
     }
 
-    fun onAddEditResult(result: Int) {
+    fun onAddEditResult(context: Context, result: Int) {
         when (result) {
-            ADD_TASK_RESULT_OK -> showTaskSavedConfirmationMessage(NotefyApplication.appContext.getString(R.string.note_added))
-            EDIT_TASK_RESULT_OK -> showTaskSavedConfirmationMessage(NotefyApplication.appContext.getString(R.string.note_updated))
-            DELETE_TASK_RESULT_OK -> showTaskSavedConfirmationMessage(NotefyApplication.appContext.getString(R.string.note_deleted))
-            PROFILE_UPDATED_RESULT_OK -> showTaskSavedConfirmationMessage(NotefyApplication.appContext.getString(R.string.profile_updated))
+            ADD_TASK_RESULT_OK -> showTaskSavedConfirmationMessage(context.getString(R.string.note_added))
+            EDIT_TASK_RESULT_OK -> showTaskSavedConfirmationMessage(context.getString(R.string.note_updated))
+            DELETE_TASK_RESULT_OK -> showTaskSavedConfirmationMessage(context.getString(R.string.note_deleted))
+            PROFILE_UPDATED_RESULT_OK -> showTaskSavedConfirmationMessage(context.getString(R.string.profile_updated))
         }
     }
 
@@ -127,10 +124,8 @@ class HomeViewModel @Inject constructor(
     private fun updateResource(context: Context?, code: String)  = viewModelScope.launch{
         val locale = Locale(code)
         Locale.setDefault(locale)
-
         val configuration = Configuration()
         configuration.locale = locale
-
         context?.resources?.updateConfiguration(configuration, context.resources?.displayMetrics
         )
     }

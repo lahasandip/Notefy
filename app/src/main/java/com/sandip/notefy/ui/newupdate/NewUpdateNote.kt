@@ -9,7 +9,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.text.format.DateFormat
-import android.util.Log
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -34,7 +33,6 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
-import com.sandip.notefy.BuildConfig
 import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Todo
@@ -45,8 +43,6 @@ import com.sandip.notefy.ui.CHANNEL_NAME
 import com.sandip.notefy.ui.newupdate.NewUpdateNoteViewModel.*
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 import vadiole.colorpicker.ColorModel
 import vadiole.colorpicker.ColorPickerDialog
 import java.text.SimpleDateFormat
@@ -622,7 +618,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.onLocationClick(placeInput.text)
             }
             share.setOnClickListener {
-                viewModel.onShareClick(showImage)
+                context?.let { it1 -> viewModel.onShareClick(it1, showImage) }
             }
 
             addTask.setOnClickListener {
@@ -735,7 +731,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             builder?.setTitle(getString(R.string.url))
             editText?.hint = getString(R.string.url_hint)
             builder?.setPositiveButton(
-                "OK"
+                getString(R.string.ok)
             ) {
                     _, _ ->
                 if(editText?.text?.isNotEmpty() == true) {

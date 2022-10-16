@@ -111,15 +111,14 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
             .setMessage(getString(R.string.do_you_want_to_restore_the_note))
             .setNegativeButton(getString(R.string.cancel), null)
             .setPositiveButton(getString(R.string.yes)) { _, _ ->
-                viewModel.onMenuRestore(noteEntity, false)
-                Snackbar.make(requireView(), getString(R.string.note_restored), Snackbar.LENGTH_LONG).show()
+                viewModel.onMenuRestore(context, noteEntity, false)
             }
             .create()
             .show()
     }
 
     override fun onRestoreClick(noteEntity: NoteEntity) {
-        viewModel.onMenuRestore(noteEntity, false)
+        viewModel.onMenuRestore(context, noteEntity, false)
     }
 
     override fun onMenuDeleteClick(noteEntity: NoteEntity) {

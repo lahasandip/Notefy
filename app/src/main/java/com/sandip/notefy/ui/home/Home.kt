@@ -7,7 +7,6 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
-import android.provider.SyncStateContract.Helpers.update
 import android.util.Log
 import android.view.*
 import android.widget.*
@@ -155,7 +154,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
 
             setFragmentResultListener("add_edit_delete_request") { _, bundle ->
                 val result = bundle.getInt("add_edit_delete_result")
-                viewModel.onAddEditResult(result)
+                context?.let { viewModel.onAddEditResult(it,result) }
             }
 
             viewModel.note.observe(viewLifecycleOwner) {

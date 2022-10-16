@@ -1,5 +1,6 @@
 package com.sandip.notefy.ui.newupdate
 
+import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -186,7 +187,7 @@ class NewUpdateNoteViewModel @Inject constructor(
         addEditTaskEventChannel.send(AddEditTaskEvent.ShowInvalidInputMessage(text))
     }
 
-    fun onShareClick(image: ImageView) = viewModelScope.launch {
+    fun onShareClick(context: Context, image: ImageView) = viewModelScope.launch {
         val desc = if(noteDescription.isNotEmpty()) "\nNote: $noteDescription," else ""
         val url =  if(noteUrl.isNotEmpty()) "\nUrl: $noteUrl," else ""
         val dateTime =    if(noteDateTime.isNotEmpty()) "\nDate: $noteDateTime," else ""
@@ -212,13 +213,13 @@ class NewUpdateNoteViewModel @Inject constructor(
                     type = "text/plain"
                 }
                 putExtra(Intent.EXTRA_TEXT, "Title: $noteTitle,$desc$url$dateTime$location$todo")
-                putExtra(Intent.EXTRA_TITLE, NotefyApplication.appContext.getString(R.string.share_from_notefy))
+                putExtra(Intent.EXTRA_TITLE, context.getString(R.string.share_from_notefy))
             }
             val shareIntent = Intent.createChooser(sendIntent, null)
             addEditTaskEventChannel.send((AddEditTaskEvent.ShareIntent(shareIntent)))
         }
         catch (e: Exception) {
-            showInvalidInputMessage(NotefyApplication.appContext.getString(R.string.oops))
+            showInvalidInputMessage(context.getString(R.string.oops))
         }
     }
 

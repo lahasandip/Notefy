@@ -136,8 +136,8 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                                         }
                                         val rootView: View = act.window.decorView
                                             .findViewById(android.R.id.content)
-                                        Snackbar.make(rootView, NotefyApplication.appContext.getString(R.string.notes_deleted_forever), Snackbar.LENGTH_LONG)
-                                            .setAction(NotefyApplication.appContext.getString(R.string.undo)) {
+                                        Snackbar.make(rootView, act.getString(R.string.notes_deleted_forever), Snackbar.LENGTH_LONG)
+                                            .setAction(act.getString(R.string.undo)) {
                                                 for (s in undoList) {
                                                     listener.onUndo(s)
                                                 }

@@ -20,6 +20,7 @@ import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.NewNoteBinding
 import com.sandip.notefy.ui.home.Home.Companion.act
 import com.sandip.notefy.ui.home.Home.Companion.noteList
+import com.sandip.notefy.ui.recycle_bin.RecycleBin
 import java.text.SimpleDateFormat
 
 
@@ -129,8 +130,8 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                         val rootView: View = act.window.decorView
                                             .findViewById(android.R.id.content)
 
-                                        Snackbar.make(rootView, "Note deleted", Snackbar.LENGTH_LONG)
-                                            .setAction("UNDO") {
+                                        Snackbar.make(rootView, act.getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
+                                            .setAction(act.getString(R.string.undo)) {
                                                 for (s in undoList) {
                                                     listener.onUndo(s)
                                                 }
