@@ -32,4 +32,5 @@
     <string name="done">bitti</string>
     <string name="next">Devam</string>
     <string name="choose_language">Dil seçiniz</string>
+    <string name="a1">Une fois que vous avez supprimé les notes, elles seront ajoutées à la corbeille. Et à partir de là, vous pouvez soit les restaurer, soit les supprimer définitivement. Vous pouvez trouver la corbeille dans le tiroir de navigation.</string>
 </resources>

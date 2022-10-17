@@ -36,7 +36,7 @@
     <string name="select_date">Select Date</string>
     <string name="select_time">Select Time</string>
     <string name="confirm_deletion">Confirm Deletion</string>
-    <string name="delete_note">Do you want to delete the note ?</string>
+    <string name="delete_note">Do you want to delete the note?</string>
     <string name="cancel">Cancel</string>
     <string name="yes">Yes</string>
     <string name="url_hint">https://wwww.google.com</string>
@@ -107,7 +107,7 @@
     <string name="q13">How can I change the app Language?</string>
     <string name="q14">How can I make Notes colorful?</string>
     <string name="q15">How to secure my app?</string>
-    <string name="a1">Notefy is used to take Notes, add Reminders, create Todo list and much more. You can save your notes with images, colors, place and URL. You can filter notes based on your preferences, search and share your notes. It supports Dark theme and light theme. For security it has screen lock feature. You can choose your preferred language, currently Notefy supports 15 different languages. For any help you can either read FAQ\'s or contact us.</string>
+    <string name="a1" translatable="false">Notefy is used to take Notes, add Reminders, create Todo list and much more. You can save your notes with images, colors, place and URL. You can filter notes based on your preferences, search and share your notes. It supports Dark theme and light theme. For security it has screen lock feature. You can choose your preferred language, currently Notefy supports 15 different languages. For any help you can either read FAQ\'s or contact us.</string>
     <string name="a2">You can create a new note in two ways:\n1. Click on the + button at the bottom-right side of the Home screen. Or\n2. Click on the Menu icon of the top action bar, and now click on the New Note tab.\nA new window will open to create a new note.</string>
     <string name="a3">You can add the following features in the Note:\n1. Note Title\n2. Note Description\n3. Reminder\n4. Place\n5. URL\n6. Colored background\n7. Image\n8. Todo list\n9. You can also bookmark the note.</string>
     <string name="a4">Click on the Add box icon at the bottom side of the New note screen, and select Reminder. A calendar will pop up, choose the date you want to set the reminder and click on OK. Now a clock will pop up, choose the time and click on OK. Now you have successfully set the reminder. A confirmation message will also display. Now based on the date and time you\'ve chosen a Notification with note title, description and Image will be notified.</string>
