@@ -52,8 +52,8 @@
     <ImageView
         android:id="@+id/created_image"
         android:layout_width="18dp"
-        android:layout_height="14dp"
-        android:layout_marginTop="19dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="20dp"
         android:layout_marginStart="5dp"
         android:src="@drawable/ic_baseline_create_24"
         app:layout_constraintStart_toEndOf="@+id/note_edited"
