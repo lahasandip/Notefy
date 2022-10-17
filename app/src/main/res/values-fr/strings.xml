@@ -108,5 +108,4 @@
     <string name="note_restored">Remarque restaurée</string>
     <string name="version">Version de l\'application : %s</string>
     <string name="about_info">Notefy est utilisé pour prendre des notes, ajouter des rappels, créer une liste de tâches et bien plus encore. Vous pouvez enregistrer vos notes avec des images, des couleurs, des lieux et des Lien.\n\nVous pouvez filtrer les notes en fonction de vos préférences, rechercher et partager vos notes. Il prend en charge un thème sombre et un thème clair. Pour plus de sécurité, il dispose d\'une fonction de verrouillage de l\'écran.\n\nVous pouvez choisir votre langue préférée, actuellement, Notefy prend en charge 15 langues différentes. Pour toute aide, vous pouvez soit lire la FAQ ou nous contacter.</string>
-    <string name="skip">Sauter</string>
 </resources>

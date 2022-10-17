@@ -115,7 +115,7 @@
     <string name="a6">You can delete notes in the following ways:\n1. To delete a single note, you can simply swipe it to the left or right side of the home screen.\n2. To delete multiple notes at the same time, long press on any note and select the notes you want to delete or click on select all in the action bar, then click on the Delete icon.\n3. Open the note you want to delete, then click on the delete icon at the top action bar.\nNote: You can UNDO the notes right after you delete them.</string>
     <string name="a7">Once you delete the notes, they will be added to Recycle bin. And from there either you can restore them or delete them forever. You can find Recycle bin in the Navigation drawer.</string>
     <string name="a8">You can update your profile photo, name, email, and phone in the profile page. You can open your profile by\n1. Click on the profile photo on the home screen at the top-right corner. Or\n2. Click on the Profile tab from the navigation drawer.</string>
-    <string name="a9">To change the view, you can switch between grid view and linear view by clicking on the grid button right side of the Search view in the Home screen.</string>
+    <string name="a9">To change the view, you can switch between grid view and linear view by clicking on the grid button right side of the Search view on the Home screen.</string>
     <string name="a10">Once you add notes, you can display them in any of the following order:\n1. Bookmarked\n2. Title by Asc order\n3. Title by Desc order\n4. Newest to oldest\n5. Oldest to newest.\nTo do so click on the Sort by an icon on the top action bar of the home screen. The default order is Newest to oldest.</string>
     <string name="a11">To share your notes with friends, you can open the note that you want to share, and click on the Share button on the top-right action bar. You can choose any medium to share it.</string>
     <string name="a12">Open the navigation drawer from the left side, toggle the Dark theme switch to enable Dark mode, and disable the switch for light mode.</string>
@@ -142,5 +142,5 @@
         You can choose your preferred language, currently, Notefy supports 15 different languages. For any help, you can either read the FAQs or contact us.</string>
 
     <!--  Login Screen -->
-    <string name="skip">Skip</string>
+    <string name="skip" translatable="false">Skip</string>
 </resources>
