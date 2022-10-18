@@ -32,4 +32,6 @@
     <string name="done">முடிந்தது</string>
     <string name="next">தொடரவும்</string>
     <string name="choose_language">மொழியைத் தேர்ந்தெடுக்கவும்</string>
+    <string name="url_hint">https://wwww.google.com</string>
+    <string name="alex_parker_gmail_com">alex.parker@gmail.com</string>
 </resources>
