@@ -47,7 +47,7 @@
     <string name="url_hint">https://wwww.google.com</string>
     <string name="please_enter_a_link">कृपया एक लिंक दर्ज करें</string>
     <string name="place_hint">न्यूयॉर्क, यूनाइटेड स्टेट्स</string>
-    <string name="please_enter_a_ace">कृपया एक स्थान दर्ज करें</string>
+    <string name="please_enter_a_place">कृपया एक स्थान दर्ज करें</string>
     <string name="title_cannot_be_empty">शीर्षक खाली नहीं हो सकता</string>
     <string name="ok">ठीक है</string>
     <string name="profile">प्रोफ़ाइल</string>
@@ -61,13 +61,12 @@
     <string name="share_ask">यदि आपको Notefy उपयोगी लगे, तो इसे अपने दोस्तों के साथ शेयर करें</string>
     <string name="later">बाद में</string>
     <string name="message">नमस्ते, मुझे एक सुपर कूल नोट्स ऐप मिला है जो आपके जीवन को आसान बना सकता है। आप टेक्स्ट और फ़ोटो के साथ रंगीन नोट्स बना सकते हैं, नोट्स शेयर कर सकते हैं, रिमाइंडर सेट कर सकते हैं, एक टूडू सूची बना सकते हैं, और भी बहुत कुछ। प्ले स्टोर से ऐप का अनुभव करें:\nhttps://play.google.com/store/apps/details?id=com.imangi.templerun</string>
-    <string name="share">" शेयर"</string>
+    <string name="share">शेयर</string>
     <string name="share_from_notefy">Notefy से शेयर करें:</string>
     <string name="oops">उफ़! शेयर नहीं किया जा सकता</string>
     <string name="provide_feedback">अपनी राय बताएं</string>
     <string name="write_us">हमें लिखे</string>
     <string name="faq_s">अक्सर पूछे जाने वाले प्रश्न:</string>
-    <string name="empty_notes">खाली नोट</string>
     <string name="empty_note">खाली नोट</string>
     <string name="q1">Notefy का इस्तेमाल कैसे करें?</string>
     <string name="q2">नया नोट कैसे बनाएं?</string>
@@ -108,4 +107,5 @@
     <string name="note_restored">नोट पुनर्स्थापित</string>
     <string name="version">ऐप वर्शन: %s</string>
     <string name="about_info">Notefy का उपयोग नोट्स लेने, रिमाइंडर जोड़ने, टूडू सूची बनाने और बहुत कुछ करने के लिए किया जाता है। आप अपने नोट्स को छवियों, रंगों, स्थानों और लिंक के साथ सहेज सकते हैं।\n\nआप अपनी प्राथमिकताओं के आधार पर नोट्स फ़िल्टर कर सकते हैं, अपने नोट्स खोज सकते हैं और शेयर कर सकते हैं। यह डार्क थीम और लाइट थीम को सपोर्ट करता है। सिक्योरिटी के लिए इसमें स्क्रीन लॉक फीचर दिया गया है।\n\nआप अपनी पसंदीदा भाषा चुन सकते हैं, वर्तमान में Notefy १५ विभिन्न भाषाओं का समर्थन करता है। किसी भी मदद के लिए, आप या तो अक्सर पूछे जाने वाले प्रश्न पढ़ सकते हैं या हमसे संपर्क कर सकते हैं।</string>
+    <string name="a1">आप नोट्स लेने के लिए ऐप का उपयोग कर सकते हैं, रिमाइंडर सेट कर सकते हैं, जिसे आप अधिसूचित करना चाहते हैं। अपने नोट्स में टूडू सूची, रंग, चित्र, यूआरएल और स्थान जोड़ें। ऐसी भाषा चुनें जिसमें आप सहज हों। आप अपने नोट्स दोस्तों के साथ साझा कर सकते हैं, साथ ही आप ऐप की थीम बदल सकते हैं, स्क्रीन लॉक को सक्षम करके अपने ऐप को सुरक्षित कर सकते हैं और भी बहुत कुछ।</string>
 </resources>

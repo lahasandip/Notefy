@@ -47,7 +47,7 @@
     <string name="url_hint">https://wwww.google.com</string>
     <string name="please_enter_a_link">Lütfen bir Bağlantı Girin</string>
     <string name="place_hint">New York, Amerika Birleşik Devletleri</string>
-    <string name="please_enter_a_ace">Lütfen Bir Yer Girin</string>
+    <string name="please_enter_a_place">Lütfen Bir Yer Girin</string>
     <string name="title_cannot_be_empty">Başlık Boş Olamaz</string>
     <string name="ok">TAMAM</string>
     <string name="profile">Profil</string>
@@ -67,7 +67,6 @@
     <string name="provide_feedback">Geribildirim sağlamak</string>
     <string name="write_us">Bize yazın</string>
     <string name="faq_s">SSS\'ler:</string>
-    <string name="empty_notes">Boş Notlar</string>
     <string name="empty_note">Boş Notlar</string>
     <string name="q1">Notefy nasıl kullanılır?</string>
     <string name="q2">Yeni bir Not nasıl oluşturulur?</string>
@@ -108,4 +107,5 @@
     <string name="note_restored">Not Geri Yüklendi</string>
     <string name="version">Uygulama Sürümü: %s</string>
     <string name="about_info">Notefy Not almak, Hatırlatıcı eklemek, Yapılacaklar listesi oluşturmak ve çok daha fazlası için kullanılır. Notlarınızı resimler, renkler, yerler ve URL\'lerle kaydedebilirsiniz.\n\nNotlarınızı tercihlerinize göre filtreleyebilir, notlarınızı arayabilir ve paylaşabilirsiniz. Bir Karanlık temayı ve bir açık temayı destekler. Güvenlik için ekran kilidi özelliği vardır.\n\nTercih ettiğiniz dili seçebilirsiniz, şu anda Notefy 15 farklı dili desteklemektedir. Herhangi bir yardım için SSS\'leri okuyabilir veya bizimle iletişime geçebilirsiniz.</string>
+    <string name="a1">Not almak, hatırlatmak istediğiniz hatırlatmalar ayarlamak için uygulamayı kullanabilirsiniz. Notlarınıza Yapılacaklar listesi, Renkler, Resimler, URL\'ler ve Yerler ekleyin. Rahat edeceğiniz dili seçin. Notlarınızı arkadaşlarınızla paylaşabilir, ayrıca uygulamanın temasını değiştirebilir, Ekran Kilidi\'ni etkinleştirerek uygulamanızı güvenli hale getirebilirsiniz ve çok daha fazlasını yapabilirsiniz.</string>
 </resources>

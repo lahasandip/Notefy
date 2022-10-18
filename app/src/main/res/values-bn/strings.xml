@@ -56,7 +56,7 @@
     <string name="cancel">বাতিল করুন</string>
     <string name="yes">হ্যাঁ</string>
     <string name="please_enter_a_link">একটি লিঙ্ক যোগ করুন</string>
-    <string name="please_enter_a_ace">একটি স্থান যোগ করুন</string>
+    <string name="please_enter_a_place">একটি স্থান যোগ করুন</string>
     <string name="title_cannot_be_empty">শিরোনাম খালি হতে পারে না</string>
     <string name="ok">ঠিক আছে</string>
     <string name="alex_parker">অ্যালেক্স পার্কার</string>
@@ -74,7 +74,6 @@
     <string name="write_us">আমাদের লিখুন</string>
     <string name="faq_s">প্রায়শই জিজ্ঞাসিত প্রশ্নাবলী:</string>
     <string name="empty_note">খালি নোট</string>
-    <string name="empty_notes">খালি নোট</string>
     <string name="q1">কিভাবে Notefy ব্যবহার করবেন?</string>
     <string name="q2">কিভাবে একটি নতুন নোট তৈরি করবেন?</string>
     <string name="q3">নোটে কি কি যোগ করা যেতে পারে?</string>
@@ -108,4 +107,5 @@
     <string name="_1_012_345_6789">+১ ০১২ ৩৪৫ ৬৭৮৯</string>
     <string name="url_hint">https://wwww.google.com</string>
     <string name="alex_parker_gmail_com">alex.parker@gmail.com</string>
+    <string name="a1">আপনি নোট নিতে, রিমাইন্ডার সেট করতে অ্যাপটি ব্যবহার করতে পারেন, যা আপনি বিজ্ঞপ্তি দিতে চান। আপনার নোটে টুডু তালিকা, রং, ছবি, লিঙ্ক এবং স্থান যোগ করুন। যে ভাষা আপনি স্বাচ্ছন্দ্য চয়ন করুন. আপনি আপনার নোটগুলি বন্ধুদের সাথে ভাগ করতে পারেন, এছাড়াও আপনি অ্যাপের থিম পরিবর্তন করতে পারেন, স্ক্রিন লক সক্ষম করে আপনার অ্যাপকে সুরক্ষিত করতে পারেন এবং আরও অনেক কিছু।</string>
 </resources>

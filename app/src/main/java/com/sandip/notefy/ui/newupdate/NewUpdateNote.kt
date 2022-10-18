@@ -206,7 +206,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         timePicker.addOnPositiveButtonClickListener {
             // call back code
 
-            if(viewModel.noteTitle.isNotEmpty()) {
+//            if(viewModel.noteTitle.isNotEmpty()) {
                 viewModel.isStriked = false
                 "${timePicker.hour}:${timePicker.minute}".also {
                     viewModel.noteDateTime = "$date-$it"
@@ -220,7 +220,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     newDateTime.paintFlags = 0
                     newDateTime.text = date2
                     reminderParentLayout.visibility = View.VISIBLE
-                }
+//                }
             }
         }
         timePicker.addOnNegativeButtonClickListener {
@@ -747,7 +747,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     binding.urlParentLayout.visibility = View.VISIBLE
                 }
                 else{
-                    Toast.makeText(context, getString(R.string.please_enter_a_link), Toast.LENGTH_LONG).show()
+                    view?.let { Snackbar.make(it, getString(R.string.please_enter_a_link), Snackbar.LENGTH_LONG).show() }
                     showAlert("url")
                 }
             }
@@ -764,7 +764,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     binding.locationParentLayout.visibility = View.VISIBLE
                 }
                 else{
-                    Toast.makeText(context, getString(R.string.please_enter_a_ace), Toast.LENGTH_LONG).show()
+                    view?.let { Snackbar.make(it, getString(R.string.please_enter_a_place), Snackbar.LENGTH_LONG).show() }
                     showAlert("place")
                 }
             }

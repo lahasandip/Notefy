@@ -47,7 +47,7 @@
     <string name="url_hint">https://wwww.google.com</string>
     <string name="please_enter_a_link">请输入链接</string>
     <string name="place_hint">美国纽约</string>
-    <string name="please_enter_a_ace">请输入地点</string>
+    <string name="please_enter_a_place">请输入地点</string>
     <string name="title_cannot_be_empty">标题不能为空</string>
     <string name="ok">好的</string>
     <string name="profile">轮廓</string>
@@ -67,7 +67,6 @@
     <string name="provide_feedback">提供反馈意见</string>
     <string name="write_us">写信给我们</string>
     <string name="faq_s">常见问题解答：</string>
-    <string name="empty_notes">空笔记</string>
     <string name="empty_note">空笔记</string>
     <string name="q1">如何使用 Notefy？</string>
     <string name="q2">如何创建新笔记？</string>
@@ -107,5 +106,6 @@
     <string name="do_you_want_to_restore_the_note">你想恢复笔记吗？</string>
     <string name="note_restored">已恢复笔记</string>
     <string name="version">应用程序版本：%s</string>
-    <string name="about_info">Notefy 用于记笔记、添加提醒、创建待办事项列表等等。 您可以使用图像、颜色、地点和 URL 来保存您的笔记。\n您可以根据自己的喜好过滤笔记，搜索和分享您的笔记。 它支持深色主题和浅色主题。 为了安全起见，它具有屏幕锁定功能。\n您可以选择您喜欢的语言，目前，Notefy 支持 一五 种不同的语言。 如需任何帮助，您可以阅读常见问题解答或联系我们。</string>
+    <string name="about_info">Notefy 用于记笔记、添加提醒、创建待办事项列表等等。 您可以使用图像、颜色、地点和 链接 来保存您的笔记。\n您可以根据自己的喜好过滤笔记，搜索和分享您的笔记。 它支持深色主题和浅色主题。 为了安全起见，它具有屏幕锁定功能。\n您可以选择您喜欢的语言，目前，Notefy 支持 一五 种不同的语言。 如需任何帮助，您可以阅读常见问题解答或联系我们。</string>
+    <string name="a1">您可以使用该应用程序记录您想要通知的笔记、设置提醒。 将待办事项列表、颜色、图像、链接 和地点添加到您的笔记中。 选择你觉得舒服的语言。 您可以与朋友分享您的笔记，也可以更改应用程序的主题，通过启用屏幕锁定来保护您的应用程序等等。</string>
 </resources>

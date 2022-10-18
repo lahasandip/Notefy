@@ -47,7 +47,7 @@
     <string name="url_hint">https://wwww.google.com</string>
     <string name="please_enter_a_link">リンクを入力してください</string>
     <string name="place_hint">ニューヨーク、アメリカ合衆国</string>
-    <string name="please_enter_a_ace">場所を入力してください</string>
+    <string name="please_enter_a_place">場所を入力してください</string>
     <string name="title_cannot_be_empty">タイトルを空にすることはできません</string>
     <string name="ok">OK</string>
     <string name="profile">プロフィール</string>
@@ -68,7 +68,6 @@
     <string name="write_us">私たちに書いてください</string>
     <string name="faq_s">よくある質問:</string>
     <string name="empty_note">空のメモ</string>
-    <string name="empty_notes">空のメモ</string>
     <string name="q1">使い方 Notefy？</string>
     <string name="q2">新しいノートを作成するには?</string>
     <string name="q3">メモには何を追加できますか?</string>
@@ -108,4 +107,5 @@
     <string name="note_restored">メモが復元されました</string>
     <string name="version">アプリのバージョン: %s</string>
     <string name="about_info">Notefy は、メモを取ったり、リマインダーを追加したり、Todo リストを作成したりするために使用されます。 画像、色、場所、URL を付けてメモを保存できます。\n\n好みに基づいてメモをフィルタリングし、メモを検索して共有できます。 ダークテーマとライトテーマをサポートしています。 セキュリティのために、画面ロック機能があります。\n\n好みの言語を選択できます。現在、Notefy は 15 の異なる言語をサポートしています。 ヘルプが必要な場合は、FAQ を読むか、お問い合わせください。</string>
+    <string name="a1">アプリを使用して、通知したいメモを取り、リマインダーを設定できます。 Todo リスト、色、画像、URL、場所をメモに追加します。 快適な言語を選択してください。 メモを友達と共有したり、アプリのテーマを変更したり、画面ロックを有効にしてアプリを保護したりできます。</string>
 </resources>
