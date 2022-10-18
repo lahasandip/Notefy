@@ -55,6 +55,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
+        Log.d("Home fragment", "Home called")
         val drawerLayout = MainActivity.drawerLayout
         displaySortByDialog()
 
@@ -337,6 +338,8 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         val sharedPreferences =  context?.getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
         val position = sharedPreferences?.getInt("position", 0)
         if (position != null) {
+            Log.d("Home fragment", "observeLanguagePreference called $position")
+
             viewModel.onTaskSelected(context, position)
         }
     }
