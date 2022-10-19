@@ -4,6 +4,7 @@ package com.sandip.notefy.ui.home
 import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
+import android.util.Log
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -47,6 +48,8 @@ class NoteAdapter(private val listener: OnItemClickListener) :
 
     inner class NoteViewHolder(private val binding: NewNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        val rootView: View = act.window.decorView
+            .findViewById(android.R.id.content)
 
         fun bind(holder: NoteViewHolder, noteEntity: NoteEntity) {
             binding.apply {
@@ -102,6 +105,7 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                 return when (item?.itemId) {
 
                                     R.id.select -> {
+
                                         item.icon = ContextCompat.getDrawable(NotefyApplication.appContext, R.drawable.ic_baseline_deselect_24)
                                         if(selectList.size == noteList.size)
                                         {
@@ -127,8 +131,6 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                                             undoList.add(s)
                                             listener.onDeleteClick(s)
                                         }
-                                        val rootView: View = act.window.decorView
-                                            .findViewById(android.R.id.content)
 
                                         Snackbar.make(rootView, act.getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
                                             .setAction(act.getString(R.string.undo)) {
@@ -205,6 +207,10 @@ class NoteAdapter(private val listener: OnItemClickListener) :
                     val imageUri = Uri.parse(noteEntity.image)
                     Glide.with(NotefyApplication.appContext).load(imageUri).into(img)
                     noteImageLayout.visibility = View.VISIBLE
+                }
+                else{
+                    Glide.with(NotefyApplication.appContext).clear(img)
+                    noteImageLayout.visibility = View.GONE
                 }
 
                 if (noteEntity.todoList != null) {

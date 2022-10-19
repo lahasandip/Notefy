@@ -198,39 +198,45 @@ class NewUpdateNoteViewModel @Inject constructor(
         addEditTaskEventChannel.send(AddEditTaskEvent.ShowInvalidInputMessage(text))
     }
 
-    fun onShareClick(context: Context, image: ImageView) = viewModelScope.launch {
-        val desc = if(noteDescription.isNotEmpty()) "\nNote: $noteDescription," else ""
-        val url =  if(noteUrl.isNotEmpty()) "\nUrl: $noteUrl," else ""
-        val dateTime =    if(noteDateTime.isNotEmpty()) "\nDate: $noteDateTime," else ""
-        val location = if(noteLocation.isNotEmpty()) "\nPlace: $noteLocation," else ""
-        val arrayList : ArrayList<String> = ArrayList()
-        if(noteTodoList?.size != null) {
-            for (s in 0 until noteTodoList?.size!!){
-                arrayList.add(noteTodoList!![s].todoDescription.toString())
-            }
-        }
-        val todo = if(arrayList.isNotEmpty()) "\nTodo: $arrayList" else ""
 
-        try {
-            val sendIntent = Intent().apply {
-                action = Intent.ACTION_SEND
-                if(image.drawable != null){
-                    val bitmap = (image.drawable as BitmapDrawable).bitmap
-                    val uri : Uri = getUri(bitmap)
-                    type = "image/*"
-                    putExtra(Intent.EXTRA_STREAM,uri)
+    fun onShareClick(context: Context, image: ImageView) = viewModelScope.launch {
+        if (noteTitle.isBlank()) {
+            showInvalidInputMessage(NotefyApplication.appContext.getString(R.string.title_cannot_be_empty))
+        } else {
+            val desc = if (noteDescription.isNotEmpty()) "\nNote: $noteDescription," else ""
+            val url = if (noteUrl.isNotEmpty()) "\nUrl: $noteUrl," else ""
+            val dateTime = if (noteDateTime.isNotEmpty()) "\nDate: $noteDateTime," else ""
+            val location = if (noteLocation.isNotEmpty()) "\nPlace: $noteLocation," else ""
+            val arrayList: ArrayList<String> = ArrayList()
+            if (noteTodoList?.size != null) {
+                for (s in 0 until noteTodoList?.size!!) {
+                    arrayList.add(noteTodoList!![s].todoDescription.toString())
                 }
-                else{
-                    type = "text/plain"
-                }
-                putExtra(Intent.EXTRA_TEXT, "Title: $noteTitle,$desc$url$dateTime$location$todo")
-                putExtra(Intent.EXTRA_TITLE, context.getString(R.string.share_from_notefy))
             }
-            val shareIntent = Intent.createChooser(sendIntent, null)
-            addEditTaskEventChannel.send((AddEditTaskEvent.ShareIntent(shareIntent)))
-        }
-        catch (e: Exception) {
-            showInvalidInputMessage(context.getString(R.string.oops))
+            val todo = if (arrayList.isNotEmpty()) "\nTodo: $arrayList" else ""
+
+            try {
+                val sendIntent = Intent().apply {
+                    action = Intent.ACTION_SEND
+                    if (image.drawable != null) {
+                        val bitmap = (image.drawable as BitmapDrawable).bitmap
+                        val uri: Uri = getUri(bitmap)
+                        type = "image/*"
+                        putExtra(Intent.EXTRA_STREAM, uri)
+                    } else {
+                        type = "text/plain"
+                    }
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        "Title: $noteTitle,$desc$url$dateTime$location$todo"
+                    )
+                    putExtra(Intent.EXTRA_TITLE, context.getString(R.string.share_from_notefy))
+                }
+                val shareIntent = Intent.createChooser(sendIntent, null)
+                addEditTaskEventChannel.send((AddEditTaskEvent.ShareIntent(shareIntent)))
+            } catch (e: Exception) {
+                showInvalidInputMessage(context.getString(R.string.oops))
+            }
         }
     }
 
