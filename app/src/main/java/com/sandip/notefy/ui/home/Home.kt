@@ -32,8 +32,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
-    SharedPreferences.OnSharedPreferenceChangeListener {
+class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener
+//    SharedPreferences.OnSharedPreferenceChangeListener
+{
 
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var gridLayoutManager: StaggeredGridLayoutManager
@@ -53,8 +54,8 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
-        observeLanguagePreference()
         Log.d("Home fragment", "Home called")
+//        viewModel.observeLanguagePreference(context)
         val drawerLayout = MainActivity.drawerLayout
         initSortByDialog()
 
@@ -79,7 +80,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                 viewModel.note.observe(viewLifecycleOwner) {
                     noteAdapter.submitList(it)
                     noteList = it
-                    Log.d("live data", it.toString())
                 }
 
                 viewModel.displayUser.observe(viewLifecycleOwner) {
@@ -236,13 +236,21 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                             HomeDirections.actionHomeToUser()
                         findNavController().navigate(action)
                     }
+//                    is HomeViewModel.TasksEvent.NavigateBackLanguage -> {
+//                       recreate(requireActivity())
+//                    }
                 }.exhaustive
             }
         }
+//        viewModel.langPosition.asLiveData().observe(viewLifecycleOwner) {
+            viewModel.observeLanguagePreference(context)
+//        }
     }
 
     private fun observeGridLayout(): RecyclerView.LayoutManager {
-        gridSharedPreferences?.registerOnSharedPreferenceChangeListener(this)
+//        Log.d("Home fragment", "observe grid layout called" )
+
+//        gridSharedPreferences?.registerOnSharedPreferenceChangeListener(this)
         when (gridSharedPreferences?.getBoolean("grid", false)) {
             true -> if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 gridLayoutManager.spanCount = 1
@@ -279,14 +287,14 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         viewModel.onUndoDeleteClick(noteEntity)
     }
 
-    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-        if (key.equals("grid")) {
-            observeGridLayout()
-        }
+//    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+//        if (key.equals("grid")) {
+//            observeGridLayout()
+//        }
 //        if (key.equals("position")) {
 //            observeLanguagePreference()
 //        }
-    }
+//    }
 
     private var radioGroupOnCheckedChangeListener: RadioGroup.OnCheckedChangeListener =
         RadioGroup.OnCheckedChangeListener { _, checkedId ->
@@ -309,9 +317,9 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         radioGroup.setOnCheckedChangeListener(radioGroupOnCheckedChangeListener)
     }
 
-    private fun observeLanguagePreference() {
-            viewModel.onTaskSelected(requireContext())
-        }
+//    private fun observeLanguagePreference() {
+//            viewModel.onTaskSelected(requireContext())
+//        }
 
     override fun onPause() {
         super.onPause()
@@ -321,8 +329,8 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        gridSharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
-    }
+//    override fun onDestroy() {
+//        super.onDestroy()
+//        gridSharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
+//    }
 }

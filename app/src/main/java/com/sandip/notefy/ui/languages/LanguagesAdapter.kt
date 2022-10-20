@@ -15,13 +15,11 @@ import com.sandip.notefy.data.model.Language
 
 class LanguagesAdapter(
     langList: ArrayList<Language>?,
-    private val listener: OnItemClickListener
-) :
+    private val listener: OnItemClickListener) :
     RecyclerView.Adapter<LanguagesAdapter.LanguagesViewHolder?>() {
     private val myList : ArrayList<Language>?
     private val itemClickListener: OnItemClickListener?
     private var selectedPosition  = 0
-
     init {
         myList = langList
         itemClickListener = listener
@@ -39,8 +37,10 @@ class LanguagesAdapter(
 
     override fun onBindViewHolder(holder: LanguagesViewHolder, position: Int) {
 
-        val sharedPreferences =  NotefyApplication.appContext.getSharedPreferences("LANGUAGE",Context.MODE_PRIVATE)
+        val sharedPreferences =  NotefyApplication.appContext.getSharedPreferences("LANGUAGE",
+            Context.MODE_PRIVATE)
         val pos = sharedPreferences?.getInt("position", 0)
+
         if (pos != null) {
             selectedPosition = pos
         }
