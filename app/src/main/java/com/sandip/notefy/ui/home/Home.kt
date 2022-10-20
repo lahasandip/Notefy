@@ -236,21 +236,14 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener
                             HomeDirections.actionHomeToUser()
                         findNavController().navigate(action)
                     }
-//                    is HomeViewModel.TasksEvent.NavigateBackLanguage -> {
-//                       recreate(requireActivity())
-//                    }
                 }.exhaustive
             }
         }
-//        viewModel.langPosition.asLiveData().observe(viewLifecycleOwner) {
             viewModel.observeLanguagePreference(context)
-//        }
     }
 
     private fun observeGridLayout(): RecyclerView.LayoutManager {
 //        Log.d("Home fragment", "observe grid layout called" )
-
-//        gridSharedPreferences?.registerOnSharedPreferenceChangeListener(this)
         when (gridSharedPreferences?.getBoolean("grid", false)) {
             true -> if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 gridLayoutManager.spanCount = 1
@@ -287,15 +280,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener
         viewModel.onUndoDeleteClick(noteEntity)
     }
 
-//    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
-//        if (key.equals("grid")) {
-//            observeGridLayout()
-//        }
-//        if (key.equals("position")) {
-//            observeLanguagePreference()
-//        }
-//    }
-
     private var radioGroupOnCheckedChangeListener: RadioGroup.OnCheckedChangeListener =
         RadioGroup.OnCheckedChangeListener { _, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<View>(checkedId) as RadioButton
@@ -317,10 +301,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener
         radioGroup.setOnCheckedChangeListener(radioGroupOnCheckedChangeListener)
     }
 
-//    private fun observeLanguagePreference() {
-//            viewModel.onTaskSelected(requireContext())
-//        }
-
     override fun onPause() {
         super.onPause()
         if (homeActionMode != null) {
@@ -328,9 +308,4 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener
             homeActionMode = null
         }
     }
-
-//    override fun onDestroy() {
-//        super.onDestroy()
-//        gridSharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
-//    }
 }

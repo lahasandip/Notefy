@@ -19,7 +19,9 @@ import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItemClickListener  {
+class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItemClickListener,
+    SharedPreferences.OnSharedPreferenceChangeListener
+{
 
     private val viewModel: LanguagesViewModel by viewModels()
     private lateinit var binding: FragmentLanguagesBinding
@@ -34,6 +36,7 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
         binding = FragmentLanguagesBinding.bind(view)
 
         sharedPreferences =  context?.getSharedPreferences("LANGUAGE", Context.MODE_PRIVATE)
+        sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
         val position =  sharedPreferences?.getInt("position", 0)
         editor = sharedPreferences?.edit()
 
@@ -89,7 +92,7 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
                             findNavController().popBackStack()
                         }
                         is LanguagesViewModel.TasksEvent.NavigateToHomeScreen -> {
-                            activity?.recreate()
+//                            activity?.recreate()
 //                            val action =
 //                                LanguagesDirections.actionLanguagesToHome()
 //                            findNavController().navigate(action)
@@ -129,4 +132,13 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
 //        viewModel.saveLangPos(flag)
 
     }
+
+    override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
+        if(key.equals("position"))  {
+            viewModel.observeLanguagePreference(context)
+            activity?.recreate()
+        }
+
+
+        }
 }

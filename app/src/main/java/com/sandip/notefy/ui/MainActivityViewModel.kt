@@ -14,16 +14,14 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainActivityViewModel@Inject constructor(
-    userDao: UserDao, private val preferencesManager: PreferencesManager
+    userDao: UserDao
 ) : ViewModel() {
 
     val displayUser = userDao.getUser()
-    val langPosition = preferencesManager.langPosition
 
     fun observeLanguagePreference(context: Context?) = viewModelScope.launch {
         val sharedPreferences =  context?.getSharedPreferences("LANGUAGE", Context.MODE_PRIVATE)
         when(sharedPreferences?.getInt("position", 0)){
-//        when(position){
             0 -> updateResource( context,"en")
             1 -> updateResource(context, "hi")
             2 -> updateResource(context, "es")
@@ -50,9 +48,5 @@ class MainActivityViewModel@Inject constructor(
         context?.resources?.updateConfiguration(configuration, context.resources?.displayMetrics
         )
         Log.d("Home", "language called $code " )
-//        tasksEventChannel.send(TasksEvent.NavigateBackLanguage)
-
-
     }
-
 }

@@ -129,10 +129,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             editor.apply()
         }
 
-//        viewModel.langPosition.asLiveData().observe(this) {
-//            viewModel.onTaskSelected(this, it)
-//        }
-
         drawerLayout?.addDrawerListener(object : DrawerLayout.DrawerListener {
             override fun onDrawerSlide(drawerView: View, slideOffset: Float) {
             }

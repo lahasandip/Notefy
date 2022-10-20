@@ -41,8 +41,6 @@ class HomeViewModel @Inject constructor(
 
     private val preferencesFlow = preferencesManager.preferencesFlow
     val isChecked = preferencesManager.isChecked
-    val langPosition = preferencesManager.langPosition
-
 
     private val tasksEventChannel = Channel<TasksEvent>()
     val tasksEvent = tasksEventChannel.receiveAsFlow()
@@ -106,7 +104,6 @@ class HomeViewModel @Inject constructor(
     fun observeLanguagePreference(context: Context?) = viewModelScope.launch {
         val sharedPreferences =  context?.getSharedPreferences("LANGUAGE",Context.MODE_PRIVATE)
         when(sharedPreferences?.getInt("position", 0)){
-//        when(position){
             0 -> updateResource( context,"en")
             1 -> updateResource(context, "hi")
             2 -> updateResource(context, "es")
@@ -133,16 +130,12 @@ class HomeViewModel @Inject constructor(
         context?.resources?.updateConfiguration(configuration, context.resources?.displayMetrics
         )
         Log.d("Home", "language called $code " )
-//        tasksEventChannel.send(TasksEvent.NavigateBackLanguage)
-
-
     }
 
     sealed class TasksEvent {
         object NavigateToAddTaskScreen : TasksEvent()
         object NavigateToDrawer : TasksEvent()
         object NavigateToUserScreen : TasksEvent()
-//        object NavigateBackLanguage : TasksEvent()
         data class NavigateToEditTaskScreen(val noteEntity: NoteEntity) : TasksEvent()
         data class ShowTaskSavedConfirmationMessage(val msg: String) : TasksEvent()
         data class ShowUndoDeleteTaskMessage(val noteEntity: NoteEntity) : TasksEvent()

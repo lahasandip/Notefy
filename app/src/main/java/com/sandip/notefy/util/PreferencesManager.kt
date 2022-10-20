@@ -21,20 +21,6 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
 
     private val dataStore = context.dataStore
 
-    val langPosition = dataStore.data
-        .catch { exception ->
-            if (exception is IOException) {
-                exception.printStackTrace()
-                emit(emptyPreferences())
-            } else {
-                throw exception
-            }
-        }
-        .map { preference ->
-            val position = preference[PreferencesKeys.POSITION] ?: 0
-            position
-        }
-
     val preferencesFlow = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
@@ -64,11 +50,6 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
             val isChecked = preference[PreferencesKeys.SORT_ORDER_CHECKED] ?: 3
             isChecked
         }
-    suspend fun updateLanguage(position: Int) {
-        dataStore.edit { preferences ->
-            preferences[PreferencesKeys.POSITION] = position
-        }
-    }
 
     suspend fun updateSortOrder(sortOrder: SortOrder) {
         dataStore.edit { preferences ->
@@ -82,7 +63,6 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
     }
 
     private object PreferencesKeys {
-        val POSITION = intPreferencesKey("position")
         val SORT_ORDER = stringPreferencesKey("sort_order")
         val SORT_ORDER_CHECKED = intPreferencesKey("sort_order_checked")
     }
