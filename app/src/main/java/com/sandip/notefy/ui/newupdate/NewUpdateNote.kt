@@ -48,7 +48,6 @@ import vadiole.colorpicker.ColorPickerDialog
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 @Suppress("IMPLICIT_CAST_TO_ANY")
 @AndroidEntryPoint
 class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
@@ -60,12 +59,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private lateinit var timePicker: MaterialTimePicker
     private var todoList : ArrayList<Todo>? = arrayListOf()
     private val requestCode = System.currentTimeMillis().toInt()
-
-    //Companion Object for Temp List
+    private lateinit var todoAdapter: NewUpdateTodoAdapter
     companion object {
         var recyclerView: RecyclerView? = null
-        var todoAdapter: NewUpdateTodoAdapter? = null
-
         val notificationIntent = Intent(NotefyApplication.appContext, Notifications::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -77,11 +73,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentNewUpdateNoteBinding.bind(view)
-
         createNotificationChannel()
-
-
-
 
         val startForProfileImageResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -184,54 +176,42 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 .setTitleText(getString(R.string.select_time))
                 .build()
         datePicker.addOnPositiveButtonClickListener {
-            // Respond to positive button click.
             val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
             utc.timeInMillis = it
             val format = SimpleDateFormat("yyyy-MM-dd")
             date = format.format(utc.time)
             timePicker.show(childFragmentManager, "Time_Piker")
-
         }
-        datePicker.addOnNegativeButtonClickListener {
-            // Respond to negative button click.
-        }
-        datePicker.addOnCancelListener {
-            // Respond to cancel button click.
-        }
-        datePicker.addOnDismissListener {
-            // Respond to dismiss events.
-        }
+//        datePicker.addOnNegativeButtonClickListener {}
+//        datePicker.addOnCancelListener {}
+//        datePicker.addOnDismissListener {}
 
 
         timePicker.addOnPositiveButtonClickListener {
-            // call back code
-
-//            if(viewModel.noteTitle.isNotEmpty()) {
-                viewModel.isStriked = false
-                "${timePicker.hour}:${timePicker.minute}".also {
-                    viewModel.noteDateTime = "$date-$it"
-                }
-                var date2 = viewModel.noteDateTime
-                var spf = SimpleDateFormat("yyyy-MM-dd-h:m")
-                val newDate = spf.parse(date2)
-                spf = SimpleDateFormat("MMM d, ''yy, h:m")
-                date2 = newDate?.let { it1 -> spf.format(it1) }.toString()
-                binding.apply {
-                    newDateTime.paintFlags = 0
-                    newDateTime.text = date2
-                    reminderParentLayout.visibility = View.VISIBLE
-//                }
+            viewModel.isStriked = false
+            "${timePicker.hour}:${timePicker.minute}".also {
+                viewModel.noteDateTime = "$date-$it"
+            }
+            var date2 = viewModel.noteDateTime
+            var spf = SimpleDateFormat("yyyy-MM-dd-h:m")
+            val newDate = spf.parse(date2)
+            spf = SimpleDateFormat("MMM d, ''yy, h:m")
+            date2 = newDate?.let { it1 -> spf.format(it1) }.toString()
+            binding.apply {
+                newDateTime.paintFlags = 0
+                newDateTime.text = date2
+                reminderParentLayout.visibility = View.VISIBLE
             }
         }
-        timePicker.addOnNegativeButtonClickListener {
-            // call back code
-        }
-        timePicker.addOnCancelListener {
-            // call back code
-        }
-        timePicker.addOnDismissListener {
-            // call back code
-        }
+//        timePicker.addOnNegativeButtonClickListener {
+//            // call back code
+//        }
+//        timePicker.addOnCancelListener {
+//            // call back code
+//        }
+//        timePicker.addOnDismissListener {
+//            // call back code
+//        }
 
         //Bind with View model and Onclick Listener
         binding.apply {
@@ -295,12 +275,11 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
             if (viewModel.noteTodoList?.isEmpty() == false) {
                 todoList = viewModel.noteTodoList as ArrayList<Todo>?
-                todoAdapter = context?.let {
-                    NewUpdateTodoAdapter(
-                        it,
-                        todoList,
-                    )
-                }
+                todoAdapter = NewUpdateTodoAdapter(
+                    context,
+                    todoList,
+                    todoAdapter
+                )
                 recyclerView?.setHasFixedSize(true)
                 recyclerView?.layoutManager = LinearLayoutManager(context)
                 recyclerView?.adapter = todoAdapter
@@ -315,9 +294,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 noteEdited.text =
                     SimpleDateFormat(" h:mm a", Locale.getDefault())
                         .format(Date())
-
             }
-
 
             noteTitle.addTextChangedListener {
                 viewModel.noteTitle = it.toString()
@@ -344,9 +321,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteTodoList = todoList
                 viewModel.isStriked = false
                 viewModel.requestCode = requestCode
-//                if(!(newDateTime.text.isNullOrEmpty())) {
-//                    displaySimpleNotification()
-//                }
                 viewModel.onSaveClick()
             }
 
@@ -396,6 +370,98 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
             addColor.setOnClickListener {
                 colorDialog.show()
+            }
+
+            addImage.setOnClickListener {
+                val picker: ImagePicker.Builder? = parentFragment?.let { it1 ->
+                    ImagePicker.with(
+                        it1
+                    )
+                }
+
+                val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+                dialog.setContentView(R.layout.add_image_dialog)
+                dialog.show()
+                dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
+                dialog.window?.setGravity(Gravity.BOTTOM)
+                val camera: LinearLayout ?= dialog.findViewById(R.id.take_photo)
+                camera?.setOnClickListener {
+                    dialog.dismiss()
+                    picker?.crop()
+                    picker?.cameraOnly()
+                    picker?.compress(1024)
+                    picker?.maxResultSize(1080, 1080)
+                    picker?.createIntent { Intent: Intent? ->
+                        startForProfileImageResult.launch(Intent)
+                    }
+                }
+                val image: LinearLayout? = dialog.findViewById(R.id.add_photo)
+                image?.setOnClickListener {
+                    dialog.dismiss()
+                    picker?.crop()
+                    picker?.galleryOnly()
+                    picker?.compress(1024)
+                    picker?.maxResultSize(1080, 1080)
+                    picker?.createIntent { Intent: Intent? ->
+                        startForProfileImageResult.launch(Intent)
+                    }
+                }
+            }
+            locationLayout.setOnClickListener {
+                viewModel.onLocationClick(placeInput.text)
+            }
+            share.setOnClickListener {
+                context?.let { it1 -> viewModel.onShareClick(it1, showImage) }
+            }
+
+            addTask.setOnClickListener {
+                todoDialog.show()
+            }
+
+            taskLayout.setOnClickListener {
+                todoDialog.show()
+            }
+
+            addToList?.setOnClickListener {
+                if(!(descriptionTodo?.text.isNullOrEmpty())) {
+                    todoList?.add(Todo(checkBoxTodo?.isChecked, descriptionTodo?.text.toString()))
+                    todoAdapter = NewUpdateTodoAdapter(requireContext(), todoList, todoAdapter)
+                    recyclerView?.setHasFixedSize(true)
+                    recyclerView?.layoutManager = LinearLayoutManager(context)
+                    recyclerView?.adapter = todoAdapter
+                    todoAdapter?.notifyDataSetChanged()
+                }
+
+                descriptionTodo?.setText("")
+                checkBoxTodo?.isChecked = false
+            }
+            btn?.setOnClickListener {
+                todoDialog.dismiss()
+                if(!(todoList.isNullOrEmpty())){
+                    binding.taskLayout.visibility = View.VISIBLE
+                }
+                else{
+                    binding.taskLayout.visibility = View.GONE
+                }
+            }
+            removeLocation.setOnClickListener {
+                placeInput.text = null
+                locationParentLayout.visibility = View.GONE
+            }
+            removeReminder.setOnClickListener {
+                newDateTime.text = null
+                viewModel.noteDateTime = ""
+                cancelAlarm()
+                reminderParentLayout.visibility = View.GONE
+            }
+            removeUrl.setOnClickListener {
+                urlLink.text = null
+                urlParentLayout.visibility = View.GONE
+            }
+            removeImage.setOnClickListener {
+                context?.let { Glide.with(it).clear(showImage) }
+                viewModel.noteImage = null
+                imageLayout.visibility = View.GONE
             }
 
             frame1?.setOnClickListener {
@@ -579,99 +645,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 picker.show(childFragmentManager, "color_picker")
             }
 
-            addImage.setOnClickListener {
-                val with: ImagePicker.Builder? = parentFragment?.let { it1 ->
-                    ImagePicker.with(
-                        it1
-                    )
-                }
-
-                val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-                dialog.setContentView(R.layout.add_image_dialog)
-                dialog.show()
-                dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-                dialog.window?.setGravity(Gravity.BOTTOM)
-                val camera: LinearLayout ?= dialog.findViewById(R.id.take_photo)
-                camera?.setOnClickListener {
-                    dialog.dismiss()
-                    with?.crop()
-                    with?.cameraOnly()
-                    with?.compress(1024)
-                    with?.maxResultSize(1080, 1080)
-                    with?.createIntent { Intent: Intent? ->
-                        startForProfileImageResult.launch(Intent)
-                    }
-                }
-                val image: LinearLayout? = dialog.findViewById(R.id.add_photo)
-                image?.setOnClickListener {
-                    dialog.dismiss()
-                    with?.crop()
-                    with?.galleryOnly()
-                    with?.compress(1024)
-                    with?.maxResultSize(1080, 1080)
-                    with?.createIntent { Intent: Intent? ->
-                        startForProfileImageResult.launch(Intent)
-                    }
-                }
-            }
-            locationLayout.setOnClickListener {
-                viewModel.onLocationClick(placeInput.text)
-            }
-            share.setOnClickListener {
-                context?.let { it1 -> viewModel.onShareClick(it1, showImage) }
-            }
-
-            addTask.setOnClickListener {
-                todoDialog.show()
-            }
-
-            taskLayout.setOnClickListener {
-                todoDialog.show()
-            }
-
-            addToList?.setOnClickListener {
-                if(!(descriptionTodo?.text.isNullOrEmpty())) {
-                    todoList?.add(Todo(checkBoxTodo?.isChecked, descriptionTodo?.text.toString()))
-                    todoAdapter = NewUpdateTodoAdapter(requireContext(), todoList)
-                    recyclerView?.setHasFixedSize(true)
-                    recyclerView?.layoutManager = LinearLayoutManager(context)
-                    recyclerView?.adapter = todoAdapter
-                    todoAdapter?.notifyDataSetChanged()
-                }
-
-                descriptionTodo?.setText("")
-                checkBoxTodo?.isChecked = false
-            }
-            btn?.setOnClickListener {
-                todoDialog.dismiss()
-                if(!(todoList.isNullOrEmpty())){
-                    binding.taskLayout.visibility = View.VISIBLE
-                }
-                else{
-                    binding.taskLayout.visibility = View.GONE
-                }
-            }
-
-            removeLocation.setOnClickListener {
-                placeInput.text = null
-                locationParentLayout.visibility = View.GONE
-            }
-            removeReminder.setOnClickListener {
-                newDateTime.text = null
-                viewModel.noteDateTime = ""
-                cancelAlarm()
-                reminderParentLayout.visibility = View.GONE
-            }
-            removeUrl.setOnClickListener {
-                urlLink.text = null
-                urlParentLayout.visibility = View.GONE
-            }
-            removeImage.setOnClickListener {
-                context?.let { Glide.with(it).clear(showImage) }
-                viewModel.noteImage = null
-                imageLayout.visibility = View.GONE
-            }
-
             //Updating UI with ViewModel Data100847802
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 viewModel.addEditTaskEvent.collect { event ->
@@ -707,7 +680,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                                 bundleOf("add_edit_delete_result" to event.result)
                             )
                             findNavController().popBackStack()
-
                         }
                         is AddEditTaskEvent.ShareIntent -> {
                             startActivity(event.shareIntent)
@@ -727,8 +699,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     }
 
 
-//Private function to display Place and URL
-
+    //Private function to display Place and URL
     private fun showAlert(s: String) {
         val builder = context?.let { AlertDialog.Builder(it) }
         val input = layoutInflater.inflate(R.layout.alert_edittext, null)
@@ -769,11 +740,11 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 }
             }
         }
-        builder?.setNegativeButton(
-            getString(R.string.cancel)
-        ) { dialog, _ -> dialog.cancel() }
-
-        builder?.show()    }
+        builder?.setNegativeButton(getString(R.string.cancel)) {
+                dialog, _ -> dialog.cancel()
+        }
+        builder?.show()
+    }
 
     // Reminder and Notification Logic
     private fun createNotificationChannel() {
@@ -786,7 +757,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             notificationManager.createNotificationChannel(channel)
         }
     }
-
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun displaySimpleNotification() {
@@ -824,10 +794,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun getTime(): Long {
-        val items1: Array<String> =
-            viewModel.noteDateTime.split("-".toRegex()).toTypedArray()
-        val items2: Array<String> =
-            items1[3].split(":".toRegex()).toTypedArray()
+        val items1: Array<String> = viewModel.noteDateTime.split("-".toRegex()).toTypedArray()
+        val items2: Array<String> = items1[3].split(":".toRegex()).toTypedArray()
         val minute = items2[1].toInt()
         val hour = items2[0].toInt()
         val day =items1[2].toInt()

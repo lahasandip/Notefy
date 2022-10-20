@@ -66,12 +66,12 @@ class User : Fragment(R.layout.fragment_user) {
                         context?.let { Glide.with(it).load(fileUri).into(binding.circleImageView) }
                         viewModel.image = fileUri.toString()
                     }
-                    ImagePicker.RESULT_ERROR -> {
-//                        Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-                    }
-                    else -> {
-//                        Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
-                    }
+//                    ImagePicker.RESULT_ERROR -> {
+////                        Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
+//                    }
+//                    else -> {
+////                        Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
+//                    }
                 }
             }
 
@@ -97,14 +97,12 @@ class User : Fragment(R.layout.fragment_user) {
             viewModel.noteCount.observe(viewLifecycleOwner) {
                 note = it.toInt()
                 viewModel.startAnimation(notesNumber, note)
-
             }
             viewModel.reminderCount.observe(viewLifecycleOwner) {
                 reminder = it.toInt()
                 viewModel.startAnimation(reminderNumber, reminder)
-
-
             }
+
             viewModel.todoCount.observe(viewLifecycleOwner) {
                 todo = it.toInt()
                 viewModel.startAnimation(todoNumber, todo)
@@ -199,7 +197,6 @@ class User : Fragment(R.layout.fragment_user) {
                                 bundleOf("add_edit_delete_result" to event.result)
                             )
                             findNavController().popBackStack()
-
                         }
                         is UserViewModel.AddEditTaskEvent.NavigateToBackScreen -> {
                             findNavController().popBackStack()

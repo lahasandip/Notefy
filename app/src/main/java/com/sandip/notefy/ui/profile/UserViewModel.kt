@@ -31,10 +31,8 @@ class UserViewModel@Inject constructor(
     var phone = ""
     var image = ""
 
-
     private val addEditTaskEventChannel = Channel<AddEditTaskEvent>()
     val addEditTaskEvent = addEditTaskEventChannel.receiveAsFlow()
-
 
     fun onSaveClick(rows: Int) {
         val userEntity = UserEntity(name = name, email = email, phone = phone, image = image)
@@ -68,8 +66,8 @@ class UserViewModel@Inject constructor(
     fun onOkClick()  = viewModelScope.launch {
         addEditTaskEventChannel.send(AddEditTaskEvent.NavigateToBackScreen)
     }
-    sealed class AddEditTaskEvent {
 
+    sealed class AddEditTaskEvent {
         data class NavigateBackWithResult(val result: Int) : AddEditTaskEvent()
         object NavigateToBackScreen : AddEditTaskEvent()
     }

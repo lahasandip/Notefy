@@ -48,9 +48,7 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
         val languageList = ArrayList<Language>()
 
         for (i in language.indices) {
-            val languagesClass = Language(
-                flagImages[i], language[i]
-            )
+            val languagesClass = Language(flagImages[i], language[i])
             languageList.add(languagesClass)
         }
         val languagesAdapter = LanguagesAdapter(languageList, this)
@@ -96,7 +94,7 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
     }
 
     override fun onItemClick(flag: Int) {
-        val sharedPreferences =  context?.getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
+        val sharedPreferences =  requireContext().getSharedPreferences("LANGUAGE",Context.MODE_PRIVATE)
         val editor = sharedPreferences?.edit()
         editor?.putInt("position",flag)
         editor?.apply()

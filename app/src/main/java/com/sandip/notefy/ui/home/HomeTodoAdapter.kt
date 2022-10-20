@@ -10,10 +10,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Todo
 
-class HomeTodoAdapter(
-    context: Context,
-    todoList: ArrayList<Todo>?,
-) : RecyclerView.Adapter<HomeTodoAdapter.TodoViewHolder?>() {
+class HomeTodoAdapter( context: Context, todoList: ArrayList<Todo>?)
+    : RecyclerView.Adapter<HomeTodoAdapter.TodoViewHolder?>() {
+
     private val context: Context
     private val todoList: ArrayList<Todo>?
     init {
@@ -49,7 +48,6 @@ class HomeTodoAdapter(
         init {
             todoCheckBox = itemView.findViewById(R.id.ch)
             todoTitle = itemView.findViewById(R.id.ti)
-
         }
     }
 }

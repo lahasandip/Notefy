@@ -68,7 +68,7 @@ class NewUpdateNoteViewModel @Inject constructor(
             state["requestCode"] = value
         }
 
-    var isStriked = state.get<Boolean>("isStriked") ?: note?.isStriked ?: false
+    var isStriked = state.get<Boolean>("isStriked") ?: note?.strike ?: false
         set(value) {
             field = value
             state["isStriked"] = value
@@ -117,7 +117,7 @@ class NewUpdateNoteViewModel @Inject constructor(
                 url = noteUrl,
                 dateTime = noteDateTime,
                 requestCode = requestCode,
-                isStriked = isStriked,
+                strike = isStriked,
                 location = noteLocation,
                 clr = noteColor,
                 image = noteImage,
@@ -127,7 +127,7 @@ class NewUpdateNoteViewModel @Inject constructor(
             updateTask(updatedTask)
         } else {
             val newTask = NoteEntity(title = noteTitle, body = noteDescription, important = noteImportance,
-                url = noteUrl, dateTime =  noteDateTime, requestCode = requestCode, isStriked = isStriked,
+                url = noteUrl, dateTime =  noteDateTime, requestCode = requestCode, strike = isStriked,
                 location =  noteLocation, clr =  noteColor, image =  noteImage, todoList = noteTodoList,  isHide = noteIsHide)
             createTask(newTask)
         }
@@ -144,7 +144,7 @@ class NewUpdateNoteViewModel @Inject constructor(
                 url = noteUrl,
                 dateTime = noteDateTime,
                 requestCode = requestCode,
-                isStriked = true,
+                strike = true,
                 location = noteLocation,
                 clr = noteColor,
                 image = noteImage,
@@ -160,7 +160,7 @@ class NewUpdateNoteViewModel @Inject constructor(
                 url = noteUrl,
                 dateTime = noteDateTime,
                 requestCode = requestCode,
-                isStriked = true,
+                strike = true,
                 location = noteLocation,
                 clr = noteColor,
                 image = noteImage,
@@ -280,7 +280,7 @@ class NewUpdateNoteViewModel @Inject constructor(
                 url = noteUrl,
                 dateTime = noteDateTime,
                 requestCode = requestCode,
-                isStriked = isStriked,
+                strike = isStriked,
                 location = noteLocation,
                 clr = noteColor,
                 image = noteImage,
@@ -290,7 +290,7 @@ class NewUpdateNoteViewModel @Inject constructor(
             updateDeleteTask(updatedTask)
         } else {
             val newTask = NoteEntity(title = noteTitle, body = noteDescription, important = noteImportance,
-                url = noteUrl, dateTime =  noteDateTime, requestCode = requestCode, isStriked = isStriked,
+                url = noteUrl, dateTime =  noteDateTime, requestCode = requestCode, strike = isStriked,
                 location =  noteLocation, clr =  noteColor, image =  noteImage, todoList = noteTodoList,  isHide = noteIsHide)
             createDeleteTask(newTask)
         }

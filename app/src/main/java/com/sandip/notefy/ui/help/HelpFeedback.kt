@@ -17,7 +17,7 @@ import com.sandip.notefy.data.model.Help
 import com.sandip.notefy.databinding.FragmentHelpFeedbackBinding
 import com.sandip.notefy.util.exhaustive
 
-class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnItemClickListener {
+class HelpFeedback : Fragment(R.layout.fragment_help_feedback){
 
     private val viewModel: HelpFeedbackViewModel by viewModels()
     private lateinit var binding: FragmentHelpFeedbackBinding
@@ -45,7 +45,7 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
             helpList.add(helpClass)
         }
 
-        val helpAdapter = HelpAdapter(helpList, this)
+        val helpAdapter = HelpAdapter(helpList)
         binding.apply {
             helpRecyclerView.apply {
                 adapter = helpAdapter
@@ -67,7 +67,6 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
                     putExtra(Intent.EXTRA_EMAIL, address)
                     putExtra(Intent.EXTRA_SUBJECT, "Please Advise")
                     putExtra(Intent.EXTRA_TEXT, "Android Version: ${Build.VERSION.SDK_INT},\nApp Version: ${BuildConfig.VERSION_NAME}")
-
                 }
                 if (activity?.let { it1 -> intent.resolveActivity(it1.packageManager) } != null) {
                     startActivity(intent)
@@ -87,9 +86,5 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback), HelpAdapter.OnIt
                 }
             }
         }
-    }
-
-
-    override fun onItemClick(flag: Int) {
     }
 }

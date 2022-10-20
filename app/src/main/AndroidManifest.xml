@@ -5,7 +5,6 @@
 
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <application
         android:name=".NotefyApplication"
@@ -23,11 +22,7 @@
             android:enabled="true"
             android:exported="true"
             android:configChanges="uiMode">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-            </intent-filter>
         </receiver>
-
         <activity
             android:name=".ui.MainActivity"
             android:windowSoftInputMode="adjustResize"
@@ -53,5 +48,4 @@
                 android:resource="@xml/paths" />
         </provider>
     </application>
-
 </manifest>

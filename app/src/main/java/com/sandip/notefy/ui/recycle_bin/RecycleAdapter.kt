@@ -1,6 +1,8 @@
 package com.sandip.notefy.ui.recycle_bin
 
+import android.app.Activity
 import android.graphics.Color
+import android.graphics.Paint
 import android.net.Uri
 import android.view.*
 import androidx.core.content.ContextCompat
@@ -16,14 +18,13 @@ import com.sandip.notefy.R
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.NewNoteBinding
-import com.sandip.notefy.ui.home.Home
-import com.sandip.notefy.ui.home.HomeViewModel
 import com.sandip.notefy.ui.home.HomeTodoAdapter
-import com.sandip.notefy.ui.recycle_bin.RecycleBin.Companion.act
 import com.sandip.notefy.ui.recycle_bin.RecycleBin.Companion.noteList
+import java.text.SimpleDateFormat
 
-class RecycleAdapter(private val listener: OnItemClickListener) :
+class RecycleAdapter(activity: Activity, private val listener: OnItemClickListener) :
     ListAdapter<NoteEntity, RecycleAdapter.NoteViewHolder>(DiffCallback()) {
+    private val mActivity = activity
     var isEnable: Boolean = false
     var isSelectAll = false
     var selectList: ArrayList<NoteEntity> = ArrayList()
@@ -42,17 +43,15 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
         val currentItem = getItem(position)
         holder.bind(holder, currentItem)
-
     }
 
     inner class NoteViewHolder(private val binding: NewNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
+        val rootView: View = mActivity.window.decorView.findViewById(android.R.id.content)
         fun bind(holder: NoteViewHolder, noteEntity: NoteEntity) {
             binding.apply {
                 overlay.setOnClickListener {
                     if (isEnable) {
-                        // when action mode is enable
-                        // call method
                         clickItem(binding, holder)
                     } else {
                         val position = adapterPosition
@@ -66,7 +65,6 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
 
                     if (!isEnable) {
                         val callback = object : ActionMode.Callback {
-
                             override fun onCreateActionMode(
                                 mode: ActionMode?,
                                 menu: Menu?
@@ -75,17 +73,14 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                                 recycleActionMode = mode
                                 return true
                             }
-
                             override fun onPrepareActionMode(
                                 mode: ActionMode?,
                                 menu: Menu?
                             ): Boolean {
                                 isEnable = true
                                 clickItem(binding, holder)
-                                (Home.act as LifecycleOwner?)?.let { it1 ->
-                                    HomeViewModel.mutableLiveData.observe(
-                                        it1
-                                    ) { s ->
+                                (mActivity as LifecycleOwner?)?.let { it1 ->
+                                    RecycleBinViewModel.mutableLiveData.observe(it1) { s ->
                                         if (!(s.equals("0"))) {
                                             mode?.title = String.format("%s", s)
                                         } else {
@@ -95,7 +90,6 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                                 }
                                 return false
                             }
-
                             override fun onActionItemClicked(
                                 mode: ActionMode?,
                                 item: MenuItem?
@@ -110,21 +104,18 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                                     }
 
                                     R.id.select_all -> {
-
                                         item.icon = ContextCompat.getDrawable(NotefyApplication.appContext,
                                             R.drawable.ic_baseline_deselect_24)
-                                        if(selectList.size == noteList.size)
-                                        {
+                                        if(selectList.size == noteList.size) {
                                             isSelectAll=false
                                             selectList.clear()
                                         }
-                                        else
-                                        {
+                                        else {
                                             isSelectAll=true
                                             selectList.clear()
                                             selectList.addAll(noteList)
                                         }
-                                        HomeViewModel.mutableLiveData.value = selectList.size.toString()
+                                        RecycleBinViewModel.mutableLiveData.value = selectList.size.toString()
                                         notifyDataSetChanged()
                                         true
                                     }
@@ -134,10 +125,8 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                                             listener.onMenuDeleteClick(s)
                                             undoList.add(s)
                                         }
-                                        val rootView: View = act.window.decorView
-                                            .findViewById(android.R.id.content)
-                                        Snackbar.make(rootView, act.getString(R.string.notes_deleted_forever), Snackbar.LENGTH_LONG)
-                                            .setAction(act.getString(R.string.undo)) {
+                                        Snackbar.make(rootView, mActivity.getString(R.string.notes_deleted_forever), Snackbar.LENGTH_LONG)
+                                            .setAction(mActivity.getString(R.string.undo)) {
                                                 for (s in undoList) {
                                                     listener.onUndo(s)
                                                 }
@@ -156,53 +145,77 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                                 notifyDataSetChanged()
                             }
                         }
-                        Home.act.startActionMode(callback)
+                        mActivity.startActionMode(callback)
                     }
-                    else
-                    {
+                    else {
                         clickItem(binding, holder)
                     }
                     true
                 }
 
-                if(isSelectAll)
-                {
-                    binding.cardView.strokeWidth = 5
+                if(isSelectAll){
+                    binding.cardView.strokeWidth = 8
                     binding.cardView.strokeColor = Color.parseColor("#80cbc4")
                 }
-                else
-                { binding.cardView.strokeWidth = 0
+                else { binding.cardView.strokeWidth = 0
                     binding.cardView.strokeColor = Color.parseColor("#9e9e9e")
                 }
 
                 important.isChecked = noteEntity.important
-
                 noteTitle.text = noteEntity.title
+
                 if (!(noteEntity.body.isNullOrEmpty())) {
                     noteBody.text = noteEntity.body
                     noteBody.visibility = View.VISIBLE
+                }
+                else{
+                    noteBody.text = null
+                    noteBody.visibility = View.GONE
                 }
                 if (!(noteEntity.url.isNullOrEmpty())) {
                     urlLink.text = noteEntity.url
                     layoutURL.visibility = View.VISIBLE
                 }
-                if ((!(noteEntity.dateTime.isNullOrEmpty()))
-                ) {
-                    dateTime.text = noteEntity.dateTime
-//                    time.text = noteEntity.time
-                    layoutDate.visibility = View.VISIBLE
+                else{
+                    urlLink.text = null
+                    layoutURL.visibility = View.GONE
                 }
+                if ((!(noteEntity.dateTime.isNullOrEmpty()))) {
+                    var date2 = noteEntity.dateTime
+                    var spf = SimpleDateFormat("yyyy-MM-dd-h:m")
+                    val newDate = spf.parse(date2)
+                    spf = SimpleDateFormat("MMM d, ''yy, h:m")
+                    date2 = newDate?.let { spf.format(it) }
+                    dateTime.text = date2
+                    layoutDate.visibility = View.VISIBLE
+                    if (noteEntity.strike) {
+                        dateTime.paintFlags = dateTime.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    }
+                }
+                else{
+                    dateTime.text = null
+                    layoutDate.visibility = View.GONE
+                }
+
                 if (!(noteEntity.location.isNullOrEmpty())) {
                     location.text = noteEntity.location
                     layoutLocation.visibility = View.VISIBLE
-
                 }
+                else{
+                    location.text = null
+                    layoutLocation.visibility = View.GONE
+                }
+
                 cardView.setCardBackgroundColor(noteEntity.clr)
 
                 if(noteEntity.image != null) {
                     val imageUri = Uri.parse(noteEntity.image)
                     Glide.with(NotefyApplication.appContext).load(imageUri).into(img)
                     noteImageLayout.visibility = View.VISIBLE
+                }
+                else{
+                    Glide.with(NotefyApplication.appContext).clear(img)
+                    noteImageLayout.visibility = View.GONE
                 }
 
                 if (noteEntity.todoList != null) {
@@ -212,6 +225,9 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
                     todoRecyclerView.adapter = todoAdapter
                     todoRecyclerView.visibility = View.VISIBLE
                     todoAdapter.notifyDataSetChanged()
+                }
+                else{
+                    todoRecyclerView.visibility = View.GONE
                 }
             }
         }
@@ -232,8 +248,7 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
             binding.cardView.strokeColor = Color.parseColor("#9e9e9e")
             selectList.remove(task)
         }
-
-        HomeViewModel.mutableLiveData.value = selectList.size.toString()
+        RecycleBinViewModel.mutableLiveData.value = selectList.size.toString()
     }
 
     interface OnItemClickListener {
@@ -244,10 +259,7 @@ class RecycleAdapter(private val listener: OnItemClickListener) :
     }
 
     class DiffCallback : DiffUtil.ItemCallback<NoteEntity>() {
-        override fun areItemsTheSame(oldItem: NoteEntity, newItem: NoteEntity) =
-            oldItem.id == newItem.id
-
-        override fun areContentsTheSame(oldItem: NoteEntity, newItem: NoteEntity) =
-            oldItem == newItem
+        override fun areItemsTheSame(oldItem: NoteEntity, newItem: NoteEntity) = oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: NoteEntity, newItem: NoteEntity) = oldItem == newItem
     }
 }

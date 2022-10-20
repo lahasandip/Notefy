@@ -1,6 +1,7 @@
 package com.sandip.notefy.ui.recycle_bin
 
 import android.content.Context
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -18,10 +19,13 @@ class RecycleBinViewModel @Inject constructor(
     private val noteDao: NoteDao
 ) : ViewModel() {
 
+    companion object{
+        var mutableLiveData = MutableLiveData<String?>()
+    }
+
     private val tasksEventChannel = Channel<TasksEvent>()
     val tasksEvent = tasksEventChannel.receiveAsFlow()
     val note = noteDao.getTrashData().asLiveData()
-
 
     fun onTaskSwiped(noteEntity: NoteEntity) = viewModelScope.launch {
         noteDao.deleteDao(noteEntity)
@@ -48,9 +52,7 @@ class RecycleBinViewModel @Inject constructor(
 
     sealed class TasksEvent {
         object NavigateToBackScreen : TasksEvent()
-
         data class ShowUndoDeleteTaskMessage(val noteEntity: NoteEntity) : TasksEvent()
         data class ShowDeletedTaskMessage(val s: String) : TasksEvent()
-
     }
 }

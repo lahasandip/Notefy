@@ -1,6 +1,5 @@
 package com.sandip.notefy.ui.home
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.SharedPreferences
@@ -37,7 +36,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     SharedPreferences.OnSharedPreferenceChangeListener {
 
     private val viewModel: HomeViewModel by viewModels()
-    private val noteAdapter = NoteAdapter(this)
     private lateinit var gridLayoutManager: StaggeredGridLayoutManager
     private lateinit var binding: FragmentHomeBinding
     private lateinit var bookmarked: RadioButton
@@ -47,21 +45,21 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     private lateinit var oldest: RadioButton
     private lateinit var radioGroup: RadioGroup
     private lateinit var dialog: Dialog
+    private var gridSharedPreferences: SharedPreferences? = null
     companion object{
-        lateinit var act : Activity
         lateinit var noteList: List<NoteEntity>
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
+        observeLanguagePreference()
         Log.d("Home fragment", "Home called")
         val drawerLayout = MainActivity.drawerLayout
-        displaySortByDialog()
+        initSortByDialog()
 
-        act = requireActivity()
-
-
+        val noteAdapter = NoteAdapter(requireActivity(), this)
+        gridSharedPreferences = context?.getSharedPreferences("grid", Context.MODE_PRIVATE)
 
         val prof = view.findViewById<ImageView>(R.id.profile_photo)
 
@@ -71,15 +69,17 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             recyclerView.apply {
                 adapter = noteAdapter
                 layoutManager = observeGridLayout()
-//                setHasFixedSize(true)
-
 
                 gridView.setOnCheckedChangeListener { _, isChecked ->
-                    val sharedPreferences =
-                        context.getSharedPreferences("grid", Context.MODE_PRIVATE)
-                    val editor = sharedPreferences.edit()
-                    editor.putBoolean("grid", isChecked)
-                    editor.apply()
+                    val editor = gridSharedPreferences?.edit()
+                    editor?.putBoolean("grid", isChecked)
+                    editor?.apply()
+                }
+
+                viewModel.note.observe(viewLifecycleOwner) {
+                    noteAdapter.submitList(it)
+                    noteList = it
+                    Log.d("live data", it.toString())
                 }
 
                 viewModel.displayUser.observe(viewLifecycleOwner) {
@@ -91,15 +91,13 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                     }
                 }
 
-
                 swipeRefreshLayout.setOnRefreshListener {
-
                     viewModel.note.observe(viewLifecycleOwner) {
                         noteAdapter.submitList(it)
                     }
                     swipeRefreshLayout.isRefreshing = false
-
                 }
+
                 viewModel.isChecked.asLiveData().observe(viewLifecycleOwner) {
                     val savedCheckedRadioButton =
                         radioGroup.getChildAt(it) as RadioButton
@@ -107,6 +105,13 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                 }
 
 
+                viewModel.noteCount.observe(viewLifecycleOwner) {
+                    if (it == 0) {
+                        emptyNotes.emptyNotesError.visibility = View.VISIBLE
+                    } else {
+                        emptyNotes.emptyNotesError.visibility = View.GONE
+                    }
+                }
 
                 searchView.setOnQueryTextListener(object :
                     android.widget.SearchView.OnQueryTextListener,
@@ -114,17 +119,13 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                     override fun onQueryTextSubmit(query: String?): Boolean {
                         return true
                     }
-
                     override fun onQueryTextChange(query: String?): Boolean {
                         if (query != null) {
                             viewModel.searchQuery.value = query
                         }
                         return true
                     }
-
                 })
-
-
 
                 ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
                     0,
@@ -139,7 +140,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                     }
 
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
                         val task = noteAdapter.currentList[viewHolder.adapterPosition]
                         viewModel.onTaskSwiped(task, true)
                         if(homeActionMode != null){
@@ -152,45 +152,25 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                 viewModel.onAddNewTaskClick()
             }
 
-
             setFragmentResultListener("add_edit_delete_request") { _, bundle ->
                 val result = bundle.getInt("add_edit_delete_result")
                 context?.let { viewModel.onAddEditResult(it,result) }
-            }
-
-            viewModel.note.observe(viewLifecycleOwner) {
-                noteAdapter.submitList(it)
-                noteList = it
-                Log.d("live data", it.toString())
-            }
-
-            viewModel.noteCount.observe(viewLifecycleOwner) {
-                if (it == 0) {
-                    emptyNotes.emptyNotesError.visibility = View.VISIBLE
-                } else {
-                    emptyNotes.emptyNotesError.visibility = View.GONE
-                }
             }
 
             topAppBar.setNavigationOnClickListener {
                 drawerLayout?.openDrawer(GravityCompat.START)
             }
 
-
-
             prof.setOnClickListener {
                 viewModel.onProfileClick()
             }
 
             topAppBar.setOnMenuItemClickListener { menuItem ->
-
                 when (menuItem.itemId) {
-
                     R.id.sort -> {
                         dialog.show()
                         bookmarked.setOnClickListener {
                             viewModel.onSortOrderSelected(SortOrder.BOOKMARKED)
-
                         }
                         titleAsc.setOnClickListener {
                             viewModel.onSortOrderSelected(SortOrder.TITLE_ASC)
@@ -210,7 +190,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                 }
             }
         }
-
 
 
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -260,17 +239,11 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                 }.exhaustive
             }
         }
-
-        observeLanguagePreference()
-
     }
 
     private fun observeGridLayout(): RecyclerView.LayoutManager {
-        val sharedPreferences = context?.getSharedPreferences("grid", Context.MODE_PRIVATE)
-        sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
-
-        when (sharedPreferences?.getBoolean("grid", false)) {
-
+        gridSharedPreferences?.registerOnSharedPreferenceChangeListener(this)
+        when (gridSharedPreferences?.getBoolean("grid", false)) {
             true -> if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
                 gridLayoutManager.spanCount = 1
                 binding.gridView.isChecked = true
@@ -310,6 +283,9 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         if (key.equals("grid")) {
             observeGridLayout()
         }
+//        if (key.equals("position")) {
+//            observeLanguagePreference()
+//        }
     }
 
     private var radioGroupOnCheckedChangeListener: RadioGroup.OnCheckedChangeListener =
@@ -319,7 +295,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             viewModel.updateSortOrderIsChecked(checkedIndex)
         }
 
-    private fun displaySortByDialog() {
+    private fun initSortByDialog() {
         dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
         dialog.setContentView(R.layout.sortby_dialog)
         dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
@@ -329,20 +305,13 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         titleDsc = dialog.findViewById(R.id.title_desc)
         newest = dialog.findViewById(R.id.newest)
         oldest = dialog.findViewById(R.id.oldest)
-
         radioGroup = dialog.findViewById(R.id.radioGroup)
         radioGroup.setOnCheckedChangeListener(radioGroupOnCheckedChangeListener)
     }
 
     private fun observeLanguagePreference() {
-        val sharedPreferences =  context?.getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
-        val position = sharedPreferences?.getInt("position", 0)
-        if (position != null) {
-            Log.d("Home fragment", "observeLanguagePreference called $position")
-
-            viewModel.onTaskSelected(context, position)
+            viewModel.onTaskSelected(requireContext())
         }
-    }
 
     override fun onPause() {
         super.onPause()
@@ -350,5 +319,10 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             homeActionMode?.finish()
             homeActionMode = null
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        gridSharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
     }
 }

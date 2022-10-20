@@ -175,8 +175,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         darkSwitch.isChecked = false
         Log.d("Home fragment", "onLightMode called")
-
-
     }
 
     private fun onDarkMode() {

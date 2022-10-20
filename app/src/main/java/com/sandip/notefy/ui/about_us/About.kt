@@ -21,7 +21,7 @@ class About : Fragment(R.layout.fragment_about) {
         binding = FragmentAboutBinding.bind(view)
 
         binding.apply {
-            topAppBar.setNavigationOnClickListener {
+            binding.topAppBar.setNavigationOnClickListener {
                 viewModel.onOkClick()
             }
 

@@ -2,8 +2,8 @@ package com.sandip.notefy.ui.home
 
 import android.content.Context
 import android.content.res.Configuration
+import android.util.Log
 import androidx.lifecycle.*
-import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.dao.NoteDao
 import com.sandip.notefy.data.dao.UserDao
@@ -101,8 +101,9 @@ class HomeViewModel @Inject constructor(
         tasksEventChannel.send(TasksEvent.ShowTaskSavedConfirmationMessage(text))
     }
 
-    fun onTaskSelected(context: Context?, flag: Int) = viewModelScope.launch {
-        when(flag){
+    fun onTaskSelected(context: Context?) = viewModelScope.launch {
+        val sharedPreferences =  context?.getSharedPreferences("LANGUAGE",Context.MODE_PRIVATE)
+        when(sharedPreferences?.getInt("position", 0)){
             0 -> updateResource( context,"en")
             1 -> updateResource(context, "hi")
             2 -> updateResource(context, "es")

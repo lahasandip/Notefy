@@ -28,7 +28,6 @@ class LanguagesAdapter(
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LanguagesViewHolder {
-
         return LanguagesViewHolder(
             LayoutInflater.from(parent.context).inflate(
                 R.layout.language_card,
@@ -40,7 +39,7 @@ class LanguagesAdapter(
 
     override fun onBindViewHolder(holder: LanguagesViewHolder, position: Int) {
 
-        val sharedPreferences =  NotefyApplication.appContext.getSharedPreferences("PREFERENCE_NAME",Context.MODE_PRIVATE)
+        val sharedPreferences =  NotefyApplication.appContext.getSharedPreferences("LANGUAGE",Context.MODE_PRIVATE)
         val pos = sharedPreferences?.getInt("position", 0)
         if (pos != null) {
             selectedPosition = pos

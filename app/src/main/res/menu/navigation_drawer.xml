@@ -9,30 +9,24 @@
         <item
             android:id="@+id/user"
             android:title="@string/profile"
-            android:icon="@drawable/ic_outline_person_24"
-            />
+            android:icon="@drawable/ic_outline_person_24" />
     </group>
-
     <group
         android:id="@+id/group2"
         android:checkableBehavior="single">
         <item
             android:id="@+id/home"
             android:title="@string/home"
-            android:icon="@drawable/ic_outline_home_24"
-            />
+            android:icon="@drawable/ic_outline_home_24" />
         <item
             android:id="@+id/new_update_note"
             android:title="@string/new_note"
-            android:icon="@drawable/ic_outline_note_add_24"
-            />
+            android:icon="@drawable/ic_outline_note_add_24" />
         <item
             android:id="@+id/recycle_bin"
             android:title="@string/recycle_bin"
-            android:icon="@drawable/ic_outline_restore_from_trash_24"
-            />
+            android:icon="@drawable/ic_outline_restore_from_trash_24" />
     </group>
-
     <group
         android:id="@+id/group3"
         android:checkableBehavior="single">
@@ -51,15 +45,13 @@
             app:actionLayout="@layout/biometric_toggle_button"
             android:icon="@drawable/ic_baseline_fingerprint_24"/>
     </group>
-
     <group
         android:id="@+id/group4"
         android:checkableBehavior="single">
         <item
             android:id="@+id/settings"
             android:title="@string/share_app"
-            android:icon="@drawable/ic_baseline_share_24"
-            />
+            android:icon="@drawable/ic_baseline_share_24" />
         <item
             android:id="@+id/help_feedback"
             android:title="@string/help_and_feedback"

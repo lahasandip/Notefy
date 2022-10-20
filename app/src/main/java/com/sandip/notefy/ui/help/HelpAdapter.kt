@@ -10,19 +10,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Help
 
-class HelpAdapter(
-    helpList: ArrayList<Help>,
-    listener: OnItemClickListener
-) :
-    RecyclerView.Adapter<HelpAdapter.HelpFeedbackViewHolder?>() {
+class HelpAdapter(helpList: ArrayList<Help>) : RecyclerView.Adapter<HelpAdapter.HelpFeedbackViewHolder?>() {
     private val myList : ArrayList<Help>?
-    private val itemClickListener: OnItemClickListener?
     private var selectedPosition = -1
     private val viewModel: HelpFeedbackViewModel
 
     init {
         myList = helpList
-        itemClickListener = listener
         viewModel = HelpFeedbackViewModel()
     }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HelpFeedbackViewHolder {
@@ -49,7 +43,7 @@ class HelpAdapter(
                 arrowButton.setImageResource(R.drawable.ic_outline_keyboard_arrow_down_24)
             }
             itemView.setOnClickListener {
-                selectedPosition = position
+                selectedPosition = adapterPosition
                 help?.visibility = !(help?.visibility)!!
                 notifyItemChanged(position)
             }
@@ -70,10 +64,6 @@ class HelpAdapter(
             expandedText = itemView.findViewById(R.id.expanded_text)
             expandedLayout = itemView.findViewById(R.id.layout_expanded_text)
         }
-    }
-
-    interface OnItemClickListener {
-        fun onItemClick(flag: Int)
     }
 }
 

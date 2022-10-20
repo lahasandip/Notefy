@@ -10,18 +10,20 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Todo
-import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.todoAdapter
 
 class NewUpdateTodoAdapter(
-    context: Context,
+    context: Context?,
     todoList: ArrayList<Todo>?,
+    todoAdapter: NewUpdateTodoAdapter?,
 ) : RecyclerView.Adapter<NewUpdateTodoAdapter.TodoViewHolder?>() {
-    private val context: Context
+    private val context: Context?
     private val todoList: ArrayList<Todo>?
+    private val newUpdateTodoAdapter: NewUpdateTodoAdapter?
     private val recyclerView = NewUpdateNote.recyclerView
     init {
         this.context = context
         this.todoList = todoList
+        this.newUpdateTodoAdapter = todoAdapter
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
@@ -37,7 +39,7 @@ class NewUpdateTodoAdapter(
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         holder.todoTitle.text = todoList?.get(position)?.todoDescription ?: ""
         holder.todoCheckBox.isChecked = todoList?.get(position)?.completed ?: false
-        if(todoList?.get(position)?.completed == true){
+        if(todoList?.get(position)?.completed == true) {
             holder.todoTitle.paintFlags = holder.todoTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
         }
         holder.todoCheckBox.setOnCheckedChangeListener { _, isChecked ->
@@ -55,8 +57,8 @@ class NewUpdateTodoAdapter(
 
         holder.removeButton.setOnClickListener {
             todoList?.removeAt(position)
-            recyclerView?.adapter = todoAdapter
-            todoAdapter?.notifyDataSetChanged()
+            recyclerView?.adapter = newUpdateTodoAdapter
+            newUpdateTodoAdapter?.notifyDataSetChanged()
         }
     }
 
