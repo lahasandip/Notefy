@@ -24,9 +24,8 @@ import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.databinding.FragmentHomeBinding
-import com.sandip.notefy.ui.MainActivity
+import com.sandip.notefy.ui.MainActivity.Companion.drawerLayout
 import com.sandip.notefy.ui.home.NoteAdapter.Companion.homeActionMode
-import com.sandip.notefy.util.LanguagePref.Companion.observeLanguagePreference
 import com.sandip.notefy.util.SortOrder
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
@@ -36,7 +35,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     SharedPreferences.OnSharedPreferenceChangeListener
 {
-
     private val viewModel: HomeViewModel by viewModels()
     private lateinit var gridLayoutManager: StaggeredGridLayoutManager
     private lateinit var binding: FragmentHomeBinding
@@ -56,8 +54,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
         Log.d("Home fragment", "Home called")
-        observeLanguagePreference(context, "Called from home")
-        val drawerLayout = MainActivity.drawerLayout
         initSortByDialog()
 
         val noteAdapter = NoteAdapter(requireActivity(), view,this)
@@ -240,13 +236,9 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                 }.exhaustive
             }
         }
-//            viewModel.observeLanguagePreference(context)
-//        observeLanguagePreference(context, "Called from main")
-
     }
 
     private fun observeGridLayout(): RecyclerView.LayoutManager {
-//        Log.d("Home fragment", "observe grid layout called" )
         gridSharedPreferences?.registerOnSharedPreferenceChangeListener(this)
         when (gridSharedPreferences?.getBoolean("grid", false)) {
             true -> if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -318,4 +310,5 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             observeGridLayout()
         }
     }
+
 }

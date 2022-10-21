@@ -7,14 +7,14 @@ import android.util.Log
 import com.sandip.notefy.NotefyApplication
 import java.util.*
 
-class LanguagePref {
+class LocaleManager {
 
     companion object {
         val languageSharedPreferences : SharedPreferences = NotefyApplication.appContext.getSharedPreferences("LANGUAGE", Context.MODE_PRIVATE)
-        val editor = languageSharedPreferences.edit()
+        val editor: SharedPreferences.Editor = languageSharedPreferences.edit()
 
-        fun observeLanguagePreference(context: Context?, msg: String) {
-            Log.d("Main", msg)
+        fun observeLanguagePreference(context: Context, msg: String) {
+            Log.d("Locale", msg)
             when (languageSharedPreferences.getInt("position", 0)) {
                 0 -> updateResource(context, "en")
                 1 -> updateResource(context, "hi")
@@ -34,15 +34,15 @@ class LanguagePref {
             }
         }
 
-        private fun updateResource(context: Context?, code: String) {
+        private fun updateResource(context: Context, code: String) {
             val locale = Locale(code)
             Locale.setDefault(locale)
             val configuration = Configuration()
-            configuration.locale = locale
-            context?.resources?.updateConfiguration(
+            configuration.setLocale(locale)
+            context.resources?.updateConfiguration(
                 configuration, context.resources?.displayMetrics
             )
-            Log.d("Main", code)
+            Log.d("Locale", code)
         }
     }
 }

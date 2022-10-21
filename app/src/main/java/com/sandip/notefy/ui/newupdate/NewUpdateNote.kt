@@ -59,9 +59,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private lateinit var timePicker: MaterialTimePicker
     private var todoList : ArrayList<Todo>? = arrayListOf()
     private val requestCode = System.currentTimeMillis().toInt()
-    private lateinit var todoAdapter: NewUpdateTodoAdapter
     companion object {
         var recyclerView: RecyclerView? = null
+        var todoAdapter: NewUpdateTodoAdapter? = null
+
         val notificationIntent = Intent(NotefyApplication.appContext, Notifications::class.java).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
         }
@@ -178,7 +179,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         datePicker.addOnPositiveButtonClickListener {
             val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
             utc.timeInMillis = it
-            val format = SimpleDateFormat("yyyy-MM-dd")
+            val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             date = format.format(utc.time)
             timePicker.show(childFragmentManager, "Time_Piker")
         }
@@ -193,9 +194,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteDateTime = "$date-$it"
             }
             var date2 = viewModel.noteDateTime
-            var spf = SimpleDateFormat("yyyy-MM-dd-h:m")
+            var spf = SimpleDateFormat("yyyy-MM-dd-h:m", Locale.getDefault())
             val newDate = spf.parse(date2)
-            spf = SimpleDateFormat("MMM d, ''yy, h:m")
+            spf = SimpleDateFormat("MMM d, ''yy, h:m", Locale.getDefault())
             date2 = newDate?.let { it1 -> spf.format(it1) }.toString()
             binding.apply {
                 newDateTime.paintFlags = 0
@@ -224,9 +225,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
             if (viewModel.noteDateTime.isNotEmpty()) {
                 var date = viewModel.noteDateTime
-                var spf = SimpleDateFormat("yyyy-MM-dd-h:m")
+                var spf = SimpleDateFormat("yyyy-MM-dd-h:m", Locale.getDefault())
                 val newDate = spf.parse(date)
-                spf = SimpleDateFormat("MMM d, ''yy, h:m")
+                spf = SimpleDateFormat("MMM d, ''yy, h:m", Locale.getDefault())
                 date = newDate?.let { spf.format(it) }.toString()
                 newDateTime.text = date
                 reminderParentLayout.visibility = View.VISIBLE
@@ -277,8 +278,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 todoList = viewModel.noteTodoList as ArrayList<Todo>?
                 todoAdapter = NewUpdateTodoAdapter(
                     context,
-                    todoList,
-                    todoAdapter
+                    todoList
                 )
                 recyclerView?.setHasFixedSize(true)
                 recyclerView?.layoutManager = LinearLayoutManager(context)
@@ -425,7 +425,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             addToList?.setOnClickListener {
                 if(!(descriptionTodo?.text.isNullOrEmpty())) {
                     todoList?.add(Todo(checkBoxTodo?.isChecked, descriptionTodo?.text.toString()))
-                    todoAdapter = NewUpdateTodoAdapter(requireContext(), todoList, todoAdapter)
+                    todoAdapter = NewUpdateTodoAdapter(requireContext(), todoList)
                     recyclerView?.setHasFixedSize(true)
                     recyclerView?.layoutManager = LinearLayoutManager(context)
                     recyclerView?.adapter = todoAdapter
@@ -804,5 +804,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         val calendar = Calendar.getInstance()
         calendar.set(year, month, day, hour, minute)
         return calendar.timeInMillis
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        todoAdapter = null
     }
 }

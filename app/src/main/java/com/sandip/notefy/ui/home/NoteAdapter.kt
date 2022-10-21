@@ -21,6 +21,8 @@ import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.NewNoteBinding
 import com.sandip.notefy.ui.home.Home.Companion.noteList
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class NoteAdapter(activity: Activity, view: View, private val listener: OnItemClickListener) :
     ListAdapter<NoteEntity, NoteAdapter.NoteViewHolder>(DiffCallback()) {
@@ -179,9 +181,9 @@ class NoteAdapter(activity: Activity, view: View, private val listener: OnItemCl
                 }
                 if ((!(noteEntity.dateTime.isNullOrEmpty()))) {
                     var date2 = noteEntity.dateTime
-                    var spf = SimpleDateFormat("yyyy-MM-dd-h:m")
+                    var spf = SimpleDateFormat("yyyy-MM-dd-h:m", Locale.getDefault())
                     val newDate = spf.parse(date2)
-                    spf = SimpleDateFormat("MMM d, ''yy, h:m")
+                    spf = SimpleDateFormat("MMM d, ''yy, h:m", Locale.getDefault())
                     date2 = newDate?.let { spf.format(it) }
                     dateTime.text = date2
                     layoutDate.visibility = View.VISIBLE

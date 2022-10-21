@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:theme="@style/Dialog"
-    android:fitsSystemWindows="true"
     android:background="@drawable/popup_background">
 
     <androidx.cardview.widget.CardView

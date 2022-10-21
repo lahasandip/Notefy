@@ -1,7 +1,6 @@
 package com.sandip.notefy.util
 
 import android.content.Context
-import android.icu.text.Transliterator.Position
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.*
 import androidx.datastore.preferences.preferencesDataStore

@@ -12,34 +12,21 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Language
 import com.sandip.notefy.databinding.FragmentLanguagesBinding
-import com.sandip.notefy.util.LanguagePref.Companion.editor
-import com.sandip.notefy.util.LanguagePref.Companion.languageSharedPreferences
-import com.sandip.notefy.util.LanguagePref.Companion.observeLanguagePreference
+import com.sandip.notefy.util.LocaleManager.Companion.editor
+import com.sandip.notefy.util.LocaleManager.Companion.languageSharedPreferences
+import com.sandip.notefy.util.LocaleManager.Companion.observeLanguagePreference
 import com.sandip.notefy.util.exhaustive
-import dagger.hilt.android.AndroidEntryPoint
 
-@AndroidEntryPoint
 class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItemClickListener,
     SharedPreferences.OnSharedPreferenceChangeListener
 {
-
     private val viewModel: LanguagesViewModel by viewModels()
     private lateinit var binding: FragmentLanguagesBinding
-//    var position = 0
-//    private var sharedPreferences : SharedPreferences? = null
-//    private var editor : SharedPreferences.Editor? = null
-    //    companion object {
-//        private var position = 0
-//    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLanguagesBinding.bind(view)
-
-//        sharedPreferences =  context?.getSharedPreferences("LANGUAGE", Context.MODE_PRIVATE)
         languageSharedPreferences.registerOnSharedPreferenceChangeListener(this)
-//        val position =  sharedPreferences?.getInt("position", 0)
-//        editor = languageSharedPreferences.edit()
-
 
         val flagImages = intArrayOf(
             R.drawable.usa,
@@ -80,10 +67,6 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
                         StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL)
                     }
             }
-//
-//            viewModel.langPosition.asLiveData().observe(viewLifecycleOwner) {
-//               position = it
-//            }
 
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 viewModel.tasksEvent.collect { event ->
@@ -91,55 +74,31 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
                         is LanguagesViewModel.TasksEvent.NavigateToBackScreen -> {
                             findNavController().popBackStack()
                         }
-                        is LanguagesViewModel.TasksEvent.NavigateToHomeScreen -> {
-//                            activity?.recreate()
-//                            val action =
-//                                LanguagesDirections.actionLanguagesToHome()
-//                            findNavController().navigate(action)
-                            findNavController().popBackStack()
-//                            val i = requireActivity().baseContext.packageManager
-//                                .getLaunchIntentForPackage(requireActivity().baseContext.packageName)
-//                            i?.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP)
-//                            startActivity(i)
-                        }
                     }.exhaustive
                 }
             }
 
             topAppBar.setNavigationOnClickListener {
-//                if (position != null) {
-//                    editor?.putInt("position",position)
-//                }
-//                editor?.apply()
-                viewModel.onOkClick()
-//                activity?.let { it1 ->
-//                    recreate(it1)
-//                }
+                viewModel.onContinueBackClick()
             }
 
             ok.setOnClickListener {
-                viewModel.onContinueClick()
-//                activity?.let { it1 ->
-//                    recreate(it1)
-//                }
+                viewModel.onContinueBackClick()
             }
         }
     }
 
     override fun onItemClick(flag: Int) {
-        editor?.putInt("position",flag)
-        editor?.apply()
-//        viewModel.saveLangPos(flag)
-
+        editor.putInt("position",flag)
+        editor.apply()
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if(key.equals("position"))  {
-//            viewModel.observeLanguagePreference(context)
-            observeLanguagePreference(context, "Called from language")
+            observeLanguagePreference(requireContext(), "observe lang Called from language")
             activity?.recreate()
         }
-        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()

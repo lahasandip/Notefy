@@ -21,6 +21,8 @@ import com.sandip.notefy.databinding.NewNoteBinding
 import com.sandip.notefy.ui.home.HomeTodoAdapter
 import com.sandip.notefy.ui.recycle_bin.RecycleBin.Companion.noteList
 import java.text.SimpleDateFormat
+import java.util.*
+import kotlin.collections.ArrayList
 
 class RecycleAdapter(activity: Activity, view: View, private val listener: OnItemClickListener) :
     ListAdapter<NoteEntity, RecycleAdapter.NoteViewHolder>(DiffCallback()) {
@@ -186,9 +188,9 @@ class RecycleAdapter(activity: Activity, view: View, private val listener: OnIte
                 }
                 if ((!(noteEntity.dateTime.isNullOrEmpty()))) {
                     var date2 = noteEntity.dateTime
-                    var spf = SimpleDateFormat("yyyy-MM-dd-h:m")
+                    var spf = SimpleDateFormat("yyyy-MM-dd-h:m", Locale.getDefault())
                     val newDate = spf.parse(date2)
-                    spf = SimpleDateFormat("MMM d, ''yy, h:m")
+                    spf = SimpleDateFormat("MMM d, ''yy, h:m", Locale.getDefault())
                     date2 = newDate?.let { spf.format(it) }
                     dateTime.text = date2
                     layoutDate.visibility = View.VISIBLE
