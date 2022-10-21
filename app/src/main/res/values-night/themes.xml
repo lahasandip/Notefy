@@ -1,23 +1,22 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.Notefy" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/teal_200</item>
-        <item name="colorPrimaryVariant">#121212</item>
+        <item name="colorPrimaryVariant">@color/NightSurface</item>
         <item name="colorOnPrimary">@color/black</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
-        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <item name="android:statusBarColor" >?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
 
         <item name="windowActionModeOverlay">true</item>
         <item name="actionModeStyle">@style/Widget.App.ActionMode</item>
         <item name="actionModeCloseDrawable">@drawable/ic_baseline_clear_24</item>
         <item name="actionBarTheme">@style/ThemeOverlay.MaterialComponents.Dark.ActionBar</item>
-
     </style>
 
     <style name="Widget.App.ActionMode" parent="Widget.AppCompat.ActionMode">
@@ -26,39 +25,36 @@
         <item name="background">@color/material_grey_900</item>
     </style>
 
-
     <style name="SearchView" parent="Widget.AppCompat.SearchView">
         <item name="iconifiedByDefault">false</item>
         <item name="colorControlActivated">@color/white</item>
         <item name="queryHint">@string/search_note</item>
-        <item name="android:backgroundTint">#424242</item>
+        <item name="android:backgroundTint">@color/DarkGrey</item>
         <item name="android:textSize">15sp</item>
-
-
     </style>
 
     <style name="Dialog" parent="">
-        <item name="android:backgroundTint">#424242</item>
+        <item name="android:backgroundTint">@color/DarkGrey</item>
     </style>
 
     <style name="DialogView" parent="">
-        <item name="android:backgroundTint">#757575</item>
+        <item name="android:backgroundTint">@color/Grey</item>
     </style>
 
     <style name="Toolbar" parent="Widget.MaterialComponents.Toolbar">
-        <item name="android:background">#121212</item>
+        <item name="android:background">@color/NightSurface</item>
     </style>
 
     <style name="LanguageCard" parent="Widget.MaterialComponents.CardView">
-        <item name="android:backgroundTint">#424242</item>
+        <item name="android:backgroundTint">@color/DarkGrey</item>
     </style>
 
     <style name="ProfileView" parent="">
-        <item name="android:background">#757575</item>
+        <item name="android:background">@color/Grey</item>
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">#121212</item>
+        <item name="windowSplashScreenBackground">@color/NightSurface</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_baseline_edit_note_24</item>
         <item name="postSplashScreenTheme">@style/Theme.Notefy</item>
     </style>
@@ -66,11 +62,8 @@
     <style name="BottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
     </style>
+
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
-
-
-
-
-    </resources>
+</resources>

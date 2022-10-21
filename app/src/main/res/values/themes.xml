@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Theme.Notefy" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
@@ -31,7 +31,6 @@
         <item name="queryHint">@string/search_note</item>
         <item name="android:backgroundTint">@color/Gray</item>
         <item name="android:textSize">15sp</item>
-
     </style>
 
     <style name="Dialog" parent="">
@@ -39,9 +38,8 @@
     </style>
 
     <style name="DialogView" parent="">
-        <item name="android:backgroundTint">#dddddd</item>
+        <item name="android:backgroundTint">@color/LightGrey</item>
     </style>
-
 
     <style name="DialogAnimation">
         <item name="android:windowEnterAnimation">@anim/slide_in</item>
@@ -53,7 +51,7 @@
     </style>
 
     <style name="ProfileView" parent="">
-        <item name="android:background">#dddddd</item>
+        <item name="android:background">@color/LightGrey</item>
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
@@ -62,12 +60,10 @@
         <item name="postSplashScreenTheme">@style/Theme.Notefy</item>
     </style>
 
-    <style name="NoTheme" parent="">
-    </style>
-
     <style name="BottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
         <item name="bottomSheetStyle">@style/BottomSheetStyle</item>
     </style>
+
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
@@ -75,5 +71,4 @@
     <style name="CardView" parent="">
         <item name="boxCornerRadiusTopEnd">10dp</item>
     </style>
-
 </resources>

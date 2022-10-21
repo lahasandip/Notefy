@@ -15,4 +15,13 @@
     <color name="SlateGray">#708090</color>
     <color name="RoyalBlue">#4169E1</color>
     <color name="LimeGreen">#00E676</color>
+    <color name="NightSurface">#121212</color>
+    <color name="DarkGrey">#424242</color>
+    <color name="LightGrey">#dddddd</color>
+    <color name="Grey">#757575</color>
+
+
+
+
+
 </resources>
