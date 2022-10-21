@@ -20,8 +20,7 @@ import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.NewNoteBinding
 import com.sandip.notefy.ui.home.Home.Companion.noteList
-import java.text.SimpleDateFormat
-import java.util.*
+import com.sandip.notefy.util.Converters.Companion.getDateFormat
 import kotlin.collections.ArrayList
 
 class NoteAdapter(activity: Activity, view: View, private val listener: OnItemClickListener) :
@@ -53,7 +52,6 @@ class NoteAdapter(activity: Activity, view: View, private val listener: OnItemCl
 
     inner class NoteViewHolder(private val binding: NewNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
-//        val rootView: View = mActivity.window.decorView.findViewById(android.R.id.content)
 
         fun bind(holder: NoteViewHolder, noteEntity: NoteEntity) {
             binding.apply {
@@ -180,12 +178,7 @@ class NoteAdapter(activity: Activity, view: View, private val listener: OnItemCl
                     layoutURL.visibility = View.GONE
                 }
                 if ((!(noteEntity.dateTime.isNullOrEmpty()))) {
-                    var date2 = noteEntity.dateTime
-                    var spf = SimpleDateFormat("yyyy-MM-dd-h:m", Locale.getDefault())
-                    val newDate = spf.parse(date2)
-                    spf = SimpleDateFormat("MMM d, ''yy, h:m", Locale.getDefault())
-                    date2 = newDate?.let { spf.format(it) }
-                    dateTime.text = date2
+                    dateTime.text = getDateFormat(noteEntity.dateTime)
                     layoutDate.visibility = View.VISIBLE
                     if (noteEntity.strike) {
                         dateTime.paintFlags = dateTime.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG

@@ -41,6 +41,7 @@ import com.sandip.notefy.ui.CHANNEL_DESCRIPTION
 import com.sandip.notefy.ui.CHANNEL_ID
 import com.sandip.notefy.ui.CHANNEL_NAME
 import com.sandip.notefy.ui.newupdate.NewUpdateNoteViewModel.*
+import com.sandip.notefy.util.Converters.Companion.getDateFormat
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import vadiole.colorpicker.ColorModel
@@ -183,9 +184,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             date = format.format(utc.time)
             timePicker.show(childFragmentManager, "Time_Piker")
         }
-//        datePicker.addOnNegativeButtonClickListener {}
-//        datePicker.addOnCancelListener {}
-//        datePicker.addOnDismissListener {}
 
 
         timePicker.addOnPositiveButtonClickListener {
@@ -193,26 +191,13 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             "${timePicker.hour}:${timePicker.minute}".also {
                 viewModel.noteDateTime = "$date-$it"
             }
-            var date2 = viewModel.noteDateTime
-            var spf = SimpleDateFormat("yyyy-MM-dd-h:m", Locale.getDefault())
-            val newDate = spf.parse(date2)
-            spf = SimpleDateFormat("MMM d, ''yy, h:m", Locale.getDefault())
-            date2 = newDate?.let { it1 -> spf.format(it1) }.toString()
+            getDateFormat(viewModel.noteDateTime)
             binding.apply {
                 newDateTime.paintFlags = 0
-                newDateTime.text = date2
+                newDateTime.text = getDateFormat(viewModel.noteDateTime)
                 reminderParentLayout.visibility = View.VISIBLE
             }
         }
-//        timePicker.addOnNegativeButtonClickListener {
-//            // call back code
-//        }
-//        timePicker.addOnCancelListener {
-//            // call back code
-//        }
-//        timePicker.addOnDismissListener {
-//            // call back code
-//        }
 
         //Bind with View model and Onclick Listener
         binding.apply {
@@ -224,12 +209,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 urlParentLayout.visibility = View.VISIBLE
             }
             if (viewModel.noteDateTime.isNotEmpty()) {
-                var date = viewModel.noteDateTime
-                var spf = SimpleDateFormat("yyyy-MM-dd-h:m", Locale.getDefault())
-                val newDate = spf.parse(date)
-                spf = SimpleDateFormat("MMM d, ''yy, h:m", Locale.getDefault())
-                date = newDate?.let { spf.format(it) }.toString()
-                newDateTime.text = date
+                newDateTime.text =  getDateFormat(viewModel.noteDateTime)
                 reminderParentLayout.visibility = View.VISIBLE
                 if(viewModel.isStriked) {
                     newDateTime.paintFlags =
