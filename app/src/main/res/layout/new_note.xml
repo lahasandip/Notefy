@@ -21,7 +21,7 @@
             <CheckBox
                 android:id="@+id/important"
                 android:layout_width="30dp"
-                android:layout_height="47dp"
+                android:layout_height="52dp"
                 android:layout_alignParentEnd="true"
                 android:button="@drawable/ic_baseline_bookmark_border_24"
                 android:elevation="5dp"
