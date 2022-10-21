@@ -22,8 +22,12 @@ import com.sandip.notefy.databinding.NewNoteBinding
 import com.sandip.notefy.ui.home.Home.Companion.noteList
 import java.text.SimpleDateFormat
 
-class NoteAdapter(activity: Activity, private val listener: OnItemClickListener) :
+class NoteAdapter(activity: Activity, view: View, private val listener: OnItemClickListener) :
     ListAdapter<NoteEntity, NoteAdapter.NoteViewHolder>(DiffCallback()) {
+    private val rootView : View
+    init {
+        this.rootView = view
+    }
 
     private val mActivity = activity
     var isEnable: Boolean = false
@@ -47,7 +51,7 @@ class NoteAdapter(activity: Activity, private val listener: OnItemClickListener)
 
     inner class NoteViewHolder(private val binding: NewNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        val rootView: View = mActivity.window.decorView.findViewById(android.R.id.content)
+//        val rootView: View = mActivity.window.decorView.findViewById(android.R.id.content)
 
         fun bind(holder: NoteViewHolder, noteEntity: NoteEntity) {
             binding.apply {

@@ -22,8 +22,12 @@ import com.sandip.notefy.ui.home.HomeTodoAdapter
 import com.sandip.notefy.ui.recycle_bin.RecycleBin.Companion.noteList
 import java.text.SimpleDateFormat
 
-class RecycleAdapter(activity: Activity, private val listener: OnItemClickListener) :
+class RecycleAdapter(activity: Activity, view: View, private val listener: OnItemClickListener) :
     ListAdapter<NoteEntity, RecycleAdapter.NoteViewHolder>(DiffCallback()) {
+    private val rootView : View
+    init {
+        this.rootView = view
+    }
     private val mActivity = activity
     var isEnable: Boolean = false
     var isSelectAll = false
@@ -47,7 +51,7 @@ class RecycleAdapter(activity: Activity, private val listener: OnItemClickListen
 
     inner class NoteViewHolder(private val binding: NewNoteBinding) :
         RecyclerView.ViewHolder(binding.root) {
-        val rootView: View = mActivity.window.decorView.findViewById(android.R.id.content)
+//        val rootView: View = mActivity.window.decorView.findViewById(android.R.id.content)
         fun bind(holder: NoteViewHolder, noteEntity: NoteEntity) {
             binding.apply {
                 overlay.setOnClickListener {

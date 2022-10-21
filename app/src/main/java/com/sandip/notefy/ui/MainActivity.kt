@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
@@ -24,7 +25,6 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.drawerlayout.widget.DrawerLayout
-import androidx.lifecycle.asLiveData
 import androidx.navigation.NavController
 import androidx.navigation.fragment.NavHostFragment
 import androidx.navigation.fragment.findNavController
@@ -37,6 +37,8 @@ import com.sandip.notefy.R
 import com.sandip.notefy.databinding.ActivityMainBinding
 import com.sandip.notefy.ui.home.NoteAdapter.Companion.homeActionMode
 import com.sandip.notefy.ui.recycle_bin.RecycleAdapter.Companion.recycleActionMode
+import com.sandip.notefy.util.LanguagePref.Companion.editor
+import com.sandip.notefy.util.LanguagePref.Companion.observeLanguagePreference
 import com.sandip.notefy.util.PreferencesManager
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.Executor
@@ -65,8 +67,8 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     companion object{
         var drawerLayout: DrawerLayout? = null
         lateinit var preferencesManager : PreferencesManager
+            }
 
-    }
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         preferencesManager = PreferencesManager(applicationContext)
@@ -86,7 +88,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         val navigationView = binding.navView
         darkSwitch = navigationView.menu.findItem(R.id.dark_theme).actionView!!.findViewById(R.id.dark_switch)
         darkSwitch.setOnCheckedChangeListener { _, isChecked ->
-            val editor = uiSharedPreferences.edit()
+//            val editor = uiSharedPreferences.edit()
             editor.putBoolean("darkMode",isChecked)
             editor.apply()
         }
@@ -146,7 +148,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             }
         })
         observeUiPreferences()
-        viewModel.observeLanguagePreference(this)
+        observeLanguagePreference(this, "Called from main")
         observeBiometricPreferences()
     }
 
@@ -155,8 +157,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
 
     private fun observeUiPreferences() {
-        Log.d("Home", "observeUiPreferences called")
-//        viewModel.observeLanguagePreference(this)
+//        Log.d("Home", "observeUiPreferences called")
 
         uiSharedPreferences.registerOnSharedPreferenceChangeListener(this)
         val darkMode = uiSharedPreferences.getBoolean("darkMode", false)
@@ -171,14 +172,14 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         isDarkMode = false
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
         darkSwitch.isChecked = false
-        Log.d("Home", "onLightMode called")
+//        Log.d("Home", "onLightMode called")
     }
 
     private fun onDarkMode() {
         isDarkMode =true
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         darkSwitch.isChecked = true
-        Log.d("Home", "onDarkMode called")
+//        Log.d("Home", "onDarkMode called")
 
     }
 
@@ -187,7 +188,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     Biometric Login Feature
      */
     private fun observeBiometricPreferences(){
-        Log.d("Home", "observeBiometricPreferences called")
+//        Log.d("Home", "observeBiometricPreferences called")
 
         biometricSharedPreferences.registerOnSharedPreferenceChangeListener(this)
         val biometric = biometricSharedPreferences.getBoolean("biometric", false)
@@ -199,17 +200,17 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         }
     }
     private fun onBiometricEnabled(){
-        Log.d("Home", "onBiometricEnabled called")
+//        Log.d("Home", "onBiometricEnabled called")
 
         isBiometricEnable = true
         val biometricManager = this.let { BiometricManager.from(this) }
         when (biometricManager.canAuthenticate(BIOMETRIC_WEAK or DEVICE_CREDENTIAL)) {
-            BiometricManager.BIOMETRIC_SUCCESS ->
-                Log.d("MY_APP_TAG", "App can authenticate using biometrics.")
-            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
-                Log.e("MY_APP_TAG", "No biometric features available on this device.")
-            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
-                Log.e("MY_APP_TAG", "Biometric features are currently unavailable.")
+//            BiometricManager.BIOMETRIC_SUCCESS ->
+//                Log.d("MY_APP_TAG", "App can authenticate using biometrics.")
+//            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
+//                Log.e("MY_APP_TAG", "No biometric features available on this device.")
+//            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
+//                Log.e("MY_APP_TAG", "Biometric features are currently unavailable.")
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
                 // Prompts the user to create credentials that your app accepts.
                 val enrollIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
@@ -247,17 +248,17 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                     finish()
                 }
 
-                override fun onAuthenticationSucceeded(
-                    result: BiometricPrompt.AuthenticationResult
-                ) {
-                    super.onAuthenticationSucceeded(result)
-                    Log.e("Auth Succeed", "Authentication Succeed")
-                }
-
-                override fun onAuthenticationFailed() {
-                    super.onAuthenticationFailed()
-                    Log.e("Auth Failed", "Authentication failed")
-                }
+//                override fun onAuthenticationSucceeded(
+//                    result: BiometricPrompt.AuthenticationResult
+//                ) {
+//                    super.onAuthenticationSucceeded(result)
+//                    Log.e("Auth Succeed", "Authentication Succeed")
+//                }
+//
+//                override fun onAuthenticationFailed() {
+//                    super.onAuthenticationFailed()
+//                    Log.e("Auth Failed", "Authentication failed")
+//                }
             })
 
         promptInfo = BiometricPrompt.PromptInfo.Builder()
@@ -272,16 +273,18 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private fun onBiometricDisabled(){
         isBiometricEnable = false
         screenLock.isChecked = false
-        Log.d("Home", "onBiometricDisabled called")
+//        Log.d("Home", "onBiometricDisabled called")
 
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if(key.equals("darkMode"))  {
+//            observeLanguagePreference(this, "theme preference change")
+//
             observeUiPreferences()
 //            Log.d("Home", "observeUiPreferences called")
 //            recreate()
-
+//
 //            finish()
 //            startActivity(intent)
 //            overridePendingTransition(0, 0)

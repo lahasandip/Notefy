@@ -32,7 +32,7 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecycleBinBinding.bind(view)
-        val recycleAdapter = RecycleAdapter(requireActivity(),this)
+        val recycleAdapter = RecycleAdapter(requireActivity(),view,this)
 
         binding.apply {
             trashRecyclerView.apply {

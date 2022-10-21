@@ -1,20 +1,20 @@
 package com.sandip.notefy.ui.languages
 
-import android.content.Context
-import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Language
 import com.sandip.notefy.databinding.FragmentLanguagesBinding
+import com.sandip.notefy.util.LanguagePref.Companion.editor
+import com.sandip.notefy.util.LanguagePref.Companion.languageSharedPreferences
+import com.sandip.notefy.util.LanguagePref.Companion.observeLanguagePreference
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -26,8 +26,8 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
     private val viewModel: LanguagesViewModel by viewModels()
     private lateinit var binding: FragmentLanguagesBinding
 //    var position = 0
-    private var sharedPreferences : SharedPreferences? = null
-    private var editor : SharedPreferences.Editor? = null
+//    private var sharedPreferences : SharedPreferences? = null
+//    private var editor : SharedPreferences.Editor? = null
     //    companion object {
 //        private var position = 0
 //    }
@@ -35,10 +35,10 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLanguagesBinding.bind(view)
 
-        sharedPreferences =  context?.getSharedPreferences("LANGUAGE", Context.MODE_PRIVATE)
-        sharedPreferences?.registerOnSharedPreferenceChangeListener(this)
-        val position =  sharedPreferences?.getInt("position", 0)
-        editor = sharedPreferences?.edit()
+//        sharedPreferences =  context?.getSharedPreferences("LANGUAGE", Context.MODE_PRIVATE)
+        languageSharedPreferences.registerOnSharedPreferenceChangeListener(this)
+//        val position =  sharedPreferences?.getInt("position", 0)
+//        editor = languageSharedPreferences.edit()
 
 
         val flagImages = intArrayOf(
@@ -107,10 +107,10 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
             }
 
             topAppBar.setNavigationOnClickListener {
-                if (position != null) {
-                    editor?.putInt("position",position)
-                }
-                editor?.apply()
+//                if (position != null) {
+//                    editor?.putInt("position",position)
+//                }
+//                editor?.apply()
                 viewModel.onOkClick()
 //                activity?.let { it1 ->
 //                    recreate(it1)
@@ -135,10 +135,14 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if(key.equals("position"))  {
-            viewModel.observeLanguagePreference(context)
+//            viewModel.observeLanguagePreference(context)
+            observeLanguagePreference(context, "Called from language")
             activity?.recreate()
         }
-
-
         }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        languageSharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+    }
 }
