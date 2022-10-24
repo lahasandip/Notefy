@@ -17,31 +17,28 @@ interface NoteDao {
     @Delete
     suspend fun deleteDao(entityPerson: NoteEntity)
 
-    @Query("DELETE from Note where id = :iD")
+    @Query("DELETE from Note where Id = :iD")
     suspend fun deleteById(iD:Int)
 
-    @Query("select * from Note where id = :id")
+    @Query("select * from Note where Id = :id")
     fun getBroadcastNote(id: Int): Flow<List<NoteEntity>>
 
-    @Query("select * from Note where Hide = 0 and title like '%' || :query || '%' order by id DESC",)
+    @Query("select * from Note where Hide = 0 and Title||Body like '%' || :query || '%' order by Id DESC",)
     fun getNewestToOldestData(query: String): Flow<List<NoteEntity>>
 
-    @Query("select * from Note where Hide = 0 and title like '%' || :query || '%' order by id ASC")
+    @Query("select * from Note where Hide = 0 and Title||Body like '%' || :query || '%' order by Id ASC")
     fun getOldestToNewestData(query: String): Flow<List<NoteEntity>>
 
-    @Query("select * from Note where Hide = 0 and title like '%' || :query || '%' order by lower(Title) ASC ")
+    @Query("select * from Note where Hide = 0 and Title||Body like '%' || :query || '%' order by lower(Title) ASC ")
     fun getByTitleAscData(query: String): Flow<List<NoteEntity>>
 
-    @Query("select * from Note where Hide = 0 and title like '%' || :query || '%' order by lower(Title) DESC ")
+    @Query("select * from Note where Hide = 0 and Title||Body like '%' || :query || '%' order by lower(Title) DESC ")
     fun getByTitleDscData(query: String): Flow<List<NoteEntity>>
 
-    @Query("select * from Note where Important = 1 and Hide = 0 and title like '%' || :query || '%'")
+    @Query("select * from Note where Important = 1 and Hide = 0 and Title||Body like '%' || :query || '%'")
     fun getBookmarkedData(query: String): Flow<List<NoteEntity>>
 
-    @Query("Select * from Note where Hide = 0 and title like '%' || :query || '%'")
-    fun searchDatabase(query : String) : LiveData<List<NoteEntity>>
-
-    @Query("select * from Note where Hide = 1 order by id DESC",)
+    @Query("select * from Note where Hide = 1 order by Id DESC",)
     fun getTrashData(): Flow<List<NoteEntity>>
 
     fun getTasks(query: String, sortOrder: SortOrder): Flow<List<NoteEntity>> =
@@ -53,7 +50,7 @@ interface NoteDao {
             SortOrder.OLD_TO_NEW -> getOldestToNewestData(query)
         }
 
-    @Query("select count(id) from Note")
+    @Query("select count(Id) from Note")
     fun getNotes() : LiveData<Int>
 
     @Query("select count(DateTime) from Note where DateTime not like '' and IsStrike = 0")
@@ -62,6 +59,6 @@ interface NoteDao {
     @Query("select count(TodoList) from Note where TodoList not like '[]'")
     fun getTodos() : LiveData<Int>
 
-    @Query("select * from Note where `Request Code` = :reqCode")
+    @Query("select * from Note where RequestCode = :reqCode")
     fun getReminderData(reqCode: Int?): NoteEntity
 }

@@ -251,7 +251,7 @@ class NoteAdapter(activity: Activity, view: View, private val listener: OnItemCl
     }
 
     class DiffCallback : DiffUtil.ItemCallback<NoteEntity>() {
-        override fun areItemsTheSame(oldItem: NoteEntity, newItem: NoteEntity) = oldItem.id == newItem.id
+        override fun areItemsTheSame(oldItem: NoteEntity, newItem: NoteEntity) = oldItem.Id == newItem.Id
         override fun areContentsTheSame(oldItem: NoteEntity, newItem: NoteEntity) = oldItem == newItem
     }
 }

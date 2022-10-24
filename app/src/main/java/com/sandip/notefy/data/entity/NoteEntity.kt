@@ -18,16 +18,16 @@ data class NoteEntity(
     @ColumnInfo(name = "Important") val important: Boolean = false,
     @ColumnInfo(name = "URL") val url: String? = null,
     @ColumnInfo(name = "DateTime") val dateTime: String? = null,
-    @ColumnInfo(name = "Request Code") val requestCode: Int? = null,
+    @ColumnInfo(name = "RequestCode") val requestCode: Int? = null,
     @ColumnInfo(name = "IsStrike") val strike: Boolean = false,
     @ColumnInfo(name = "Location") val location: String? = null,
     @ColumnInfo(name = "Color") val clr: Int = 0,
-    @ColumnInfo(name="Image") val image: String? = null,
-    @ColumnInfo(name="Hide") val isHide: Boolean = false,
+    @ColumnInfo(name = "Image") val image: String? = null,
+    @ColumnInfo(name = "Hide") val isHide: Boolean = false,
     @ColumnInfo(name = "TodoList") var todoList: List<Todo>? = null,
     @ColumnInfo(name = "Created") val created: Long = System.currentTimeMillis(),
     @PrimaryKey(autoGenerate = true)
-    val id: Int = 0
+    val Id: Int = 0
 
 ): Parcelable{
     val createdDateFormatted: String
