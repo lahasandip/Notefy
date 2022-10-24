@@ -1,13 +1,16 @@
 package com.sandip.notefy.ui.newupdate
 
+import android.app.AlarmManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
-import android.util.Log
+import android.os.Build
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -20,13 +23,16 @@ import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.ui.ADD_TASK_RESULT_OK
 import com.sandip.notefy.ui.DELETE_TASK_RESULT_OK
 import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK
+import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.notificationIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import java.io.File
 import java.io.FileOutputStream
+import java.util.*
 import javax.inject.Inject
+import kotlin.collections.ArrayList
 
 @HiltViewModel
 class NewUpdateNoteViewModel @Inject constructor(
@@ -257,6 +263,41 @@ class NewUpdateNoteViewModel @Inject constructor(
                 location =  noteLocation, clr =  noteColor, image =  noteImage, todoList = noteTodoList,  isHide = noteIsHide)
             createDeleteTask(newTask)
         }
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    fun displaySimpleNotification(context: Context?) = viewModelScope.launch {
+        notificationIntent.putExtra("noteTitle", noteTitle)
+        notificationIntent.putExtra("noteBody", noteDescription)
+        notificationIntent.putExtra("noteImage", noteImage)
+        notificationIntent.putExtra("noteRequestCode", requestCode)
+
+        val pendingNotificationIntent: PendingIntent = PendingIntent.getBroadcast(
+            context,
+            requestCode!!,
+            notificationIntent,
+            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+        )
+        val time = getTime()
+        NewUpdateNote.alarmManager.setExactAndAllowWhileIdle(
+            AlarmManager.RTC_WAKEUP,
+            time,
+            pendingNotificationIntent
+        )
+
+    }
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun getTime(): Long {
+        val items1: Array<String> = noteDateTime.split("-".toRegex()).toTypedArray()
+        val items2: Array<String> = items1[3].split(":".toRegex()).toTypedArray()
+        val minute = items2[1].toInt()
+        val hour = items2[0].toInt()
+        val day =items1[2].toInt()
+        val month = items1[1].toInt() - 1
+        val year = items1[0].toInt()
+        val calendar = Calendar.getInstance()
+        calendar.set(year, month, day, hour, minute)
+        return calendar.timeInMillis
     }
 
     sealed class AddEditTaskEvent {

@@ -648,7 +648,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                         }
                         is AddEditTaskEvent.NavigateBackWithResult -> {
                             if(!(newDateTime.text.isNullOrEmpty())) {
-                                displaySimpleNotification()
+                                viewModel.displaySimpleNotification(context)
                             }
                             binding.noteTitle.clearFocus()
                             setFragmentResult(
@@ -752,26 +752,26 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    private fun displaySimpleNotification() {
-        notificationIntent.putExtra("noteTitle", viewModel.noteTitle)
-        notificationIntent.putExtra("noteBody", viewModel.noteDescription)
-        notificationIntent.putExtra("noteImage", viewModel.noteImage)
-        notificationIntent.putExtra("noteRequestCode", viewModel.requestCode)
-
-        val pendingNotificationIntent: PendingIntent = PendingIntent.getBroadcast(
-            context,
-            requestCode,
-            notificationIntent,
-            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-        )
-        val time = getTime()
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            time,
-            pendingNotificationIntent
-        )
-    }
+//    @RequiresApi(Build.VERSION_CODES.M)
+//    private fun displaySimpleNotification() {
+//        notificationIntent.putExtra("noteTitle", viewModel.noteTitle)
+//        notificationIntent.putExtra("noteBody", viewModel.noteDescription)
+//        notificationIntent.putExtra("noteImage", viewModel.noteImage)
+//        notificationIntent.putExtra("noteRequestCode", viewModel.requestCode)
+//
+//        val pendingNotificationIntent: PendingIntent = PendingIntent.getBroadcast(
+//            context,
+//            requestCode,
+//            notificationIntent,
+//            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+//        )
+//        val time = getTime()
+//        alarmManager.setExactAndAllowWhileIdle(
+//            AlarmManager.RTC_WAKEUP,
+//            time,
+//            pendingNotificationIntent
+//        )
+//    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun cancelAlarm(){
@@ -781,19 +781,19 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
-    private fun getTime(): Long {
-        val items1: Array<String> = viewModel.noteDateTime.split("-".toRegex()).toTypedArray()
-        val items2: Array<String> = items1[3].split(":".toRegex()).toTypedArray()
-        val minute = items2[1].toInt()
-        val hour = items2[0].toInt()
-        val day =items1[2].toInt()
-        val month = items1[1].toInt() - 1
-        val year = items1[0].toInt()
-        val calendar = Calendar.getInstance()
-        calendar.set(year, month, day, hour, minute)
-        return calendar.timeInMillis
-    }
+//    @RequiresApi(Build.VERSION_CODES.M)
+//    private fun getTime(): Long {
+//        val items1: Array<String> = viewModel.noteDateTime.split("-".toRegex()).toTypedArray()
+//        val items2: Array<String> = items1[3].split(":".toRegex()).toTypedArray()
+//        val minute = items2[1].toInt()
+//        val hour = items2[0].toInt()
+//        val day =items1[2].toInt()
+//        val month = items1[1].toInt() - 1
+//        val year = items1[0].toInt()
+//        val calendar = Calendar.getInstance()
+//        calendar.set(year, month, day, hour, minute)
+//        return calendar.timeInMillis
+//    }
 
     override fun onDestroyView() {
         super.onDestroyView()
