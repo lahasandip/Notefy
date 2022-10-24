@@ -21,7 +21,6 @@ import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.NewNoteBinding
 import com.sandip.notefy.ui.home.HomeTodoAdapter
-import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.cancelAlarm
 import com.sandip.notefy.ui.recycle_bin.RecycleBin.Companion.noteList
 import com.sandip.notefy.util.Converters.Companion.getDateFormat
 import kotlin.collections.ArrayList

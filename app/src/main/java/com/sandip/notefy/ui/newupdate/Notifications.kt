@@ -63,7 +63,7 @@ class Notifications: BroadcastReceiver() {
         }
 
         val builder = NotificationCompat.Builder(context!!, CHANNEL_ID)
-            .setSmallIcon(R.mipmap.ic_launcher)
+            .setSmallIcon(R.drawable.small_icon)
             .setContentTitle(noteTitle ?: "")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)

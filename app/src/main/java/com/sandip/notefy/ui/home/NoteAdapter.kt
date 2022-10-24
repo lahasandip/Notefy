@@ -20,6 +20,7 @@ import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.NewNoteBinding
 import com.sandip.notefy.ui.home.Home.Companion.noteList
+import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.cancelAlarm
 import com.sandip.notefy.util.Converters.Companion.getDateFormat
 import kotlin.collections.ArrayList
 
@@ -122,6 +123,7 @@ class NoteAdapter(activity: Activity, view: View, private val listener: OnItemCl
                                         for (s in selectList) {
                                             undoList.add(s)
                                             listener.onDeleteClick(s)
+                                            cancelAlarm(mActivity, s.requestCode)
                                         }
                                         Snackbar.make(rootView, mActivity.getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
                                             .setAction(mActivity.getString(R.string.undo)) {

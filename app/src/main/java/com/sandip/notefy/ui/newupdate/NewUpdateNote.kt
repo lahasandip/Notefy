@@ -759,7 +759,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         notificationIntent.putExtra("noteImage", viewModel.noteImage)
         notificationIntent.putExtra("noteRequestCode", viewModel.requestCode)
 
-
         val pendingNotificationIntent: PendingIntent = PendingIntent.getBroadcast(
             context,
             requestCode,
