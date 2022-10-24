@@ -5,10 +5,12 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
@@ -26,6 +28,8 @@ import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.databinding.FragmentHomeBinding
 import com.sandip.notefy.ui.MainActivity.Companion.drawerLayout
 import com.sandip.notefy.ui.home.NoteAdapter.Companion.homeActionMode
+import com.sandip.notefy.ui.newupdate.NewUpdateNote
+import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.cancelAlarm
 import com.sandip.notefy.util.SortOrder
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
@@ -136,9 +140,11 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                         return false
                     }
 
+                    @RequiresApi(Build.VERSION_CODES.M)
                     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                         val task = noteAdapter.currentList[viewHolder.adapterPosition]
-                        viewModel.onTaskSwiped(task, true)
+                        cancelAlarm(context, task.requestCode)
+                        viewModel.onTaskSwiped(task, true,true)
                         if(homeActionMode != null){
                             homeActionMode!!.finish()
                         }
@@ -269,7 +275,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     }
 
     override fun onDeleteClick(noteEntity: NoteEntity) {
-        viewModel.onMenuTaskDelete(noteEntity, true)
+        viewModel.onMenuTaskDelete(noteEntity, true,true)
     }
 
     override fun onUndo(noteEntity: NoteEntity) {

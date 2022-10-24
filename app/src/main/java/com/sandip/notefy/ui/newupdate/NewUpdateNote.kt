@@ -64,10 +64,23 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         var recyclerView: RecyclerView? = null
         var todoAdapter: NewUpdateTodoAdapter? = null
 
-        val notificationIntent = Intent(NotefyApplication.appContext, Notifications::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        val notificationIntent =
+            Intent(NotefyApplication.appContext, Notifications::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+        val alarmManager =
+            NotefyApplication.appContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+        fun cancelAlarm(context: Context?, requestCode: Int?) {
+            val pendingNotificationIntent: PendingIntent? =
+                PendingIntent.getBroadcast(
+                    context,
+                    requestCode!!,
+                    notificationIntent,
+                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                )
+            alarmManager.cancel(pendingNotificationIntent)
         }
-        val alarmManager = NotefyApplication.appContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -311,6 +324,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     .setNegativeButton(getString(R.string.cancel), null)
                     .setPositiveButton(getString(R.string.yes)) { _, _ ->
                         viewModel.noteIsHide = true
+                        cancelAlarm()
                         viewModel.onDeleteClick()
                     }
                     .create()
@@ -740,8 +754,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun displaySimpleNotification() {
-        val note = viewModel.getNoteData()
-        notificationIntent.putExtra("note", note)
+        notificationIntent.putExtra("noteTitle", viewModel.noteTitle)
+        notificationIntent.putExtra("noteBody", viewModel.noteDescription)
+        notificationIntent.putExtra("noteImage", viewModel.noteImage)
+        notificationIntent.putExtra("noteRequestCode", viewModel.requestCode)
+
+
         val pendingNotificationIntent: PendingIntent = PendingIntent.getBroadcast(
             context,
             requestCode,
@@ -759,15 +777,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     @RequiresApi(Build.VERSION_CODES.M)
     private fun cancelAlarm(){
         if(viewModel.requestCode != null) {
-            val pendingNotificationIntent: PendingIntent? = viewModel.requestCode?.let {
-                PendingIntent.getBroadcast(
-                    context,
-                    it,
-                    notificationIntent,
-                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-                )
-            }
-            alarmManager.cancel(pendingNotificationIntent)
+            cancelAlarm(context, viewModel.requestCode)
             viewModel.requestCode = null
         }
     }

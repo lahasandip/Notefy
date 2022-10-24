@@ -7,7 +7,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavDeepLinkBuilder
@@ -17,9 +16,7 @@ import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.ui.CHANNEL_ID
 import com.sandip.notefy.ui.MainActivity
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import javax.inject.Inject
 
 const val notificationId = 10
@@ -28,30 +25,33 @@ const val notificationId = 10
 class Notifications: BroadcastReceiver() {
     @Inject
     lateinit var noteDao: NoteDao
+    private var data : NoteEntity? = null
     private var flag = false
+    private lateinit var icon : Bitmap
     @OptIn(DelicateCoroutinesApi::class)
     override fun onReceive(context: Context?, intent: Intent?) {
-        val note  = intent?.getParcelableExtra<NoteEntity>("note")
-        Log.d("Note received", note.toString())
+        val noteTitle = intent?.getStringExtra("noteTitle")
+        val noteBody =  intent?.getStringExtra("noteBody")
+        val noteImage =  intent?.getStringExtra("noteImage")
+        val noteRequestCode =  intent?.getIntExtra("noteRequestCode", 0)
 
-        GlobalScope.launch{
-            if (note != null) {
-                noteDao.updateDao(note)
-                Log.d("reminder", "strike true")
+        GlobalScope.launch {
+            data = noteDao.getReminderData(noteRequestCode)
+            if (data != null) {
+                noteDao.updateDao(data!!.copy(strike = true))
             }
         }
 
-        var icon : Bitmap? = null
         try {
             icon = BitmapFactory.decodeStream(
-                context?.contentResolver?.openInputStream(Uri.parse(note?.image)))
+                context?.contentResolver?.openInputStream(Uri.parse(noteImage)))
             flag =true
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
         val bundle = Bundle()
-        bundle.putParcelable("home",note)
+        bundle.putParcelable("home",data)
 
         val pendingIntent = context?.let {
             NavDeepLinkBuilder(it)
@@ -63,9 +63,8 @@ class Notifications: BroadcastReceiver() {
         }
 
         val builder = NotificationCompat.Builder(context!!, CHANNEL_ID)
-            .setSmallIcon(R.drawable.ic_small_icon)
-            .setContentTitle(note?.title ?: "")
-            .setContentText(note?.body ?: "")
+            .setSmallIcon(R.mipmap.ic_launcher)
+            .setContentTitle(noteTitle ?: "")
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .setContentIntent(pendingIntent)
             .setAutoCancel(true)
@@ -76,6 +75,9 @@ class Notifications: BroadcastReceiver() {
                         .bigPicture(icon)
                         .bigLargeIcon(null)
                 )
+        }
+        if(noteBody?.isNotEmpty() == true){
+            builder.setContentText(noteBody)
         }
         with(NotificationManagerCompat.from(context)) {
             notify(notificationId, builder.build())

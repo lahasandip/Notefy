@@ -4,7 +4,9 @@ import android.app.Activity
 import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
+import android.os.Build
 import android.view.*
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
@@ -19,6 +21,7 @@ import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.NewNoteBinding
 import com.sandip.notefy.ui.home.HomeTodoAdapter
+import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.cancelAlarm
 import com.sandip.notefy.ui.recycle_bin.RecycleBin.Companion.noteList
 import com.sandip.notefy.util.Converters.Companion.getDateFormat
 import kotlin.collections.ArrayList
@@ -133,6 +136,7 @@ class RecycleAdapter(activity: Activity, view: View, private val listener: OnIte
                                             .setAction(mActivity.getString(R.string.undo)) {
                                                 for (s in undoList) {
                                                     listener.onUndo(s)
+
                                                 }
                                             }.show()
                                         mode?.finish()

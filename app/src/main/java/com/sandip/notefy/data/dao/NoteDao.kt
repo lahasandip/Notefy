@@ -61,4 +61,7 @@ interface NoteDao {
 
     @Query("select count(TodoList) from Note where TodoList not like '[]'")
     fun getTodos() : LiveData<Int>
+
+    @Query("select * from Note where `Request Code` = :reqCode")
+    fun getReminderData(reqCode: Int?): NoteEntity
 }

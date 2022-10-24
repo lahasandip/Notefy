@@ -9,7 +9,7 @@ import java.util.*
 
 
 class Converters {
-    companion object{
+    companion object {
         var gson = Gson()
 
         fun getDateFormat(noteDateTime: String): String {
@@ -19,7 +19,6 @@ class Converters {
             return newDate?.let { it1 -> simpleDateFormat.format(it1) }.toString()
         }
     }
-
     @TypeConverter
     fun stringToTODOList(data: String?): List<Todo>? {
         if (data == null) {

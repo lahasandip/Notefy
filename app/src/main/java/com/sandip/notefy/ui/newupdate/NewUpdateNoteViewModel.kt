@@ -133,43 +133,6 @@ class NewUpdateNoteViewModel @Inject constructor(
         }
     }
 
-    fun getNoteData(): NoteEntity {
-        if (note != null) {
-            Log.d("broadscast", "update called")
-
-            return note.copy(
-                title = noteTitle,
-                body = noteDescription,
-                important = noteImportance,
-                url = noteUrl,
-                dateTime = noteDateTime,
-                requestCode = requestCode,
-                strike = true,
-                location = noteLocation,
-                clr = noteColor,
-                image = noteImage,
-                todoList = noteTodoList,
-                isHide = noteIsHide
-            )
-        } else {
-            Log.d("broadscast", "update called")
-            return NoteEntity(
-                title = noteTitle,
-                body = noteDescription,
-                important = noteImportance,
-                url = noteUrl,
-                dateTime = noteDateTime,
-                requestCode = requestCode,
-                strike = true,
-                location = noteLocation,
-                clr = noteColor,
-                image = noteImage,
-                todoList = noteTodoList,
-                isHide = noteIsHide
-            )
-        }
-    }
-
     fun onBackClick() = viewModelScope.launch {
         addEditTaskEventChannel.send(AddEditTaskEvent.NavigateToBackScreen)
     }

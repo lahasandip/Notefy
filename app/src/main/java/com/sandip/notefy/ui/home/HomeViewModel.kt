@@ -72,12 +72,12 @@ class HomeViewModel @Inject constructor(
     fun onTaskSelected(noteEntity: NoteEntity) = viewModelScope.launch {
         tasksEventChannel.send(TasksEvent.NavigateToEditTaskScreen(noteEntity))
     }
-    fun onMenuTaskDelete(noteEntity: NoteEntity, isHide: Boolean) = viewModelScope.launch {
-        noteDao.updateDao(noteEntity.copy(isHide = isHide))
+    fun onMenuTaskDelete(noteEntity: NoteEntity, strike: Boolean, isHide: Boolean) = viewModelScope.launch {
+        noteDao.updateDao(noteEntity.copy(strike = strike, isHide = isHide))
     }
     
-    fun onTaskSwiped(noteEntity: NoteEntity, isHide: Boolean) = viewModelScope.launch {
-        noteDao.updateDao(noteEntity.copy(isHide = isHide))
+    fun onTaskSwiped(noteEntity: NoteEntity, strike: Boolean, isHide: Boolean) = viewModelScope.launch {
+        noteDao.updateDao(noteEntity.copy(strike = strike, isHide = isHide))
         tasksEventChannel.send(TasksEvent.ShowUndoDeleteTaskMessage(noteEntity))
     }
 
