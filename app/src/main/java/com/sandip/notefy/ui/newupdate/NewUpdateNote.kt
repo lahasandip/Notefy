@@ -37,9 +37,6 @@ import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.FragmentNewUpdateNoteBinding
-import com.sandip.notefy.ui.CHANNEL_DESCRIPTION
-import com.sandip.notefy.ui.CHANNEL_ID
-import com.sandip.notefy.ui.CHANNEL_NAME
 import com.sandip.notefy.ui.newupdate.NewUpdateNoteViewModel.*
 import com.sandip.notefy.util.Converters.Companion.getDateFormat
 import com.sandip.notefy.util.exhaustive
@@ -88,7 +85,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentNewUpdateNoteBinding.bind(view)
-        createNotificationChannel()
+        viewModel.createNotificationChannel(context)
 
         val startForProfileImageResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -741,36 +738,15 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     }
 
     // Reminder and Notification Logic
-    private fun createNotificationChannel() {
-        //Create Notification channel for SDK above 25
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel =
-                NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
-            channel.description = CHANNEL_DESCRIPTION
-            val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-            notificationManager.createNotificationChannel(channel)
-        }
-    }
-
-//    @RequiresApi(Build.VERSION_CODES.M)
-//    private fun displaySimpleNotification() {
-//        notificationIntent.putExtra("noteTitle", viewModel.noteTitle)
-//        notificationIntent.putExtra("noteBody", viewModel.noteDescription)
-//        notificationIntent.putExtra("noteImage", viewModel.noteImage)
-//        notificationIntent.putExtra("noteRequestCode", viewModel.requestCode)
-//
-//        val pendingNotificationIntent: PendingIntent = PendingIntent.getBroadcast(
-//            context,
-//            requestCode,
-//            notificationIntent,
-//            PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-//        )
-//        val time = getTime()
-//        alarmManager.setExactAndAllowWhileIdle(
-//            AlarmManager.RTC_WAKEUP,
-//            time,
-//            pendingNotificationIntent
-//        )
+//    private fun createNotificationChannel() {
+//        //Create Notification channel for SDK above 25
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//            val channel =
+//                NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
+//            channel.description = CHANNEL_DESCRIPTION
+//            val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+//            notificationManager.createNotificationChannel(channel)
+//        }
 //    }
 
     @RequiresApi(Build.VERSION_CODES.M)
@@ -780,20 +756,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             viewModel.requestCode = null
         }
     }
-
-//    @RequiresApi(Build.VERSION_CODES.M)
-//    private fun getTime(): Long {
-//        val items1: Array<String> = viewModel.noteDateTime.split("-".toRegex()).toTypedArray()
-//        val items2: Array<String> = items1[3].split(":".toRegex()).toTypedArray()
-//        val minute = items2[1].toInt()
-//        val hour = items2[0].toInt()
-//        val day =items1[2].toInt()
-//        val month = items1[1].toInt() - 1
-//        val year = items1[0].toInt()
-//        val calendar = Calendar.getInstance()
-//        calendar.set(year, month, day, hour, minute)
-//        return calendar.timeInMillis
-//    }
 
     override fun onDestroyView() {
         super.onDestroyView()

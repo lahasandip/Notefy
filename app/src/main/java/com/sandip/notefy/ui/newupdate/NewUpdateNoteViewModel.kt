@@ -1,6 +1,8 @@
 package com.sandip.notefy.ui.newupdate
 
 import android.app.AlarmManager
+import android.app.NotificationChannel
+import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
@@ -20,9 +22,7 @@ import com.sandip.notefy.R
 import com.sandip.notefy.data.dao.NoteDao
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
-import com.sandip.notefy.ui.ADD_TASK_RESULT_OK
-import com.sandip.notefy.ui.DELETE_TASK_RESULT_OK
-import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK
+import com.sandip.notefy.ui.*
 import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.notificationIntent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -241,7 +241,10 @@ class NewUpdateNoteViewModel @Inject constructor(
             showInvalidInputMessage(NotefyApplication.appContext.getString(R.string.title_cannot_be_empty))
             return
         }
+        callAddUpdateDB()
+    }
 
+    private fun callAddUpdateDB() = viewModelScope.launch{
         if (note != null) {
             val updatedTask = note.copy(title = noteTitle,
                 body = noteDescription,
@@ -264,6 +267,18 @@ class NewUpdateNoteViewModel @Inject constructor(
             createDeleteTask(newTask)
         }
     }
+
+    fun createNotificationChannel(context: Context?){
+        //Create Notification channel for SDK above 25
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel =
+                NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
+            channel.description = CHANNEL_DESCRIPTION
+            val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            notificationManager.createNotificationChannel(channel)
+        }
+    }
+
 
     @RequiresApi(Build.VERSION_CODES.M)
     fun displaySimpleNotification(context: Context?) = viewModelScope.launch {
