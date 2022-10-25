@@ -14,7 +14,6 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.viewModels
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.AppCompatDelegate
 import androidx.biometric.BiometricManager
@@ -63,7 +62,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         var drawerLayout: DrawerLayout? = null
     }
 
-    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
@@ -174,7 +172,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)
         darkSwitch.isChecked = true
 //        Log.d("Home", "onDarkMode called")
-
     }
 
 
@@ -196,24 +193,28 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private fun onBiometricEnabled(){
         isBiometricEnable = true
         val biometricManager = this.let { BiometricManager.from(this) }
-        when (biometricManager.canAuthenticate(BIOMETRIC_WEAK or DEVICE_CREDENTIAL)) {
-//            BiometricManager.BIOMETRIC_SUCCESS ->
-//                Log.d("MY_APP_TAG", "App can authenticate using biometrics.")
-//            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
-//                Log.e("MY_APP_TAG", "No biometric features available on this device.")
-//            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
-//                Log.e("MY_APP_TAG", "Biometric features are currently unavailable.")
+        when (biometricManager.canAuthenticate(BIOMETRIC_STRONG or DEVICE_CREDENTIAL)) {
+            BiometricManager.BIOMETRIC_SUCCESS ->
+                Log.d("MY_APP_TAG", "App can authenticate using biometrics.")
+            BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE ->
+                Log.e("MY_APP_TAG", "No biometric features available on this device.")
+            BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE ->
+                Log.e("MY_APP_TAG", "Biometric features are currently unavailable.")
             BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
                 // Prompts the user to create credentials that your app accepts.
-                val enrollIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                    Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
-                        putExtra(
-                            Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED, BIOMETRIC_STRONG or DEVICE_CREDENTIAL
-                        )
+
+                val enrollIntent =
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                        Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
+                            putExtra(
+                                Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+                                BIOMETRIC_STRONG or DEVICE_CREDENTIAL
+                            )
+                        }
                     }
-                } else {
-                    TODO("VERSION.SDK_INT < R")
-                }
+                    else{
+                        Intent(Settings.ACTION_SECURITY_SETTINGS)
+                    }
                 ActivityCompat.startActivityForResult(
                     this,
                     enrollIntent,
@@ -223,9 +224,9 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             }
         }
 
+
         executor = this.let { ContextCompat.getMainExecutor(this) }
         biometricPrompt = BiometricPrompt(this, executor,
-            @RequiresApi(Build.VERSION_CODES.P)
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationError(
                     errorCode: Int,
@@ -235,22 +236,9 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                     Toast.makeText(
                         applicationContext,
                         "Authentication error: $errString", Toast.LENGTH_SHORT
-                    )
-                        .show()
+                    ).show()
                     finish()
                 }
-
-//                override fun onAuthenticationSucceeded(
-//                    result: BiometricPrompt.AuthenticationResult
-//                ) {
-//                    super.onAuthenticationSucceeded(result)
-//                    Log.e("Auth Succeed", "Authentication Succeed")
-//                }
-//
-//                override fun onAuthenticationFailed() {
-//                    super.onAuthenticationFailed()
-//                    Log.e("Auth Failed", "Authentication failed")
-//                }
             })
 
         promptInfo = BiometricPrompt.PromptInfo.Builder()

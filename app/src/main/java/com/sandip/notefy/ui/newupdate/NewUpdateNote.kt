@@ -321,6 +321,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     .setNegativeButton(getString(R.string.cancel), null)
                     .setPositiveButton(getString(R.string.yes)) { _, _ ->
                         viewModel.noteIsHide = true
+                        viewModel.isStriked = true
                         cancelAlarm()
                         viewModel.onDeleteClick()
                     }
@@ -736,18 +737,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         }
         builder?.show()
     }
-
-    // Reminder and Notification Logic
-//    private fun createNotificationChannel() {
-//        //Create Notification channel for SDK above 25
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//            val channel =
-//                NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
-//            channel.description = CHANNEL_DESCRIPTION
-//            val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
-//            notificationManager.createNotificationChannel(channel)
-//        }
-//    }
 
     @RequiresApi(Build.VERSION_CODES.M)
     private fun cancelAlarm(){

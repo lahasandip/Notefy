@@ -51,7 +51,7 @@ class Notifications: BroadcastReceiver() {
         }
 
         val bundle = Bundle()
-        bundle.putParcelable("home",data)
+        bundle.putParcelable("home", data?.copy(strike = true) )
 
         val pendingIntent = context?.let {
             NavDeepLinkBuilder(it)

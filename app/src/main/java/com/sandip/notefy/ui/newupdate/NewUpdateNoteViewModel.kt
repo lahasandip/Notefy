@@ -24,6 +24,7 @@ import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.ui.*
 import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.notificationIntent
+import com.sandip.notefy.util.Converters.Companion.getDateFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
@@ -174,7 +175,7 @@ class NewUpdateNoteViewModel @Inject constructor(
         } else {
             val desc = if (noteDescription.isNotEmpty()) "\nNote: $noteDescription," else ""
             val url = if (noteUrl.isNotEmpty()) "\nUrl: $noteUrl," else ""
-            val dateTime = if (noteDateTime.isNotEmpty()) "\nDate: $noteDateTime," else ""
+            val dateTime = if (noteDateTime.isNotEmpty()) "\nDate: ${getDateFormat(noteDateTime)}," else ""
             val location = if (noteLocation.isNotEmpty()) "\nPlace: $noteLocation," else ""
             val arrayList: ArrayList<String> = ArrayList()
             if (noteTodoList?.size != null) {
