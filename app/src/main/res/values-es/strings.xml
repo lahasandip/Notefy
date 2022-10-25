@@ -108,4 +108,7 @@
     <string name="version">Versión de la Aplicación: %s</string>
     <string name="about_info">Notefy se usa para tomar notas, agregar recordatorios, crear una lista de tareas pendientes y mucho más. Puede guardar sus notas con imágenes, colores, lugares y Enlace.\n\nPuede filtrar notas según sus preferencias, buscar y compartir sus notas. Admite un tema oscuro y un tema claro. Por seguridad, tiene una función de bloqueo de pantalla.\n\nPuede elegir su idioma preferido, actualmente, Notefy admite 15 idiomas diferentes. Para cualquier ayuda, puede leer las preguntas frecuentes o ponerse en contacto con nosotros.</string>
     <string name="a1">Puede usar la aplicación para tomar notas, configurar recordatorios, que desea notificar. Agregue lista de tareas pendientes, colores, imágenes, direcciones Enlace y lugares a sus notas. Elija un idioma con el que se sienta cómodo. Puede compartir sus notas con amigos, también puede cambiar el tema de la aplicación, asegurar su aplicación habilitando el bloqueo de pantalla y mucho más.</string>
+    <string name="delete">Eliminar</string>
+    <string name="select_all">Seleccionar todo</string>
+    <string name="auth_error">Error de autenticación: %s</string>
 </resources>

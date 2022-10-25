@@ -6,11 +6,11 @@
         android:id="@+id/sort"
         android:icon="@drawable/ic_baseline_filter_list_24"
         app:showAsAction="ifRoom"
-        android:title=""/>
+        android:title="@string/sort_by"/>
 
     <item
         android:id="@+id/profile"
         app:actionLayout="@layout/profile_photo"
         app:showAsAction="ifRoom"
-        android:title=""/>
+        android:title="@string/profile"/>
 </menu>

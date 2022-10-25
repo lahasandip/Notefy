@@ -108,4 +108,7 @@
     <string name="version">Versão do App: %s</string>
     <string name="about_info">O Notefy é usado para fazer anotações, adicionar lembretes, criar uma lista de tarefas e muito mais. Você pode salvar suas notas com imagens, cores, lugares e URLs.\n\nVocê pode filtrar notas com base em suas preferências, pesquisar e compartilhar suas notas. Ele suporta um tema escuro e um tema claro. Por segurança, possui um recurso de bloqueio de tela.\n\nVocê pode escolher seu idioma preferido, atualmente, o Notefy suporta 15 idiomas diferentes. Para qualquer ajuda, você pode ler as perguntas frequentes ou entrar em contato conosco.</string>
     <string name="a1">Você pode usar o aplicativo para fazer anotações, definir lembretes, que deseja notificar. Adicione lista de tarefas, cores, imagens, URLs e locais às suas notas. Escolha um idioma que você se sinta confortável. Você pode compartilhar suas notas com amigos, também pode alterar o tema do aplicativo, proteger seu aplicativo ativando o bloqueio de tela e muito mais.</string>
+    <string name="delete">Excluir</string>
+    <string name="select_all">Selecionar tudo</string>
+    <string name="auth_error">Erro de autenticação: %s</string>
 </resources>

@@ -31,6 +31,7 @@ import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.google.android.material.switchmaterial.SwitchMaterial
+import com.sandip.notefy.BuildConfig
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.ActivityMainBinding
 import com.sandip.notefy.ui.home.NoteAdapter.Companion.homeActionMode
@@ -73,7 +74,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
         uiSharedPreferences =  getSharedPreferences("UI",Context.MODE_PRIVATE)
         biometricSharedPreferences =  getSharedPreferences("BIOMETRIC",Context.MODE_PRIVATE)
-
 
         //Language
         val navigationView = binding.navView
@@ -141,7 +141,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         observeUiPreferences()
         observeLanguagePreference(this, "observe lang Called from main")
         observeBiometricPreferences()
-
     }
 
     override fun onSupportNavigateUp(): Boolean {
@@ -235,7 +234,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                     super.onAuthenticationError(errorCode, errString)
                     Toast.makeText(
                         applicationContext,
-                        "Authentication error: $errString", Toast.LENGTH_SHORT
+                        getString(R.string.auth_error, errString), Toast.LENGTH_SHORT
                     ).show()
                     finish()
                 }

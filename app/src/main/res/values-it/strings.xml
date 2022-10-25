@@ -108,4 +108,7 @@
     <string name="version">Versione App: %s</string>
     <string name="about_info">Notefy viene utilizzato per prendere appunti, aggiungere promemoria, creare un elenco di cose da fare e molto altro. Puoi salvare le tue note con immagini, colori, luoghi e Collegamento.\n\nPuoi filtrare le note in base alle tue preferenze, cercare e condividere le tue note. Supporta un tema scuro e un tema chiaro. Per sicurezza, ha una funzione di blocco dello schermo.\n\nPuoi scegliere la tua lingua preferita, attualmente Notefy supporta 15 lingue diverse. Per qualsiasi aiuto, puoi leggere le FAQ o contattarci.</string>
     <string name="a1">Puoi utilizzare l\'app per prendere appunti, impostare promemoria, che desideri notificare. Aggiungi elenco di cose da fare, colori, immagini, Collegamento e luoghi alle tue note. Scegli la lingua che ti senti a tuo agio. Puoi condividere le tue note con gli amici, inoltre puoi cambiare il tema dell\'app, proteggere la tua app abilitando Blocco schermo e molto altro.</string>
+    <string name="delete">Eliminare</string>
+    <string name="select_all">Seleziona tutto</string>
+    <string name="auth_error">Errore di autenticazione: %s</string>
 </resources>

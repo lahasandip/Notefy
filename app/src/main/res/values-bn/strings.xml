@@ -108,4 +108,7 @@
     <string name="url_hint">https://wwww.google.com</string>
     <string name="alex_parker_gmail_com">alex.parker@gmail.com</string>
     <string name="a1">আপনি নোট নিতে, রিমাইন্ডার সেট করতে অ্যাপটি ব্যবহার করতে পারেন, যা আপনি বিজ্ঞপ্তি দিতে চান। আপনার নোটে টুডু তালিকা, রং, ছবি, লিঙ্ক এবং স্থান যোগ করুন। যে ভাষা আপনি স্বাচ্ছন্দ্য চয়ন করুন. আপনি আপনার নোটগুলি বন্ধুদের সাথে ভাগ করতে পারেন, এছাড়াও আপনি অ্যাপের থিম পরিবর্তন করতে পারেন, স্ক্রিন লক সক্ষম করে আপনার অ্যাপকে সুরক্ষিত করতে পারেন এবং আরও অনেক কিছু।</string>
+    <string name="delete">মুছে ফেলুন</string>
+    <string name="select_all">সব নির্বাচন করুন</string>
+    <string name="auth_error">প্রমাণীকরণ ত্রুটি: %s</string>
 </resources>

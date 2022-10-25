@@ -108,4 +108,7 @@
     <string name="version">Uygulama Sürümü: %s</string>
     <string name="about_info">Notefy Not almak, Hatırlatıcı eklemek, Yapılacaklar listesi oluşturmak ve çok daha fazlası için kullanılır. Notlarınızı resimler, renkler, yerler ve URL\'lerle kaydedebilirsiniz.\n\nNotlarınızı tercihlerinize göre filtreleyebilir, notlarınızı arayabilir ve paylaşabilirsiniz. Bir Karanlık temayı ve bir açık temayı destekler. Güvenlik için ekran kilidi özelliği vardır.\n\nTercih ettiğiniz dili seçebilirsiniz, şu anda Notefy 15 farklı dili desteklemektedir. Herhangi bir yardım için SSS\'leri okuyabilir veya bizimle iletişime geçebilirsiniz.</string>
     <string name="a1">Not almak, hatırlatmak istediğiniz hatırlatmalar ayarlamak için uygulamayı kullanabilirsiniz. Notlarınıza Yapılacaklar listesi, Renkler, Resimler, URL\'ler ve Yerler ekleyin. Rahat edeceğiniz dili seçin. Notlarınızı arkadaşlarınızla paylaşabilir, ayrıca uygulamanın temasını değiştirebilir, Ekran Kilidi\'ni etkinleştirerek uygulamanızı güvenli hale getirebilirsiniz ve çok daha fazlasını yapabilirsiniz.</string>
+    <string name="delete">Sil</string>
+    <string name="select_all">Hepsini seç</string>
+    <string name="auth_error">Kimlik doğrulama hatası: %s</string>
 </resources>

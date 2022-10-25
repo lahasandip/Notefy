@@ -5,14 +5,14 @@
     <item
         android:id="@+id/select"
         android:icon="@drawable/ic_baseline_select_all_24"
-        android:title=""
+        android:title="@string/select_all"
         android:contentDescription=""
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/delete"
         android:icon="@drawable/ic_baseline_delete_outline_24"
-        android:title=""
+        android:title="@string/delete"
         android:contentDescription=""
         app:showAsAction="ifRoom"/>
 </menu>

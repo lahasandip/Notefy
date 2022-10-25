@@ -108,4 +108,7 @@
     <string name="version">Versi Aplikasi: %s</string>
     <string name="about_info">Notefy digunakan untuk mengambil Catatan, menambahkan Pengingat, membuat daftar Todo, dan banyak lagi. Anda dapat menyimpan catatan Anda dengan gambar, warna, tempat, dan tautan.\n\nAnda dapat memfilter catatan berdasarkan preferensi Anda, mencari dan membagikan catatan Anda. Ini mendukung tema Gelap dan tema terang. Untuk keamanan, ia memiliki fitur kunci layar.\n\nAnda dapat memilih bahasa pilihan Anda, saat ini, Notefy mendukung 15 bahasa yang berbeda. Untuk bantuan apa pun, Anda dapat membaca FAQ atau menghubungi kami.</string>
     <string name="a1">Anda dapat menggunakan aplikasi untuk membuat Catatan, mengatur Pengingat, yang ingin Anda beri tahu. Tambahkan daftar Todo, Warna, Gambar, Tautan, dan Tempat ke catatan Anda. Pilih bahasa yang Anda rasa nyaman. Anda dapat membagikan catatan Anda dengan teman-teman, Anda juga dapat mengubah tema aplikasi, mengamankan aplikasi Anda dengan mengaktifkan Kunci Layar dan banyak lagi.</string>
+    <string name="delete">Menghapus</string>
+    <string name="select_all">Pilih Semua</string>
+    <string name="auth_error">Kesalahan autentikasi: %s</string>
 </resources>
