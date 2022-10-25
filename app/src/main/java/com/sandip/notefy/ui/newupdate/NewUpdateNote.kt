@@ -55,6 +55,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private lateinit var date: String
     private lateinit var datePicker: MaterialDatePicker<Long>
     private lateinit var timePicker: MaterialTimePicker
+    private lateinit var viewColor : ColorDrawable
+
     private var todoList : ArrayList<Todo>? = arrayListOf()
     private val requestCode = System.currentTimeMillis().toInt()
     companion object {
@@ -305,10 +307,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             saveNote.setOnClickListener {
-                val viewColor = binding.fragmentNewUpdateNote.background as ColorDrawable
-                val colorId = viewColor.color
-                viewModel.noteColor = colorId
-                viewModel.noteTodoList = todoList
                 viewModel.isStriked = false
                 viewModel.requestCode = requestCode
                 viewModel.onSaveClick()
@@ -431,6 +429,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 todoDialog.dismiss()
                 if(!(todoList.isNullOrEmpty())){
                     binding.taskLayout.visibility = View.VISIBLE
+                    viewModel.noteTodoList = todoList
                 }
                 else{
                     binding.taskLayout.visibility = View.GONE
@@ -455,6 +454,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteImage = null
                 imageLayout.visibility = View.GONE
             }
+            viewColor = binding.fragmentNewUpdateNote.background as ColorDrawable
 
             frame1?.setOnClickListener {
                 image1?.setImageResource(R.drawable.ic_baseline_done_24)
@@ -469,6 +469,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(0)
+                viewModel.noteColor = viewColor.color
             }
 
             frame2?.setOnClickListener {
@@ -484,6 +485,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.PaleVioletRed, null))
+                viewModel.noteColor = viewColor.color
             }
 
             frame3?.setOnClickListener {
@@ -499,6 +501,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.Plum, null))
+                viewModel.noteColor = viewColor.color
             }
 
             frame4?.setOnClickListener {
@@ -514,6 +517,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.LimeGreen, null))
+                viewModel.noteColor = viewColor.color
             }
 
             frame5?.setOnClickListener {
@@ -529,6 +533,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.red, null))
+                viewModel.noteColor = viewColor.color
             }
 
             frame6?.setOnClickListener {
@@ -544,6 +549,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.Bisque, null))
+                viewModel.noteColor = viewColor.color
             }
 
             frame7?.setOnClickListener {
@@ -559,6 +565,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.RoyalBlue, null))
+                viewModel.noteColor = viewColor.color
             }
 
             frame8?.setOnClickListener {
@@ -574,6 +581,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.Orange, null))
+                viewModel.noteColor = viewColor.color
             }
 
             frame9?.setOnClickListener {
@@ -589,6 +597,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.HotPink, null))
+                viewModel.noteColor = viewColor.color
             }
 
             frame10?.setOnClickListener {
@@ -604,7 +613,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image9?.setImageResource(0)
                 image11?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.SaddleBrown, null))
-
+                viewModel.noteColor = viewColor.color
             }
 
             frame11?.setOnClickListener {
@@ -620,6 +629,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image9?.setImageResource(0)
                 image10?.setImageResource(0)
                 binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.SlateGray, null))
+                viewModel.noteColor = viewColor.color
             }
 
             colorPicker?.setOnClickListener {
@@ -632,6 +642,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     .setButtonCancelText(android.R.string.cancel)
                     .onColorSelected { color: Int ->
                         binding.fragmentNewUpdateNote.setBackgroundColor(color)
+                        viewModel.noteColor = viewColor.color
                     }
                     .create()
                 picker.show(childFragmentManager, "color_picker")

@@ -34,12 +34,11 @@ class RecycleAdapter(activity: Activity, view: View, private val listener: OnIte
     var isSelectAll = false
     var selectList: ArrayList<NoteEntity> = ArrayList()
     var undoList: ArrayList<NoteEntity> = ArrayList()
-
-
     private lateinit var task :NoteEntity
     companion object {
         var recycleActionMode : ActionMode ? = null
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val binding = NewNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return NoteViewHolder(binding)
@@ -238,7 +237,6 @@ class RecycleAdapter(activity: Activity, view: View, private val listener: OnIte
         if (position != RecyclerView.NO_POSITION) {
             task = getItem(position)
         }
-
         if (binding.cardView.strokeWidth == 0) {
             binding.cardView.strokeWidth = 8
             binding.cardView.strokeColor = Color.parseColor("#80cbc4")

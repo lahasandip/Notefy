@@ -2,6 +2,7 @@ package com.sandip.notefy.ui.profile
 
 import android.animation.ValueAnimator
 import android.widget.TextView
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sandip.notefy.data.dao.NoteDao
@@ -51,7 +52,8 @@ class UserViewModel@Inject constructor(
         addEditTaskEventChannel.send(AddEditTaskEvent.NavigateBackWithResult(PROFILE_UPDATED_RESULT_OK))
     }
 
-    fun startAnimation(notesNumber: TextView, count: Int) {
+
+    fun startAnimation(notesNumber: TextView, count: Int) = viewModelScope.launch{
         val animator = ValueAnimator.ofInt(0, count)
         when (count){
             in 0..10 -> animator.duration = 1000 // 2 seconds
