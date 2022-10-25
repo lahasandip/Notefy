@@ -26,6 +26,7 @@ class UserViewModel@Inject constructor(
     val noteCount = noteDao.getNotes()
     val reminderCount = noteDao.getReminders()
     val todoCount = noteDao.getTodos()
+    var flag = false
 
     var name = ""
     var email = ""
@@ -51,7 +52,6 @@ class UserViewModel@Inject constructor(
         userDao.updateDao(userEntity)
         addEditTaskEventChannel.send(AddEditTaskEvent.NavigateBackWithResult(PROFILE_UPDATED_RESULT_OK))
     }
-
 
     fun startAnimation(notesNumber: TextView, count: Int) = viewModelScope.launch{
         val animator = ValueAnimator.ofInt(0, count)

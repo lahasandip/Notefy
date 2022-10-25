@@ -66,34 +66,31 @@ class User : Fragment(R.layout.fragment_user) {
                         context?.let { Glide.with(it).load(fileUri).into(binding.circleImageView) }
                         viewModel.image = fileUri.toString()
                     }
-//                    ImagePicker.RESULT_ERROR -> {
-////                        Toast.makeText(context, ImagePicker.getError(data), Toast.LENGTH_SHORT).show()
-//                    }
-//                    else -> {
-////                        Toast.makeText(context, "Task Cancelled", Toast.LENGTH_SHORT).show()
-//                    }
                 }
             }
-
-        viewModel.displayUser.observe(viewLifecycleOwner) {
-            binding.apply {
-
-                if(it != null){
-                    textName.setText(it.name)
-                    textEmail.setText(it.email)
-                    textPhone.setText(it.phone)
-                    if(!(it.image.isNullOrEmpty())){
-                        val imageUri = Uri.parse(it.image)
-                        context?.let { it1 -> Glide.with(it1).load(imageUri).into(circleImageView) }
-                        viewModel.image = imageUri.toString()}
-                }
-            }
-        }
-        viewModel.rowCount.observe(viewLifecycleOwner) {
-            rows = it.toInt()
-        }
 
         binding.apply {
+            textName.setText(viewModel.name)
+            textEmail.setText(viewModel.email)
+            textPhone.setText(viewModel.phone)
+            context?.let { it1 ->
+                Glide.with(it1).load(viewModel.image).into(circleImageView)
+            }
+
+            textName.addTextChangedListener {
+                viewModel.name = it.toString()
+            }
+            textEmail.addTextChangedListener {
+                viewModel.email = it.toString()
+            }
+            textPhone.addTextChangedListener {
+                viewModel.phone = it.toString()
+            }
+
+            viewModel.rowCount.observe(viewLifecycleOwner) {
+                rows = it.toInt()
+            }
+
             viewModel.noteCount.observe(viewLifecycleOwner) {
                 note = it.toInt()
                 viewModel.startAnimation(notesNumber, note)
@@ -125,27 +122,15 @@ class User : Fragment(R.layout.fragment_user) {
                 context?.let { delete ->
                     Glide.with(delete).load(R.drawable.img_1).into(profilePic)
                     Glide.with(delete).load(R.drawable.img_1).into(circleImageView)
-                    val  imageURI= Uri.parse("android.resource://" + requireContext().packageName
-                            + "/" + R.drawable.img_1)
+                    val imageURI = Uri.parse(
+                        "android.resource://" + requireContext().packageName
+                                + "/" + R.drawable.img_1
+                    )
                     imageURI.toString().also { viewModel.image = it }
                 }
             }
             back.setOnClickListener {
                 dialog.dismiss()
-            }
-
-            textName.setText(viewModel.name)
-            textEmail.setText(viewModel.email)
-            textPhone.setText(viewModel.phone)
-
-            textName.addTextChangedListener {
-                viewModel.name = it.toString()
-            }
-            textEmail.addTextChangedListener {
-                viewModel.email = it.toString()
-            }
-            textPhone.addTextChangedListener {
-                viewModel.phone = it.toString()
             }
 
             save.setOnClickListener {
@@ -155,7 +140,8 @@ class User : Fragment(R.layout.fragment_user) {
                 val with: ImagePicker.Builder? = parentFragment?.let { it1 ->
                     ImagePicker.with(it1)
                 }
-                val imageDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+                val imageDialog =
+                    BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
                 imageDialog.setContentView(R.layout.add_image_dialog)
                 imageDialog.show()
                 imageDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
@@ -202,6 +188,27 @@ class User : Fragment(R.layout.fragment_user) {
                             findNavController().popBackStack()
                         }
                     }.exhaustive
+                }
+            }
+
+            if (!viewModel.flag) {
+                viewModel.displayUser.observe(viewLifecycleOwner) {
+                    if (it != null) {
+                        viewModel.name = it.name.toString()
+                        viewModel.email = it.email.toString()
+                        viewModel.phone = it.phone.toString()
+                        if (!(it.image.isNullOrEmpty())) {
+                            val imageUri = Uri.parse(it.image)
+                            viewModel.image = imageUri.toString()
+                        }
+                    }
+                    textName.setText(viewModel.name)
+                    textEmail.setText(viewModel.email)
+                    textPhone.setText(viewModel.phone)
+                    context?.let { it1 ->
+                        Glide.with(it1).load(viewModel.image).into(circleImageView)
+                    }
+                    viewModel.flag = true
                 }
             }
         }
