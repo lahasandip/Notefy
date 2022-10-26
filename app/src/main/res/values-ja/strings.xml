@@ -111,4 +111,5 @@
     <string name="delete">消去</string>
     <string name="select_all">すべて選択</string>
     <string name="auth_error">認証エラー: %s</string>
+    <string name="delete_todo">Todo チェックリストを削除しますか?</string>
 </resources>

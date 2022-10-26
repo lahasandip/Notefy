@@ -111,4 +111,5 @@
     <string name="delete">मिटाना</string>
     <string name="select_all">सभी चुनें</string>
     <string name="auth_error">प्रमाणीकरण त्रुटि: %s</string>
+    <string name="delete_todo">क्या आप टूडू चेकलिस्ट को हटाना चाहते हैं?</string>
 </resources>

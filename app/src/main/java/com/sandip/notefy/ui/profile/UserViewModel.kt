@@ -2,7 +2,6 @@ package com.sandip.notefy.ui.profile
 
 import android.animation.ValueAnimator
 import android.widget.TextView
-import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.sandip.notefy.data.dao.NoteDao

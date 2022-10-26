@@ -26,6 +26,7 @@ import com.sandip.notefy.databinding.FragmentUserBinding
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 
+
 @AndroidEntryPoint
 class User : Fragment(R.layout.fragment_user) {
 
@@ -201,6 +202,12 @@ class User : Fragment(R.layout.fragment_user) {
                             val imageUri = Uri.parse(it.image)
                             viewModel.image = imageUri.toString()
                         }
+                    }
+                    else {
+                        viewModel.image = Uri.parse(
+                            "android.resource://" + requireContext().packageName
+                                    + "/" + R.drawable.img_1
+                        ).toString()
                     }
                     textName.setText(viewModel.name)
                     textEmail.setText(viewModel.email)

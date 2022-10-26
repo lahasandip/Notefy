@@ -8,6 +8,8 @@
     <string name="note_added">Note Added</string>
     <string name="note_updated">Note Updated</string>
     <string name="profile_updated">Profile Updated</string>
+    <string name="delete">Delete</string>
+    <string name="select_all">Select all</string>
 
     <!--  Navigation Drawer  -->
     <string name="view_profile">View Profile</string>
@@ -47,6 +49,7 @@
     <string name="please_enter_a_place">Please Enter a Place</string>
     <string name="title_cannot_be_empty">Title Cannot be Empty</string>
     <string name="ok">OK</string>
+    <string name="delete_todo">Do you want to remove Todo Checklist?</string>
 
     <!--  Add Feature Dialog  -->
     <string name="reminder">Reminder</string>
@@ -141,7 +144,5 @@
     <string name="about_info">Notefy is used to take Notes, add Reminders, create a Todo list, and much more. You can save your notes with Images, Colors, Places, and URLs.\n\n
         You can filter notes based on your Preferences, Search and Share your notes. It supports a Dark theme and a Light theme. For Security, it has a Screen Lock feature.\n\n
         You can choose your preferred Language, currently, Notefy supports 15 different languages. For any help, you can either read the FAQs or Contact us.</string>
-    <string name="delete">Delete</string>
-    <string name="select_all">Select all</string>
 
 </resources>

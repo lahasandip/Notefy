@@ -111,4 +111,5 @@
     <string name="delete">डिलीट करा</string>
     <string name="select_all">सर्व निवडा</string>
     <string name="auth_error">ऑथेंटिकेशन एरर: %s</string>
+    <string name="delete_todo">तुम्हाला Todo चेकलिस्ट काढायची आहे का?</string>
 </resources>

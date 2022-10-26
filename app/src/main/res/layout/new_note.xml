@@ -16,12 +16,14 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingBottom="8dp">
 
             <CheckBox
                 android:id="@+id/important"
                 android:layout_width="30dp"
-                android:layout_height="52dp"
+                android:layout_height="30dp"
+                android:layout_marginTop="9dp"
                 android:layout_alignParentEnd="true"
                 android:button="@drawable/ic_baseline_bookmark_border_24"
                 android:elevation="5dp"
@@ -179,7 +181,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
-                android:paddingBottom="7dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutURL"
                 android:visibility="gone"/>

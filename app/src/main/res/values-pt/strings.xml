@@ -111,4 +111,5 @@
     <string name="delete">Excluir</string>
     <string name="select_all">Selecionar tudo</string>
     <string name="auth_error">Erro de autenticação: %s</string>
+    <string name="delete_todo">Deseja remover Todo Checklist?</string>
 </resources>

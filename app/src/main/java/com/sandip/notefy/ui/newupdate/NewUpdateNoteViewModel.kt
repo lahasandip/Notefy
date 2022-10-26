@@ -12,7 +12,6 @@ import android.net.Uri
 import android.os.Build
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.annotation.RequiresApi
 import androidx.core.content.FileProvider
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
@@ -269,7 +268,7 @@ class NewUpdateNoteViewModel @Inject constructor(
         }
     }
 
-    fun createNotificationChannel(context: Context?){
+    fun createNotificationChannel(context: Context?) = viewModelScope.launch{
         //Create Notification channel for SDK above 25
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channel =
@@ -277,11 +276,11 @@ class NewUpdateNoteViewModel @Inject constructor(
             channel.description = CHANNEL_DESCRIPTION
             val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
+
         }
     }
 
 
-    @RequiresApi(Build.VERSION_CODES.M)
     fun displaySimpleNotification(context: Context?) = viewModelScope.launch {
         notificationIntent.putExtra("noteTitle", noteTitle)
         notificationIntent.putExtra("noteBody", noteDescription)
@@ -302,7 +301,6 @@ class NewUpdateNoteViewModel @Inject constructor(
         )
 
     }
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun getTime(): Long {
         val items1: Array<String> = noteDateTime.split("-".toRegex()).toTypedArray()
         val items2: Array<String> = items1[3].split(":".toRegex()).toTypedArray()

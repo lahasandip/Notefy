@@ -111,4 +111,5 @@
     <string name="delete">Effacer</string>
     <string name="select_all">Tout sélectionner</string>
     <string name="auth_error">Erreur d\'authentification : %s</string>
+    <string name="delete_todo">Voulez-vous supprimer la liste de tâches ?</string>
 </resources>

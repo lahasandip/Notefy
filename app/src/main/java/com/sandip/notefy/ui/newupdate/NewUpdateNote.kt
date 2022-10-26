@@ -411,6 +411,19 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             taskLayout.setOnClickListener {
                 todoDialog.show()
             }
+            taskLayout.setOnLongClickListener {
+                AlertDialog.Builder(requireContext())
+                    .setTitle(getString(R.string.confirm_deletion))
+                    .setMessage(getString(R.string.delete_todo))
+                    .setNegativeButton(getString(R.string.cancel), null)
+                    .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                        todoList?.clear()
+                        taskLayout.visibility = View.GONE
+                    }
+                    .create()
+                    .show()
+                true
+            }
 
             addToList?.setOnClickListener {
                 if(!(descriptionTodo?.text.isNullOrEmpty())) {
@@ -721,7 +734,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     binding.urlParentLayout.visibility = View.VISIBLE
                 }
                 else{
-                    view?.let { Snackbar.make(it, getString(R.string.please_enter_a_link), Snackbar.LENGTH_LONG).show() }
+                    view?.let { Toast.makeText(context, getString(R.string.please_enter_a_link), Toast.LENGTH_LONG).show() }
                     showAlert("url")
                 }
             }
@@ -738,7 +751,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     binding.locationParentLayout.visibility = View.VISIBLE
                 }
                 else{
-                    view?.let { Snackbar.make(it, getString(R.string.please_enter_a_place), Snackbar.LENGTH_LONG).show() }
+                    view?.let { Toast.makeText(context, getString(R.string.please_enter_a_place), Toast.LENGTH_LONG).show() }
                     showAlert("place")
                 }
             }

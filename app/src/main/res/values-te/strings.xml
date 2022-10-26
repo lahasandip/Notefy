@@ -111,4 +111,5 @@
     <string name="delete">తొలగించు</string>
     <string name="select_all">అన్ని ఎంచుకోండి</string>
     <string name="auth_error">ప్రమాణీకరణ లోపం: %s</string>
+    <string name="delete_todo">మీరు టోడో చెక్‌లిస్ట్‌ని తీసివేయాలనుకుంటున్నారా?</string>
 </resources>
