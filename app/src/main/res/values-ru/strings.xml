@@ -112,4 +112,5 @@
     <string name="select_all">Выбрать все</string>
     <string name="auth_error">Ошибка аутентификации: %s</string>
     <string name="delete_todo">Вы хотите удалить контрольный список дел?</string>
+    <string name="reminder_permission_error">Предоставьте разрешение на уведомление в настройках приложения, чтобы установить напоминание.</string>
 </resources>

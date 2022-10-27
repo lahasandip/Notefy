@@ -112,4 +112,5 @@
     <string name="select_all">सर्व निवडा</string>
     <string name="auth_error">ऑथेंटिकेशन एरर: %s</string>
     <string name="delete_todo">तुम्हाला Todo चेकलिस्ट काढायची आहे का?</string>
+    <string name="reminder_permission_error">कृपया रिमाइंडर सेट करण्यासाठी अॅप सेटिंग्जमधून सूचना परवानगी द्या</string>
 </resources>

@@ -1,8 +1,10 @@
 package com.sandip.notefy.ui.newupdate
 
+import android.Manifest
 import android.app.*
 import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
@@ -17,6 +19,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -88,6 +91,23 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
         binding = FragmentNewUpdateNoteBinding.bind(view)
         viewModel.createNotificationChannel(context)
+
+        val requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (isGranted) {
+                datePicker.show(childFragmentManager, "Date_Picker")
+            }
+            else{
+                view.let {
+                    Snackbar.make(
+                        it,
+                        getString(R.string.reminder_permission_error),
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
 
         val startForProfileImageResult =
             registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -329,6 +349,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             back.setOnClickListener {
                 viewModel.onBackClick()
             }
+
             addFeatures.setOnClickListener {
                 val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
                 dialog.setContentView(R.layout.add_features_dialog)
@@ -341,7 +362,27 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
                 reminder?.setOnClickListener {
                     dialog.dismiss()
-                    datePicker.show(childFragmentManager, "Date_Picker")
+                    if (ContextCompat.checkSelfPermission(
+                            requireContext(),
+                            Manifest.permission.POST_NOTIFICATIONS,
+                        ) == PackageManager.PERMISSION_GRANTED
+                    ) {
+                        datePicker.show(childFragmentManager, "Date_Picker")
+                    }
+                    else {
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                        }
+                        else {
+                            view.let {
+                                Snackbar.make(
+                                    it,
+                                    getString(R.string.reminder_permission_error),
+                                    Snackbar.LENGTH_LONG
+                                ).show()
+                            }
+                        }
+                    }
                 }
 
                 place?.setOnClickListener {
@@ -355,7 +396,27 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             reminderLayout.setOnClickListener {
-                datePicker.show(childFragmentManager, "Date_Picker")
+                if (ContextCompat.checkSelfPermission(
+                        requireContext(),
+                        Manifest.permission.POST_NOTIFICATIONS,
+                    ) == PackageManager.PERMISSION_GRANTED
+                ) {
+                    datePicker.show(childFragmentManager, "Date_Picker")
+                }
+                else {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                        requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                    }
+                    else {
+                        view.let {
+                            Snackbar.make(
+                                it,
+                                getString(R.string.reminder_permission_error),
+                                Snackbar.LENGTH_LONG
+                            ).show()
+                        }
+                    }
+                }
             }
 
             addColor.setOnClickListener {

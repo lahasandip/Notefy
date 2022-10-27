@@ -112,4 +112,5 @@
     <string name="select_all">அனைத்தையும் தெரிவுசெய்</string>
     <string name="auth_error">அங்கீகார பிழை: %s</string>
     <string name="delete_todo">அகற்ற வேண்டுமா டோடோ சரிபார்ப்பு பட்டியல்?</string>
+    <string name="reminder_permission_error">நினைவூட்டலை அமைக்க ஆப்ஸ் அமைப்புகளில் இருந்து அறிவிப்பு அனுமதியை வழங்கவும்</string>
 </resources>

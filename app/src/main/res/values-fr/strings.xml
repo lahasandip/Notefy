@@ -112,4 +112,5 @@
     <string name="select_all">Tout sélectionner</string>
     <string name="auth_error">Erreur d\'authentification : %s</string>
     <string name="delete_todo">Voulez-vous supprimer la liste de tâches ?</string>
+    <string name="reminder_permission_error">Veuillez accorder l\'autorisation de notification à partir des paramètres de l\'application pour définir le rappel</string>
 </resources>

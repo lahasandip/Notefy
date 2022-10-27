@@ -276,7 +276,6 @@ class NewUpdateNoteViewModel @Inject constructor(
             channel.description = CHANNEL_DESCRIPTION
             val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
-
         }
     }
 

@@ -112,4 +112,5 @@
     <string name="select_all">Pilih Semua</string>
     <string name="auth_error">Kesalahan autentikasi: %s</string>
     <string name="delete_todo">Apakah Anda ingin menghapus Daftar Periksa Todo?</string>
+    <string name="reminder_permission_error">Harap berikan izin Pemberitahuan dari Pengaturan Aplikasi untuk mengatur Pengingat</string>
 </resources>

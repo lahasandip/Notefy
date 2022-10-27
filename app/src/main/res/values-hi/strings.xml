@@ -112,4 +112,5 @@
     <string name="select_all">सभी चुनें</string>
     <string name="auth_error">प्रमाणीकरण त्रुटि: %s</string>
     <string name="delete_todo">क्या आप टूडू चेकलिस्ट को हटाना चाहते हैं?</string>
+    <string name="reminder_permission_error">कृपया रिमाइंडर सेट करने के लिए ऐप सेटिंग से अधिसूचना की अनुमति दें</string>
 </resources>

@@ -1,17 +1,20 @@
 package com.sandip.notefy.ui.home
 
+import android.Manifest
 import android.app.Dialog
 import android.content.Context
 import android.content.SharedPreferences
+import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.widget.SearchView
+import androidx.core.content.ContextCompat
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
@@ -28,7 +31,6 @@ import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.databinding.FragmentHomeBinding
 import com.sandip.notefy.ui.MainActivity.Companion.drawerLayout
 import com.sandip.notefy.ui.home.NoteAdapter.Companion.homeActionMode
-import com.sandip.notefy.ui.newupdate.NewUpdateNote
 import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.cancelAlarm
 import com.sandip.notefy.util.SortOrder
 import com.sandip.notefy.util.exhaustive
@@ -57,8 +59,8 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
-        Log.d("Home fragment", "Home called")
         initSortByDialog()
+//        grantNotificationPermission()
 
         val noteAdapter = NoteAdapter(requireActivity(), view,this)
         gridSharedPreferences = context?.getSharedPreferences("grid", Context.MODE_PRIVATE)
@@ -244,6 +246,30 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         }
     }
 
+    private fun grantNotificationPermission() {
+        val requestPermissionLauncher = registerForActivityResult(
+            ActivityResultContracts.RequestPermission()
+        ) { isGranted: Boolean ->
+            if (!isGranted) {
+                view?.let {
+                    Snackbar.make(
+                        it,
+                        "Please grant Notification permission from App Settings",
+                        Snackbar.LENGTH_LONG
+                    ).show()
+                }
+            }
+        }
+        if (ContextCompat.checkSelfPermission(
+                requireContext(),
+                Manifest.permission.POST_NOTIFICATIONS,
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+            }
+        }    }
+
     private fun observeGridLayout(): RecyclerView.LayoutManager {
         gridSharedPreferences?.registerOnSharedPreferenceChangeListener(this)
         when (gridSharedPreferences?.getBoolean("grid", false)) {
@@ -316,5 +342,4 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             observeGridLayout()
         }
     }
-
 }
