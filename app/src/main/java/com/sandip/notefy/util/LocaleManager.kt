@@ -13,8 +13,7 @@ class LocaleManager {
         val languageSharedPreferences : SharedPreferences = NotefyApplication.appContext.getSharedPreferences("LANGUAGE", Context.MODE_PRIVATE)
         val editor: SharedPreferences.Editor = languageSharedPreferences.edit()
 
-        fun observeLanguagePreference(context: Context, msg: String) {
-            Log.d("Locale", msg)
+        fun observeLanguagePreference(context: Context) {
             when (languageSharedPreferences.getInt("position", 0)) {
                 0 -> updateResource(context, "en")
                 1 -> updateResource(context, "hi")
@@ -42,7 +41,6 @@ class LocaleManager {
             context.resources?.updateConfiguration(
                 configuration, context.resources?.displayMetrics
             )
-            Log.d("Locale", code)
         }
     }
 }

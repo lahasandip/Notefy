@@ -95,7 +95,7 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if(key.equals("position"))  {
-            observeLanguagePreference(requireContext(), "observe lang Called from language")
+            observeLanguagePreference(requireContext())
             activity?.recreate()
         }
     }

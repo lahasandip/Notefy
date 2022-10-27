@@ -40,6 +40,10 @@ class User : Fragment(R.layout.fragment_user) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentUserBinding.bind(view)
+        val imageURI = Uri.parse(
+            "android.resource://" + requireContext().packageName
+                    + "/" + R.drawable.img_1
+        )
 
         val dialog = Dialog(requireContext())
         dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
@@ -123,11 +127,7 @@ class User : Fragment(R.layout.fragment_user) {
                 context?.let { delete ->
                     Glide.with(delete).load(R.drawable.img_1).into(profilePic)
                     Glide.with(delete).load(R.drawable.img_1).into(circleImageView)
-                    val imageURI = Uri.parse(
-                        "android.resource://" + requireContext().packageName
-                                + "/" + R.drawable.img_1
-                    )
-                    imageURI.toString().also { viewModel.image = it }
+                   viewModel.image = imageURI.toString()
                 }
             }
             back.setOnClickListener {
@@ -204,10 +204,7 @@ class User : Fragment(R.layout.fragment_user) {
                         }
                     }
                     else {
-                        viewModel.image = Uri.parse(
-                            "android.resource://" + requireContext().packageName
-                                    + "/" + R.drawable.img_1
-                        ).toString()
+                        viewModel.image = imageURI.toString()
                     }
                     textName.setText(viewModel.name)
                     textEmail.setText(viewModel.email)
