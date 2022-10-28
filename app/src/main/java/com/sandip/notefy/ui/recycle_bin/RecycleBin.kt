@@ -1,10 +1,8 @@
 package com.sandip.notefy.ui.recycle_bin
 
 import android.content.res.Configuration
-import android.os.Build
 import android.os.Bundle
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
@@ -108,14 +106,14 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
             .setMessage(getString(R.string.do_you_want_to_restore_the_note))
             .setNegativeButton(getString(R.string.cancel), null)
             .setPositiveButton(getString(R.string.yes)) { _, _ ->
-                viewModel.onMenuRestore(context, noteEntity, false)
+                viewModel.onMenuRestore(context, noteEntity)
             }
             .create()
             .show()
     }
 
     override fun onRestoreClick(noteEntity: NoteEntity) {
-        viewModel.onMenuRestore(context, noteEntity, false)
+        viewModel.onMenuRestore(context, noteEntity)
     }
 
     override fun onMenuDeleteClick(noteEntity: NoteEntity) {

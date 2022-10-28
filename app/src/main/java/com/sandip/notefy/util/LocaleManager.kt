@@ -3,7 +3,6 @@ package com.sandip.notefy.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
-import android.util.Log
 import com.sandip.notefy.NotefyApplication
 import java.util.*
 

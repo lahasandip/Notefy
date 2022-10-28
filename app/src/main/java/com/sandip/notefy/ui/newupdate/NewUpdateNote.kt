@@ -59,12 +59,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private lateinit var datePicker: MaterialDatePicker<Long>
     private lateinit var timePicker: MaterialTimePicker
     private lateinit var viewColor : ColorDrawable
+    private lateinit var todoAdapter: NewUpdateTodoAdapter
 
     private var todoList : ArrayList<Todo>? = arrayListOf()
     private val requestCode = System.currentTimeMillis().toInt()
     companion object {
         var recyclerView: RecyclerView? = null
-        var todoAdapter: NewUpdateTodoAdapter? = null
 
         val notificationIntent =
             Intent(NotefyApplication.appContext, Notifications::class.java).apply {
@@ -91,7 +91,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
         binding = FragmentNewUpdateNoteBinding.bind(view)
         viewModel.createNotificationChannel(context)
-
+viewModel.print()
         val requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
@@ -829,10 +829,5 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             cancelAlarm(context, viewModel.requestCode)
             viewModel.requestCode = null
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        todoAdapter = null
     }
 }

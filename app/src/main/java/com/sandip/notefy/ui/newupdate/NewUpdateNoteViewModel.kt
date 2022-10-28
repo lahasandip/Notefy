@@ -10,6 +10,7 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
+import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.FileProvider
@@ -41,6 +42,10 @@ class NewUpdateNoteViewModel @Inject constructor(
 
     val note = state.get<NoteEntity>("home")
 
+    fun print(
+    ){
+        Log.d("data", "in viewmodel $note")
+    }
     var noteTitle = state.get<String>("noteTitle") ?:note?.title ?: ""
         set(value) {
             field = value
@@ -114,6 +119,7 @@ class NewUpdateNoteViewModel @Inject constructor(
         if (noteTitle.isBlank()) {
             showInvalidInputMessage(NotefyApplication.appContext.getString(R.string.title_cannot_be_empty))
             return
+
         }
 
         if (note != null) {

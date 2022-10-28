@@ -10,7 +10,6 @@ import androidx.core.widget.addTextChangedListener
 import androidx.recyclerview.widget.RecyclerView
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Todo
-import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.todoAdapter
 
 class NewUpdateTodoAdapter(
     context: Context?,
@@ -18,7 +17,6 @@ class NewUpdateTodoAdapter(
 ) : RecyclerView.Adapter<NewUpdateTodoAdapter.TodoViewHolder?>() {
     private val context: Context?
     private val todoList: ArrayList<Todo>?
-    private val recyclerView = NewUpdateNote.recyclerView
     init {
         this.context = context
         this.todoList = todoList
@@ -55,8 +53,7 @@ class NewUpdateTodoAdapter(
 
         holder.removeButton.setOnClickListener {
             todoList?.removeAt(position)
-            recyclerView?.adapter = todoAdapter
-            todoAdapter?.notifyDataSetChanged()
+            notifyDataSetChanged()
         }
     }
 
