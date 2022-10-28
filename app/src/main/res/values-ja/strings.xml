@@ -61,7 +61,7 @@
     <string name="share_ask">Notefy が便利だと思ったら、友達と共有してください</string>
     <string name="later">後で</string>
     <string name="share">シェア</string>
-    <string name="message">こんにちは。あなたの生活を楽にする超クールなメモアプリを見つけました。 テキストや写真を使ってカラフルなメモを作成したり、メモを共有したり、リマインダーを設定したり、Todo リストを作成したりできます。 Playストアからアプリを体験してください:\nhttps://play.google.com/store/apps/details?id=com.imangi.templerun</string>
+    <string name="message">こんにちは &#128075;。あなたの生活を楽にする超クールなメモアプリを見つけました &#128515;\n\nテキストや写真を使ってカラフルなメモを作成したり、メモを共有したり、リマインダーを設定したり、Todo リストを作成したりできます。\n\nPlayストアからアプリを体験してください &#128071;\n\nplay.google.com/store/apps/details?id=com.imangi.templerun</string>
     <string name="share_from_notefy">Notefy から共有:</string>
     <string name="oops">おっとっと！ 共有できません</string>
     <string name="provide_feedback">フィードバックを提供します</string>

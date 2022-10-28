@@ -91,7 +91,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
         binding = FragmentNewUpdateNoteBinding.bind(view)
         viewModel.createNotificationChannel(context)
-viewModel.print()
         val requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
@@ -493,7 +492,7 @@ viewModel.print()
                     recyclerView?.setHasFixedSize(true)
                     recyclerView?.layoutManager = LinearLayoutManager(context)
                     recyclerView?.adapter = todoAdapter
-                    todoAdapter?.notifyDataSetChanged()
+                    todoAdapter.notifyDataSetChanged()
                 }
 
                 descriptionTodo?.setText("")

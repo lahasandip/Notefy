@@ -39,7 +39,6 @@ import com.sandip.notefy.util.LocaleManager.Companion.observeLanguagePreference
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.Executor
 
-
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener{
 

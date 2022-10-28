@@ -10,10 +10,6 @@
         android:name="com.sandip.notefy.ui.home.Home"
         android:label="home"
         tools:layout="@layout/fragment_home" >
-<!--        <argument-->
-<!--            android:name="index"-->
-<!--            app:argType="integer"-->
-<!--            android:defaultValue="0"/>-->
         <action
             android:id="@+id/action_home_to_new_update_note"
             app:destination="@id/new_update_note"/>

@@ -42,10 +42,6 @@ class NewUpdateNoteViewModel @Inject constructor(
 
     val note = state.get<NoteEntity>("home")
 
-    fun print(
-    ){
-        Log.d("data", "in viewmodel $note")
-    }
     var noteTitle = state.get<String>("noteTitle") ?:note?.title ?: ""
         set(value) {
             field = value
@@ -180,7 +176,7 @@ class NewUpdateNoteViewModel @Inject constructor(
         } else {
             val desc = if (noteDescription.isNotEmpty()) "\nNote: $noteDescription," else ""
             val url = if (noteUrl.isNotEmpty()) "\nUrl: $noteUrl," else ""
-            val dateTime = if (noteDateTime.isNotEmpty()) "\nDate: ${getDateFormat(noteDateTime)}," else ""
+            val dateTime = if (noteDateTime.isNotEmpty()) "\nReminder: ${getDateFormat(noteDateTime)}," else ""
             val location = if (noteLocation.isNotEmpty()) "\nPlace: $noteLocation," else ""
             val arrayList: ArrayList<String> = ArrayList()
             if (noteTodoList?.size != null) {

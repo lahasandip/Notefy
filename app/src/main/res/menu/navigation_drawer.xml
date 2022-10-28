@@ -11,6 +11,7 @@
             android:title="@string/profile"
             android:icon="@drawable/ic_outline_person_24" />
     </group>
+
     <group
         android:id="@+id/group2"
         android:checkableBehavior="single">
@@ -27,6 +28,7 @@
             android:title="@string/recycle_bin"
             android:icon="@drawable/ic_outline_restore_from_trash_24" />
     </group>
+
     <group
         android:id="@+id/group3"
         android:checkableBehavior="single">
@@ -45,6 +47,7 @@
             app:actionLayout="@layout/biometric_toggle_button"
             android:icon="@drawable/ic_baseline_fingerprint_24"/>
     </group>
+
     <group
         android:id="@+id/group4"
         android:checkableBehavior="single">
