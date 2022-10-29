@@ -113,4 +113,6 @@
     <string name="auth_error">ऑथेंटिकेशन एरर: %s</string>
     <string name="delete_todo">तुम्हाला Todo चेकलिस्ट काढायची आहे का?</string>
     <string name="reminder_permission_error">कृपया रिमाइंडर सेट करण्यासाठी अॅप सेटिंग्जमधून सूचना परवानगी द्या</string>
+    <string name="enter_valid_email">एक वैध ईमेल प्रविष्ट करा</string>
+    <string name="enter_valid_phone">कृपया वैध फोन एंटर करा</string>
 </resources>

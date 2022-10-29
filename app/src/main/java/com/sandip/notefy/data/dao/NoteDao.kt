@@ -23,7 +23,7 @@ interface NoteDao {
     @Query("select * from Note where Id = :id")
     fun getBroadcastNote(id: Int): Flow<List<NoteEntity>>
 
-    @Query("select * from Note where Hide = 0 and Title||Body like '%' || :query || '%' order by Id DESC",)
+    @Query("select * from Note where Hide = 0 and Title||Body like '%' || :query || '%' order by Id DESC")
     fun getNewestToOldestData(query: String): Flow<List<NoteEntity>>
 
     @Query("select * from Note where Hide = 0 and Title||Body like '%' || :query || '%' order by Id ASC")
@@ -38,7 +38,7 @@ interface NoteDao {
     @Query("select * from Note where Important = 1 and Hide = 0 and Title||Body like '%' || :query || '%'")
     fun getBookmarkedData(query: String): Flow<List<NoteEntity>>
 
-    @Query("select * from Note where Hide = 1 order by Id DESC",)
+    @Query("select * from Note where Hide = 1 order by Id DESC")
     fun getTrashData(): Flow<List<NoteEntity>>
 
     fun getTasks(query: String, sortOrder: SortOrder): Flow<List<NoteEntity>> =

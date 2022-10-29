@@ -33,27 +33,32 @@ class NewUpdateTodoAdapter(
     }
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
-        holder.todoTitle.text = todoList?.get(position)?.todoDescription ?: ""
-        holder.todoCheckBox.isChecked = todoList?.get(position)?.completed ?: false
-        if(todoList?.get(position)?.completed == true) {
-            holder.todoTitle.paintFlags = holder.todoTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-        }
-        holder.todoCheckBox.setOnCheckedChangeListener { _, isChecked ->
-            if (isChecked) {
-                holder.todoTitle.paintFlags = holder.todoTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                todoList?.get(position)?.completed = true
-            } else {
-                holder.todoTitle.paintFlags = holder.todoTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-                todoList?.get(position)?.completed = false
+        holder.apply {
+            todoTitle.text = todoList?.get(position)?.todoDescription ?: ""
+            todoCheckBox.isChecked = todoList?.get(position)?.completed ?: false
+            if (todoList?.get(position)?.completed == true) {
+                todoTitle.paintFlags =
+                    todoTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
-        }
-        holder.todoTitle.addTextChangedListener {
-            todoList?.get(position)?.todoDescription = it.toString()
-        }
+            todoCheckBox.setOnCheckedChangeListener { _, isChecked ->
+                if (isChecked) {
+                    todoTitle.paintFlags =
+                        todoTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+                    todoList?.get(position)?.completed = true
+                } else {
+                    todoTitle.paintFlags =
+                        todoTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
+                    todoList?.get(position)?.completed = false
+                }
+            }
+            todoTitle.addTextChangedListener {
+                todoList?.get(position)?.todoDescription = it.toString()
+            }
 
-        holder.removeButton.setOnClickListener {
-            todoList?.removeAt(position)
-            notifyDataSetChanged()
+            removeButton.setOnClickListener {
+                todoList?.removeAt(position)
+                notifyDataSetChanged()
+            }
         }
     }
 

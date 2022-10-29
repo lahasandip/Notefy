@@ -55,18 +55,31 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback){
 
             layoutFeedback.setOnClickListener {
                 try {
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.imangi.templerun")))
+                    startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("market://details?id=com.imangi.templerun")
+                        )
+                    )
                 } catch (e: ActivityNotFoundException) {
-                    startActivity(Intent(Intent.ACTION_VIEW, Uri.parse("https://play.google.com/store/apps/details?id=com.imangi.templerun")))
+                    startActivity(
+                        Intent(
+                            Intent.ACTION_VIEW,
+                            Uri.parse("https://play.google.com/store/apps/details?id=com.imangi.templerun")
+                        )
+                    )
                 }
             }
             layoutWriteUs.setOnClickListener {
-                val address: Array<String> = arrayOf("instanotes.advise@gmail.com")
+                val address: Array<String> = arrayOf("notefy.advise@gmail.com")
                 val intent = Intent(Intent.ACTION_SENDTO).apply {
                     data = Uri.parse("mailto:")
                     putExtra(Intent.EXTRA_EMAIL, address)
                     putExtra(Intent.EXTRA_SUBJECT, "Please Advise")
-                    putExtra(Intent.EXTRA_TEXT, "Android Version: ${Build.VERSION.SDK_INT},\nApp Version: ${BuildConfig.VERSION_NAME}")
+                    putExtra(
+                        Intent.EXTRA_TEXT,
+                        "Android Version: ${Build.VERSION.SDK_INT},\nApp Version: ${BuildConfig.VERSION_NAME}"
+                    )
                 }
                 if (activity?.let { it1 -> intent.resolveActivity(it1.packageManager) } != null) {
                     startActivity(intent)
@@ -75,15 +88,14 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback){
             topAppBar.setNavigationOnClickListener {
                 viewModel.onOkClick()
             }
-
-            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                viewModel.addEditTaskEvent.collect { event ->
-                    when (event) {
-                        is HelpFeedbackViewModel.AddEditTaskEvent.NavigateToBackScreen -> {
-                            findNavController().popBackStack()
-                        }
-                    }.exhaustive
-                }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.addEditTaskEvent.collect { event ->
+                when (event) {
+                    is HelpFeedbackViewModel.AddEditTaskEvent.NavigateToBackScreen -> {
+                        findNavController().popBackStack()
+                    }
+                }.exhaustive
             }
         }
     }

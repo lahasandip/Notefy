@@ -38,8 +38,8 @@ class RecycleBinViewModel @Inject constructor(
 
     fun onMenuRestore(context: Context?, noteEntity: NoteEntity) = viewModelScope.launch {
         noteDao.updateDao(noteEntity.copy(isHide = false))
-        context?.getString(R.string.note_restored)
-            ?.let { TasksEvent.ShowDeletedTaskMessage(it) }?.let { tasksEventChannel.send(it) }
+        context?.getString(R.string.note_restored)?.let { TasksEvent.ShowDeletedTaskMessage(it)
+        }?.let { tasksEventChannel.send(it) }
     }
 
     fun onOkClick() = viewModelScope.launch {

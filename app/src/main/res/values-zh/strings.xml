@@ -113,4 +113,6 @@
     <string name="auth_error">身份验证错误: %s</string>
     <string name="delete_todo">您要删除待办事项清单吗？</string>
     <string name="reminder_permission_error">请从应用设置授予通知权限以设置提醒</string>
+    <string name="enter_valid_email">请输入有效电子邮件</string>
+    <string name="enter_valid_phone">请输入有效电话号码</string>
 </resources>

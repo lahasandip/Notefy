@@ -113,4 +113,6 @@
     <string name="auth_error">প্রমাণীকরণ ত্রুটি: %s</string>
     <string name="delete_todo">আপনি কি টুডু চেকলিস্টটি মুছতে চান?</string>
     <string name="reminder_permission_error">রিমাইন্ডার সেট করার জন্য অনুগ্রহ করে অ্যাপ সেটিংস থেকে নোটিফিকেশন এর অনুমতি দিন</string>
+    <string name="enter_valid_email">একটি বৈধ ইমেইল প্রবেশ করুন</string>
+    <string name="enter_valid_phone">একটি বৈধ ফোন লিখুন</string>
 </resources>

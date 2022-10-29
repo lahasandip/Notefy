@@ -153,11 +153,11 @@ class NoteAdapter(activity: Activity, view: View, private val listener: OnItemCl
                 }
 
                 if(isSelectAll){
-                    binding.cardView.strokeWidth = 8
-                    binding.cardView.strokeColor = Color.parseColor("#80cbc4")
+                    cardView.strokeWidth = 8
+                    cardView.strokeColor = Color.parseColor("#80cbc4")
                 }
-                else { binding.cardView.strokeWidth = 0
-                    binding.cardView.strokeColor = Color.parseColor("#9e9e9e")
+                else { cardView.strokeWidth = 0
+                    cardView.strokeColor = Color.parseColor("#9e9e9e")
                 }
 
                 important.isChecked = noteEntity.important
@@ -232,14 +232,16 @@ class NoteAdapter(activity: Activity, view: View, private val listener: OnItemCl
         if (position != RecyclerView.NO_POSITION) {
             task = getItem(position)
         }
-        if (binding.cardView.strokeWidth == 0) {
-            binding.cardView.strokeWidth = 8
-            binding.cardView.strokeColor = Color.parseColor("#80cbc4")
-            selectList.add(task)
-        } else {
-            binding.cardView.strokeWidth = 0
-            binding.cardView.strokeColor = Color.parseColor("#9e9e9e")
-            selectList.remove(task)
+        binding.apply {
+            if (cardView.strokeWidth == 0) {
+                cardView.strokeWidth = 8
+                cardView.strokeColor = Color.parseColor("#80cbc4")
+                selectList.add(task)
+            } else {
+                cardView.strokeWidth = 0
+                cardView.strokeColor = Color.parseColor("#9e9e9e")
+                selectList.remove(task)
+            }
         }
         HomeViewModel.mutableLiveData.value = selectList.size.toString()
     }

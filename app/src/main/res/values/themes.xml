@@ -67,8 +67,4 @@
     <style name="BottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
         <item name="android:background">@android:color/transparent</item>
     </style>
-
-    <style name="CardView" parent="">
-        <item name="boxCornerRadiusTopEnd">10dp</item>
-    </style>
 </resources>

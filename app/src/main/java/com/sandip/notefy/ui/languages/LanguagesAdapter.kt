@@ -47,18 +47,17 @@ class LanguagesAdapter(
 
         myList?.get(position)
             ?.let { it.isChecked?.let { it1 -> holder.flagImage.setImageResource(it1)}}
-        holder.language.text = myList?.get(position)?.language
+        holder.apply {
+            language.text = myList?.get(position)?.language
 
-
-        if (selectedPosition == position) {
-            holder.cardView.strokeWidth = 5
-            holder.cardView.strokeColor = Color.parseColor("#80cbc4")
+            if (selectedPosition == position) {
+                cardView.strokeWidth = 5
+                cardView.strokeColor = Color.parseColor("#80cbc4")
+            } else {
+                cardView.strokeWidth = 0
+                cardView.strokeColor = Color.TRANSPARENT
+            }
         }
-        else{
-            holder.cardView.strokeWidth = 0
-            holder.cardView.strokeColor = Color.TRANSPARENT
-        }
-
     }
 
     override fun getItemCount(): Int {

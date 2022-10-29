@@ -52,7 +52,7 @@
         android:id="@+id/group4"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/settings"
+            android:id="@+id/shareApp"
             android:title="@string/share_app"
             android:icon="@drawable/ic_baseline_share_24" />
         <item

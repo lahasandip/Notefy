@@ -16,5 +16,5 @@ interface UserDao {
     fun getUser(): LiveData<UserEntity>
 
     @Query("select count() from user")
-     fun getCount() : LiveData<Int>
+    fun getCount() : LiveData<Int>
 }

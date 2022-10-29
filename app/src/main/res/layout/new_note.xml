@@ -49,7 +49,7 @@
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
                     android:transitionName="img"
-                    tools:ignore="UnusedAttribute"/>
+                    tools:ignore="ContentDescription,UnusedAttribute"/>
             </androidx.cardview.widget.CardView>
 
             <TextView
@@ -82,21 +82,20 @@
             <FrameLayout
                 android:id="@+id/layoutDate"
                 android:layout_width="wrap_content"
-                android:layout_height="17dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:layout_marginTop="4dp"
                 android:elevation="5dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/note_body"
-                android:visibility="gone">
+                app:layout_constraintTop_toBottomOf="@+id/note_body">
 
                 <ImageView
-                    android:id="@+id/clock"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleX="0.8"
-                    android:scaleY="0.8"
-                    android:src="@drawable/ic_outline_access_alarms_24"/>
+                    android:scaleX="0.65"
+                    android:scaleY="0.65"
+                    android:src="@drawable/ic_outline_access_alarms_24"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/dateTime"
@@ -112,23 +111,21 @@
             <FrameLayout
                 android:id="@+id/layoutLocation"
                 android:layout_width="wrap_content"
-                android:layout_height="17dp"
-                android:layout_marginTop="4dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
                 android:elevation="5dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutDate"
-                android:visibility="gone">
+                app:layout_constraintTop_toBottomOf="@+id/layoutDate">
 
                 <ImageView
-                    android:id="@+id/location_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleX="0.85"
-                    android:scaleY="0.85"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
                     android:src="@drawable/ic_outline_location_on_24"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/note_body"/>
+                    app:layout_constraintTop_toBottomOf="@+id/note_body"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/location"
@@ -146,22 +143,20 @@
             <FrameLayout
                 android:id="@+id/layoutURL"
                 android:layout_width="wrap_content"
-                android:layout_height="17dp"
-                android:layout_marginTop="4dp"
+                android:layout_height="wrap_content"
                 android:layout_marginStart="5dp"
                 android:elevation="5dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/layoutLocation"
-                android:visibility="gone">
+                app:layout_constraintTop_toBottomOf="@+id/layoutLocation">
 
                 <ImageView
-                    android:id="@+id/url_image"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:scaleX="0.85"
-                    android:scaleY="0.85"
+                    android:scaleX="0.7"
+                    android:scaleY="0.7"
                     android:src="@drawable/ic_baseline_insert_link_24"
-                    app:layout_constraintStart_toStartOf="parent"/>
+                    app:layout_constraintStart_toStartOf="parent"
+                    tools:ignore="ContentDescription" />
 
                 <TextView
                     android:id="@+id/urlLink"
@@ -180,7 +175,7 @@
                 android:id="@+id/todo_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="7dp"
+                android:layout_marginTop="4dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/layoutURL"
                 android:visibility="gone"/>

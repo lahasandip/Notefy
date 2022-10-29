@@ -28,12 +28,6 @@
             android:defaultValue="@null"
             app:argType="com.sandip.notefy.data.entity.NoteEntity"
             app:nullable="true"/>
-        <argument
-            android:name="strike"
-            app:argType="boolean"/>
-        <action
-            android:id="@+id/action_new_update_note_to_todo"
-            app:destination="@id/todo"/>
     </fragment>
 
     <fragment
@@ -49,18 +43,15 @@
         tools:layout="@layout/fragment_about" />
 
     <dialog
-        android:id="@+id/settings"
+        android:id="@+id/shareApp"
         android:name="com.sandip.notefy.ui.shareapp.ShareApp"
-        android:label="settings"/>
+        android:label="shareApp" />
 
     <fragment
         android:id="@+id/languages"
         android:name="com.sandip.notefy.ui.languages.Languages"
         android:label="languages"
         tools:layout="@layout/fragment_languages">
-        <action
-            android:id="@+id/action_languages_to_home"
-            app:destination="@id/home" />
     </fragment>
 
     <fragment
@@ -80,8 +71,5 @@
         android:name="com.sandip.notefy.ui.recycle_bin.RecycleBin"
         android:label="recycle_bin"
         tools:layout="@layout/fragment_recycle_bin">
-        <action
-            android:id="@+id/action_recycle_bin_to_new_update_note"
-            app:destination="@id/new_update_note"/>
     </fragment>
 </navigation>

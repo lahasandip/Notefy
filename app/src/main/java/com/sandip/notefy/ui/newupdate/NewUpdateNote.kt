@@ -10,7 +10,10 @@ import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.text.format.DateFormat
+import android.util.Patterns
 import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
@@ -49,6 +52,7 @@ import vadiole.colorpicker.ColorPickerDialog
 import java.text.SimpleDateFormat
 import java.util.*
 
+
 @Suppress("IMPLICIT_CAST_TO_ANY")
 @AndroidEntryPoint
 class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
@@ -60,12 +64,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private lateinit var timePicker: MaterialTimePicker
     private lateinit var viewColor : ColorDrawable
     private lateinit var todoAdapter: NewUpdateTodoAdapter
-
     private var todoList : ArrayList<Todo>? = arrayListOf()
     private val requestCode = System.currentTimeMillis().toInt()
     companion object {
         var recyclerView: RecyclerView? = null
-
         val notificationIntent =
             Intent(NotefyApplication.appContext, Notifications::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
@@ -91,6 +93,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
         binding = FragmentNewUpdateNoteBinding.bind(view)
         viewModel.createNotificationChannel(context)
+
         val requestPermissionLauncher = registerForActivityResult(
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
@@ -132,12 +135,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         val image1: ImageView? = colorDialog.findViewById(R.id.no_gradient)
         image1?.setImageResource(R.drawable.ic_baseline_done_24)
 
-        val frame2: FrameLayout? =
-            colorDialog.findViewById(R.id.frame_gradient_1)
+        val frame2: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_1)
         val image2: ImageView? = colorDialog.findViewById(R.id.gradient_1)
 
-        val frame3: FrameLayout? =
-            colorDialog.findViewById(R.id.frame_gradient_2)
+        val frame3: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_2)
         val image3: ImageView? = colorDialog.findViewById(R.id.gradient_2)
 
         val frame4: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_3)
@@ -146,32 +147,26 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         val frame5: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_4)
         val image5: ImageView? = colorDialog.findViewById(R.id.gradient_4)
 
-        val frame6: FrameLayout? =
-            colorDialog.findViewById(R.id.frame_gradient_5)
+        val frame6: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_5)
         val image6: ImageView? = colorDialog.findViewById(R.id.gradient_5)
 
-        val frame7: FrameLayout? =
-            colorDialog.findViewById(R.id.frame_gradient_6)
-        val image7: ImageView? =
-            colorDialog.findViewById(R.id.gradient_6)
+        val frame7: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_6)
+        val image7: ImageView? = colorDialog.findViewById(R.id.gradient_6)
 
-        val frame8: FrameLayout? =
-            colorDialog.findViewById(R.id.frame_gradient_7)
+        val frame8: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_7)
         val image8: ImageView? = colorDialog.findViewById(R.id.gradient_7)
 
-        val frame9: FrameLayout? =
-            colorDialog.findViewById(R.id.frame_gradient_8)
+        val frame9: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_8)
         val image9: ImageView? = colorDialog.findViewById(R.id.gradient_8)
 
-        val frame10: FrameLayout? =
-            colorDialog.findViewById(R.id.frame_gradient_9)
+        val frame10: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_9)
         val image10: ImageView? = colorDialog.findViewById(R.id.gradient_9)
 
-        val frame11: FrameLayout? =
-            colorDialog.findViewById(R.id.frame_gradient_10)
+        val frame11: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_10)
         val image11: ImageView? = colorDialog.findViewById(R.id.gradient_10)
 
         val colorPicker: Button? = colorDialog.findViewById(R.id.color_picker)
+
 
 //----------------------------------------------------------------------------------------------------------------------------------
 //TodoDialog Initialization
@@ -218,11 +213,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
 
         timePicker.addOnPositiveButtonClickListener {
-            viewModel.isStriked = false
+            viewModel.isStrike = false
             "${timePicker.hour}:${timePicker.minute}".also {
                 viewModel.noteDateTime = "$date-$it"
             }
-            getDateFormat(viewModel.noteDateTime)
             binding.apply {
                 newDateTime.paintFlags = 0
                 newDateTime.text = getDateFormat(viewModel.noteDateTime)
@@ -240,9 +234,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 urlParentLayout.visibility = View.VISIBLE
             }
             if (viewModel.noteDateTime.isNotEmpty()) {
-                newDateTime.text =  getDateFormat(viewModel.noteDateTime)
+                newDateTime.text = getDateFormat(viewModel.noteDateTime)
                 reminderParentLayout.visibility = View.VISIBLE
-                if(viewModel.isStriked) {
+                if (viewModel.isStrike) {
                     newDateTime.paintFlags =
                         newDateTime.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
                 }
@@ -253,28 +247,69 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 locationParentLayout.visibility = View.VISIBLE
             }
             fragmentNewUpdateNote.setBackgroundColor(viewModel.noteColor)
+            val picker: ColorPickerDialog = ColorPickerDialog.Builder()
+                .setInitialColor(696969)
+                .setColorModel(ColorModel.HSV)
+                .setColorModelSwitchEnabled(true)
+                .setButtonOkText(android.R.string.ok)
+                .setButtonCancelText(android.R.string.cancel)
+                .onColorSelected { color: Int ->
+                    fragmentNewUpdateNote.setBackgroundColor(color)
+                    image1?.setImageResource(0)
+                    image2?.setImageResource(0)
+                    image3?.setImageResource(0)
+                    image4?.setImageResource(0)
+                    image5?.setImageResource(0)
+                    image6?.setImageResource(0)
+                    image7?.setImageResource(0)
+                    image8?.setImageResource(0)
+                    image9?.setImageResource(0)
+                    image10?.setImageResource(0)
+                    image11?.setImageResource(0)
+                    viewModel.noteColor = viewColor.color
+                }.create()
 
-            when(viewModel.noteColor){
-                -13359 ->  { image2?.setImageResource(R.drawable.ic_baseline_done_24)
-                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -2252579 -> {image3?.setImageResource(R.drawable.ic_baseline_done_24)
-                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -16718218 -> {image4?.setImageResource(R.drawable.ic_baseline_done_24)
-                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -43230 -> { image5?.setImageResource(R.drawable.ic_baseline_done_24)
-                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -6982195 -> { image6?.setImageResource(R.drawable.ic_baseline_done_24)
-                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -12490271 -> { image7?.setImageResource(R.drawable.ic_baseline_done_24)
-                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -23296 -> {image8?.setImageResource(R.drawable.ic_baseline_done_24)
-                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -38476 -> { image9?.setImageResource(R.drawable.ic_baseline_done_24)
-                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -7650029 -> { image10?.setImageResource(R.drawable.ic_baseline_done_24)
-                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
-                -9404272 -> { image11?.setImageResource(R.drawable.ic_baseline_done_24)
-                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)}
+            when (viewModel.noteColor) {
+                -13359 -> {
+                    image2?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                }
+                -2252579 -> {
+                    image3?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                }
+                -16718218 -> {
+                    image4?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                }
+                -43230 -> {
+                    image5?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                }
+                -6982195 -> {
+                    image6?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                }
+                -12490271 -> {
+                    image7?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                }
+                -23296 -> {
+                    image8?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                }
+                -38476 -> {
+                    image9?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                }
+                -7650029 -> {
+                    image10?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                }
+                -9404272 -> {
+                    image11?.setImageResource(R.drawable.ic_baseline_done_24)
+                    image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
+                }
                 0 -> image1?.setImageResource(R.drawable.ic_baseline_done_24)
                 else -> image1?.setImageResource(0)
             }
@@ -295,13 +330,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 recyclerView?.layoutManager = LinearLayoutManager(context)
                 recyclerView?.adapter = todoAdapter
                 taskLayout.visibility = View.VISIBLE
-                btn?.visibility=View.VISIBLE
+                btn?.visibility = View.VISIBLE
             }
 
-            if(viewModel.note?.createdDateFormatted != null){
+            if (viewModel.note?.createdDateFormatted != null) {
                 " ${viewModel.note?.createdDateFormatted}".also { noteEdited.text = it }
-            }
-            else {
+            } else {
                 noteEdited.text =
                     SimpleDateFormat(" h:mm a", Locale.getDefault())
                         .format(Date())
@@ -326,7 +360,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             saveNote.setOnClickListener {
-                viewModel.isStriked = false
+                cancelAlarm()
+                viewModel.isStrike = false
                 viewModel.requestCode = requestCode
                 viewModel.onSaveClick()
             }
@@ -338,7 +373,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     .setNegativeButton(getString(R.string.cancel), null)
                     .setPositiveButton(getString(R.string.yes)) { _, _ ->
                         viewModel.noteIsHide = true
-                        viewModel.isStriked = true
+                        viewModel.isStrike = true
                         cancelAlarm()
                         viewModel.onDeleteClick()
                     }
@@ -351,62 +386,59 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
             addFeatures.setOnClickListener {
                 val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-                dialog.setContentView(R.layout.add_features_dialog)
-                dialog.show()
-                dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-                dialog.window?.setGravity(Gravity.BOTTOM)
-                val reminder: LinearLayout? = dialog.findViewById(R.id.add_reminder_layout)
-                val place: LinearLayout? = dialog.findViewById(R.id.add_place_layout)
-                val url: LinearLayout? = dialog.findViewById(R.id.add_url_layout)
+                dialog.apply {
+                    setContentView(R.layout.add_features_dialog)
+                    show()
+                    window?.attributes?.windowAnimations = R.style.DialogAnimation
+                    window?.setGravity(Gravity.BOTTOM)
+                    val reminder: LinearLayout? = findViewById(R.id.add_reminder_layout)
+                    val place: LinearLayout? = findViewById(R.id.add_place_layout)
+                    val url: LinearLayout? = findViewById(R.id.add_url_layout)
 
-                reminder?.setOnClickListener {
-                    dialog.dismiss()
-                    if (ContextCompat.checkSelfPermission(
-                            requireContext(),
-                            Manifest.permission.POST_NOTIFICATIONS,
-                        ) == PackageManager.PERMISSION_GRANTED
-                    ) {
-                        datePicker.show(childFragmentManager, "Date_Picker")
-                    }
-                    else {
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
-                            requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                        }
-                        else {
-                            view.let {
-                                Snackbar.make(
-                                    it,
-                                    getString(R.string.reminder_permission_error),
-                                    Snackbar.LENGTH_LONG
-                                ).show()
+                    reminder?.setOnClickListener {
+                        dismiss()
+                        if (ContextCompat.checkSelfPermission(
+                                requireContext(),
+                                Manifest.permission.POST_NOTIFICATIONS,
+                            ) == PackageManager.PERMISSION_GRANTED
+                        ) {
+                            datePicker.show(childFragmentManager, "Date_Picker")
+                        } else {
+                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+                                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                            } else {
+                                view.let {
+                                    Snackbar.make(
+                                        it,
+                                        getString(R.string.reminder_permission_error),
+                                        Snackbar.LENGTH_LONG
+                                    ).show()
+                                }
                             }
                         }
                     }
-                }
 
-                place?.setOnClickListener {
-                    dialog.dismiss()
-                    showAlert("place")
-                }
-                url?.setOnClickListener {
-                    dialog.dismiss()
-                    showAlert("url")
+                    place?.setOnClickListener {
+                        dismiss()
+                        showAlert("place")
+                    }
+                    url?.setOnClickListener {
+                        dismiss()
+                        showAlert("url")
+                    }
                 }
             }
-
-            reminderLayout.setOnClickListener {
+            newDateTime.setOnClickListener {
                 if (ContextCompat.checkSelfPermission(
                         requireContext(),
                         Manifest.permission.POST_NOTIFICATIONS,
                     ) == PackageManager.PERMISSION_GRANTED
                 ) {
                     datePicker.show(childFragmentManager, "Date_Picker")
-                }
-                else {
+                } else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
-                    }
-                    else {
+                    } else {
                         view.let {
                             Snackbar.make(
                                 it,
@@ -423,43 +455,57 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             addImage.setOnClickListener {
-                val picker: ImagePicker.Builder? = parentFragment?.let { it1 ->
+                val imagePicker: ImagePicker.Builder? = parentFragment?.let { it1 ->
                     ImagePicker.with(
                         it1
                     )
                 }
 
                 val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-                dialog.setContentView(R.layout.add_image_dialog)
-                dialog.show()
-                dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-                dialog.window?.setGravity(Gravity.BOTTOM)
-                val camera: LinearLayout ?= dialog.findViewById(R.id.take_photo)
-                camera?.setOnClickListener {
-                    dialog.dismiss()
-                    picker?.crop()
-                    picker?.cameraOnly()
-                    picker?.compress(1024)
-                    picker?.maxResultSize(1080, 1080)
-                    picker?.createIntent { Intent: Intent? ->
-                        startForProfileImageResult.launch(Intent)
-                    }
-                }
-                val image: LinearLayout? = dialog.findViewById(R.id.add_photo)
-                image?.setOnClickListener {
-                    dialog.dismiss()
-                    picker?.crop()
-                    picker?.galleryOnly()
-                    picker?.compress(1024)
-                    picker?.maxResultSize(1080, 1080)
-                    picker?.createIntent { Intent: Intent? ->
-                        startForProfileImageResult.launch(Intent)
+                dialog.apply {
+                    setContentView(R.layout.add_image_dialog)
+                    show()
+                    window?.attributes?.windowAnimations = R.style.DialogAnimation
+                    window?.setGravity(Gravity.BOTTOM)
+                    val camera: LinearLayout? = findViewById(R.id.take_photo)
+                    imagePicker?.apply {
+                        crop()
+                        compress(1024)
+                        maxResultSize(1080, 1080)
+                        camera?.setOnClickListener {
+                            dismiss()
+                            cameraOnly()
+                            createIntent { Intent: Intent? ->
+                                startForProfileImageResult.launch(Intent)
+                            }
+                        }
+                        val image: LinearLayout? = findViewById(R.id.add_photo)
+                        image?.setOnClickListener {
+                            dismiss()
+                            galleryOnly()
+                            createIntent { Intent: Intent? ->
+                                startForProfileImageResult.launch(Intent)
+                            }
+                        }
                     }
                 }
             }
-            locationLayout.setOnClickListener {
+            placeInput.setOnClickListener {
                 viewModel.onLocationClick(placeInput.text)
             }
+            placeInput.setOnLongClickListener {
+                showAlert("place")
+                true
+            }
+            urlLink.setOnLongClickListener {
+                showAlert("url")
+                true
+            }
+            urlLink.setOnLongClickListener {
+                showAlert("url")
+                true
+            }
+
             share.setOnClickListener {
                 context?.let { it1 -> viewModel.onShareClick(it1, showImage) }
             }
@@ -486,8 +532,13 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             addToList?.setOnClickListener {
-                if(!(descriptionTodo?.text.isNullOrEmpty())) {
-                    todoList?.add(Todo(checkBoxTodo?.isChecked, descriptionTodo?.text.toString()))
+                if (!(descriptionTodo?.text.isNullOrEmpty())) {
+                    todoList?.add(
+                        Todo(
+                            checkBoxTodo?.isChecked,
+                            descriptionTodo?.text.toString()
+                        )
+                    )
                     todoAdapter = NewUpdateTodoAdapter(requireContext(), todoList)
                     recyclerView?.setHasFixedSize(true)
                     recyclerView?.layoutManager = LinearLayoutManager(context)
@@ -500,12 +551,11 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
             btn?.setOnClickListener {
                 todoDialog.dismiss()
-                if(!(todoList.isNullOrEmpty())){
-                    binding.taskLayout.visibility = View.VISIBLE
+                if (!(todoList.isNullOrEmpty())) {
+                    taskLayout.visibility = View.VISIBLE
                     viewModel.noteTodoList = todoList
-                }
-                else{
-                    binding.taskLayout.visibility = View.GONE
+                } else {
+                    taskLayout.visibility = View.GONE
                 }
             }
             removeLocation.setOnClickListener {
@@ -515,7 +565,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             removeReminder.setOnClickListener {
                 newDateTime.text = null
                 viewModel.noteDateTime = ""
-                cancelAlarm()
                 reminderParentLayout.visibility = View.GONE
             }
             removeUrl.setOnClickListener {
@@ -527,7 +576,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteImage = null
                 imageLayout.visibility = View.GONE
             }
-            viewColor = binding.fragmentNewUpdateNote.background as ColorDrawable
+            viewColor = fragmentNewUpdateNote.background as ColorDrawable
 
             frame1?.setOnClickListener {
                 image1?.setImageResource(R.drawable.ic_baseline_done_24)
@@ -541,7 +590,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image9?.setImageResource(0)
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
-                binding.fragmentNewUpdateNote.setBackgroundColor(0)
+                fragmentNewUpdateNote.setBackgroundColor(0)
                 viewModel.noteColor = viewColor.color
             }
 
@@ -557,7 +606,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image9?.setImageResource(0)
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
-                binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.PaleVioletRed, null))
+                fragmentNewUpdateNote.setBackgroundColor(
+                    resources.getColor(
+                        R.color.PaleVioletRed,
+                        null
+                    )
+                )
                 viewModel.noteColor = viewColor.color
             }
 
@@ -573,7 +627,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image9?.setImageResource(0)
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
-                binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.Plum, null))
+                fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.Plum, null))
                 viewModel.noteColor = viewColor.color
             }
 
@@ -589,7 +643,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image9?.setImageResource(0)
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
-                binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.LimeGreen, null))
+                fragmentNewUpdateNote.setBackgroundColor(
+                    resources.getColor(
+                        R.color.LimeGreen,
+                        null
+                    )
+                )
                 viewModel.noteColor = viewColor.color
             }
 
@@ -605,7 +664,11 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image9?.setImageResource(0)
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
-                binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.red, null))
+                fragmentNewUpdateNote.setBackgroundColor(
+                    resources.getColor(
+                        R.color.red, null
+                    )
+                )
                 viewModel.noteColor = viewColor.color
             }
 
@@ -621,7 +684,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image9?.setImageResource(0)
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
-                binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.Bisque, null))
+                fragmentNewUpdateNote.setBackgroundColor(
+                    resources.getColor(
+                        R.color.Bisque,
+                        null
+                    )
+                )
                 viewModel.noteColor = viewColor.color
             }
 
@@ -637,7 +705,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image9?.setImageResource(0)
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
-                binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.RoyalBlue, null))
+                fragmentNewUpdateNote.setBackgroundColor(
+                    resources.getColor(
+                        R.color.RoyalBlue,
+                        null
+                    )
+                )
                 viewModel.noteColor = viewColor.color
             }
 
@@ -653,7 +726,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image9?.setImageResource(0)
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
-                binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.Orange, null))
+                fragmentNewUpdateNote.setBackgroundColor(
+                    resources.getColor(
+                        R.color.Orange,
+                        null
+                    )
+                )
                 viewModel.noteColor = viewColor.color
             }
 
@@ -669,7 +747,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image8?.setImageResource(0)
                 image10?.setImageResource(0)
                 image11?.setImageResource(0)
-                binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.HotPink, null))
+                fragmentNewUpdateNote.setBackgroundColor(
+                    resources.getColor(
+                        R.color.HotPink,
+                        null
+                    )
+                )
                 viewModel.noteColor = viewColor.color
             }
 
@@ -685,7 +768,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image8?.setImageResource(0)
                 image9?.setImageResource(0)
                 image11?.setImageResource(0)
-                binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.SaddleBrown, null))
+                fragmentNewUpdateNote.setBackgroundColor(
+                    resources.getColor(
+                        R.color.SaddleBrown,
+                        null
+                    )
+                )
                 viewModel.noteColor = viewColor.color
             }
 
@@ -701,23 +789,17 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 image8?.setImageResource(0)
                 image9?.setImageResource(0)
                 image10?.setImageResource(0)
-                binding.fragmentNewUpdateNote.setBackgroundColor(resources.getColor(R.color.SlateGray, null))
+                fragmentNewUpdateNote.setBackgroundColor(
+                    resources.getColor(
+                        R.color.SlateGray,
+                        null
+                    )
+                )
                 viewModel.noteColor = viewColor.color
             }
 
             colorPicker?.setOnClickListener {
                 colorDialog.dismiss()
-                val picker: ColorPickerDialog = ColorPickerDialog.Builder()
-                    .setInitialColor(121212)
-                    .setColorModel(ColorModel.HSV)
-                    .setColorModelSwitchEnabled(true)
-                    .setButtonOkText(android.R.string.ok)
-                    .setButtonCancelText(android.R.string.cancel)
-                    .onColorSelected { color: Int ->
-                        binding.fragmentNewUpdateNote.setBackgroundColor(color)
-                        viewModel.noteColor = viewColor.color
-                    }
-                    .create()
                 picker.show(childFragmentManager, "color_picker")
             }
 
@@ -729,10 +811,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                             Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_LONG).show()
                         }
                         is AddEditTaskEvent.NavigateBackWithResult -> {
-                            if(!(newDateTime.text.isNullOrEmpty())) {
+                            if (!(newDateTime.text.isNullOrEmpty())) {
                                 viewModel.displaySimpleNotification(context)
                             }
-                            binding.noteTitle.clearFocus()
+                            noteTitle.clearFocus()
                             setFragmentResult(
                                 "add_edit_delete_request",
                                 bundleOf("add_edit_delete_result" to event.result)
@@ -740,7 +822,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                             findNavController().popBackStack()
                         }
                         is AddEditTaskEvent.NavigateBackWithDelete -> {
-                            binding.noteTitle.clearFocus()
+                            noteTitle.clearFocus()
                             setFragmentResult(
                                 "add_edit_delete_request",
                                 bundleOf("add_edit_delete_result" to event.result)
@@ -750,79 +832,111 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                         is AddEditTaskEvent.NavigateToBackScreen -> {
                             findNavController().popBackStack()
                         }
-                        is AddEditTaskEvent.NavigateToBackAfterDelete -> {
-                            setFragmentResult(
-                                "add_edit_delete_request",
-                                bundleOf("add_edit_delete_result" to event.result)
-                            )
-                            findNavController().popBackStack()
-                        }
                         is AddEditTaskEvent.ShareIntent -> {
                             startActivity(event.shareIntent)
                         }
                         is AddEditTaskEvent.StartLocationIntent -> {
                             startActivity(event.mapIntent)
                         }
-                        is AddEditTaskEvent.NavigateToTodoScreen -> {
-                            val action =
-                                NewUpdateNoteDirections.actionNewUpdateNoteToTodo()
-                            findNavController().navigate(action)
-                        }
                     }.exhaustive
                 }
+
             }
         }
     }
-
 
     //Private function to display Place and URL
     private fun showAlert(s: String) {
         val builder = context?.let { AlertDialog.Builder(it) }
         val input = layoutInflater.inflate(R.layout.alert_edittext, null)
         val editText = input.findViewById<EditText>(R.id.input)
-        editText.requestFocus()
         builder?.setView(input)
-        if(s=="url"){
-            builder?.setTitle(getString(R.string.url))
-            editText?.hint = getString(R.string.url_hint)
-            builder?.setPositiveButton(
-                getString(R.string.ok)
-            ) {
-                    _, _ ->
-                if(editText?.text?.isNotEmpty() == true) {
-                    binding.urlLink.text = editText.text.toString()
-                    binding.urlParentLayout.visibility = View.VISIBLE
+        editText.apply {
+            if (s == "url") {
+                builder?.setTitle(getString(R.string.url))
+                if (viewModel.noteUrl.isNotEmpty()) {
+                    setText(viewModel.noteUrl)
+                    requestFocus()
+                } else {
+                    hint = getString(R.string.url_hint)
+                    requestFocus()
                 }
-                else{
-                    view?.let { Toast.makeText(context, getString(R.string.please_enter_a_link), Toast.LENGTH_LONG).show() }
-                    showAlert("url")
+                addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+                    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                        if (text.isNotEmpty() && !Patterns.WEB_URL.matcher(text.toString()).matches()) {
+                            error = "Invalid\n\t\tUrl"
+                        }
+                        if (text.isNullOrEmpty()) {
+                            hint = getString(R.string.url_hint)
+                        }
+                    }
+                    override fun afterTextChanged(s: Editable) {
+                        builder?.create()?.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = true
+                    }
+                })
+
+                builder?.setPositiveButton(
+                    getString(R.string.ok)
+                ) { _, _ ->
+                    if (text?.isNotEmpty() == true) {
+                        binding.urlLink.text = text.toString()
+                        binding.urlParentLayout.visibility = View.VISIBLE
+                    } else {
+                        view?.let {
+                            Toast.makeText(
+                                context,
+                                getString(R.string.please_enter_a_link),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                        showAlert("url")
+                    }
+                }
+            } else if (s == "place") {
+                builder?.setTitle(getString(R.string.place))
+                if (viewModel.noteLocation.isNotEmpty()) {
+                    setText(viewModel.noteLocation)
+                    requestFocus()
+                } else {
+                    hint = getString(R.string.place_hint)
+                    requestFocus()
+                }
+                addTextChangedListener(object : TextWatcher {
+                    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+                    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                        if (text.isNullOrEmpty()) {
+                            hint = getString(R.string.place_hint)
+                        }
+                    }
+                    override fun afterTextChanged(s: Editable) {}
+                })
+
+                builder?.setPositiveButton(
+                    getString(R.string.ok)
+                ) { _, _ ->
+                    if (text?.isNotEmpty() == true) {
+                        binding.placeInput.text = text.toString()
+                        binding.locationParentLayout.visibility = View.VISIBLE
+                    } else {
+                        view?.let {
+                            Toast.makeText(
+                                context,
+                                getString(R.string.please_enter_a_place),
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
+                        showAlert("place")
+                    }
                 }
             }
         }
-        else if(s=="place"){
-            builder?.setTitle(getString(R.string.place))
-            editText?.hint = getString(R.string.place_hint)
-            builder?.setPositiveButton(
-                getString(R.string.ok)
-            ) {
-                    _, _ ->
-                if(editText?.text?.isNotEmpty() == true) {
-                    binding.placeInput.text = editText.text.toString()
-                    binding.locationParentLayout.visibility = View.VISIBLE
-                }
-                else{
-                    view?.let { Toast.makeText(context, getString(R.string.please_enter_a_place), Toast.LENGTH_LONG).show() }
-                    showAlert("place")
-                }
-            }
-        }
-        builder?.setNegativeButton(getString(R.string.cancel)) {
-                dialog, _ -> dialog.cancel()
+        builder?.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+            dialog.cancel()
         }
         builder?.show()
     }
 
-    @RequiresApi(Build.VERSION_CODES.M)
     private fun cancelAlarm(){
         if(viewModel.requestCode != null) {
             cancelAlarm(context, viewModel.requestCode)

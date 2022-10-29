@@ -33,6 +33,7 @@ import com.google.android.material.navigation.NavigationView
 import com.google.android.material.switchmaterial.SwitchMaterial
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.ActivityMainBinding
+import com.sandip.notefy.ui.home.HomeViewModel
 import com.sandip.notefy.ui.home.NoteAdapter.Companion.homeActionMode
 import com.sandip.notefy.ui.recycle_bin.RecycleAdapter.Companion.recycleActionMode
 import com.sandip.notefy.util.LocaleManager.Companion.observeLanguagePreference
@@ -53,8 +54,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
     private lateinit var navigationView : NavigationView
-    private lateinit var view: View
-    private val viewModel: MainActivityViewModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
     private val requestCode = 1
     private var isDarkMode = true
     private var isBiometricEnable = true
@@ -67,13 +67,13 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         installSplashScreen()
         super.onCreate(savedInstanceState)
         observeLanguagePreference(this)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
-        view = binding.root
-        setContentView(view)
+        setContentView(binding.root)
 
         uiSharedPreferences =  getSharedPreferences("UI",Context.MODE_PRIVATE)
+        uiSharedPreferences.registerOnSharedPreferenceChangeListener(this)
         biometricSharedPreferences =  getSharedPreferences("BIOMETRIC",Context.MODE_PRIVATE)
+        biometricSharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
         navigationView = binding.navView
         darkSwitch = navigationView.menu.findItem(R.id.dark_theme).actionView!!.findViewById(R.id.dark_switch)
@@ -83,8 +83,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             editor.apply()
         }
 
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
 
         drawerLayout = binding.drawerLayout
@@ -94,10 +93,12 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         val userName = headerView.findViewById<TextView>(R.id.user_name)
         viewModel.displayUser.observe(this) {
             if(it !=null){
-                userName.text = it.name
-                when(userName.text){
-                    "" -> userName.visibility = View.GONE
-                    else -> userName.visibility = View.VISIBLE
+                userName.apply {
+                    text = it.name
+                    visibility = when (text) {
+                        "" -> View.GONE
+                        else -> View.VISIBLE
+                    }
                 }
                 if(!(it.image.isNullOrEmpty())){
                     val imageUri = Uri.parse(it.image)
@@ -142,15 +143,12 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     }
 
     private fun observeUiPreferences() {
-        uiSharedPreferences.registerOnSharedPreferenceChangeListener(this)
-        val darkMode = uiSharedPreferences.getBoolean("darkMode", false)
-        if(darkMode){
-            onDarkMode()
-        }
-        else{
-            onLightMode()
+        when(uiSharedPreferences.getBoolean("darkMode", false)){
+            true -> onDarkMode()
+            false -> onLightMode()
         }
     }
+
     private fun onLightMode() {
         isDarkMode = false
         AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO)
@@ -167,13 +165,9 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     Biometric Login Feature
      */
     private fun observeBiometricPreferences(){
-        biometricSharedPreferences.registerOnSharedPreferenceChangeListener(this)
-        val biometric = biometricSharedPreferences.getBoolean("biometric", false)
-        if(biometric){
-            onBiometricEnabled()
-        }
-        else{
-            onBiometricDisabled()
+        when(biometricSharedPreferences.getBoolean("biometric", false)){
+            true -> onBiometricEnabled()
+            false -> onBiometricDisabled()
         }
     }
 
@@ -235,8 +229,8 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
         screenLock.isChecked = true
         biometricPrompt.authenticate(promptInfo)
-
     }
+
     private fun onBiometricDisabled(){
         isBiometricEnable = false
         screenLock.isChecked = false

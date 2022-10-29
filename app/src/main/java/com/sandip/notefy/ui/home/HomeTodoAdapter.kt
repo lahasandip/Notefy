@@ -31,13 +31,15 @@ class HomeTodoAdapter( context: Context, todoList: ArrayList<Todo>?)
     }
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
-        holder.todoTitle.text = todoList?.get(position)?.todoDescription ?: ""
-        holder.todoCheckBox.isChecked = todoList?.get(position)?.completed ?: false
-        if(todoList?.get(position)?.completed == true){
-            holder.todoTitle.paintFlags = holder.todoTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+        holder.apply {
+            todoTitle.text = todoList?.get(position)?.todoDescription ?: ""
+            todoCheckBox.isChecked = todoList?.get(position)?.completed ?: false
+            if (todoList?.get(position)?.completed == true) {
+                todoTitle.paintFlags =
+                    todoTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
+            }
         }
     }
-
     override fun getItemCount(): Int {
         return todoList?.size ?: -1
     }

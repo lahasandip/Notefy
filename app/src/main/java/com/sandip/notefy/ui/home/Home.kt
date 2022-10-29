@@ -67,85 +67,85 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             recyclerView.apply {
                 adapter = noteAdapter
                 layoutManager = observeGridLayout()
+            }
 
-                gridView.setOnCheckedChangeListener { _, isChecked ->
-                    val editor = gridSharedPreferences?.edit()
-                    editor?.putBoolean("grid", isChecked)
-                    editor?.apply()
+            gridView.setOnCheckedChangeListener { _, isChecked ->
+                val editor = gridSharedPreferences?.edit()
+                editor?.putBoolean("grid", isChecked)
+                editor?.apply()
+            }
+
+            viewModel.note.observe(viewLifecycleOwner) {
+                noteAdapter.submitList(it)
+                noteList = it
+            }
+
+            viewModel.displayUser.observe(viewLifecycleOwner) {
+                if (it != null && !(it.image.isNullOrEmpty())) {
+                    val imageUri = Uri.parse(it.image)
+                    context?.let { it1 -> Glide.with(it1).load(imageUri).into(prof) }
                 }
+            }
 
+
+            swipeRefreshLayout.setOnRefreshListener {
                 viewModel.note.observe(viewLifecycleOwner) {
                     noteAdapter.submitList(it)
                     noteList = it
                 }
-
-                viewModel.displayUser.observe(viewLifecycleOwner) {
-                    if (it != null) {
-                        if (!(it.image.isNullOrEmpty())) {
-                            val imageUri = Uri.parse(it.image)
-                            this.let { it1 -> Glide.with(it1).load(imageUri).into(prof) }
-                        }
-                    }
-                }
-
-                swipeRefreshLayout.setOnRefreshListener {
-                    viewModel.note.observe(viewLifecycleOwner) {
-                        noteAdapter.submitList(it)
-                    }
-                    swipeRefreshLayout.isRefreshing = false
-                }
-
-                viewModel.isChecked.asLiveData().observe(viewLifecycleOwner) {
-                    val savedCheckedRadioButton =
-                        radioGroup.getChildAt(it) as RadioButton
-                    savedCheckedRadioButton.isChecked = true
-                }
-
-
-                viewModel.noteCount.observe(viewLifecycleOwner) {
-                    if (it == 0) {
-                        emptyNotes.emptyNotesError.visibility = View.VISIBLE
-                    } else {
-                        emptyNotes.emptyNotesError.visibility = View.GONE
-                    }
-                }
-
-                searchView.setOnQueryTextListener(object :
-                    android.widget.SearchView.OnQueryTextListener,
-                    SearchView.OnQueryTextListener {
-                    override fun onQueryTextSubmit(query: String?): Boolean {
-                        return true
-                    }
-                    override fun onQueryTextChange(query: String?): Boolean {
-                        if (query != null) {
-                            viewModel.searchQuery.value = query
-                        }
-                        return true
-                    }
-                })
-
-                ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
-                    0,
-                    ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
-                ) {
-                    override fun onMove(
-                        recyclerView: RecyclerView,
-                        viewHolder: RecyclerView.ViewHolder,
-                        target: RecyclerView.ViewHolder
-                    ): Boolean {
-                        return false
-                    }
-
-                    override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                        val task = noteAdapter.currentList[viewHolder.adapterPosition]
-                        cancelAlarm(context, task.requestCode)
-                        viewModel.onTaskSwiped(task)
-                        if(homeActionMode != null){
-                            homeActionMode!!.finish()
-                        }
-                    }
-                }).attachToRecyclerView(recyclerView)
+                swipeRefreshLayout.isRefreshing = false
             }
+
+            viewModel.isChecked.asLiveData().observe(viewLifecycleOwner) {
+                val savedCheckedRadioButton =
+                    radioGroup.getChildAt(it) as RadioButton
+                savedCheckedRadioButton.isChecked = true
+            }
+
+            viewModel.noteCount.observe(viewLifecycleOwner) {
+                if (it == 0) {
+                    emptyNotes.emptyNotesError.visibility = View.VISIBLE
+                } else {
+                    emptyNotes.emptyNotesError.visibility = View.GONE
+                }
+            }
+
+            searchView.setOnQueryTextListener(object :
+                android.widget.SearchView.OnQueryTextListener,
+                SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    return true
+                }
+                override fun onQueryTextChange(query: String?): Boolean {
+                    if (query != null) {
+                        viewModel.searchQuery.value = query
+                    }
+                    return true
+                }
+            })
+
+            ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
+                0,
+                ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT
+            ) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ): Boolean {
+                    return false
+                }
+
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val task = noteAdapter.currentList[viewHolder.adapterPosition]
+                    cancelAlarm(context, task.requestCode)
+                    viewModel.onTaskSwiped(task)
+                    if(homeActionMode != null){
+                        homeActionMode!!.finish()
+                    }
+                }
+            }).attachToRecyclerView(recyclerView)
+
             newNote.setOnClickListener {
                 viewModel.onAddNewTaskClick()
             }
@@ -189,14 +189,12 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             }
         }
 
-
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.tasksEvent.collect { event ->
                 when (event) {
                     is HomeViewModel.TasksEvent.NavigateToAddTaskScreen -> {
                         val action =
                             HomeDirections.actionHomeToNewUpdateNote(
-                                false,
                                 null,
                             )
                         findNavController().navigate(action)
@@ -204,7 +202,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                     is HomeViewModel.TasksEvent.NavigateToEditTaskScreen -> {
                         val action =
                             HomeDirections.actionHomeToNewUpdateNote(
-                                false,
                                 event.noteEntity,
                             )
                         findNavController().navigate(action)
@@ -212,22 +209,11 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                     is HomeViewModel.TasksEvent.ShowTaskSavedConfirmationMessage -> {
                         Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_SHORT).show()
                     }
-                    is HomeViewModel.TasksEvent.ShowDeletedTaskMessage -> {
-                        Snackbar.make(requireView(), event.text, Snackbar.LENGTH_SHORT).show()
-                    }
                     is HomeViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
                         Snackbar.make(requireView(), getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
                             .setAction(getString(R.string.undo)) {
                                 viewModel.onUndoDeleteClick(event.noteEntity)
                             }.show()
-                    }
-                    is HomeViewModel.TasksEvent.NavigateToDrawer -> {
-                        val action =
-                            HomeDirections.actionHomeToNewUpdateNote(
-                                false,
-                                null,
-                            )
-                        findNavController().navigate(action)
                     }
                     is HomeViewModel.TasksEvent.NavigateToUserScreen -> {
                         val action =
@@ -241,25 +227,29 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
 
     private fun observeGridLayout(): RecyclerView.LayoutManager {
         gridSharedPreferences?.registerOnSharedPreferenceChangeListener(this)
-        when (gridSharedPreferences?.getBoolean("grid", false)) {
-            true -> if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                gridLayoutManager.spanCount = 1
-                binding.gridView.isChecked = true
-
-            } else {
-                gridLayoutManager.spanCount = 1
-                binding.gridView.isChecked = true
-            }
-            false -> if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                gridLayoutManager.spanCount = 2
-                binding.gridView.isChecked = false
-
-            } else {
-                gridLayoutManager.spanCount = 4
-                binding.gridView.isChecked = false
-            }
-            else -> {
-                gridLayoutManager
+        binding.apply {
+            gridLayoutManager.apply {
+                gridView.apply {
+                    when (gridSharedPreferences?.getBoolean("grid", false)) {
+                        true -> if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                            spanCount = 1
+                            isChecked = true
+                        } else {
+                            spanCount = 1
+                            isChecked = true
+                        }
+                        false -> if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
+                            spanCount = 2
+                            isChecked = false
+                        } else {
+                            spanCount = 4
+                            isChecked = false
+                        }
+                        else -> {
+                            gridLayoutManager
+                        }
+                    }
+                }
             }
         }
         return gridLayoutManager
@@ -286,16 +276,18 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
 
     private fun initSortByDialog() {
         dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-        dialog.setContentView(R.layout.sortby_dialog)
-        dialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-        dialog.window?.setGravity(Gravity.BOTTOM)
-        bookmarked = dialog.findViewById(R.id.bookmarked)
-        titleAsc = dialog.findViewById(R.id.title_asc)
-        titleDsc = dialog.findViewById(R.id.title_desc)
-        newest = dialog.findViewById(R.id.newest)
-        oldest = dialog.findViewById(R.id.oldest)
-        radioGroup = dialog.findViewById(R.id.radioGroup)
-        radioGroup.setOnCheckedChangeListener(radioGroupOnCheckedChangeListener)
+        dialog.apply {
+            setContentView(R.layout.sortby_dialog)
+            window?.attributes?.windowAnimations = R.style.DialogAnimation
+            window?.setGravity(Gravity.BOTTOM)
+            bookmarked = findViewById(R.id.bookmarked)
+            titleAsc = findViewById(R.id.title_asc)
+            titleDsc = findViewById(R.id.title_desc)
+            newest = findViewById(R.id.newest)
+            oldest = findViewById(R.id.oldest)
+            radioGroup = findViewById(R.id.radioGroup)
+            radioGroup.setOnCheckedChangeListener(radioGroupOnCheckedChangeListener)
+        }
     }
 
     override fun onPause() {

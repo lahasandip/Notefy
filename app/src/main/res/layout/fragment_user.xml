@@ -43,7 +43,6 @@
                     android:layout_height="130dp"
                     android:layout_marginTop="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"/>
 
@@ -57,10 +56,10 @@
                     app:fabCustomSize="47dp"
                     app:layout_constraintStart_toStartOf="@+id/circleImageView"
                     app:layout_constraintTop_toTopOf="@+id/circleImageView"
-                    app:tint="@color/white"/>
+                    app:tint="@color/white"
+                    tools:ignore="ContentDescription" />
 
                 <Button
-                    android:id="@+id/edit_name"
                     android:layout_width="25dp"
                     android:layout_height="25dp"
                     android:layout_marginEnd="35dp"
@@ -86,7 +85,8 @@
                     android:maxLength="22"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/circleImageView"/>
+                    app:layout_constraintTop_toBottomOf="@+id/circleImageView"
+                    android:importantForAutofill="no" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/cardView2"
@@ -154,7 +154,6 @@
                                 android:textStyle="bold"/>
 
                             <TextView
-                                android:id="@+id/textView18"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -182,7 +181,6 @@
                                 android:textStyle="bold"/>
 
                             <TextView
-                                android:id="@+id/textView19"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
@@ -225,14 +223,14 @@
                     app:layout_constraintTop_toBottomOf="@+id/cardView2">
 
                     <ImageView
-                        android:id="@+id/imageView8"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_baseline_mail_outline_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
 
                     <EditText
                         android:id="@+id/text_email"
@@ -240,19 +238,18 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="38dp"
-                        android:layout_marginEnd="30dp"
+                        android:layout_marginEnd="24dp"
                         android:background="@null"
                         android:hint="@string/alex_parker_gmail_com"
                         android:textSize="15sp"
                         android:maxLines="1"
                         android:inputType="textEmailAddress"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@+id/edit_email"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:importantForAutofill="no" />
 
                     <Button
-                        android:id="@+id/edit_email"
                         android:layout_width="20dp"
                         android:layout_height="20dp"
                         android:layout_gravity="center"
@@ -275,14 +272,14 @@
                     app:layout_constraintTop_toBottomOf="@+id/linearLayout5">
 
                     <ImageView
-                        android:id="@+id/imageView9"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:src="@drawable/ic_baseline_call_24"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        tools:ignore="ContentDescription" />
 
                     <EditText
                         android:id="@+id/text_phone"
@@ -290,6 +287,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginStart="38dp"
+                        android:layout_marginEnd="24dp"
                         android:background="@null"
                         android:maxLength="16"
                         android:hint="@string/_1_012_345_6789"
@@ -298,7 +296,8 @@
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"/>
+                        app:layout_constraintTop_toTopOf="parent"
+                        android:importantForAutofill="no" />
 
                     <Button
                         android:layout_width="20dp"

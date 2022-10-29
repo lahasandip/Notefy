@@ -5,7 +5,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
 import android.view.*
-import androidx.core.content.ContextCompat
+import androidx.core.content.res.ResourcesCompat
 import androidx.lifecycle.LifecycleOwner
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -107,8 +107,7 @@ class RecycleAdapter(activity: Activity, view: View, private val listener: OnIte
                                     }
 
                                     R.id.select_all -> {
-                                        item.icon = ContextCompat.getDrawable(NotefyApplication.appContext,
-                                            R.drawable.ic_baseline_deselect_24)
+                                        item.icon = ResourcesCompat.getDrawable(mActivity.resources, R.drawable.ic_baseline_deselect_24, null)
                                         if(selectList.size == noteList.size) {
                                             isSelectAll=false
                                             selectList.clear()
@@ -158,11 +157,12 @@ class RecycleAdapter(activity: Activity, view: View, private val listener: OnIte
                 }
 
                 if(isSelectAll){
-                    binding.cardView.strokeWidth = 8
-                    binding.cardView.strokeColor = Color.parseColor("#80cbc4")
+                    cardView.strokeWidth = 8
+                    cardView.strokeColor = Color.parseColor("#80cbc4")
                 }
-                else { binding.cardView.strokeWidth = 0
-                    binding.cardView.strokeColor = Color.parseColor("#9e9e9e")
+                else {
+                    cardView.strokeWidth = 0
+                    cardView.strokeColor = Color.parseColor("#9e9e9e")
                 }
 
                 important.isChecked = noteEntity.important
@@ -237,14 +237,16 @@ class RecycleAdapter(activity: Activity, view: View, private val listener: OnIte
         if (position != RecyclerView.NO_POSITION) {
             task = getItem(position)
         }
-        if (binding.cardView.strokeWidth == 0) {
-            binding.cardView.strokeWidth = 8
-            binding.cardView.strokeColor = Color.parseColor("#80cbc4")
-            selectList.add(task)
-        } else {
-            binding.cardView.strokeWidth = 0
-            binding.cardView.strokeColor = Color.parseColor("#9e9e9e")
-            selectList.remove(task)
+        binding.apply {
+            if (cardView.strokeWidth == 0) {
+                cardView.strokeWidth = 8
+                cardView.strokeColor = Color.parseColor("#80cbc4")
+                selectList.add(task)
+            } else {
+                cardView.strokeWidth = 0
+                cardView.strokeColor = Color.parseColor("#9e9e9e")
+                selectList.remove(task)
+            }
         }
         RecycleBinViewModel.mutableLiveData.value = selectList.size.toString()
     }

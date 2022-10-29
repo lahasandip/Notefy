@@ -113,4 +113,6 @@
     <string name="auth_error">Erro de autenticação: %s</string>
     <string name="delete_todo">Deseja remover Todo Checklist?</string>
     <string name="reminder_permission_error">Por favor, conceda permissão de notificação das configurações do aplicativo para definir o lembrete</string>
+    <string name="enter_valid_email">Por favor entre com um email válido</string>
+    <string name="enter_valid_phone">Por favor, insira um telefone válido</string>
 </resources>

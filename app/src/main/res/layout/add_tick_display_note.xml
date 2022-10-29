@@ -27,7 +27,6 @@
             android:layout_height="match_parent"
             android:layout_marginStart="23dp"
             android:layout_marginEnd="3dp"
-            android:background="@null"
             android:textSize="12sp"
             app:layout_constraintStart_toEndOf="@+id/ch"
             app:layout_constraintBottom_toBottomOf="parent"

@@ -7,6 +7,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Patterns
 import android.view.*
 import android.widget.*
 import androidx.activity.result.ActivityResult
@@ -21,11 +24,11 @@ import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
+import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.FragmentUserBinding
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
-
 
 @AndroidEntryPoint
 class User : Fragment(R.layout.fragment_user) {
@@ -92,6 +95,35 @@ class User : Fragment(R.layout.fragment_user) {
                 viewModel.phone = it.toString()
             }
 
+            textEmail.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                    if (textEmail.text.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(textEmail.text).matches()) {
+                        textEmail.error = "Invalid Email"
+                        save.isEnabled = false
+                    }
+                    else{
+                        save.isEnabled = true
+                    }
+                }
+                override fun afterTextChanged(s: Editable) {}
+            })
+
+            textPhone.addTextChangedListener(object : TextWatcher {
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                    if (textPhone.text.isNotEmpty() && !Patterns.PHONE.matcher(textPhone.text).matches()) {
+                        textPhone.error = "Invalid Phone"
+                        save.isEnabled = false
+                    }
+                    else{
+                        save.isEnabled = true
+                    }
+                }
+                override fun afterTextChanged(s: Editable) {}
+            })
+
+
             viewModel.rowCount.observe(viewLifecycleOwner) {
                 rows = it.toInt()
             }
@@ -110,13 +142,6 @@ class User : Fragment(R.layout.fragment_user) {
                 viewModel.startAnimation(todoNumber, todo)
             }
 
-            editName.setOnClickListener {
-                textName.requestFocus()
-            }
-            editEmail.setOnClickListener {
-                textEmail.requestFocus()
-            }
-
             circleImageView.setOnClickListener {
                 userName.text = binding.textName.text
                 context?.let { Glide.with(it).load(circleImageView.drawable).into(profilePic) }
@@ -127,7 +152,7 @@ class User : Fragment(R.layout.fragment_user) {
                 context?.let { delete ->
                     Glide.with(delete).load(R.drawable.img_1).into(profilePic)
                     Glide.with(delete).load(R.drawable.img_1).into(circleImageView)
-                   viewModel.image = imageURI.toString()
+                    viewModel.image = imageURI.toString()
                 }
             }
             back.setOnClickListener {
@@ -135,38 +160,47 @@ class User : Fragment(R.layout.fragment_user) {
             }
 
             save.setOnClickListener {
-                viewModel.onSaveClick(rows)
+                if (textEmail.error != null) {
+                    Snackbar.make(view, getString(R.string.enter_valid_email), Snackbar.LENGTH_LONG).show()
+                }
+                else if(textPhone.error != null ){
+                    Snackbar.make(view, getString(R.string.enter_valid_phone), Snackbar.LENGTH_LONG).show()
+                }
+                else {
+                    viewModel.onSaveClick(rows)
+                }
             }
             camera.setOnClickListener {
-                val with: ImagePicker.Builder? = parentFragment?.let { it1 ->
+                val builder: ImagePicker.Builder? = parentFragment?.let { it1 ->
                     ImagePicker.with(it1)
                 }
                 val imageDialog =
                     BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
-                imageDialog.setContentView(R.layout.add_image_dialog)
-                imageDialog.show()
-                imageDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
-                imageDialog.window?.setGravity(Gravity.BOTTOM)
-                val camera: LinearLayout? = imageDialog.findViewById(R.id.take_photo)
-                camera?.setOnClickListener {
-                    imageDialog.dismiss()
-                    with?.crop()
-                    with?.cameraOnly()
-                    with?.compress(1024)
-                    with?.maxResultSize(1080, 1080)
-                    with?.createIntent { Intent: Intent? ->
-                        startForProfileImageResult.launch(Intent)
-                    }
-                }
-                val image: LinearLayout? = imageDialog.findViewById(R.id.add_photo)
-                image?.setOnClickListener {
-                    imageDialog.dismiss()
-                    with?.crop()
-                    with?.galleryOnly()
-                    with?.compress(1024)
-                    with?.maxResultSize(1080, 1080)
-                    with?.createIntent { Intent: Intent? ->
-                        startForProfileImageResult.launch(Intent)
+                imageDialog.apply {
+                    setContentView(R.layout.add_image_dialog)
+                    show()
+                    window?.attributes?.windowAnimations = R.style.DialogAnimation
+                    window?.setGravity(Gravity.BOTTOM)
+                    val camera: LinearLayout? = findViewById(R.id.take_photo)
+                    builder?.apply {
+                        crop()
+                        compress(1024)
+                        maxResultSize(1080, 1080)
+                        camera?.setOnClickListener {
+                            dismiss()
+                            cameraOnly()
+                            createIntent { Intent: Intent? ->
+                                startForProfileImageResult.launch(Intent)
+                            }
+                        }
+                        val image: LinearLayout? = findViewById(R.id.add_photo)
+                        image?.setOnClickListener {
+                            dismiss()
+                            galleryOnly()
+                            createIntent { Intent: Intent? ->
+                                startForProfileImageResult.launch(Intent)
+                            }
+                        }
                     }
                 }
             }
@@ -175,45 +209,45 @@ class User : Fragment(R.layout.fragment_user) {
                 viewModel.onOkClick()
             }
 
-            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                viewModel.addEditTaskEvent.collect { event ->
-                    when (event) {
-                        is UserViewModel.AddEditTaskEvent.NavigateBackWithResult -> {
-                            setFragmentResult(
-                                "add_edit_delete_request",
-                                bundleOf("add_edit_delete_result" to event.result)
-                            )
-                            findNavController().popBackStack()
+            if (!viewModel.flag) {
+                viewModel.apply {
+                    displayUser.observe(viewLifecycleOwner) {
+                        if (it != null) {
+                            name = it.name.toString()
+                            email = it.email.toString()
+                            phone = it.phone.toString()
+                            if (!(it.image.isNullOrEmpty())) {
+                                val imageUri = Uri.parse(it.image)
+                                image = imageUri.toString()
+                            }
+                        } else {
+                            image = imageURI.toString()
                         }
-                        is UserViewModel.AddEditTaskEvent.NavigateToBackScreen -> {
-                            findNavController().popBackStack()
+                        textName.setText(name)
+                        textEmail.setText(email)
+                        textPhone.setText(phone)
+                        context?.let { it1 ->
+                            Glide.with(it1).load(image).into(circleImageView)
                         }
-                    }.exhaustive
+                        flag = true
+                    }
                 }
             }
-
-            if (!viewModel.flag) {
-                viewModel.displayUser.observe(viewLifecycleOwner) {
-                    if (it != null) {
-                        viewModel.name = it.name.toString()
-                        viewModel.email = it.email.toString()
-                        viewModel.phone = it.phone.toString()
-                        if (!(it.image.isNullOrEmpty())) {
-                            val imageUri = Uri.parse(it.image)
-                            viewModel.image = imageUri.toString()
-                        }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.addEditTaskEvent.collect { event ->
+                when (event) {
+                    is UserViewModel.AddEditTaskEvent.NavigateBackWithResult -> {
+                        setFragmentResult(
+                            "add_edit_delete_request",
+                            bundleOf("add_edit_delete_result" to event.result)
+                        )
+                        findNavController().popBackStack()
                     }
-                    else {
-                        viewModel.image = imageURI.toString()
+                    is UserViewModel.AddEditTaskEvent.NavigateToBackScreen -> {
+                        findNavController().popBackStack()
                     }
-                    textName.setText(viewModel.name)
-                    textEmail.setText(viewModel.email)
-                    textPhone.setText(viewModel.phone)
-                    context?.let { it1 ->
-                        Glide.with(it1).load(viewModel.image).into(circleImageView)
-                    }
-                    viewModel.flag = true
-                }
+                }.exhaustive
             }
         }
     }

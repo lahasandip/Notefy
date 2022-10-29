@@ -59,18 +59,17 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val task = recycleAdapter.currentList[viewHolder.adapterPosition]
                     viewModel.onTaskSwiped(task)
-                    if(recycleActionMode != null){
+                    if (recycleActionMode != null) {
                         recycleActionMode!!.finish()
                     }
                 }
             }).attachToRecyclerView(trashRecyclerView)
 
-            viewModel.note.observe(viewLifecycleOwner){
+            viewModel.note.observe(viewLifecycleOwner) {
                 recycleAdapter.submitList(it)
-                if(it.isNullOrEmpty()){
+                if (it.isNullOrEmpty()) {
                     emptyRecycleBin.emptyRecycleBinError.visibility = View.VISIBLE
-                }
-                else{
+                } else {
                     emptyRecycleBin.emptyRecycleBinError.visibility = View.GONE
                 }
                 noteList = it
@@ -78,27 +77,27 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
             topAppBar.setNavigationOnClickListener {
                 viewModel.onOkClick()
             }
-
-            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                viewModel.tasksEvent.collect { event ->
-                    when (event) {
-                        is RecycleBinViewModel.TasksEvent.NavigateToBackScreen -> {
-                            findNavController().popBackStack()
-                        }
-                        is RecycleBinViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
-                            Snackbar.make(requireView(), getString(R.string.notes_deleted_forever), Snackbar.LENGTH_LONG)
-                                .setAction(getString(R.string.undo)) {
-                                    viewModel.onUndoDeleteClick(event.noteEntity)
-                                }.show()
-                        }
-                        is RecycleBinViewModel.TasksEvent.ShowDeletedTaskMessage -> {
-                            Snackbar.make(requireView(), event.s, Snackbar.LENGTH_SHORT).show()
-                        }
-                    }.exhaustive
-                }
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.tasksEvent.collect { event ->
+                when (event) {
+                    is RecycleBinViewModel.TasksEvent.NavigateToBackScreen -> {
+                        findNavController().popBackStack()
+                    }
+                    is RecycleBinViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
+                        Snackbar.make(requireView(), getString(R.string.notes_deleted_forever), Snackbar.LENGTH_LONG)
+                            .setAction(getString(R.string.undo)) {
+                                viewModel.onUndoDeleteClick(event.noteEntity)
+                            }.show()
+                    }
+                    is RecycleBinViewModel.TasksEvent.ShowDeletedTaskMessage -> {
+                        Snackbar.make(requireView(), event.s, Snackbar.LENGTH_SHORT).show()
+                    }
+                }.exhaustive
             }
         }
     }
+
 
     override fun onItemClick(noteEntity: NoteEntity) {
         AlertDialog.Builder(requireContext())

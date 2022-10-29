@@ -10,7 +10,6 @@ import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
-import android.util.Log
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.core.content.FileProvider
@@ -75,10 +74,10 @@ class NewUpdateNoteViewModel @Inject constructor(
             state["requestCode"] = value
         }
 
-    var isStriked = state.get<Boolean>("isStriked") ?: note?.strike ?: false
+    var isStrike = state.get<Boolean>("isStrike") ?: note?.strike ?: false
         set(value) {
             field = value
-            state["isStriked"] = value
+            state["isStrike"] = value
         }
 
     var noteLocation = state.get<String>("noteLocation") ?: note?.location ?: ""
@@ -115,7 +114,6 @@ class NewUpdateNoteViewModel @Inject constructor(
         if (noteTitle.isBlank()) {
             showInvalidInputMessage(NotefyApplication.appContext.getString(R.string.title_cannot_be_empty))
             return
-
         }
 
         if (note != null) {
@@ -125,7 +123,7 @@ class NewUpdateNoteViewModel @Inject constructor(
                 url = noteUrl,
                 dateTime = noteDateTime,
                 requestCode = requestCode,
-                strike = isStriked,
+                strike = isStrike,
                 location = noteLocation,
                 clr = noteColor,
                 image = noteImage,
@@ -135,7 +133,7 @@ class NewUpdateNoteViewModel @Inject constructor(
             updateTask(updatedTask)
         } else {
             val newTask = NoteEntity(title = noteTitle, body = noteDescription, important = noteImportance,
-                url = noteUrl, dateTime =  noteDateTime, requestCode = requestCode, strike = isStriked,
+                url = noteUrl, dateTime =  noteDateTime, requestCode = requestCode, strike = isStrike,
                 location =  noteLocation, clr =  noteColor, image =  noteImage, todoList = noteTodoList,  isHide = noteIsHide)
             createTask(newTask)
         }
@@ -213,8 +211,7 @@ class NewUpdateNoteViewModel @Inject constructor(
 
     fun onLocationClick(text: CharSequence?) =viewModelScope.launch{
         val uri = "geo:0,0?q=$text"
-        val gmmIntentUri =
-            Uri.parse(uri)
+        val gmmIntentUri = Uri.parse(uri)
         val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
         mapIntent.setPackage("com.google.android.apps.maps")
         addEditTaskEventChannel.send((AddEditTaskEvent.StartLocationIntent(mapIntent)))
@@ -254,7 +251,7 @@ class NewUpdateNoteViewModel @Inject constructor(
                 url = noteUrl,
                 dateTime = noteDateTime,
                 requestCode = requestCode,
-                strike = isStriked,
+                strike = isStrike,
                 location = noteLocation,
                 clr = noteColor,
                 image = noteImage,
@@ -264,17 +261,15 @@ class NewUpdateNoteViewModel @Inject constructor(
             updateDeleteTask(updatedTask)
         } else {
             val newTask = NoteEntity(title = noteTitle, body = noteDescription, important = noteImportance,
-                url = noteUrl, dateTime =  noteDateTime, requestCode = requestCode, strike = isStriked,
+                url = noteUrl, dateTime =  noteDateTime, requestCode = requestCode, strike = isStrike,
                 location =  noteLocation, clr =  noteColor, image =  noteImage, todoList = noteTodoList,  isHide = noteIsHide)
             createDeleteTask(newTask)
         }
     }
 
     fun createNotificationChannel(context: Context?) = viewModelScope.launch{
-        //Create Notification channel for SDK above 25
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            val channel =
-                NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
+            val channel = NotificationChannel(CHANNEL_ID, CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH)
             channel.description = CHANNEL_DESCRIPTION
             val notificationManager = context?.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
             notificationManager.createNotificationChannel(channel)
@@ -294,31 +289,25 @@ class NewUpdateNoteViewModel @Inject constructor(
             notificationIntent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
-        val time = getTime()
+
         NewUpdateNote.alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
-            time,
+            getTime(),
             pendingNotificationIntent
         )
-
     }
+
     private fun getTime(): Long {
         val items1: Array<String> = noteDateTime.split("-".toRegex()).toTypedArray()
         val items2: Array<String> = items1[3].split(":".toRegex()).toTypedArray()
-        val minute = items2[1].toInt()
-        val hour = items2[0].toInt()
-        val day =items1[2].toInt()
-        val month = items1[1].toInt() - 1
-        val year = items1[0].toInt()
         val calendar = Calendar.getInstance()
-        calendar.set(year, month, day, hour, minute)
+        calendar.set(items1[0].toInt(), items1[1].toInt() - 1,  items1[2].toInt(),
+            items2[0].toInt(),  items2[1].toInt())
         return calendar.timeInMillis
     }
 
     sealed class AddEditTaskEvent {
         object NavigateToBackScreen : AddEditTaskEvent()
-        object NavigateToTodoScreen : AddEditTaskEvent()
-        data class NavigateToBackAfterDelete(val result: Int) : AddEditTaskEvent()
         data class ShowInvalidInputMessage(val msg: String) : AddEditTaskEvent()
         data class NavigateBackWithResult(val result: Int) : AddEditTaskEvent()
         data class NavigateBackWithDelete(val result: Int) : AddEditTaskEvent()

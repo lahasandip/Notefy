@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <RelativeLayout
-        android:id="@+id/note_image_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardCornerRadius="8dp"
@@ -22,7 +22,8 @@
             android:layout_margin="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:elevation="15dp"
-            android:src="@drawable/ic_baseline_arrow_back_24"/>
+            android:src="@drawable/ic_baseline_arrow_back_24"
+            tools:ignore="ContentDescription" />
 
         <TextView
             android:id="@+id/name_user"
@@ -50,20 +51,22 @@
             android:layout_margin="16dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:elevation="15dp"
-            android:src="@drawable/ic_baseline_delete_24"/>
+            android:src="@drawable/ic_baseline_delete_24"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/profile_pic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scaleType="fitCenter"
-            android:adjustViewBounds="true"/>
+            android:adjustViewBounds="true"
+            tools:ignore="ContentDescription" />
 
         <ImageView
-            android:id="@+id/shadow_bottom"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:elevation="10dp"
-            android:src="#4D000000"/>
+            android:src="#4D000000"
+            tools:ignore="ContentDescription" />
     </RelativeLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

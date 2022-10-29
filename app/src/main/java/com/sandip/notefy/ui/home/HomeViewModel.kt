@@ -75,7 +75,7 @@ class HomeViewModel @Inject constructor(
     fun onMenuTaskDelete(noteEntity: NoteEntity) = viewModelScope.launch {
         noteDao.updateDao(noteEntity.copy(strike = true, isHide = true))
     }
-    
+
     fun onTaskSwiped(noteEntity: NoteEntity) = viewModelScope.launch {
         noteDao.updateDao(noteEntity.copy(strike = true, isHide = true))
         tasksEventChannel.send(TasksEvent.ShowUndoDeleteTaskMessage(noteEntity))
@@ -100,11 +100,9 @@ class HomeViewModel @Inject constructor(
 
     sealed class TasksEvent {
         object NavigateToAddTaskScreen : TasksEvent()
-        object NavigateToDrawer : TasksEvent()
         object NavigateToUserScreen : TasksEvent()
         data class NavigateToEditTaskScreen(val noteEntity: NoteEntity) : TasksEvent()
         data class ShowTaskSavedConfirmationMessage(val msg: String) : TasksEvent()
         data class ShowUndoDeleteTaskMessage(val noteEntity: NoteEntity) : TasksEvent()
-        data class ShowDeletedTaskMessage(val text: String) : TasksEvent()
     }
 }

@@ -21,20 +21,18 @@ class About : Fragment(R.layout.fragment_about) {
         binding = FragmentAboutBinding.bind(view)
 
         binding.apply {
-            binding.topAppBar.setNavigationOnClickListener {
+            topAppBar.setNavigationOnClickListener {
                 viewModel.onOkClick()
             }
-
-            version.text =getString(R.string.version, BuildConfig.VERSION_NAME)
-
-            viewLifecycleOwner.lifecycleScope.launchWhenStarted {
-                viewModel.addEditTaskEvent.collect { event ->
-                    when (event) {
-                        is AboutViewModel.AddEditTaskEvent.NavigateToBackScreen -> {
-                            findNavController().popBackStack()
-                        }
-                    }.exhaustive
-                }
+            version.text = getString(R.string.version, BuildConfig.VERSION_NAME)
+        }
+        viewLifecycleOwner.lifecycleScope.launchWhenStarted {
+            viewModel.addEditTaskEvent.collect { event ->
+                when (event) {
+                    is AboutViewModel.AddEditTaskEvent.NavigateToBackScreen -> {
+                        findNavController().popBackStack()
+                    }
+                }.exhaustive
             }
         }
     }

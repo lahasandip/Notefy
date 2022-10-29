@@ -41,12 +41,13 @@
         <item name="android:backgroundTint">@color/Grey</item>
     </style>
 
-    <style name="Toolbar" parent="Widget.MaterialComponents.Toolbar">
-        <item name="android:background">@color/NightSurface</item>
+    <style name="DialogAnimation">
+        <item name="android:windowEnterAnimation">@anim/slide_in</item>
+        <item name="android:windowExitAnimation">@anim/slide_out</item>
     </style>
 
-    <style name="LanguageCard" parent="Widget.MaterialComponents.CardView">
-        <item name="android:backgroundTint">@color/DarkGrey</item>
+    <style name="Toolbar" parent="Widget.MaterialComponents.Toolbar">
+        <item name="android:background">@color/NightSurface</item>
     </style>
 
     <style name="ProfileView" parent="">
@@ -54,7 +55,7 @@
     </style>
 
     <style name="Theme.App.Starting" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/NightSurface</item>
+        <item name="windowSplashScreenBackground">@color/teal_200</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_baseline_edit_note_24</item>
         <item name="postSplashScreenTheme">@style/Theme.Notefy</item>
     </style>

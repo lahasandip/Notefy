@@ -113,4 +113,6 @@
     <string name="auth_error">Ошибка аутентификации: %s</string>
     <string name="delete_todo">Вы хотите удалить контрольный список дел?</string>
     <string name="reminder_permission_error">Предоставьте разрешение на уведомление в настройках приложения, чтобы установить напоминание.</string>
+    <string name="enter_valid_email">Пожалуйста, введите действительный адрес электронной почты</string>
+    <string name="enter_valid_phone">Пожалуйста, введите действительный телефон</string>
 </resources>
