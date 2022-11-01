@@ -39,7 +39,6 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.timepicker.MaterialTimePicker
 import com.google.android.material.timepicker.TimeFormat
-import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.FragmentNewUpdateNoteBinding
@@ -58,24 +57,23 @@ import java.util.*
 class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
     private val viewModel: NewUpdateNoteViewModel by viewModels()
-    private lateinit var binding: FragmentNewUpdateNoteBinding
+    private var binding: FragmentNewUpdateNoteBinding? = null
     private lateinit var date: String
-    private lateinit var datePicker: MaterialDatePicker<Long>
-    private lateinit var timePicker: MaterialTimePicker
+    private var datePicker: MaterialDatePicker<Long>? = null
+    private var timePicker: MaterialTimePicker? = null
     private lateinit var viewColor : ColorDrawable
     private lateinit var todoAdapter: NewUpdateTodoAdapter
     private var todoList : ArrayList<Todo>? = arrayListOf()
     private val requestCode = System.currentTimeMillis().toInt()
+    private lateinit var recyclerView: RecyclerView
     companion object {
-        var recyclerView: RecyclerView? = null
-        val notificationIntent =
-            Intent(NotefyApplication.appContext, Notifications::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-        val alarmManager =
-            NotefyApplication.appContext.getSystemService(Context.ALARM_SERVICE) as AlarmManager
 
         fun cancelAlarm(context: Context?, requestCode: Int?) {
+            val notificationIntent =
+                Intent(context, Notifications::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
+            val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val pendingNotificationIntent: PendingIntent? =
                 PendingIntent.getBroadcast(
                     context,
@@ -98,7 +96,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                datePicker.show(childFragmentManager, "Date_Picker")
+                datePicker?.show(childFragmentManager, "Date_Picker")
             }
             else{
                 view.let {
@@ -106,7 +104,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                         it,
                         getString(R.string.reminder_permission_error),
                         Snackbar.LENGTH_LONG
-                    ).show()
+                    )
+                        .setAnchorView(binding!!.saveNote)
+                        .show()
                 }
             }
         }
@@ -117,8 +117,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 val data = result.data
                 if (resultCode == Activity.RESULT_OK) {
                     val fileUri = data?.data!!
-                    binding.imageLayout.visibility = View.VISIBLE
-                    context?.let { Glide.with(it).load(fileUri).into(binding.showImage) }
+                    binding?.imageLayout?.visibility = View.VISIBLE
+                    context?.let { Glide.with(it).load(fileUri).into(binding!!.showImage) }
                     viewModel.noteImage = fileUri.toString()
                 }
             }
@@ -180,7 +180,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         val addToList = todoDialog.findViewById<ImageView>(R.id.addTodo)
         val checkBoxTodo =   todoDialog.findViewById<CheckBox>(R.id.todoCheck)
         val descriptionTodo =   todoDialog.findViewById<EditText>(R.id.todoDesc)
-        recyclerView =   todoDialog.findViewById(R.id.todo_listview)
+        recyclerView = todoDialog.findViewById(R.id.todo_listview)!!
         val btn =   todoDialog.findViewById<Button>(R.id.done)
 
         //Date & Time Picker
@@ -203,29 +203,31 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 .setMinute(minute)
                 .setTitleText(getString(R.string.select_time))
                 .build()
-        datePicker.addOnPositiveButtonClickListener {
+        datePicker?.addOnPositiveButtonClickListener {
             val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
             utc.timeInMillis = it
             val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
             date = format.format(utc.time)
-            timePicker.show(childFragmentManager, "Time_Piker")
+            datePicker = null
+            timePicker?.show(childFragmentManager, "Time_Piker")
         }
 
 
-        timePicker.addOnPositiveButtonClickListener {
+        timePicker?.addOnPositiveButtonClickListener {
             viewModel.isStrike = false
-            "${timePicker.hour}:${timePicker.minute}".also {
+            "${timePicker?.hour}:${timePicker?.minute}".also {
                 viewModel.noteDateTime = "$date-$it"
             }
-            binding.apply {
+            binding?.apply {
                 newDateTime.paintFlags = 0
                 newDateTime.text = getDateFormat(viewModel.noteDateTime)
                 reminderParentLayout.visibility = View.VISIBLE
             }
+            timePicker = null
         }
 
         //Bind with View model and Onclick Listener
-        binding.apply {
+        binding?.apply {
             noteTitle.setText(viewModel.noteTitle)
             noteDescription.setText(viewModel.noteDescription)
             important.isChecked = viewModel.noteImportance
@@ -322,13 +324,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
             if (viewModel.noteTodoList?.isEmpty() == false) {
                 todoList = viewModel.noteTodoList as ArrayList<Todo>?
-                todoAdapter = NewUpdateTodoAdapter(
-                    context,
-                    todoList
-                )
-                recyclerView?.setHasFixedSize(true)
-                recyclerView?.layoutManager = LinearLayoutManager(context)
-                recyclerView?.adapter = todoAdapter
+                todoAdapter = NewUpdateTodoAdapter(todoList)
+                recyclerView.setHasFixedSize(true)
+                recyclerView.layoutManager = LinearLayoutManager(context)
+                recyclerView.adapter = todoAdapter
                 taskLayout.visibility = View.VISIBLE
                 btn?.visibility = View.VISIBLE
             }
@@ -363,7 +362,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 cancelAlarm()
                 viewModel.isStrike = false
                 viewModel.requestCode = requestCode
-                viewModel.onSaveClick()
+                context?.let { it1 -> viewModel.onSaveClick(it1) }
             }
 
             deleteNote.setOnClickListener {
@@ -375,7 +374,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                         viewModel.noteIsHide = true
                         viewModel.isStrike = true
                         cancelAlarm()
-                        viewModel.onDeleteClick()
+                        context?.let { it1 -> viewModel.onDeleteClick(it1) }
                     }
                     .create()
                     .show()
@@ -402,7 +401,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                                 Manifest.permission.POST_NOTIFICATIONS,
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
-                            datePicker.show(childFragmentManager, "Date_Picker")
+                            datePicker?.show(childFragmentManager, "Date_Picker")
                         } else {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -412,7 +411,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                                         it,
                                         getString(R.string.reminder_permission_error),
                                         Snackbar.LENGTH_LONG
-                                    ).show()
+                                    )
+                                        .setAnchorView(binding!!.saveNote)
+                                        .show()
                                 }
                             }
                         }
@@ -434,7 +435,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                         Manifest.permission.POST_NOTIFICATIONS,
                     ) == PackageManager.PERMISSION_GRANTED
                 ) {
-                    datePicker.show(childFragmentManager, "Date_Picker")
+                    datePicker?.show(childFragmentManager, "Date_Picker")
                 } else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -444,7 +445,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                                 it,
                                 getString(R.string.reminder_permission_error),
                                 Snackbar.LENGTH_LONG
-                            ).show()
+                            )
+                                .setAnchorView(binding!!.saveNote)
+                                .show()
                         }
                     }
                 }
@@ -539,10 +542,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                             descriptionTodo?.text.toString()
                         )
                     )
-                    todoAdapter = NewUpdateTodoAdapter(requireContext(), todoList)
-                    recyclerView?.setHasFixedSize(true)
-                    recyclerView?.layoutManager = LinearLayoutManager(context)
-                    recyclerView?.adapter = todoAdapter
+                    todoAdapter = NewUpdateTodoAdapter(todoList)
+                    recyclerView.setHasFixedSize(true)
+                    recyclerView.layoutManager = LinearLayoutManager(context)
+                    recyclerView.adapter = todoAdapter
                     todoAdapter.notifyDataSetChanged()
                 }
 
@@ -808,7 +811,9 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.addEditTaskEvent.collect { event ->
                     when (event) {
                         is AddEditTaskEvent.ShowInvalidInputMessage -> {
-                            Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_LONG).show()
+                            Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_LONG)
+                                .setAnchorView(saveNote)
+                                .show()
                         }
                         is AddEditTaskEvent.NavigateBackWithResult -> {
                             if (!(newDateTime.text.isNullOrEmpty())) {
@@ -880,16 +885,14 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     getString(R.string.ok)
                 ) { _, _ ->
                     if (text?.isNotEmpty() == true) {
-                        binding.urlLink.text = text.toString()
-                        binding.urlParentLayout.visibility = View.VISIBLE
+                        binding?.urlLink?.text = text.toString()
+                        binding?.urlParentLayout?.visibility = View.VISIBLE
                     } else {
-                        view?.let {
-                            Toast.makeText(
-                                context,
-                                getString(R.string.please_enter_a_link),
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.please_enter_a_link),
+                            Toast.LENGTH_LONG
+                        ).show()
                         showAlert("url")
                     }
                 }
@@ -916,16 +919,14 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     getString(R.string.ok)
                 ) { _, _ ->
                     if (text?.isNotEmpty() == true) {
-                        binding.placeInput.text = text.toString()
-                        binding.locationParentLayout.visibility = View.VISIBLE
+                        binding?.placeInput?.text = text.toString()
+                        binding?.locationParentLayout?.visibility = View.VISIBLE
                     } else {
-                        view?.let {
-                            Toast.makeText(
-                                context,
-                                getString(R.string.please_enter_a_place),
-                                Toast.LENGTH_LONG
-                            ).show()
-                        }
+                        Toast.makeText(
+                            requireContext(),
+                            getString(R.string.please_enter_a_place),
+                            Toast.LENGTH_LONG
+                        ).show()
                         showAlert("place")
                     }
                 }
@@ -942,5 +943,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             cancelAlarm(context, viewModel.requestCode)
             viewModel.requestCode = null
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        datePicker = null
+        timePicker = null
+        binding = null
     }
 }

@@ -3,16 +3,13 @@ package com.sandip.notefy.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
-import com.sandip.notefy.NotefyApplication
 import java.util.*
 
 class LocaleManager {
 
     companion object {
-        val languageSharedPreferences : SharedPreferences = NotefyApplication.appContext.getSharedPreferences("LANGUAGE", Context.MODE_PRIVATE)
-        val editor: SharedPreferences.Editor = languageSharedPreferences.edit()
-
         fun observeLanguagePreference(context: Context) {
+            val languageSharedPreferences : SharedPreferences = context.getSharedPreferences("LANGUAGE", Context.MODE_PRIVATE)
             when (languageSharedPreferences.getInt("position", 0)) {
                 0 -> updateResource(context, "en")
                 1 -> updateResource(context, "hi")

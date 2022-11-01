@@ -13,6 +13,7 @@
         android:id="@+id/select_all"
         android:icon="@drawable/ic_baseline_select_all_24"
         android:title="@string/select_all"
+        android:iconTint="?attr/colorControlNormal"
         android:contentDescription=""
         app:showAsAction="always"/>
 

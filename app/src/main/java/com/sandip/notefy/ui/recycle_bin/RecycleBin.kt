@@ -2,8 +2,10 @@ package com.sandip.notefy.ui.recycle_bin
 
 import android.content.res.Configuration
 import android.os.Bundle
+import android.view.ActionMode
 import android.view.View
 import androidx.appcompat.app.AlertDialog
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -15,7 +17,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.databinding.FragmentRecycleBinBinding
-import com.sandip.notefy.ui.recycle_bin.RecycleAdapter.Companion.recycleActionMode
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -24,7 +25,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnItemClickListener {
 
     private val viewModel: RecycleBinViewModel by viewModels()
-    private lateinit var binding: FragmentRecycleBinBinding
+    private var binding: FragmentRecycleBinBinding? = null
+    private var recycleActionMode : ActionMode ?  = null
+    private var drawerLayout : DrawerLayout? = null
+
     companion object {
         lateinit var noteList: List<NoteEntity>
     }
@@ -32,9 +36,10 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecycleBinBinding.bind(view)
-        val recycleAdapter = RecycleAdapter(requireActivity(),view,this)
+        val recycleAdapter = RecycleAdapter(requireActivity(), this)
+        drawerLayout = activity?.findViewById(R.id.drawer_layout)
 
-        binding.apply {
+        binding?.apply {
             trashRecyclerView.apply {
                 adapter = recycleAdapter
                 layoutManager =
@@ -96,6 +101,17 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
                 }.exhaustive
             }
         }
+        drawerLayout?.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+            override fun onDrawerOpened(drawerView: View) {}
+            override fun onDrawerClosed(drawerView: View) {}
+            override fun onDrawerStateChanged(newState: Int) {
+                if(recycleActionMode != null){
+                    recycleActionMode?.finish()
+                    recycleActionMode = null
+                }
+            }
+        })
     }
 
 
@@ -121,5 +137,22 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
 
     override fun onUndo(noteEntity: NoteEntity) {
         viewModel.onUndoDeleteClick(noteEntity)
+    }
+
+    override fun storeActionMode(mode: ActionMode?) {
+        recycleActionMode = mode
+    }
+
+    override fun onPause() {
+        super.onPause()
+        if (recycleActionMode != null) {
+            recycleActionMode?.finish()
+            recycleActionMode = null
+        }
+    }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        drawerLayout = null
+        binding = null
     }
 }

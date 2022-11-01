@@ -34,8 +34,6 @@ import com.google.android.material.switchmaterial.SwitchMaterial
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.ActivityMainBinding
 import com.sandip.notefy.ui.home.HomeViewModel
-import com.sandip.notefy.ui.home.NoteAdapter.Companion.homeActionMode
-import com.sandip.notefy.ui.recycle_bin.RecycleAdapter.Companion.recycleActionMode
 import com.sandip.notefy.util.LocaleManager.Companion.observeLanguagePreference
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.concurrent.Executor
@@ -43,7 +41,7 @@ import java.util.concurrent.Executor
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceChangeListener{
 
-    private lateinit var binding: ActivityMainBinding
+    private var binding: ActivityMainBinding? = null
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var navController: NavController
     private lateinit var uiSharedPreferences: SharedPreferences
@@ -58,24 +56,21 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private val requestCode = 1
     private var isDarkMode = true
     private var isBiometricEnable = true
-
-    companion object{
-        var drawerLayout: DrawerLayout? = null
-    }
+    private var drawerLayout: DrawerLayout? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         super.onCreate(savedInstanceState)
         observeLanguagePreference(this)
         binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        setContentView(binding!!.root)
 
         uiSharedPreferences =  getSharedPreferences("UI",Context.MODE_PRIVATE)
         uiSharedPreferences.registerOnSharedPreferenceChangeListener(this)
         biometricSharedPreferences =  getSharedPreferences("BIOMETRIC",Context.MODE_PRIVATE)
         biometricSharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
-        navigationView = binding.navView
+        navigationView = binding!!.navView
         darkSwitch = navigationView.menu.findItem(R.id.dark_theme).actionView!!.findViewById(R.id.dark_switch)
         darkSwitch.setOnCheckedChangeListener { _, isChecked ->
             val editor = uiSharedPreferences.edit()
@@ -86,7 +81,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         val navHostFragment = supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         navController = navHostFragment.findNavController()
 
-        drawerLayout = binding.drawerLayout
+        drawerLayout = binding!!.drawerLayout
 
         val headerView = navigationView.getHeaderView(0)
         val userPhoto = headerView.findViewById<ImageView>(R.id.user_photo2)
@@ -121,19 +116,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             editor.apply()
         }
 
-        drawerLayout?.addDrawerListener(object : DrawerLayout.DrawerListener {
-            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
-            override fun onDrawerOpened(drawerView: View) {}
-            override fun onDrawerClosed(drawerView: View) {}
-            override fun onDrawerStateChanged(newState: Int) {
-                if(homeActionMode != null){
-                    homeActionMode!!.finish()
-                }
-                if(recycleActionMode != null){
-                    recycleActionMode!!.finish()
-                }
-            }
-        })
         observeBiometricPreferences()
         observeUiPreferences()
     }
@@ -215,7 +197,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                     super.onAuthenticationError(errorCode, errString)
                     Toast.makeText(
                         applicationContext,
-                        getString(R.string.auth_error, errString), Toast.LENGTH_SHORT
+                        getString(R.string.auth_error, errString), Toast.LENGTH_LONG
                     ).show()
                     finish()
                 }
@@ -248,6 +230,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     override fun onDestroy() {
         super.onDestroy()
         drawerLayout = null
+        binding = null
         uiSharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
         biometricSharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }

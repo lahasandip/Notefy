@@ -34,7 +34,10 @@ import dagger.hilt.android.AndroidEntryPoint
 class User : Fragment(R.layout.fragment_user) {
 
     private val viewModel: UserViewModel by viewModels()
-    private lateinit var binding: FragmentUserBinding
+    private var binding: FragmentUserBinding? = null
+    private var emailWatcher: TextWatcher? = null
+    private var phoneWatcher: TextWatcher? = null
+    private var builder : ImagePicker.Builder? = null
     private var rows : Int = 0
     private var note : Int = 0
     private var reminder : Int = 0
@@ -71,13 +74,13 @@ class User : Fragment(R.layout.fragment_user) {
                 when (resultCode) {
                     Activity.RESULT_OK -> {
                         val fileUri = data?.data!!
-                        context?.let { Glide.with(it).load(fileUri).into(binding.circleImageView) }
+                        Glide.with(requireContext()).load(fileUri).into(binding!!.circleImageView)
                         viewModel.image = fileUri.toString()
                     }
                 }
             }
 
-        binding.apply {
+        binding?.apply {
             textName.setText(viewModel.name)
             textEmail.setText(viewModel.email)
             textPhone.setText(viewModel.phone)
@@ -94,8 +97,7 @@ class User : Fragment(R.layout.fragment_user) {
             textPhone.addTextChangedListener {
                 viewModel.phone = it.toString()
             }
-
-            textEmail.addTextChangedListener(object : TextWatcher {
+            emailWatcher = object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                     if (textEmail.text.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(textEmail.text).matches()) {
@@ -107,9 +109,10 @@ class User : Fragment(R.layout.fragment_user) {
                     }
                 }
                 override fun afterTextChanged(s: Editable) {}
-            })
+            }
+            textEmail.addTextChangedListener(emailWatcher)
 
-            textPhone.addTextChangedListener(object : TextWatcher {
+            phoneWatcher = object : TextWatcher {
                 override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                     if (textPhone.text.isNotEmpty() && !Patterns.PHONE.matcher(textPhone.text).matches()) {
@@ -121,7 +124,9 @@ class User : Fragment(R.layout.fragment_user) {
                     }
                 }
                 override fun afterTextChanged(s: Editable) {}
-            })
+            }
+
+            textPhone.addTextChangedListener(phoneWatcher)
 
 
             viewModel.rowCount.observe(viewLifecycleOwner) {
@@ -143,7 +148,7 @@ class User : Fragment(R.layout.fragment_user) {
             }
 
             circleImageView.setOnClickListener {
-                userName.text = binding.textName.text
+                userName.text = binding?.textName?.text
                 context?.let { Glide.with(it).load(circleImageView.drawable).into(profilePic) }
                 dialog.show()
             }
@@ -171,11 +176,8 @@ class User : Fragment(R.layout.fragment_user) {
                 }
             }
             camera.setOnClickListener {
-                val builder: ImagePicker.Builder? = parentFragment?.let { it1 ->
-                    ImagePicker.with(it1)
-                }
-                val imageDialog =
-                    BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
+                builder = ImagePicker.with(requireActivity())
+                val imageDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
                 imageDialog.apply {
                     setContentView(R.layout.add_image_dialog)
                     show()
@@ -193,6 +195,7 @@ class User : Fragment(R.layout.fragment_user) {
                                 startForProfileImageResult.launch(Intent)
                             }
                         }
+
                         val image: LinearLayout? = findViewById(R.id.add_photo)
                         image?.setOnClickListener {
                             dismiss()
@@ -250,5 +253,12 @@ class User : Fragment(R.layout.fragment_user) {
                 }.exhaustive
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding?.textEmail?.removeTextChangedListener(emailWatcher)
+        binding?.textPhone?.removeTextChangedListener(phoneWatcher)
+        binding = null
     }
 }

@@ -14,13 +14,13 @@ import com.sandip.notefy.util.exhaustive
 class About : Fragment(R.layout.fragment_about) {
 
     private val viewModel: AboutViewModel by viewModels()
-    private lateinit var binding: FragmentAboutBinding
+    private var binding: FragmentAboutBinding? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentAboutBinding.bind(view)
 
-        binding.apply {
+        binding?.apply {
             topAppBar.setNavigationOnClickListener {
                 viewModel.onOkClick()
             }
@@ -35,6 +35,11 @@ class About : Fragment(R.layout.fragment_about) {
                 }.exhaustive
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }
 

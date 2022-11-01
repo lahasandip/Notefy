@@ -10,6 +10,7 @@ import android.view.*
 import android.widget.*
 import androidx.appcompat.widget.SearchView
 import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.setFragmentResultListener
 import androidx.fragment.app.viewModels
@@ -23,8 +24,6 @@ import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.databinding.FragmentHomeBinding
-import com.sandip.notefy.ui.MainActivity.Companion.drawerLayout
-import com.sandip.notefy.ui.home.NoteAdapter.Companion.homeActionMode
 import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.cancelAlarm
 import com.sandip.notefy.util.SortOrder
 import com.sandip.notefy.util.exhaustive
@@ -36,8 +35,9 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     SharedPreferences.OnSharedPreferenceChangeListener
 {
     private val viewModel: HomeViewModel by viewModels()
-    private lateinit var gridLayoutManager: StaggeredGridLayoutManager
-    private lateinit var binding: FragmentHomeBinding
+    private var gridLayoutManager: StaggeredGridLayoutManager? = null
+    private var binding: FragmentHomeBinding? = null
+    private var drawerLayout : DrawerLayout? = null
     private lateinit var bookmarked: RadioButton
     private lateinit var titleAsc: RadioButton
     private lateinit var titleDsc: RadioButton
@@ -46,6 +46,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     private lateinit var radioGroup: RadioGroup
     private lateinit var dialog: Dialog
     private var gridSharedPreferences: SharedPreferences? = null
+    private var homeActionMode : ActionMode ?  = null
 
     companion object{
         lateinit var noteList: List<NoteEntity>
@@ -55,15 +56,14 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
         initSortByDialog()
-
-        val noteAdapter = NoteAdapter(requireActivity(), view,this)
+        val noteAdapter = NoteAdapter(requireActivity(),this)
         gridSharedPreferences = context?.getSharedPreferences("grid", Context.MODE_PRIVATE)
 
         val prof = view.findViewById<ImageView>(R.id.profile_photo)
 
         gridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-
-        binding.apply {
+        drawerLayout = activity?.findViewById(R.id.drawer_layout)
+        binding?.apply {
             recyclerView.apply {
                 adapter = noteAdapter
                 layoutManager = observeGridLayout()
@@ -116,6 +116,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     return true
                 }
+
                 override fun onQueryTextChange(query: String?): Boolean {
                     if (query != null) {
                         viewModel.searchQuery.value = query
@@ -207,10 +208,11 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                         findNavController().navigate(action)
                     }
                     is HomeViewModel.TasksEvent.ShowTaskSavedConfirmationMessage -> {
-                        Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(view, event.msg, Snackbar.LENGTH_LONG)
+                            .show()
                     }
                     is HomeViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
-                        Snackbar.make(requireView(), getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
                             .setAction(getString(R.string.undo)) {
                                 viewModel.onUndoDeleteClick(event.noteEntity)
                             }.show()
@@ -223,12 +225,23 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                 }.exhaustive
             }
         }
+        drawerLayout?.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+            override fun onDrawerOpened(drawerView: View) {}
+            override fun onDrawerClosed(drawerView: View) {}
+            override fun onDrawerStateChanged(newState: Int) {
+                if(homeActionMode != null){
+                    homeActionMode?.finish()
+                    homeActionMode = null
+                }
+            }
+        })
     }
 
-    private fun observeGridLayout(): RecyclerView.LayoutManager {
+    private fun observeGridLayout(): StaggeredGridLayoutManager? {
         gridSharedPreferences?.registerOnSharedPreferenceChangeListener(this)
-        binding.apply {
-            gridLayoutManager.apply {
+        binding?.apply {
+            gridLayoutManager?.apply {
                 gridView.apply {
                     when (gridSharedPreferences?.getBoolean("grid", false)) {
                         true -> if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
@@ -267,6 +280,10 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         viewModel.onUndoDeleteClick(noteEntity)
     }
 
+    override fun storeActionMode(mode: ActionMode?) {
+        homeActionMode = mode
+    }
+
     private var radioGroupOnCheckedChangeListener: RadioGroup.OnCheckedChangeListener =
         RadioGroup.OnCheckedChangeListener { _, checkedId ->
             val checkedRadioButton = radioGroup.findViewById<View>(checkedId) as RadioButton
@@ -296,6 +313,14 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             homeActionMode?.finish()
             homeActionMode = null
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
+        drawerLayout = null
+        gridLayoutManager = null
+        gridSharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {

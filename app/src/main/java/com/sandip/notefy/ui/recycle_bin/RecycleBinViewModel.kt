@@ -1,7 +1,6 @@
 package com.sandip.notefy.ui.recycle_bin
 
 import android.content.Context
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
@@ -18,10 +17,6 @@ import javax.inject.Inject
 class RecycleBinViewModel @Inject constructor(
     private val noteDao: NoteDao
 ) : ViewModel() {
-
-    companion object{
-        var mutableLiveData = MutableLiveData<String?>()
-    }
 
     private val tasksEventChannel = Channel<TasksEvent>()
     val tasksEvent = tasksEventChannel.receiveAsFlow()

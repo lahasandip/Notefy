@@ -1,5 +1,6 @@
 package com.sandip.notefy.ui.languages
 
+import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
@@ -12,8 +13,6 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Language
 import com.sandip.notefy.databinding.FragmentLanguagesBinding
-import com.sandip.notefy.util.LocaleManager.Companion.editor
-import com.sandip.notefy.util.LocaleManager.Companion.languageSharedPreferences
 import com.sandip.notefy.util.LocaleManager.Companion.observeLanguagePreference
 import com.sandip.notefy.util.exhaustive
 
@@ -21,12 +20,16 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
     SharedPreferences.OnSharedPreferenceChangeListener
 {
     private val viewModel: LanguagesViewModel by viewModels()
-    private lateinit var binding: FragmentLanguagesBinding
+    private var binding: FragmentLanguagesBinding? = null
+    private lateinit var editor: SharedPreferences.Editor
+    private lateinit var languageSharedPreferences : SharedPreferences
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLanguagesBinding.bind(view)
-        languageSharedPreferences.registerOnSharedPreferenceChangeListener(this)
+        languageSharedPreferences = context?.getSharedPreferences("LANGUAGE", Context.MODE_PRIVATE)!!
+        languageSharedPreferences.registerOnSharedPreferenceChangeListener(this )
+        editor = languageSharedPreferences.edit()
 
         val flagImages = intArrayOf(
             R.drawable.usa,
@@ -55,9 +58,9 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
             val languagesClass = Language(flagImages[i], language[i])
             languageList.add(languagesClass)
         }
-        val languagesAdapter = LanguagesAdapter(languageList, this)
+        val languagesAdapter = LanguagesAdapter(context, languageList, this)
 
-        binding.apply {
+        binding?.apply {
             languageRecyclerView.apply {
                 adapter = languagesAdapter
                 layoutManager =
@@ -102,6 +105,7 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
 
     override fun onDestroyView() {
         super.onDestroyView()
+        binding = null
         languageSharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 }

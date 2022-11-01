@@ -20,7 +20,7 @@ import com.sandip.notefy.util.exhaustive
 class HelpFeedback : Fragment(R.layout.fragment_help_feedback){
 
     private val viewModel: HelpFeedbackViewModel by viewModels()
-    private lateinit var binding: FragmentHelpFeedbackBinding
+    private var binding: FragmentHelpFeedbackBinding? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,7 +46,7 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback){
         }
 
         val helpAdapter = HelpAdapter(helpList)
-        binding.apply {
+        binding?.apply {
             helpRecyclerView.apply {
                 adapter = helpAdapter
                 layoutManager = LinearLayoutManager(requireContext())
@@ -98,5 +98,10 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback){
                 }.exhaustive
             }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding = null
     }
 }

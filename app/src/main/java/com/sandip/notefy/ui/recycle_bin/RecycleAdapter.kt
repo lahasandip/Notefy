@@ -5,15 +5,15 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
 import android.view.*
-import androidx.core.content.res.ResourcesCompat
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.snackbar.Snackbar
-import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
@@ -23,22 +23,20 @@ import com.sandip.notefy.ui.recycle_bin.RecycleBin.Companion.noteList
 import com.sandip.notefy.util.Converters.Companion.getDateFormat
 import kotlin.collections.ArrayList
 
-class RecycleAdapter(activity: Activity, view: View, private val listener: OnItemClickListener) :
+class RecycleAdapter(
+    activity: Activity,
+    private val listener: OnItemClickListener
+) :
     ListAdapter<NoteEntity, RecycleAdapter.NoteViewHolder>(DiffCallback()) {
-    private val rootView : View
-    init {
-        this.rootView = view
-    }
-    private val mActivity = activity
-    var isEnable: Boolean = false
-    var isSelectAll = false
-    var selectList: ArrayList<NoteEntity> = ArrayList()
-    var undoList: ArrayList<NoteEntity> = ArrayList()
-    private lateinit var task :NoteEntity
-    companion object {
-        var recycleActionMode : ActionMode ? = null
-    }
 
+    private val mActivity = activity
+    private var isEnable: Boolean = false
+    private var isSelectAll = false
+    private var selectList: ArrayList<NoteEntity> = ArrayList()
+    private var undoList: ArrayList<NoteEntity> = ArrayList()
+    private var mItem: MenuItem? = null
+    private lateinit var task :NoteEntity
+    private var mutableLiveData = MutableLiveData<String?>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
         val binding = NewNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
         return NoteViewHolder(binding)
@@ -73,7 +71,8 @@ class RecycleAdapter(activity: Activity, view: View, private val listener: OnIte
                                 menu: Menu?
                             ): Boolean {
                                 mode?.menuInflater?.inflate(R.menu.recycle_contextual_action_bar, menu)
-                                recycleActionMode = mode
+                                listener.storeActionMode(mode)
+                                mItem = mode?.menu?.getItem(1)
                                 return true
                             }
                             override fun onPrepareActionMode(
@@ -83,7 +82,7 @@ class RecycleAdapter(activity: Activity, view: View, private val listener: OnIte
                                 isEnable = true
                                 clickItem(binding, holder)
                                 (mActivity as LifecycleOwner?)?.let { it1 ->
-                                    RecycleBinViewModel.mutableLiveData.observe(it1) { s ->
+                                    mutableLiveData.observe(it1) { s ->
                                         if (!(s.equals("0"))) {
                                             mode?.title = String.format("%s", s)
                                         } else {
@@ -107,7 +106,6 @@ class RecycleAdapter(activity: Activity, view: View, private val listener: OnIte
                                     }
 
                                     R.id.select_all -> {
-                                        item.icon = ResourcesCompat.getDrawable(mActivity.resources, R.drawable.ic_baseline_deselect_24, null)
                                         if(selectList.size == noteList.size) {
                                             isSelectAll=false
                                             selectList.clear()
@@ -117,7 +115,8 @@ class RecycleAdapter(activity: Activity, view: View, private val listener: OnIte
                                             selectList.clear()
                                             selectList.addAll(noteList)
                                         }
-                                        RecycleBinViewModel.mutableLiveData.value = selectList.size.toString()
+                                        item.icon = ContextCompat.getDrawable(mActivity, R.drawable.ic_baseline_deselect_24)
+                                        mutableLiveData.value = selectList.size.toString()
                                         notifyDataSetChanged()
                                         true
                                     }
@@ -127,7 +126,7 @@ class RecycleAdapter(activity: Activity, view: View, private val listener: OnIte
                                             listener.onMenuDeleteClick(s)
                                             undoList.add(s)
                                         }
-                                        Snackbar.make(rootView, mActivity.getString(R.string.notes_deleted_forever), Snackbar.LENGTH_LONG)
+                                        Snackbar.make(itemView, mActivity.getString(R.string.notes_deleted_forever), Snackbar.LENGTH_LONG)
                                             .setAction(mActivity.getString(R.string.undo)) {
                                                 for (s in undoList) {
                                                     listener.onUndo(s)
@@ -145,6 +144,7 @@ class RecycleAdapter(activity: Activity, view: View, private val listener: OnIte
                                 isEnable=false
                                 isSelectAll=false
                                 selectList.clear()
+                                mItem = null
                                 notifyDataSetChanged()
                             }
                         }
@@ -209,18 +209,18 @@ class RecycleAdapter(activity: Activity, view: View, private val listener: OnIte
 
                 if(noteEntity.image != null) {
                     val imageUri = Uri.parse(noteEntity.image)
-                    Glide.with(NotefyApplication.appContext).load(imageUri).into(img)
+                    Glide.with(mActivity).load(imageUri).into(img)
                     noteImageLayout.visibility = View.VISIBLE
                 }
                 else{
-                    Glide.with(NotefyApplication.appContext).clear(img)
+                    Glide.with(mActivity).clear(img)
                     noteImageLayout.visibility = View.GONE
                 }
 
                 if (noteEntity.todoList != null) {
-                    val todoAdapter = HomeTodoAdapter(NotefyApplication.appContext,noteEntity.todoList as ArrayList<Todo>)
+                    val todoAdapter = HomeTodoAdapter(mActivity,noteEntity.todoList as ArrayList<Todo>)
                     todoRecyclerView.setHasFixedSize(true)
-                    todoRecyclerView.layoutManager = LinearLayoutManager(NotefyApplication.appContext)
+                    todoRecyclerView.layoutManager = LinearLayoutManager(mActivity)
                     todoRecyclerView.adapter = todoAdapter
                     todoRecyclerView.visibility = View.VISIBLE
                     todoAdapter.notifyDataSetChanged()
@@ -247,8 +247,16 @@ class RecycleAdapter(activity: Activity, view: View, private val listener: OnIte
                 cardView.strokeColor = Color.parseColor("#9e9e9e")
                 selectList.remove(task)
             }
+            if (selectList.size == noteList.size) {
+                mItem?.icon =
+                    ContextCompat.getDrawable(mActivity, R.drawable.ic_baseline_deselect_24)
+            }
+            else{
+                mItem?.icon = ContextCompat.getDrawable(mActivity, R.drawable.ic_baseline_select_all_24)
+
+            }
         }
-        RecycleBinViewModel.mutableLiveData.value = selectList.size.toString()
+        mutableLiveData.value = selectList.size.toString()
     }
 
     interface OnItemClickListener {
@@ -256,6 +264,7 @@ class RecycleAdapter(activity: Activity, view: View, private val listener: OnIte
         fun onRestoreClick(noteEntity: NoteEntity)
         fun onMenuDeleteClick(noteEntity: NoteEntity)
         fun onUndo(noteEntity: NoteEntity)
+        fun storeActionMode(mode: ActionMode?)
     }
 
     class DiffCallback : DiffUtil.ItemCallback<NoteEntity>() {

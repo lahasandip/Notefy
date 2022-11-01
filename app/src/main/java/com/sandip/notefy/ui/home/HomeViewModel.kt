@@ -29,10 +29,6 @@ class HomeViewModel @Inject constructor(
     state: SavedStateHandle
 ): ViewModel() {
 
-    companion object{
-        var mutableLiveData = MutableLiveData<String?>()
-    }
-
     val searchQuery = state.getLiveData("searchQuery", "")
     val displayUser = userDao.getUser()
 

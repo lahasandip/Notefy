@@ -16,13 +16,11 @@ import androidx.core.content.FileProvider
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.dao.NoteDao
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.ui.*
-import com.sandip.notefy.ui.newupdate.NewUpdateNote.Companion.notificationIntent
 import com.sandip.notefy.util.Converters.Companion.getDateFormat
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -110,9 +108,9 @@ class NewUpdateNoteViewModel @Inject constructor(
     private val addEditTaskEventChannel = Channel<AddEditTaskEvent>()
     val addEditTaskEvent = addEditTaskEventChannel.receiveAsFlow()
 
-    fun onSaveClick() {
+    fun onSaveClick(context: Context) {
         if (noteTitle.isBlank()) {
-            showInvalidInputMessage(NotefyApplication.appContext.getString(R.string.title_cannot_be_empty))
+            showInvalidInputMessage(context.getString(R.string.title_cannot_be_empty))
             return
         }
 
@@ -170,7 +168,7 @@ class NewUpdateNoteViewModel @Inject constructor(
 
     fun onShareClick(context: Context, image: ImageView) = viewModelScope.launch {
         if (noteTitle.isBlank()) {
-            showInvalidInputMessage(NotefyApplication.appContext.getString(R.string.title_cannot_be_empty))
+            showInvalidInputMessage(context.getString(R.string.title_cannot_be_empty))
         } else {
             val desc = if (noteDescription.isNotEmpty()) "\nNote: $noteDescription," else ""
             val url = if (noteUrl.isNotEmpty()) "\nUrl: $noteUrl," else ""
@@ -189,7 +187,7 @@ class NewUpdateNoteViewModel @Inject constructor(
                     action = Intent.ACTION_SEND
                     if (image.drawable != null) {
                         val bitmap = (image.drawable as BitmapDrawable).bitmap
-                        val uri: Uri = getUri(bitmap)
+                        val uri: Uri = getUri(context, bitmap)
                         type = "image/*"
                         putExtra(Intent.EXTRA_STREAM, uri)
                     } else {
@@ -217,8 +215,8 @@ class NewUpdateNoteViewModel @Inject constructor(
         addEditTaskEventChannel.send((AddEditTaskEvent.StartLocationIntent(mapIntent)))
     }
 
-    private fun getUri(bitmap: Bitmap?): Uri {
-        val imageFolder= File(NotefyApplication.appContext.externalCacheDir, "images")
+    private fun getUri(context: Context, bitmap: Bitmap?): Uri {
+        val imageFolder= File(context.externalCacheDir, "images")
 
         var uri: Uri? = null
         try {
@@ -228,16 +226,16 @@ class NewUpdateNoteViewModel @Inject constructor(
             bitmap?.compress(Bitmap.CompressFormat.PNG, 90, outputStream)
             outputStream.flush()
             outputStream.close()
-            uri = NotefyApplication.appContext.let { FileProvider.getUriForFile(it, "com.sandip.notefy.provider", file) }
+            uri = context.let { FileProvider.getUriForFile(it, "com.sandip.notefy.provider", file) }
         } catch (e: Exception) {
-            Toast.makeText(NotefyApplication.appContext, "" + e.message, Toast.LENGTH_LONG).show()
+            Toast.makeText(context, "" + e.message, Toast.LENGTH_LONG).show()
         }
         return uri!!
     }
 
-    fun onDeleteClick() {
+    fun onDeleteClick(context: Context) {
         if (noteTitle.isBlank()) {
-            showInvalidInputMessage(NotefyApplication.appContext.getString(R.string.title_cannot_be_empty))
+            showInvalidInputMessage(context.getString(R.string.title_cannot_be_empty))
             return
         }
         callAddUpdateDB()
@@ -278,6 +276,13 @@ class NewUpdateNoteViewModel @Inject constructor(
 
 
     fun displaySimpleNotification(context: Context?) = viewModelScope.launch {
+        val notificationIntent =
+            Intent(context, Notifications::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            }
+
+        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
         notificationIntent.putExtra("noteTitle", noteTitle)
         notificationIntent.putExtra("noteBody", noteDescription)
         notificationIntent.putExtra("noteImage", noteImage)
@@ -290,7 +295,7 @@ class NewUpdateNoteViewModel @Inject constructor(
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
 
-        NewUpdateNote.alarmManager.setExactAndAllowWhileIdle(
+        alarmManager.setExactAndAllowWhileIdle(
             AlarmManager.RTC_WAKEUP,
             getTime(),
             pendingNotificationIntent

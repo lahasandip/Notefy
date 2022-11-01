@@ -9,21 +9,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.card.MaterialCardView
-import com.sandip.notefy.NotefyApplication
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Language
 
 class LanguagesAdapter(
+    context: Context?,
     langList: ArrayList<Language>?,
-    private val listener: OnItemClickListener) :
+    private val listener: OnItemClickListener
+) :
     RecyclerView.Adapter<LanguagesAdapter.LanguagesViewHolder?>() {
-    private val myList : ArrayList<Language>?
-    private val itemClickListener: OnItemClickListener?
+    private val mContext : Context?  = context
+    private val myList : ArrayList<Language>? = langList
     private var selectedPosition  = 0
-    init {
-        myList = langList
-        itemClickListener = listener
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LanguagesViewHolder {
         return LanguagesViewHolder(
@@ -37,7 +34,7 @@ class LanguagesAdapter(
 
     override fun onBindViewHolder(holder: LanguagesViewHolder, position: Int) {
 
-        val sharedPreferences =  NotefyApplication.appContext.getSharedPreferences("LANGUAGE",
+        val sharedPreferences =  mContext?.getSharedPreferences("LANGUAGE",
             Context.MODE_PRIVATE)
         val pos = sharedPreferences?.getInt("position", 0)
 
