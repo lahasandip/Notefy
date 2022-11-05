@@ -115,4 +115,5 @@
     <string name="reminder_permission_error">Concedi l\'autorizzazione alla notifica dalle impostazioni dell\'app per impostare il promemoria</string>
     <string name="enter_valid_email">Inserisci una email valida</string>
     <string name="enter_valid_phone">Per favore immetti un numero di telefono valido</string>
+    <string name="privacy_policy">politica sulla riservatezza</string>
 </resources>

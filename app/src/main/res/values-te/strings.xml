@@ -115,4 +115,5 @@
     <string name="reminder_permission_error">దయచేసి రిమైండర్‌ని సెట్ చేయడానికి యాప్ సెట్టింగ్‌ల నుండి నోటిఫికేషన్ అనుమతిని మంజూరు చేయండి</string>
     <string name="enter_valid_email">దయచేసి సరైన ఈమెయిల్ ఇవ్వండి</string>
     <string name="enter_valid_phone">దయచేసి చెల్లుబాటు అయ్యే ఫోన్‌ని నమోదు చేయండి</string>
+    <string name="privacy_policy">గోప్యతా విధానం</string>
 </resources>

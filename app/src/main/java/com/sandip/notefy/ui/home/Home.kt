@@ -6,6 +6,7 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.appcompat.widget.SearchView
@@ -47,6 +48,8 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     private lateinit var dialog: Dialog
     private var gridSharedPreferences: SharedPreferences? = null
     private var homeActionMode : ActionMode ?  = null
+    private lateinit var drawerListener : DrawerLayout.DrawerListener
+
 
     companion object{
         lateinit var noteList: List<NoteEntity>
@@ -55,6 +58,8 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
+        Log.d("TAG","onCreate home")
+
         initSortByDialog()
         val noteAdapter = NoteAdapter(requireActivity(),this)
         gridSharedPreferences = context?.getSharedPreferences("grid", Context.MODE_PRIVATE)
@@ -62,7 +67,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         val prof = view.findViewById<ImageView>(R.id.profile_photo)
 
         gridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-        drawerLayout = activity?.findViewById(R.id.drawer_layout)
         binding?.apply {
             recyclerView.apply {
                 adapter = noteAdapter
@@ -222,20 +226,23 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                             HomeDirections.actionHomeToUser()
                         findNavController().navigate(action)
                     }
+                    else -> {}
                 }.exhaustive
             }
         }
-        drawerLayout?.addDrawerListener(object : DrawerLayout.DrawerListener {
-            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
-            override fun onDrawerOpened(drawerView: View) {}
-            override fun onDrawerClosed(drawerView: View) {}
-            override fun onDrawerStateChanged(newState: Int) {
-                if(homeActionMode != null){
-                    homeActionMode?.finish()
-                    homeActionMode = null
-                }
-            }
-        })
+//        drawerListener =
+//       object : DrawerLayout.DrawerListener {
+//            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+//            override fun onDrawerOpened(drawerView: View) {}
+//            override fun onDrawerClosed(drawerView: View) {}
+//            override fun onDrawerStateChanged(newState: Int) {
+//                if(homeActionMode != null){
+//                    homeActionMode?.finish()
+//                    homeActionMode = null
+//                }
+//            }
+//        }
+//        drawerLayout?.addDrawerListener(drawerListener)
     }
 
     private fun observeGridLayout(): StaggeredGridLayoutManager? {
@@ -307,18 +314,41 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        drawerLayout = activity?.findViewById(R.id.drawer_layout)
+        drawerListener =
+            object : DrawerLayout.DrawerListener {
+                override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+                override fun onDrawerOpened(drawerView: View) {}
+                override fun onDrawerClosed(drawerView: View) {}
+                override fun onDrawerStateChanged(newState: Int) {
+                    if(homeActionMode != null){
+                        homeActionMode?.finish()
+                        homeActionMode = null
+                    }
+                }
+            }
+        drawerLayout?.addDrawerListener(drawerListener)
+    }
+
     override fun onPause() {
         super.onPause()
         if (homeActionMode != null) {
             homeActionMode?.finish()
             homeActionMode = null
         }
+        drawerLayout?.removeDrawerListener(drawerListener)
+        drawerLayout = null
+    }
+
+    override fun onStop() {
+        super.onStop()
+        binding = null
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        binding = null
-        drawerLayout = null
         gridLayoutManager = null
         gridSharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
     }

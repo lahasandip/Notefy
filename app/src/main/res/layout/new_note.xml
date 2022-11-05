@@ -71,7 +71,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/note_title"
-                android:textSize="15sp"
+                android:textSize="13sp"
                 android:textStyle="bold"
                 android:layout_marginEnd="5dp"
                 android:layout_marginStart="10dp"
@@ -164,9 +164,9 @@
                     android:layout_height="wrap_content"
                     android:textSize="11sp"
                     android:textColor="@color/RoyalBlue"
-                    android:layout_marginStart="20dp"
+                    android:layout_marginStart="22dp"
                     android:layout_gravity="center"
-                    android:layout_marginEnd="10dp"
+                    android:layout_marginEnd="16dp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toEndOf="@+id/url_image"/>
             </FrameLayout>

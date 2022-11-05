@@ -115,4 +115,5 @@
     <string name="reminder_permission_error">Предоставьте разрешение на уведомление в настройках приложения, чтобы установить напоминание.</string>
     <string name="enter_valid_email">Пожалуйста, введите действительный адрес электронной почты</string>
     <string name="enter_valid_phone">Пожалуйста, введите действительный телефон</string>
+    <string name="privacy_policy">Политика конфиденциальности</string>
 </resources>

@@ -115,4 +115,5 @@
     <string name="reminder_permission_error">リマインダーを設定するには、アプリの設定から通知権限を付与してください</string>
     <string name="enter_valid_email">正しいメールアドレスを入力してください</string>
     <string name="enter_valid_phone">有効な電話番号を入力してください</string>
+    <string name="privacy_policy">プライバシーポリシー</string>
 </resources>

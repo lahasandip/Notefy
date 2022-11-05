@@ -115,4 +115,5 @@
     <string name="reminder_permission_error">Harap berikan izin Pemberitahuan dari Pengaturan Aplikasi untuk mengatur Pengingat</string>
     <string name="enter_valid_email">Silakan Masukkan Email yang valid</string>
     <string name="enter_valid_phone">Silakan Masukkan Telepon yang valid</string>
+    <string name="privacy_policy">Kebijakan pribadi</string>
 </resources>

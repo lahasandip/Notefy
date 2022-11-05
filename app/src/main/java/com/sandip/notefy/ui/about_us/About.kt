@@ -25,12 +25,19 @@ class About : Fragment(R.layout.fragment_about) {
                 viewModel.onOkClick()
             }
             version.text = getString(R.string.version, BuildConfig.VERSION_NAME)
+
+            privacyPolicy.setOnClickListener{
+                viewModel.onPrivacyClick()
+            }
         }
         viewLifecycleOwner.lifecycleScope.launchWhenStarted {
             viewModel.addEditTaskEvent.collect { event ->
                 when (event) {
                     is AboutViewModel.AddEditTaskEvent.NavigateToBackScreen -> {
                         findNavController().popBackStack()
+                    }
+                    is AboutViewModel.AddEditTaskEvent.StartPrivacyIntent -> {
+                        startActivity(event.privacyIntent)
                     }
                 }.exhaustive
             }

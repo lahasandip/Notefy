@@ -115,4 +115,5 @@
     <string name="reminder_permission_error">Veuillez accorder l\'autorisation de notification à partir des paramètres de l\'application pour définir le rappel</string>
     <string name="enter_valid_email">Veuillez saisir un e-mail valide</string>
     <string name="enter_valid_phone">S\'il vous plaît entrer un téléphone valide</string>
+    <string name="privacy_policy">Politique de confidentialité</string>
 </resources>

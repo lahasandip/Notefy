@@ -115,4 +115,5 @@
     <string name="reminder_permission_error">Por favor, conceda permissão de notificação das configurações do aplicativo para definir o lembrete</string>
     <string name="enter_valid_email">Por favor entre com um email válido</string>
     <string name="enter_valid_phone">Por favor, insira um telefone válido</string>
+    <string name="privacy_policy">Política de Privacidade</string>
 </resources>

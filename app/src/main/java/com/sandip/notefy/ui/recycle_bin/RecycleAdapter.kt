@@ -145,6 +145,7 @@ class RecycleAdapter(
                                 isSelectAll=false
                                 selectList.clear()
                                 mItem = null
+                                mutableLiveData.removeObservers(mActivity as LifecycleOwner)
                                 notifyDataSetChanged()
                             }
                         }

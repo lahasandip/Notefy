@@ -115,4 +115,5 @@
     <string name="reminder_permission_error">请从应用设置授予通知权限以设置提醒</string>
     <string name="enter_valid_email">请输入有效电子邮件</string>
     <string name="enter_valid_phone">请输入有效电话号码</string>
+    <string name="privacy_policy">隐私政策</string>
 </resources>

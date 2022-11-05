@@ -28,6 +28,7 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
     private var binding: FragmentRecycleBinBinding? = null
     private var recycleActionMode : ActionMode ?  = null
     private var drawerLayout : DrawerLayout? = null
+    private lateinit var drawerListener : DrawerLayout.DrawerListener
 
     companion object {
         lateinit var noteList: List<NoteEntity>
@@ -37,7 +38,6 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecycleBinBinding.bind(view)
         val recycleAdapter = RecycleAdapter(requireActivity(), this)
-        drawerLayout = activity?.findViewById(R.id.drawer_layout)
 
         binding?.apply {
             trashRecyclerView.apply {
@@ -101,17 +101,19 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
                 }.exhaustive
             }
         }
-        drawerLayout?.addDrawerListener(object : DrawerLayout.DrawerListener {
-            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
-            override fun onDrawerOpened(drawerView: View) {}
-            override fun onDrawerClosed(drawerView: View) {}
-            override fun onDrawerStateChanged(newState: Int) {
-                if(recycleActionMode != null){
-                    recycleActionMode?.finish()
-                    recycleActionMode = null
-                }
-            }
-        })
+//        drawerListener =
+//        object : DrawerLayout.DrawerListener {
+//            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+//            override fun onDrawerOpened(drawerView: View) {}
+//            override fun onDrawerClosed(drawerView: View) {}
+//            override fun onDrawerStateChanged(newState: Int) {
+//                if(recycleActionMode != null){
+//                    recycleActionMode?.finish()
+//                    recycleActionMode = null
+//                }
+//            }
+//        }
+//        drawerLayout?.addDrawerListener(drawerListener)
     }
 
 
@@ -143,16 +145,36 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
         recycleActionMode = mode
     }
 
+    override fun onStart() {
+        super.onStart()
+        drawerLayout = activity?.findViewById(R.id.drawer_layout)
+        drawerListener =
+            object : DrawerLayout.DrawerListener {
+                override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+                override fun onDrawerOpened(drawerView: View) {}
+                override fun onDrawerClosed(drawerView: View) {}
+                override fun onDrawerStateChanged(newState: Int) {
+                    if(recycleActionMode != null){
+                        recycleActionMode?.finish()
+                        recycleActionMode = null
+                    }
+                }
+            }
+        drawerLayout?.addDrawerListener(drawerListener)
+
+    }
     override fun onPause() {
         super.onPause()
         if (recycleActionMode != null) {
             recycleActionMode?.finish()
             recycleActionMode = null
         }
-    }
-    override fun onDestroyView() {
-        super.onDestroyView()
+        drawerLayout?.removeDrawerListener(drawerListener)
         drawerLayout = null
+    }
+
+    override fun onStop() {
+        super.onStop()
         binding = null
     }
 }

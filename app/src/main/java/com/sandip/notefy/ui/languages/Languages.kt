@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Language
 import com.sandip.notefy.databinding.FragmentLanguagesBinding
-import com.sandip.notefy.util.LocaleManager.Companion.observeLanguagePreference
+import com.sandip.notefy.util.ModeManager.observeLanguagePreference
 import com.sandip.notefy.util.exhaustive
 
 class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItemClickListener,

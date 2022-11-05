@@ -1,6 +1,8 @@
 package com.sandip.notefy.ui.newupdate
 
 import android.graphics.Paint
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -27,9 +29,9 @@ class NewUpdateTodoAdapter(
 
     override fun onBindViewHolder(holder: TodoViewHolder, position: Int) {
         holder.apply {
-            todoTitle.text = todoList?.get(position)?.todoDescription ?: ""
-            todoCheckBox.isChecked = todoList?.get(position)?.completed ?: false
-            if (todoList?.get(position)?.completed == true) {
+            todoTitle.text = todoList?.get(adapterPosition)?.todoDescription ?: ""
+            todoCheckBox.isChecked = todoList?.get(adapterPosition)?.completed ?: false
+            if (todoList?.get(adapterPosition)?.completed == true) {
                 todoTitle.paintFlags =
                     todoTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
             }
@@ -37,16 +39,25 @@ class NewUpdateTodoAdapter(
                 if (isChecked) {
                     todoTitle.paintFlags =
                         todoTitle.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-                    todoList?.get(position)?.completed = true
+                    todoList?.get(adapterPosition)?.completed = true
                 } else {
                     todoTitle.paintFlags =
                         todoTitle.paintFlags and Paint.STRIKE_THRU_TEXT_FLAG.inv()
-                    todoList?.get(position)?.completed = false
+                    todoList?.get(adapterPosition)?.completed = false
                 }
             }
             todoTitle.addTextChangedListener {
                 todoList?.get(position)?.todoDescription = it.toString()
             }
+//            todoTitle.addTextChangedListener()
+//            object : TextWatcher {
+//                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+//                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {}
+//                override fun afterTextChanged(s: Editable) {
+//                    todoList?.get(adapterPosition)?.todoDescription = todoTitle.text.toString()
+//                }
+//            }
+
 
             removeButton.setOnClickListener {
                 todoList?.removeAt(position)

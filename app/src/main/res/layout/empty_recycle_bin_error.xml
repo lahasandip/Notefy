@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/errorImage"
-        android:layout_width="60dp"
-        android:layout_height="60dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_outline_restore_from_trash_24"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,6 @@
         android:gravity="center_horizontal"
         android:text="@string/empty_recycle_bin"
         android:textStyle="bold"
-        android:layout_marginTop="5dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/errorImage"/>
@@ -37,7 +36,6 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/errorTitle"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="2dp"
         android:gravity="center_horizontal"
         android:text="@string/notes_you_delete_will_appear_here"
         app:layout_constraintEnd_toEndOf="parent"

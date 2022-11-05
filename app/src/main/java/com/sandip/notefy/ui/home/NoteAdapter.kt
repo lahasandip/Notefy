@@ -136,6 +136,7 @@ class NoteAdapter(activity: Activity, private val listener: OnItemClickListener)
                                 isSelectAll=false
                                 selectList.clear()
                                 mItem = null
+                                mutableLiveData.removeObservers(mActivity as LifecycleOwner)
                                 notifyDataSetChanged()
                             }
                         }

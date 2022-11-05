@@ -1,15 +1,22 @@
 package com.sandip.notefy.ui.home
 
+import android.app.Application
 import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
+import android.os.Build
+import android.provider.Settings
+import android.widget.Toast
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.*
 import com.sandip.notefy.R
 import com.sandip.notefy.data.dao.NoteDao
 import com.sandip.notefy.data.dao.UserDao
 import com.sandip.notefy.data.entity.NoteEntity
-import com.sandip.notefy.ui.ADD_TASK_RESULT_OK
-import com.sandip.notefy.ui.DELETE_TASK_RESULT_OK
-import com.sandip.notefy.ui.EDIT_TASK_RESULT_OK
-import com.sandip.notefy.ui.PROFILE_UPDATED_RESULT_OK
+import com.sandip.notefy.ui.*
+import com.sandip.notefy.util.ModeManager.observeUiPreferences
 import com.sandip.notefy.util.PreferencesManager
 import com.sandip.notefy.util.SortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,6 +26,7 @@ import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
+import java.util.concurrent.Executor
 import javax.inject.Inject
 
 @HiltViewModel
@@ -26,8 +34,9 @@ class HomeViewModel @Inject constructor(
     private val noteDao: NoteDao,
     userDao: UserDao,
     private val preferencesManager: PreferencesManager,
-    state: SavedStateHandle
-): ViewModel() {
+    state: SavedStateHandle,
+    application: Application
+): AndroidViewModel(application) {
 
     val searchQuery = state.getLiveData("searchQuery", "")
     val displayUser = userDao.getUser()
@@ -37,6 +46,14 @@ class HomeViewModel @Inject constructor(
 
     private val tasksEventChannel = Channel<TasksEvent>()
     val tasksEvent = tasksEventChannel.receiveAsFlow()
+    private val app = application
+
+    private lateinit var executor: Executor
+    private lateinit var biometricPrompt: BiometricPrompt
+    private lateinit var promptInfo: BiometricPrompt.PromptInfo
+    val biometricSharedPreferences : SharedPreferences =  app.getSharedPreferences("BIOMETRIC", Context.MODE_PRIVATE)
+    val uiSharedPreferences : SharedPreferences = app.getSharedPreferences("UI",Context.MODE_PRIVATE)
+    private val isFirstLaunchPreferences : SharedPreferences = app.getSharedPreferences("FIRST_LAUNCH",Context.MODE_PRIVATE)
 
     @OptIn(ExperimentalCoroutinesApi::class)
     private val tasksFlow = combine(
@@ -94,11 +111,111 @@ class HomeViewModel @Inject constructor(
         tasksEventChannel.send(TasksEvent.ShowTaskSavedConfirmationMessage(text))
     }
 
+    fun onScreenLockToggle(isChecked: Boolean) = viewModelScope.launch {
+        val editor = biometricSharedPreferences.edit()
+        editor.putBoolean("biometric",isChecked)
+        editor.apply()
+    }
+
+    fun onDarkModeToggle(isChecked: Boolean) = viewModelScope.launch{
+        val editor = uiSharedPreferences.edit()
+        editor.putBoolean("darkMode",isChecked)
+        editor.apply()
+    }
+
+    fun onScreenRotate(isFirstLaunch: Boolean) = viewModelScope.launch {
+        val editor = isFirstLaunchPreferences.edit()
+        editor.putBoolean("rotation",isFirstLaunch)
+        editor.apply()
+    }
+
+    fun observeBiometricPreferences(mainActivity: MainActivity) = viewModelScope.launch{
+        when(biometricSharedPreferences.getBoolean("biometric", false)){
+            true -> onBiometricEnabled(mainActivity)
+            false -> onBiometricDisabled()
+        }
+    }
+
+    fun setUiPreferences()  = viewModelScope.launch{
+        observeUiPreferences(app)
+    }
+
+    private fun onBiometricEnabled(mainActivity: MainActivity) = viewModelScope.launch{
+        if(isFirstLaunchPreferences.getBoolean("rotation", true)) {
+            val biometricManager = this.let { BiometricManager.from(mainActivity) }
+            when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
+                BiometricManager.BIOMETRIC_SUCCESS -> {}
+                BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {}
+                BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {}
+                BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                    val enrollIntent =
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
+                                putExtra(
+                                    Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+                                    BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL
+                                )
+                            }
+                        } else {
+                            Intent(Settings.ACTION_SECURITY_SETTINGS)
+                        }
+                    tasksEventChannel.send(TasksEvent.StartIntent(mainActivity, enrollIntent))
+                }
+                BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED -> {}
+                BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED -> {}
+                BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> {}
+            }
+            executor = this.let { ContextCompat.getMainExecutor(mainActivity) }
+            biometricPrompt = BiometricPrompt(mainActivity, executor,
+                object : BiometricPrompt.AuthenticationCallback() {
+                    override fun onAuthenticationError(
+                        errorCode: Int,
+                        errString: CharSequence
+                    ) {
+                        super.onAuthenticationError(errorCode, errString)
+                        Toast.makeText(
+                            mainActivity,
+                            mainActivity.getString(R.string.auth_error, errString),
+                            Toast.LENGTH_LONG
+                        ).show()
+                        mainActivity.finish()
+                    }
+                })
+            promptInfo = BiometricPrompt.PromptInfo.Builder()
+                .setTitle(mainActivity.getString(R.string.authenticate_with_biometric))
+                .setAllowedAuthenticators(
+                    BiometricManager.Authenticators.BIOMETRIC_WEAK or BiometricManager.Authenticators.DEVICE_CREDENTIAL
+                )
+                .build()
+            tasksEventChannel.send(TasksEvent.AuthenticatePrompt(biometricPrompt, promptInfo))
+        }
+        tasksEventChannel.send(TasksEvent.SetValue)
+    }
+
+    private fun onBiometricDisabled() = viewModelScope.launch{
+        tasksEventChannel.send(TasksEvent.BiometricDisabled)
+    }
+
+    fun updateUiSwitch() = viewModelScope.launch{
+        when(uiSharedPreferences.getBoolean("darkMode", false)){
+            true -> tasksEventChannel.send(TasksEvent.DarkMode)
+            false -> tasksEventChannel.send(TasksEvent.LightMode)
+        }
+    }
+
     sealed class TasksEvent {
         object NavigateToAddTaskScreen : TasksEvent()
         object NavigateToUserScreen : TasksEvent()
         data class NavigateToEditTaskScreen(val noteEntity: NoteEntity) : TasksEvent()
         data class ShowTaskSavedConfirmationMessage(val msg: String) : TasksEvent()
         data class ShowUndoDeleteTaskMessage(val noteEntity: NoteEntity) : TasksEvent()
+        object BiometricDisabled : TasksEvent()
+        object SetValue : TasksEvent()
+        object LightMode : TasksEvent()
+        object DarkMode : TasksEvent()
+        data class StartIntent(val mainActivity: MainActivity, val enrollIntent: Intent) : TasksEvent()
+        data class AuthenticatePrompt(
+            val biometricPrompt: BiometricPrompt,
+            val promptInfo: BiometricPrompt.PromptInfo) : TasksEvent()
     }
 }
