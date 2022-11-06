@@ -60,7 +60,7 @@
     <string name="_1_012_345_6789">+一  〇一二 三四五 六七八九</string>
     <string name="share_ask">如果您觉得 Notefy 有用，请与您的朋友分享</string>
     <string name="later">后来</string>
-    <string name="message">您好 &#128075;，我发现了一款超酷的 Notes 应用，可以让您的生活更轻松 &#128515;\n\n您可以使用文本和照片创建彩色笔记、共享笔记、设置提醒、创建待办事项列表等等。\n\n从 Play 商店体验应用程序 &#128071;\n\nplay.google.com/store/apps/details?id=com.imangi.templerun</string>
+    <string name="message">您好 &#128075;，我发现了一款超酷的 Notes 应用，可以让您的生活更轻松 &#128515;\n\n您可以使用文本和照片创建彩色笔记、共享笔记、设置提醒、创建待办事项列表等等。\n\n从 Play 商店体验应用程序 &#128071;\n\nplay.google.com/store/apps/details?id=%s</string>
     <string name="share">分享</string>
     <string name="share_from_notefy">从 Notefy 分享：</string>
     <string name="oops">哎呀！ 不能分享</string>

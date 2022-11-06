@@ -6,6 +6,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Build
 import android.provider.Settings
+import android.util.Log
 import android.widget.Toast
 import androidx.biometric.BiometricManager
 import androidx.biometric.BiometricPrompt
@@ -16,7 +17,6 @@ import com.sandip.notefy.data.dao.NoteDao
 import com.sandip.notefy.data.dao.UserDao
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.ui.*
-import com.sandip.notefy.util.ModeManager.observeUiPreferences
 import com.sandip.notefy.util.PreferencesManager
 import com.sandip.notefy.util.SortOrder
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -53,6 +53,7 @@ class HomeViewModel @Inject constructor(
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
     val biometricSharedPreferences : SharedPreferences =  app.getSharedPreferences("BIOMETRIC", Context.MODE_PRIVATE)
     val uiSharedPreferences : SharedPreferences = app.getSharedPreferences("UI",Context.MODE_PRIVATE)
+//    val isBiometric : SharedPreferences = app.getSharedPreferences("IS_BIO",Context.MODE_PRIVATE)
     private val isFirstLaunchPreferences : SharedPreferences = app.getSharedPreferences("FIRST_LAUNCH",Context.MODE_PRIVATE)
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -113,36 +114,38 @@ class HomeViewModel @Inject constructor(
 
     fun onScreenLockToggle(isChecked: Boolean) = viewModelScope.launch {
         val editor = biometricSharedPreferences.edit()
-        editor.putBoolean("biometric",isChecked)
+        editor.putBoolean("biometric", isChecked)
         editor.apply()
     }
 
     fun onDarkModeToggle(isChecked: Boolean) = viewModelScope.launch{
         val editor = uiSharedPreferences.edit()
-        editor.putBoolean("darkMode",isChecked)
+        editor.putBoolean("darkMode", isChecked)
         editor.apply()
     }
 
     fun onScreenRotate(isFirstLaunch: Boolean) = viewModelScope.launch {
         val editor = isFirstLaunchPreferences.edit()
-        editor.putBoolean("rotation",isFirstLaunch)
+        editor.putBoolean("rotation", isFirstLaunch)
         editor.apply()
     }
 
-    fun observeBiometricPreferences(mainActivity: MainActivity) = viewModelScope.launch{
-        when(biometricSharedPreferences.getBoolean("biometric", false)){
-            true -> onBiometricEnabled(mainActivity)
-            false -> onBiometricDisabled()
-        }
-    }
+//    fun isBiometricOn(isOn: Boolean) = viewModelScope.launch {
+//        val editor = isBiometric.edit()
+//        editor.putBoolean("isBiometric", isOn)
+//        editor.apply()
+//    }
 
-    fun setUiPreferences()  = viewModelScope.launch{
-        observeUiPreferences(app)
-    }
+    fun observeBiometricPreferences(mainActivity: MainActivity) = viewModelScope.launch{
+            when (biometricSharedPreferences.getBoolean("biometric", false)) {
+                true -> onBiometricEnabled(mainActivity)
+                false -> onBiometricDisabled()
+            }
+        }
 
     private fun onBiometricEnabled(mainActivity: MainActivity) = viewModelScope.launch{
         if(isFirstLaunchPreferences.getBoolean("rotation", true)) {
-            val biometricManager = this.let { BiometricManager.from(mainActivity) }
+            val biometricManager = this.let { BiometricManager.from(mainActivity.applicationContext) }
             when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
                 BiometricManager.BIOMETRIC_SUCCESS -> {}
                 BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {}
@@ -165,7 +168,7 @@ class HomeViewModel @Inject constructor(
                 BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED -> {}
                 BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> {}
             }
-            executor = this.let { ContextCompat.getMainExecutor(mainActivity) }
+            executor = this.let { ContextCompat.getMainExecutor(mainActivity.applicationContext) }
             biometricPrompt = BiometricPrompt(mainActivity, executor,
                 object : BiometricPrompt.AuthenticationCallback() {
                     override fun onAuthenticationError(
@@ -174,7 +177,7 @@ class HomeViewModel @Inject constructor(
                     ) {
                         super.onAuthenticationError(errorCode, errString)
                         Toast.makeText(
-                            mainActivity,
+                            mainActivity.applicationContext,
                             mainActivity.getString(R.string.auth_error, errString),
                             Toast.LENGTH_LONG
                         ).show()
@@ -189,6 +192,7 @@ class HomeViewModel @Inject constructor(
                 .build()
             tasksEventChannel.send(TasksEvent.AuthenticatePrompt(biometricPrompt, promptInfo))
         }
+//        isBiometricOn(true)
         tasksEventChannel.send(TasksEvent.SetValue)
     }
 

@@ -342,13 +342,9 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         drawerLayout = null
     }
 
-    override fun onStop() {
-        super.onStop()
-        binding = null
-    }
-
     override fun onDestroyView() {
         super.onDestroyView()
+        binding = null
         gridLayoutManager = null
         gridSharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
     }

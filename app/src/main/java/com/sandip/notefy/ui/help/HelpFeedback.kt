@@ -58,14 +58,14 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback){
                     startActivity(
                         Intent(
                             Intent.ACTION_VIEW,
-                            Uri.parse("market://details?id=com.imangi.templerun")
+                            Uri.parse("market://details?id=com.sandip.notefy")
                         )
                     )
                 } catch (e: ActivityNotFoundException) {
                     startActivity(
                         Intent(
                             Intent.ACTION_VIEW,
-                            Uri.parse("https://play.google.com/store/apps/details?id=com.imangi.templerun")
+                            Uri.parse("https://play.google.com/store/apps/details?id=com.sandip.notefy")
                         )
                     )
                 }

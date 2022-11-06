@@ -97,37 +97,6 @@ class User : Fragment(R.layout.fragment_user) {
             textPhone.addTextChangedListener {
                 viewModel.phone = it.toString()
             }
-            emailWatcher = object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    if (textEmail.text.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(textEmail.text).matches()) {
-                        textEmail.error = "Invalid Email"
-                        save.isEnabled = false
-                    }
-                    else{
-                        save.isEnabled = true
-                    }
-                }
-                override fun afterTextChanged(s: Editable) {}
-            }
-            textEmail.addTextChangedListener(emailWatcher)
-
-            phoneWatcher = object : TextWatcher {
-                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                    if (textPhone.text.isNotEmpty() && !Patterns.PHONE.matcher(textPhone.text).matches()) {
-                        textPhone.error = "Invalid Phone"
-                        save.isEnabled = false
-                    }
-                    else{
-                        save.isEnabled = true
-                    }
-                }
-                override fun afterTextChanged(s: Editable) {}
-            }
-
-            textPhone.addTextChangedListener(phoneWatcher)
-
 
             viewModel.rowCount.observe(viewLifecycleOwner) {
                 rows = it.toInt()
@@ -255,10 +224,65 @@ class User : Fragment(R.layout.fragment_user) {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
+    override fun onStart() {
+        super.onStart()
+        binding?.apply {
+            emailWatcher = object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {
+                }
+
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                    if (textEmail.text.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(textEmail.text)
+                            .matches()
+                    ) {
+                        textEmail.error = "Invalid Email"
+                        save.isEnabled = false
+                    } else {
+                        save.isEnabled = true
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable) {}
+            }
+            textEmail.addTextChangedListener(emailWatcher)
+
+            phoneWatcher = object : TextWatcher {
+                override fun beforeTextChanged(
+                    s: CharSequence,
+                    start: Int,
+                    count: Int,
+                    after: Int
+                ) {}
+                override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                    if (textPhone.text.isNotEmpty() && !Patterns.PHONE.matcher(textPhone.text)
+                            .matches()
+                    ) {
+                        textPhone.error = "Invalid Phone"
+                        save.isEnabled = false
+                    } else {
+                        save.isEnabled = true
+                    }
+                }
+
+                override fun afterTextChanged(s: Editable) {}
+            }
+
+            textPhone.addTextChangedListener(phoneWatcher)
+        }
+    }
+    override fun onStop() {
+        super.onStop()
         binding?.textEmail?.removeTextChangedListener(emailWatcher)
         binding?.textPhone?.removeTextChangedListener(phoneWatcher)
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
         binding = null
     }
 }

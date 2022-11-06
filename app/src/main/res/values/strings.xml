@@ -87,7 +87,7 @@
     <string name="share_ask">If you find Notefy useful, share it with your friends</string>
     <string name="later">Later</string>
     <string name="share">Share</string>
-    <string name="message">Hi there &#128075;, I\'ve found a super cool Notes app that can make your life easier &#128515;\n\nYou can create Colorful notes with Text and Photos, Share notes, set Reminders, create a Todo list, and much more.\n\nExperience the app from the play store &#128071;\n\nplay.google.com/store/apps/details?id=com.imangi.templerun</string>
+    <string name="message">Hi there &#128075;, I\'ve found a super cool Notes app that can make your life easier &#128515;\n\nYou can create Colorful notes with Text and Photos, Share notes, set Reminders, create a Todo list, and much more.\n\nExperience the app from the play store &#128071;\n\nplay.google.com/store/apps/details?id=%s</string>
     <string name="share_from_notefy">Share from Notefy:</string>
     <string name="oops">Oops! Cannot be Share</string>
 

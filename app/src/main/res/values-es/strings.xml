@@ -60,7 +60,7 @@
     <string name="_1_012_345_6789">+1 012 345 6789</string>
     <string name="share_ask">Si encuentras Notefy útil, compártelo con tus amigos.</string>
     <string name="later">Luego</string>
-    <string name="message">Hola &#128075;. He encontrado una aplicación de Notas genial que puede hacerte la vida más fácil &#128515;\n\nPuede crear notas coloridas con texto y fotos, compartir notas, establecer recordatorios, crear una lista de tareas pendientes y mucho más.\n\nExperimente la aplicación desde Play Store &#128071;\n\nplay.google.com/store/apps/details?id=com.imangi.templerun</string>
+    <string name="message">Hola &#128075;. He encontrado una aplicación de Notas genial que puede hacerte la vida más fácil &#128515;\n\nPuede crear notas coloridas con texto y fotos, compartir notas, establecer recordatorios, crear una lista de tareas pendientes y mucho más.\n\nExperimente la aplicación desde Play Store &#128071;\n\nplay.google.com/store/apps/details?id=%s</string>
     <string name="share">Cuota</string>
     <string name="share_from_notefy">Compartir desde Notefy:</string>
     <string name="oops">¡Ups! No se puede compartir</string>

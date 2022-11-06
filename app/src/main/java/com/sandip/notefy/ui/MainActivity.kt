@@ -155,7 +155,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if(key.equals("darkMode"))  {
-            viewModel.setUiPreferences()
+            observeUiPreferences(applicationContext)
         }
         if(key.equals("biometric"))  {
             viewModel.observeBiometricPreferences(this)

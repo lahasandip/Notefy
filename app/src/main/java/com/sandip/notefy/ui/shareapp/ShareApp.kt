@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
+import com.sandip.notefy.BuildConfig
 import com.sandip.notefy.R
 
 class ShareApp : DialogFragment() {
@@ -21,7 +22,7 @@ class ShareApp : DialogFragment() {
                         action = Intent.ACTION_SEND
                         type = "text/plain"
                         putExtra(Intent.EXTRA_TITLE, getString(R.string.share_from_notefy))
-                        putExtra(Intent.EXTRA_TEXT, getString(R.string.message))
+                        putExtra(Intent.EXTRA_TEXT, getString(R.string.message,  BuildConfig.APPLICATION_ID))
                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION )
                     }
                     val shareIntent = Intent.createChooser(sendIntent, null)

@@ -60,7 +60,7 @@
     <string name="_1_012_345_6789">+1 012 345 6789</string>
     <string name="share_ask">Se trovi utile Notefy, Condividilo con i tuoi amici</string>
     <string name="later">Più tardi</string>
-    <string name="message">Salve &#128075;, ho trovato un\'app Notes fantastica che può semplificarti la vita &#128515;\n\nPuoi creare note colorate con testo e foto, condividere note, impostare promemoria, creare un elenco di cose da fare e molto altro.\n\nProva l\'app dal Play Store &#128071;\n\nplay.google.com/store/apps/details?id=com.imangi.templerun</string>
+    <string name="message">Salve &#128075;, ho trovato un\'app Notes fantastica che può semplificarti la vita &#128515;\n\nPuoi creare note colorate con testo e foto, condividere note, impostare promemoria, creare un elenco di cose da fare e molto altro.\n\nProva l\'app dal Play Store &#128071;\n\nplay.google.com/store/apps/details?id=%s</string>
     <string name="share">Condividi</string>
     <string name="share_from_notefy">Condividi da Notefy:</string>
     <string name="oops">Ops! Non può essere Condiviso</string>

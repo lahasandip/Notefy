@@ -131,38 +131,17 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         colorDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         colorDialog.window?.setGravity(Gravity.BOTTOM)
 
-        val frame1: FrameLayout? = colorDialog.findViewById(R.id.frame_no_gradient)
         val image1: ImageView? = colorDialog.findViewById(R.id.no_gradient)
         image1?.setImageResource(R.drawable.ic_baseline_done_24)
-
-        val frame2: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_1)
         val image2: ImageView? = colorDialog.findViewById(R.id.gradient_1)
-
-        val frame3: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_2)
         val image3: ImageView? = colorDialog.findViewById(R.id.gradient_2)
-
-        val frame4: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_3)
         val image4: ImageView? = colorDialog.findViewById(R.id.gradient_3)
-
-        val frame5: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_4)
         val image5: ImageView? = colorDialog.findViewById(R.id.gradient_4)
-
-        val frame6: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_5)
         val image6: ImageView? = colorDialog.findViewById(R.id.gradient_5)
-
-        val frame7: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_6)
         val image7: ImageView? = colorDialog.findViewById(R.id.gradient_6)
-
-        val frame8: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_7)
         val image8: ImageView? = colorDialog.findViewById(R.id.gradient_7)
-
-        val frame9: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_8)
         val image9: ImageView? = colorDialog.findViewById(R.id.gradient_8)
-
-        val frame10: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_9)
         val image10: ImageView? = colorDialog.findViewById(R.id.gradient_9)
-
-        val frame11: FrameLayout? = colorDialog.findViewById(R.id.frame_gradient_10)
         val image11: ImageView? = colorDialog.findViewById(R.id.gradient_10)
 
         val colorPicker: Button? = colorDialog.findViewById(R.id.color_picker)
@@ -182,49 +161,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         val descriptionTodo =   todoDialog.findViewById<EditText>(R.id.todoDesc)
         recyclerView = todoDialog.findViewById(R.id.todo_listview)!!
         val btn =   todoDialog.findViewById<Button>(R.id.done)
-
-        //Date & Time Picker
-        val calendar = Calendar.getInstance()
-        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-        val minute = calendar.get(Calendar.MINUTE)
-        datePicker =
-            MaterialDatePicker.Builder.datePicker()
-                .setTitleText(getString(R.string.select_date))
-                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                .build()
-
-        val isSystem24Hour = DateFormat.is24HourFormat(context)
-        val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
-
-        timePicker =
-            MaterialTimePicker.Builder()
-                .setTimeFormat(clockFormat)
-                .setHour(hour)
-                .setMinute(minute)
-                .setTitleText(getString(R.string.select_time))
-                .build()
-        datePicker?.addOnPositiveButtonClickListener {
-            val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-            utc.timeInMillis = it
-            val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-            date = format.format(utc.time)
-            datePicker = null
-            timePicker?.show(childFragmentManager, "Time_Piker")
-        }
-
-
-        timePicker?.addOnPositiveButtonClickListener {
-            viewModel.isStrike = false
-            "${timePicker?.hour}:${timePicker?.minute}".also {
-                viewModel.noteDateTime = "$date-$it"
-            }
-            binding?.apply {
-                newDateTime.paintFlags = 0
-                newDateTime.text = getDateFormat(viewModel.noteDateTime)
-                reminderParentLayout.visibility = View.VISIBLE
-            }
-            timePicker = null
-        }
 
         //Bind with View model and Onclick Listener
         binding?.apply {
@@ -401,7 +337,49 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                                 Manifest.permission.POST_NOTIFICATIONS,
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
-                            datePicker?.show(childFragmentManager, "Date_Picker")
+                            //Date & Time Picker
+                            val calendar = Calendar.getInstance()
+                            val hour = calendar.get(Calendar.HOUR_OF_DAY)
+                            val minute = calendar.get(Calendar.MINUTE)
+                            val isSystem24Hour = DateFormat.is24HourFormat(context)
+                            val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+
+                            datePicker = MaterialDatePicker.Builder.datePicker()
+                                .setTitleText(getString(R.string.select_date))
+                                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+                                .build()
+
+                            timePicker= MaterialTimePicker.Builder()
+                                .setTimeFormat(clockFormat)
+                                .setHour(hour)
+                                .setMinute(minute)
+                                .setTitleText(getString(R.string.select_time))
+                                .build()
+
+                            datePicker?.show(parentFragmentManager, "Date_Picker")
+
+                            datePicker?.addOnPositiveButtonClickListener {
+                                val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+                                utc.timeInMillis = it
+                                val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                                date = format.format(utc.time)
+                                datePicker = null
+                                timePicker?.show(parentFragmentManager, "Time_Piker")
+                            }
+
+
+                            timePicker?.addOnPositiveButtonClickListener {
+                                viewModel.isStrike = false
+                                "${timePicker?.hour}:${timePicker?.minute}".also {
+                                    viewModel.noteDateTime = "$date-$it"
+                                }
+                                binding?.apply {
+                                    newDateTime.paintFlags = 0
+                                    newDateTime.text = getDateFormat(viewModel.noteDateTime)
+                                    reminderParentLayout.visibility = View.VISIBLE
+                                }
+                                timePicker = null
+                            }
                         } else {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -435,7 +413,47 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                         Manifest.permission.POST_NOTIFICATIONS,
                     ) == PackageManager.PERMISSION_GRANTED
                 ) {
-                    datePicker?.show(childFragmentManager, "Date_Picker")
+                    val items1: Array<String> = viewModel.noteDateTime.split("-".toRegex()).toTypedArray()
+                    val items2: Array<String> = items1[3].split(":".toRegex()).toTypedArray()
+                    val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+                    calendar.set(items1[0].toInt(), items1[1].toInt() - 1, items1[2].toInt())
+                    val isSystem24Hour = DateFormat.is24HourFormat(context)
+                    val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+                    datePicker = MaterialDatePicker.Builder.datePicker()
+                        .setTitleText(getString(R.string.select_date))
+                        .setSelection(calendar.timeInMillis)
+                        .build()
+
+                    timePicker= MaterialTimePicker.Builder()
+                        .setTimeFormat(clockFormat)
+                        .setHour(items2[0].toInt())
+                        .setMinute(items2[1].toInt())
+                        .setTitleText(getString(R.string.select_time))
+                        .build()
+
+                    datePicker?.show(parentFragmentManager, "Date_Picker")
+
+                    datePicker?.addOnPositiveButtonClickListener {
+                        val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+                        utc.timeInMillis = it
+                        val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+                        date = format.format(utc.time)
+                        datePicker = null
+                        timePicker?.show(parentFragmentManager, "Time_Piker")
+                    }
+
+                    timePicker?.addOnPositiveButtonClickListener {
+                        viewModel.isStrike = false
+                        "${timePicker?.hour}:${timePicker?.minute}".also {
+                            viewModel.noteDateTime = "$date-$it"
+                        }
+                        binding?.apply {
+                            newDateTime.paintFlags = 0
+                            newDateTime.text = getDateFormat(viewModel.noteDateTime)
+                            reminderParentLayout.visibility = View.VISIBLE
+                        }
+                        timePicker = null
+                    }
                 } else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -581,7 +599,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
             viewColor = fragmentNewUpdateNote.background as ColorDrawable
 
-            frame1?.setOnClickListener {
+            colorDialog.findViewById<FrameLayout>(R.id.frame_no_gradient)?.setOnClickListener {
                 image1?.setImageResource(R.drawable.ic_baseline_done_24)
                 image2?.setImageResource(0)
                 image3?.setImageResource(0)
@@ -597,7 +615,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteColor = viewColor.color
             }
 
-            frame2?.setOnClickListener {
+            colorDialog.findViewById<FrameLayout>(R.id.frame_gradient_1)?.setOnClickListener {
                 image2?.setImageResource(R.drawable.ic_baseline_done_24)
                 image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                 image3?.setImageResource(0)
@@ -618,7 +636,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteColor = viewColor.color
             }
 
-            frame3?.setOnClickListener {
+            colorDialog.findViewById<FrameLayout>(R.id.frame_gradient_2)?.setOnClickListener {
                 image3?.setImageResource(R.drawable.ic_baseline_done_24)
                 image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                 image2?.setImageResource(0)
@@ -634,7 +652,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteColor = viewColor.color
             }
 
-            frame4?.setOnClickListener {
+            colorDialog.findViewById<FrameLayout>(R.id.frame_gradient_3)?.setOnClickListener {
                 image4?.setImageResource(R.drawable.ic_baseline_done_24)
                 image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                 image2?.setImageResource(0)
@@ -655,7 +673,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteColor = viewColor.color
             }
 
-            frame5?.setOnClickListener {
+            colorDialog.findViewById<FrameLayout>(R.id.frame_gradient_4)?.setOnClickListener {
                 image5?.setImageResource(R.drawable.ic_baseline_done_24)
                 image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                 image2?.setImageResource(0)
@@ -675,7 +693,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteColor = viewColor.color
             }
 
-            frame6?.setOnClickListener {
+            colorDialog.findViewById<FrameLayout>(R.id.frame_gradient_5)?.setOnClickListener {
                 image6?.setImageResource(R.drawable.ic_baseline_done_24)
                 image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                 image2?.setImageResource(0)
@@ -696,7 +714,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteColor = viewColor.color
             }
 
-            frame7?.setOnClickListener {
+            colorDialog.findViewById<FrameLayout>(R.id.frame_gradient_6)?.setOnClickListener {
                 image7?.setImageResource(R.drawable.ic_baseline_done_24)
                 image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                 image2?.setImageResource(0)
@@ -717,7 +735,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteColor = viewColor.color
             }
 
-            frame8?.setOnClickListener {
+            colorDialog.findViewById<FrameLayout>(R.id.frame_gradient_7)?.setOnClickListener {
                 image8?.setImageResource(R.drawable.ic_baseline_done_24)
                 image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                 image2?.setImageResource(0)
@@ -738,7 +756,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteColor = viewColor.color
             }
 
-            frame9?.setOnClickListener {
+            colorDialog.findViewById<FrameLayout>(R.id.frame_gradient_8)?.setOnClickListener {
                 image9?.setImageResource(R.drawable.ic_baseline_done_24)
                 image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                 image2?.setImageResource(0)
@@ -759,7 +777,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteColor = viewColor.color
             }
 
-            frame10?.setOnClickListener {
+            colorDialog.findViewById<FrameLayout>(R.id.frame_gradient_9)?.setOnClickListener {
                 image10?.setImageResource(R.drawable.ic_baseline_done_24)
                 image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                 image2?.setImageResource(0)
@@ -780,7 +798,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.noteColor = viewColor.color
             }
 
-            frame11?.setOnClickListener {
+            colorDialog.findViewById<FrameLayout>(R.id.frame_gradient_10)?.setOnClickListener {
                 image11?.setImageResource(R.drawable.ic_baseline_done_24)
                 image1?.setImageResource(R.drawable.ic_outline_format_color_reset_24)
                 image2?.setImageResource(0)
@@ -945,10 +963,54 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         }
     }
 
+//    override fun onStart() {
+//        super.onStart()
+//        //Date & Time Picker
+//        val calendar = Calendar.getInstance()
+//        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+//        val minute = calendar.get(Calendar.MINUTE)
+//        datePicker =
+//            MaterialDatePicker.Builder.datePicker()
+//                .setTitleText(getString(R.string.select_date))
+//                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+//                .build()
+//
+//        val isSystem24Hour = DateFormat.is24HourFormat(context)
+//        val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+//
+//        timePicker =
+//            MaterialTimePicker.Builder()
+//                .setTimeFormat(clockFormat)
+//                .setHour(hour)
+//                .setMinute(minute)
+//                .setTitleText(getString(R.string.select_time))
+//                .build()
+//        datePicker?.addOnPositiveButtonClickListener {
+//            val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+//            utc.timeInMillis = it
+//            val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+//            date = format.format(utc.time)
+//            datePicker = null
+//            timePicker?.show(childFragmentManager, "Time_Piker")
+//        }
+//
+//
+//        timePicker?.addOnPositiveButtonClickListener {
+//            viewModel.isStrike = false
+//            "${timePicker?.hour}:${timePicker?.minute}".also {
+//                viewModel.noteDateTime = "$date-$it"
+//            }
+//            binding?.apply {
+//                newDateTime.paintFlags = 0
+//                newDateTime.text = getDateFormat(viewModel.noteDateTime)
+//                reminderParentLayout.visibility = View.VISIBLE
+//            }
+//            timePicker = null
+//        }
+//    }
+
     override fun onDestroyView() {
         super.onDestroyView()
-        datePicker = null
-        timePicker = null
         binding = null
     }
 }
