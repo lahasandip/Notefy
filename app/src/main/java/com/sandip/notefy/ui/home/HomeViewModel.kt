@@ -51,6 +51,7 @@ class HomeViewModel @Inject constructor(
     private lateinit var executor: Executor
     private lateinit var biometricPrompt: BiometricPrompt
     private lateinit var promptInfo: BiometricPrompt.PromptInfo
+    val gridSharedPreferences : SharedPreferences =  app.getSharedPreferences("GRID", Context.MODE_PRIVATE)
     val biometricSharedPreferences : SharedPreferences =  app.getSharedPreferences("BIOMETRIC", Context.MODE_PRIVATE)
     val uiSharedPreferences : SharedPreferences = app.getSharedPreferences("UI",Context.MODE_PRIVATE)
 //    val isBiometric : SharedPreferences = app.getSharedPreferences("IS_BIO",Context.MODE_PRIVATE)
@@ -110,6 +111,12 @@ class HomeViewModel @Inject constructor(
 
     private fun showTaskSavedConfirmationMessage(text: String) = viewModelScope.launch {
         tasksEventChannel.send(TasksEvent.ShowTaskSavedConfirmationMessage(text))
+    }
+
+    fun onGridViewToggle(isChecked: Boolean) = viewModelScope.launch {
+        val editor = gridSharedPreferences.edit()
+        editor.putBoolean("grid", isChecked)
+        editor.apply()
     }
 
     fun onScreenLockToggle(isChecked: Boolean) = viewModelScope.launch {

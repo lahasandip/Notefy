@@ -52,7 +52,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="90dp"
                     android:layout_marginTop="82dp"
-                    android:src="@drawable/ic_photo_camera_black_48dp"
+                    android:src="@drawable/ic_baseline_photo_camera_24"
                     app:fabCustomSize="47dp"
                     app:layout_constraintStart_toStartOf="@+id/circleImageView"
                     app:layout_constraintTop_toTopOf="@+id/circleImageView"

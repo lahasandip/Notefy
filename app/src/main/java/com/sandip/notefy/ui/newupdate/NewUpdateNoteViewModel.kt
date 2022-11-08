@@ -6,13 +6,10 @@ import android.app.NotificationManager
 import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
-import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
 import android.net.Uri
 import android.os.Build
 import android.widget.ImageView
-import android.widget.Toast
-import androidx.core.content.FileProvider
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -22,12 +19,11 @@ import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.ui.*
 import com.sandip.notefy.util.Converters.Companion.getDateFormat
+import com.sandip.notefy.util.Converters.Companion.getImageUri
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
-import java.io.File
-import java.io.FileOutputStream
 import java.util.*
 import javax.inject.Inject
 import kotlin.collections.ArrayList
@@ -187,7 +183,12 @@ class NewUpdateNoteViewModel @Inject constructor(
                     action = Intent.ACTION_SEND
                     if (image.drawable != null) {
                         val bitmap = (image.drawable as BitmapDrawable).bitmap
-                        val uri: Uri = getUri(context, bitmap)
+                        val uri = getImageUri(
+                            context,
+                            context.externalCacheDir,
+                            "shared_image.png",
+                            bitmap
+                        )
                         type = "image/*"
                         putExtra(Intent.EXTRA_STREAM, uri)
                     } else {
@@ -215,23 +216,23 @@ class NewUpdateNoteViewModel @Inject constructor(
         addEditTaskEventChannel.send((AddEditTaskEvent.StartLocationIntent(mapIntent)))
     }
 
-    private fun getUri(context: Context, bitmap: Bitmap?): Uri {
-        val imageFolder= File(context.externalCacheDir, "images")
-
-        var uri: Uri? = null
-        try {
-            imageFolder.mkdirs()
-            val file = File(imageFolder, "shared_image.png")
-            val outputStream = FileOutputStream(file)
-            bitmap?.compress(Bitmap.CompressFormat.PNG, 90, outputStream)
-            outputStream.flush()
-            outputStream.close()
-            uri = context.let { FileProvider.getUriForFile(it, "com.sandip.notefy.provider", file) }
-        } catch (e: Exception) {
-            Toast.makeText(context, "" + e.message, Toast.LENGTH_LONG).show()
-        }
-        return uri!!
-    }
+//    private fun getUri(context: Context, bitmap: Bitmap?): Uri {
+//        val imageFolder= File(context.externalCacheDir, "images")
+//
+//        var uri: Uri? = null
+//        try {
+//            imageFolder.mkdirs()
+//            val file = File(imageFolder, "shared_image.png")
+//            val outputStream = FileOutputStream(file)
+//            bitmap?.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+//            outputStream.flush()
+//            outputStream.close()
+//            uri = context.let { FileProvider.getUriForFile(it, "com.sandip.notefy.provider", file) }
+//        } catch (e: Exception) {
+//            Toast.makeText(context, "" + e.message, Toast.LENGTH_LONG).show()
+//        }
+//        return uri!!
+//    }
 
     fun onDeleteClick(context: Context) {
         if (noteTitle.isBlank()) {

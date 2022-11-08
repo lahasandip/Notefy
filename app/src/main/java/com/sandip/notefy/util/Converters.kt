@@ -1,9 +1,16 @@
 package com.sandip.notefy.util
 
+import android.content.Context
+import android.graphics.Bitmap
+import android.net.Uri
+import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.room.TypeConverter
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.sandip.notefy.data.model.Todo
+import java.io.*
+import java.nio.channels.FileChannel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -18,7 +25,37 @@ class Converters {
             simpleDateFormat = SimpleDateFormat("MMM d, ''yy, h:m", Locale.getDefault())
             return newDate?.let { it1 -> simpleDateFormat.format(it1) }.toString()
         }
+        fun getImageUri(context: Context?, directory: File?, fileName: String, inImage: Bitmap): Uri? {
+//            val file = File(context?.filesDir, System.currentTimeMillis().toString())
+//            val fout: FileOutputStream
+//            try {
+//                fout = FileOutputStream(file)
+//                inImage.compress(Bitmap.CompressFormat.PNG, 100, fout)
+//                fout.flush()
+//                fout.close()
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//            return Uri.fromFile(file)
+            val imageFolder= File(directory, "images")
+
+            var uri: Uri? = null
+            try {
+                imageFolder.mkdirs()
+                val file = File(imageFolder, fileName)
+                val outputStream = FileOutputStream(file)
+                inImage.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+                outputStream.flush()
+                outputStream.close()
+                uri =
+                    context?.let { FileProvider.getUriForFile(it, "com.sandip.notefy.provider", file) }
+            } catch (e: Exception) {
+                Toast.makeText(context, "" + e.message, Toast.LENGTH_LONG).show()
+            }
+            return uri!!
+        }
     }
+
     @TypeConverter
     fun stringToTODOList(data: String?): List<Todo>? {
         if (data == null) {

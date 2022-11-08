@@ -1,7 +1,6 @@
 package com.sandip.notefy.ui.home
 
 import android.app.Dialog
-import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
@@ -46,10 +45,8 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     private lateinit var oldest: RadioButton
     private lateinit var radioGroup: RadioGroup
     private lateinit var dialog: Dialog
-    private var gridSharedPreferences: SharedPreferences? = null
     private var homeActionMode : ActionMode ?  = null
     private lateinit var drawerListener : DrawerLayout.DrawerListener
-
 
     companion object{
         lateinit var noteList: List<NoteEntity>
@@ -59,11 +56,9 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
         Log.d("TAG","onCreate home")
-
         initSortByDialog()
         val noteAdapter = NoteAdapter(requireActivity(),this)
-        gridSharedPreferences = context?.getSharedPreferences("grid", Context.MODE_PRIVATE)
-
+        viewModel.gridSharedPreferences.registerOnSharedPreferenceChangeListener(this)
         val prof = view.findViewById<ImageView>(R.id.profile_photo)
 
         gridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
@@ -74,9 +69,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             }
 
             gridView.setOnCheckedChangeListener { _, isChecked ->
-                val editor = gridSharedPreferences?.edit()
-                editor?.putBoolean("grid", isChecked)
-                editor?.apply()
+                viewModel.onGridViewToggle(isChecked)
             }
 
             viewModel.note.observe(viewLifecycleOwner) {
@@ -87,7 +80,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
             viewModel.displayUser.observe(viewLifecycleOwner) {
                 if (it != null && !(it.image.isNullOrEmpty())) {
                     val imageUri = Uri.parse(it.image)
-                    context?.let { it1 -> Glide.with(it1).load(imageUri).into(prof) }
+                    Glide.with(requireContext()).load(imageUri).into(prof)
                 }
             }
 
@@ -230,43 +223,34 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                 }.exhaustive
             }
         }
-//        drawerListener =
-//       object : DrawerLayout.DrawerListener {
-//            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
-//            override fun onDrawerOpened(drawerView: View) {}
-//            override fun onDrawerClosed(drawerView: View) {}
-//            override fun onDrawerStateChanged(newState: Int) {
-//                if(homeActionMode != null){
-//                    homeActionMode?.finish()
-//                    homeActionMode = null
-//                }
-//            }
-//        }
-//        drawerLayout?.addDrawerListener(drawerListener)
     }
 
     private fun observeGridLayout(): StaggeredGridLayoutManager? {
-        gridSharedPreferences?.registerOnSharedPreferenceChangeListener(this)
         binding?.apply {
             gridLayoutManager?.apply {
                 gridView.apply {
-                    when (gridSharedPreferences?.getBoolean("grid", false)) {
-                        true -> if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                            spanCount = 1
-                            isChecked = true
-                        } else {
-                            spanCount = 1
-                            isChecked = true
+                    when (viewModel.gridSharedPreferences.getBoolean("grid", false)) {
+                        true -> when (context?.resources?.configuration?.orientation) {
+                            Configuration.ORIENTATION_PORTRAIT -> {
+                                spanCount = 1
+                                isChecked = true
+                            }
+                            Configuration.ORIENTATION_LANDSCAPE -> {
+                                spanCount = 1
+                                isChecked = true
+                            }
+                            else -> { gridLayoutManager }
                         }
-                        false -> if (context?.resources?.configuration?.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                            spanCount = 2
-                            isChecked = false
-                        } else {
-                            spanCount = 4
-                            isChecked = false
-                        }
-                        else -> {
-                            gridLayoutManager
+                        false -> when (context?.resources?.configuration?.orientation) {
+                            Configuration.ORIENTATION_PORTRAIT -> {
+                                spanCount = 2
+                                isChecked = false
+                            }
+                            Configuration.ORIENTATION_LANDSCAPE -> {
+                                spanCount = 4
+                                isChecked = false
+                            }
+                            else -> { gridLayoutManager }
                         }
                     }
                 }
@@ -346,12 +330,16 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
         super.onDestroyView()
         binding = null
         gridLayoutManager = null
-        gridSharedPreferences?.unregisterOnSharedPreferenceChangeListener(this)
+        viewModel.gridSharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if(key.equals("grid")){
             observeGridLayout()
         }
+    }
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        observeGridLayout()
     }
 }

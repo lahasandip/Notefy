@@ -1,19 +1,21 @@
 package com.sandip.notefy.ui.profile
 
-import android.app.Activity
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Patterns
 import android.view.*
-import android.widget.*
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
+import android.widget.ImageView
+import android.widget.LinearLayout
+import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -22,14 +24,16 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
-import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.FragmentUserBinding
+import com.sandip.notefy.util.Converters.Companion.getImageUri
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 
+
+@Suppress("DEPRECATION")
 @AndroidEntryPoint
 class User : Fragment(R.layout.fragment_user) {
 
@@ -37,17 +41,19 @@ class User : Fragment(R.layout.fragment_user) {
     private var binding: FragmentUserBinding? = null
     private var emailWatcher: TextWatcher? = null
     private var phoneWatcher: TextWatcher? = null
-    private var builder : ImagePicker.Builder? = null
     private var rows : Int = 0
     private var note : Int = 0
     private var reminder : Int = 0
     private var todo : Int = 0
+    private val cameraCode = 0
+    private val galleryCode = 1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         binding = FragmentUserBinding.bind(view)
         val imageURI = Uri.parse(
-            "android.resource://" + requireContext().packageName
+            "android.resource://" + context?.packageName
                     + "/" + R.drawable.img_1
         )
 
@@ -66,27 +72,13 @@ class User : Fragment(R.layout.fragment_user) {
         dialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
         dialog.window?.setGravity(Gravity.TOP)
 
-        val startForProfileImageResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                val resultCode = result.resultCode
-                val data = result.data
-
-                when (resultCode) {
-                    Activity.RESULT_OK -> {
-                        val fileUri = data?.data!!
-                        Glide.with(requireContext()).load(fileUri).into(binding!!.circleImageView)
-                        viewModel.image = fileUri.toString()
-                    }
-                }
-            }
-
         binding?.apply {
             textName.setText(viewModel.name)
             textEmail.setText(viewModel.email)
             textPhone.setText(viewModel.phone)
-            context?.let { it1 ->
-                Glide.with(it1).load(viewModel.image).into(circleImageView)
-            }
+
+            circleImageView.setImageURI(Uri.parse(viewModel.image))
+
 
             textName.addTextChangedListener {
                 viewModel.name = it.toString()
@@ -118,16 +110,14 @@ class User : Fragment(R.layout.fragment_user) {
 
             circleImageView.setOnClickListener {
                 userName.text = binding?.textName?.text
-                context?.let { Glide.with(it).load(circleImageView.drawable).into(profilePic) }
+                Glide.with(requireContext()).load(circleImageView.drawable).into(profilePic)
                 dialog.show()
             }
 
             deletePhoto.setOnClickListener {
-                context?.let { delete ->
-                    Glide.with(delete).load(R.drawable.img_1).into(profilePic)
-                    Glide.with(delete).load(R.drawable.img_1).into(circleImageView)
-                    viewModel.image = imageURI.toString()
-                }
+                Glide.with(requireContext()).load(R.drawable.img_1).into(profilePic)
+                Glide.with(requireContext()).load(R.drawable.img_1).into(circleImageView)
+                viewModel.image = imageURI.toString()
             }
             back.setOnClickListener {
                 dialog.dismiss()
@@ -145,7 +135,6 @@ class User : Fragment(R.layout.fragment_user) {
                 }
             }
             camera.setOnClickListener {
-                builder = ImagePicker.with(requireActivity())
                 val imageDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
                 imageDialog.apply {
                     setContentView(R.layout.add_image_dialog)
@@ -153,26 +142,22 @@ class User : Fragment(R.layout.fragment_user) {
                     window?.attributes?.windowAnimations = R.style.DialogAnimation
                     window?.setGravity(Gravity.BOTTOM)
                     val camera: LinearLayout? = findViewById(R.id.take_photo)
-                    builder?.apply {
-                        crop()
-                        compress(1024)
-                        maxResultSize(1080, 1080)
-                        camera?.setOnClickListener {
-                            dismiss()
-                            cameraOnly()
-                            createIntent { Intent: Intent? ->
-                                startForProfileImageResult.launch(Intent)
-                            }
-                        }
+                    camera?.setOnClickListener {
+                        dismiss()
+                        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        startActivityForResult(intent, cameraCode)
+                    }
 
-                        val image: LinearLayout? = findViewById(R.id.add_photo)
-                        image?.setOnClickListener {
-                            dismiss()
-                            galleryOnly()
-                            createIntent { Intent: Intent? ->
-                                startForProfileImageResult.launch(Intent)
-                            }
-                        }
+                    val image: LinearLayout? = findViewById(R.id.add_photo)
+                    image?.setOnClickListener {
+                        dismiss()
+                        val i = Intent()
+                        i.type = "image/*"
+                        i.action = Intent.ACTION_PICK
+                        startActivityForResult(
+                            Intent.createChooser(i, null),
+                            galleryCode
+                        )
                     }
                 }
             }
@@ -198,9 +183,7 @@ class User : Fragment(R.layout.fragment_user) {
                         textName.setText(name)
                         textEmail.setText(email)
                         textPhone.setText(phone)
-                        context?.let { it1 ->
-                            Glide.with(it1).load(image).into(circleImageView)
-                        }
+                        Glide.with(requireContext()).load(image).into(circleImageView)
                         flag = true
                     }
                 }
@@ -224,6 +207,27 @@ class User : Fragment(R.layout.fragment_user) {
         }
     }
 
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if ((requestCode == cameraCode) && (resultCode == AppCompatActivity.RESULT_OK)) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            Glide.with(this).load(imageBitmap).into(binding!!.circleImageView)
+            viewModel.image = getImageUri(
+                context,
+                context?.filesDir,
+                "${System.currentTimeMillis()}.jpeg",
+                imageBitmap
+            ).toString()
+        } else if (requestCode == galleryCode && resultCode == AppCompatActivity.RESULT_OK) {
+            val selectedImageUri: Uri? = data?.data
+            if (null != selectedImageUri) {
+                Glide.with(this).load(selectedImageUri).into(binding!!.circleImageView)
+                viewModel.image = selectedImageUri.toString()
+            }
+        }
+    }
+
     override fun onStart() {
         super.onStart()
         binding?.apply {
@@ -233,8 +237,7 @@ class User : Fragment(R.layout.fragment_user) {
                     start: Int,
                     count: Int,
                     after: Int
-                ) {
-                }
+                ) {}
 
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                     if (textEmail.text.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(textEmail.text)
@@ -268,13 +271,13 @@ class User : Fragment(R.layout.fragment_user) {
                         save.isEnabled = true
                     }
                 }
-
                 override fun afterTextChanged(s: Editable) {}
             }
-
             textPhone.addTextChangedListener(phoneWatcher)
         }
     }
+
+
     override fun onStop() {
         super.onStop()
         binding?.textEmail?.removeTextChangedListener(emailWatcher)

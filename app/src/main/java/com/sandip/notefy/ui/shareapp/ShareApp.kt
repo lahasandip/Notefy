@@ -29,7 +29,7 @@ class ShareApp : DialogFragment() {
                     startActivity(shareIntent)
                 }
                 catch (e: Exception) {
-                    Toast.makeText(context, getString(R.string.oops), Toast.LENGTH_LONG).show()
+                    Toast.makeText(activity?.applicationContext, getString(R.string.oops), Toast.LENGTH_LONG).show()
                 }
             }
             .create()

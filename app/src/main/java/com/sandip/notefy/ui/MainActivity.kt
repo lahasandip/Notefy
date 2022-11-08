@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
@@ -55,7 +54,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
-        Log.d("TAG","onCreate main")
         viewModel.uiSharedPreferences.registerOnSharedPreferenceChangeListener(this)
         viewModel.biometricSharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
@@ -89,8 +87,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                     }
                 }
                 if(!(it.image.isNullOrEmpty())){
-                    val imageUri = Uri.parse(it.image)
-                    this.let { it1 -> Glide.with(it1).load(imageUri).into(userPhoto) }
+                   Glide.with(this).load(Uri.parse(it.image)).into(userPhoto)
                 }
             }}
 

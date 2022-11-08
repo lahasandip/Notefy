@@ -5,11 +5,13 @@ import android.app.*
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.graphics.Paint
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.text.format.DateFormat
@@ -18,10 +20,10 @@ import android.view.Gravity
 import android.view.View
 import android.view.WindowManager
 import android.widget.*
-import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
@@ -33,7 +35,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.github.dhaval2404.imagepicker.ImagePicker
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.datepicker.MaterialDatePicker
 import com.google.android.material.snackbar.Snackbar
@@ -44,6 +45,7 @@ import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.FragmentNewUpdateNoteBinding
 import com.sandip.notefy.ui.newupdate.NewUpdateNoteViewModel.*
 import com.sandip.notefy.util.Converters.Companion.getDateFormat
+import com.sandip.notefy.util.Converters.Companion.getImageUri
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
 import vadiole.colorpicker.ColorModel
@@ -52,7 +54,7 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-@Suppress("IMPLICIT_CAST_TO_ANY")
+@Suppress("IMPLICIT_CAST_TO_ANY", "DEPRECATION")
 @AndroidEntryPoint
 class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
@@ -66,6 +68,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private var todoList : ArrayList<Todo>? = arrayListOf()
     private val requestCode = System.currentTimeMillis().toInt()
     private lateinit var recyclerView: RecyclerView
+    private val cameraCode = 0
+    private val galleryCode = 1
     companion object {
 
         fun cancelAlarm(context: Context?, requestCode: Int?) {
@@ -110,19 +114,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 }
             }
         }
-
-        val startForProfileImageResult =
-            registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
-                val resultCode = result.resultCode
-                val data = result.data
-                if (resultCode == Activity.RESULT_OK) {
-                    val fileUri = data?.data!!
-                    binding?.imageLayout?.visibility = View.VISIBLE
-                    context?.let { Glide.with(it).load(fileUri).into(binding!!.showImage) }
-                    viewModel.noteImage = fileUri.toString()
-                }
-            }
-
 //----------------------------------------------------------------------------------------------------------------------------------
 //Color Dialog Initialization
 
@@ -254,7 +245,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
             if (viewModel.noteImage != null) {
                 val imageUri = Uri.parse(viewModel.noteImage)
-                context?.let { Glide.with(it).load(imageUri).into(showImage) }
+                Glide.with(requireContext()).load(imageUri).into(showImage)
                 imageLayout.visibility = View.VISIBLE
             }
 
@@ -476,11 +467,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             addImage.setOnClickListener {
-                val imagePicker: ImagePicker.Builder? = parentFragment?.let { it1 ->
-                    ImagePicker.with(
-                        it1
-                    )
-                }
 
                 val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
                 dialog.apply {
@@ -489,28 +475,26 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     window?.attributes?.windowAnimations = R.style.DialogAnimation
                     window?.setGravity(Gravity.BOTTOM)
                     val camera: LinearLayout? = findViewById(R.id.take_photo)
-                    imagePicker?.apply {
-                        crop()
-                        compress(1024)
-                        maxResultSize(1080, 1080)
-                        camera?.setOnClickListener {
-                            dismiss()
-                            cameraOnly()
-                            createIntent { Intent: Intent? ->
-                                startForProfileImageResult.launch(Intent)
-                            }
-                        }
-                        val image: LinearLayout? = findViewById(R.id.add_photo)
-                        image?.setOnClickListener {
-                            dismiss()
-                            galleryOnly()
-                            createIntent { Intent: Intent? ->
-                                startForProfileImageResult.launch(Intent)
-                            }
-                        }
+
+                    camera?.setOnClickListener {
+                        dismiss()
+                        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+                        startActivityForResult(intent, cameraCode)
+                    }
+                    val image: LinearLayout? = findViewById(R.id.add_photo)
+                    image?.setOnClickListener {
+                        dismiss()
+                        val i = Intent()
+                        i.type = "image/*"
+                        i.action = Intent.ACTION_PICK
+                        startActivityForResult(
+                            Intent.createChooser(i, null),
+                            galleryCode
+                        )
                     }
                 }
             }
+
             placeInput.setOnClickListener {
                 viewModel.onLocationClick(placeInput.text)
             }
@@ -528,7 +512,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             share.setOnClickListener {
-                context?.let { it1 -> viewModel.onShareClick(it1, showImage) }
+                activity?.let { it1 -> viewModel.onShareClick(it1.applicationContext, showImage) }
             }
 
             addTask.setOnClickListener {
@@ -593,7 +577,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 urlParentLayout.visibility = View.GONE
             }
             removeImage.setOnClickListener {
-                context?.let { Glide.with(it).clear(showImage) }
+                Glide.with(requireContext()).clear(showImage)
                 viewModel.noteImage = null
                 imageLayout.visibility = View.GONE
             }
@@ -907,7 +891,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                         binding?.urlParentLayout?.visibility = View.VISIBLE
                     } else {
                         Toast.makeText(
-                            requireContext(),
+                            activity?.applicationContext,
                             getString(R.string.please_enter_a_link),
                             Toast.LENGTH_LONG
                         ).show()
@@ -941,7 +925,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                         binding?.locationParentLayout?.visibility = View.VISIBLE
                     } else {
                         Toast.makeText(
-                            requireContext(),
+                            activity?.applicationContext,
                             getString(R.string.please_enter_a_place),
                             Toast.LENGTH_LONG
                         ).show()
@@ -963,51 +947,23 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         }
     }
 
-//    override fun onStart() {
-//        super.onStart()
-//        //Date & Time Picker
-//        val calendar = Calendar.getInstance()
-//        val hour = calendar.get(Calendar.HOUR_OF_DAY)
-//        val minute = calendar.get(Calendar.MINUTE)
-//        datePicker =
-//            MaterialDatePicker.Builder.datePicker()
-//                .setTitleText(getString(R.string.select_date))
-//                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-//                .build()
-//
-//        val isSystem24Hour = DateFormat.is24HourFormat(context)
-//        val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
-//
-//        timePicker =
-//            MaterialTimePicker.Builder()
-//                .setTimeFormat(clockFormat)
-//                .setHour(hour)
-//                .setMinute(minute)
-//                .setTitleText(getString(R.string.select_time))
-//                .build()
-//        datePicker?.addOnPositiveButtonClickListener {
-//            val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-//            utc.timeInMillis = it
-//            val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-//            date = format.format(utc.time)
-//            datePicker = null
-//            timePicker?.show(childFragmentManager, "Time_Piker")
-//        }
-//
-//
-//        timePicker?.addOnPositiveButtonClickListener {
-//            viewModel.isStrike = false
-//            "${timePicker?.hour}:${timePicker?.minute}".also {
-//                viewModel.noteDateTime = "$date-$it"
-//            }
-//            binding?.apply {
-//                newDateTime.paintFlags = 0
-//                newDateTime.text = getDateFormat(viewModel.noteDateTime)
-//                reminderParentLayout.visibility = View.VISIBLE
-//            }
-//            timePicker = null
-//        }
-//    }
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == cameraCode && resultCode == AppCompatActivity.RESULT_OK) {
+            val imageBitmap = data?.extras?.get("data") as Bitmap
+            binding?.imageLayout?.visibility = View.VISIBLE
+            Glide.with(requireContext()).load(imageBitmap).into(binding!!.showImage)
+            viewModel.noteImage = getImageUri(context, context?.filesDir, "${System.currentTimeMillis()}.jpeg", imageBitmap).toString()
+        } else if (requestCode == galleryCode && resultCode == AppCompatActivity.RESULT_OK) {
+            val selectedImageUri: Uri? = data?.data
+            if (null != selectedImageUri) {
+                binding?.imageLayout?.visibility = View.VISIBLE
+               Glide.with(requireContext()).load(selectedImageUri).into(binding!!.showImage)
+                viewModel.noteImage = selectedImageUri.toString()
+            }
+        }
+    }
 
     override fun onDestroyView() {
         super.onDestroyView()
