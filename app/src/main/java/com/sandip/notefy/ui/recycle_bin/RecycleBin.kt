@@ -64,9 +64,7 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val task = recycleAdapter.currentList[viewHolder.adapterPosition]
                     viewModel.onTaskSwiped(task)
-                    if (recycleActionMode != null) {
-                        recycleActionMode!!.finish()
-                    }
+                    recycleActionMode?.finish()
                 }
             }).attachToRecyclerView(trashRecyclerView)
 

@@ -87,6 +87,7 @@
                 android:layout_marginTop="4dp"
                 android:elevation="5dp"
                 app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/note_body">
 
                 <ImageView
@@ -113,8 +114,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="4dp"
+                android:layout_marginTop="2dp"
                 android:elevation="5dp"
                 app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/layoutDate">
 
                 <ImageView
@@ -147,6 +150,7 @@
                 android:layout_marginStart="5dp"
                 android:elevation="5dp"
                 app:layout_constraintStart_toStartOf="parent"
+                android:visibility="gone"
                 app:layout_constraintTop_toBottomOf="@+id/layoutLocation">
 
                 <ImageView

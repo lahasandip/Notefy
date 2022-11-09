@@ -6,6 +6,7 @@ import android.graphics.Bitmap
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.text.Editable
@@ -28,6 +29,8 @@ import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.snackbar.Snackbar
 import com.sandip.notefy.R
 import com.sandip.notefy.databinding.FragmentUserBinding
+import com.sandip.notefy.ui.CAMERA
+import com.sandip.notefy.ui.GALLERY
 import com.sandip.notefy.util.Converters.Companion.getImageUri
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
@@ -45,8 +48,6 @@ class User : Fragment(R.layout.fragment_user) {
     private var note : Int = 0
     private var reminder : Int = 0
     private var todo : Int = 0
-    private val cameraCode = 0
-    private val galleryCode = 1
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -54,7 +55,7 @@ class User : Fragment(R.layout.fragment_user) {
         binding = FragmentUserBinding.bind(view)
         val imageURI = Uri.parse(
             "android.resource://" + context?.packageName
-                    + "/" + R.drawable.img_1
+                    + "/" + R.drawable.user
         )
 
         val dialog = Dialog(requireContext())
@@ -115,8 +116,8 @@ class User : Fragment(R.layout.fragment_user) {
             }
 
             deletePhoto.setOnClickListener {
-                Glide.with(requireContext()).load(R.drawable.img_1).into(profilePic)
-                Glide.with(requireContext()).load(R.drawable.img_1).into(circleImageView)
+                Glide.with(requireContext()).load(R.drawable.user).into(profilePic)
+                Glide.with(requireContext()).load(R.drawable.user).into(circleImageView)
                 viewModel.image = imageURI.toString()
             }
             back.setOnClickListener {
@@ -145,18 +146,18 @@ class User : Fragment(R.layout.fragment_user) {
                     camera?.setOnClickListener {
                         dismiss()
                         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        startActivityForResult(intent, cameraCode)
+                        startActivityForResult(intent, CAMERA)
                     }
 
                     val image: LinearLayout? = findViewById(R.id.add_photo)
                     image?.setOnClickListener {
                         dismiss()
-                        val i = Intent()
-                        i.type = "image/*"
-                        i.action = Intent.ACTION_PICK
+                        val i = Intent().apply {
+                            type = "image/*"
+                            action = Intent.ACTION_OPEN_DOCUMENT
+                        }
                         startActivityForResult(
-                            Intent.createChooser(i, null),
-                            galleryCode
+                            i, GALLERY
                         )
                     }
                 }
@@ -210,7 +211,7 @@ class User : Fragment(R.layout.fragment_user) {
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if ((requestCode == cameraCode) && (resultCode == AppCompatActivity.RESULT_OK)) {
+        if ((requestCode == CAMERA) && (resultCode == AppCompatActivity.RESULT_OK)) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             Glide.with(this).load(imageBitmap).into(binding!!.circleImageView)
             viewModel.image = getImageUri(
@@ -219,7 +220,7 @@ class User : Fragment(R.layout.fragment_user) {
                 "${System.currentTimeMillis()}.jpeg",
                 imageBitmap
             ).toString()
-        } else if (requestCode == galleryCode && resultCode == AppCompatActivity.RESULT_OK) {
+        } else if (requestCode == GALLERY && resultCode == AppCompatActivity.RESULT_OK) {
             val selectedImageUri: Uri? = data?.data
             if (null != selectedImageUri) {
                 Glide.with(this).load(selectedImageUri).into(binding!!.circleImageView)

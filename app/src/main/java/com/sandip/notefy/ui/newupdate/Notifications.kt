@@ -42,7 +42,7 @@ class Notifications: BroadcastReceiver() {
             data = noteDao.getReminderData(noteRequestCode)
             Log.d("data", "matched request code $data")
             if (data != null) {
-                noteDao.updateDao(data!!.copy(strike = true))
+                data?.copy(strike = true)?.let { noteDao.updateDao(it) }
             }
             bundle = Bundle()
             bundle?.putParcelable("home", data?.copy(strike = true))

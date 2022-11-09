@@ -43,6 +43,8 @@ import com.google.android.material.timepicker.TimeFormat
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Todo
 import com.sandip.notefy.databinding.FragmentNewUpdateNoteBinding
+import com.sandip.notefy.ui.CAMERA
+import com.sandip.notefy.ui.GALLERY
 import com.sandip.notefy.ui.newupdate.NewUpdateNoteViewModel.*
 import com.sandip.notefy.util.Converters.Companion.getDateFormat
 import com.sandip.notefy.util.Converters.Companion.getImageUri
@@ -63,13 +65,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private lateinit var date: String
     private var datePicker: MaterialDatePicker<Long>? = null
     private var timePicker: MaterialTimePicker? = null
+    private var picker: ColorPickerDialog? = null
     private lateinit var viewColor : ColorDrawable
     private lateinit var todoAdapter: NewUpdateTodoAdapter
     private var todoList : ArrayList<Todo>? = arrayListOf()
-    private val requestCode = System.currentTimeMillis().toInt()
+    private val alarmRrequestCode = System.currentTimeMillis().toInt()
     private lateinit var recyclerView: RecyclerView
-    private val cameraCode = 0
-    private val galleryCode = 1
     companion object {
 
         fun cancelAlarm(context: Context?, requestCode: Int?) {
@@ -79,12 +80,14 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 }
             val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
             val pendingNotificationIntent: PendingIntent? =
-                PendingIntent.getBroadcast(
-                    context,
-                    requestCode!!,
-                    notificationIntent,
-                    PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
-                )
+                requestCode?.let {
+                    PendingIntent.getBroadcast(
+                        context,
+                        it,
+                        notificationIntent,
+                        PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
+                    )
+                }
             alarmManager.cancel(pendingNotificationIntent)
         }
     }
@@ -109,7 +112,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                         getString(R.string.reminder_permission_error),
                         Snackbar.LENGTH_LONG
                     )
-                        .setAnchorView(binding!!.saveNote)
                         .show()
                 }
             }
@@ -176,7 +178,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 locationParentLayout.visibility = View.VISIBLE
             }
             fragmentNewUpdateNote.setBackgroundColor(viewModel.noteColor)
-            val picker: ColorPickerDialog = ColorPickerDialog.Builder()
+            picker = ColorPickerDialog.Builder()
                 .setInitialColor(696969)
                 .setColorModel(ColorModel.HSV)
                 .setColorModelSwitchEnabled(true)
@@ -288,7 +290,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             saveNote.setOnClickListener {
                 cancelAlarm()
                 viewModel.isStrike = false
-                viewModel.requestCode = requestCode
+                viewModel.requestCode = alarmRrequestCode
                 context?.let { it1 -> viewModel.onSaveClick(it1) }
             }
 
@@ -381,7 +383,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                                         getString(R.string.reminder_permission_error),
                                         Snackbar.LENGTH_LONG
                                     )
-                                        .setAnchorView(binding!!.saveNote)
                                         .show()
                                 }
                             }
@@ -455,7 +456,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                                 getString(R.string.reminder_permission_error),
                                 Snackbar.LENGTH_LONG
                             )
-                                .setAnchorView(binding!!.saveNote)
                                 .show()
                         }
                     }
@@ -479,7 +479,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     camera?.setOnClickListener {
                         dismiss()
                         val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        startActivityForResult(intent, cameraCode)
+                        startActivityForResult(intent, CAMERA)
                     }
                     val image: LinearLayout? = findViewById(R.id.add_photo)
                     image?.setOnClickListener {
@@ -489,7 +489,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                         i.action = Intent.ACTION_PICK
                         startActivityForResult(
                             Intent.createChooser(i, null),
-                            galleryCode
+                            GALLERY
                         )
                     }
                 }
@@ -805,7 +805,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
             colorPicker?.setOnClickListener {
                 colorDialog.dismiss()
-                picker.show(childFragmentManager, "color_picker")
+                picker?.show(childFragmentManager, "color_picker")
             }
 
             //Updating UI with ViewModel Data100847802
@@ -813,9 +813,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.addEditTaskEvent.collect { event ->
                     when (event) {
                         is AddEditTaskEvent.ShowInvalidInputMessage -> {
-                            Snackbar.make(requireView(), event.msg, Snackbar.LENGTH_LONG)
-                                .setAnchorView(saveNote)
-                                .show()
+                            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+                                Snackbar.make(view, event.msg, Snackbar.LENGTH_LONG).show()
+                            } else {
+                                Snackbar.make(view, event.msg, Snackbar.LENGTH_LONG)
+                                    .setAnchorView(saveNote).show()
+                            }
                         }
                         is AddEditTaskEvent.NavigateBackWithResult -> {
                             if (!(newDateTime.text.isNullOrEmpty())) {
@@ -943,23 +946,22 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private fun cancelAlarm(){
         if(viewModel.requestCode != null) {
             cancelAlarm(context, viewModel.requestCode)
-            viewModel.requestCode = null
         }
     }
 
     @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (requestCode == cameraCode && resultCode == AppCompatActivity.RESULT_OK) {
+        if (requestCode == CAMERA && resultCode == AppCompatActivity.RESULT_OK) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             binding?.imageLayout?.visibility = View.VISIBLE
             Glide.with(requireContext()).load(imageBitmap).into(binding!!.showImage)
             viewModel.noteImage = getImageUri(context, context?.filesDir, "${System.currentTimeMillis()}.jpeg", imageBitmap).toString()
-        } else if (requestCode == galleryCode && resultCode == AppCompatActivity.RESULT_OK) {
+        } else if (requestCode == GALLERY && resultCode == AppCompatActivity.RESULT_OK) {
             val selectedImageUri: Uri? = data?.data
             if (null != selectedImageUri) {
                 binding?.imageLayout?.visibility = View.VISIBLE
-               Glide.with(requireContext()).load(selectedImageUri).into(binding!!.showImage)
+                Glide.with(requireContext()).load(selectedImageUri).into(binding!!.showImage)
                 viewModel.noteImage = selectedImageUri.toString()
             }
         }
@@ -967,6 +969,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        picker = null
         binding = null
     }
 }

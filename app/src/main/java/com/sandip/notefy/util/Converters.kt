@@ -10,7 +10,6 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import com.sandip.notefy.data.model.Todo
 import java.io.*
-import java.nio.channels.FileChannel
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,19 +25,7 @@ class Converters {
             return newDate?.let { it1 -> simpleDateFormat.format(it1) }.toString()
         }
         fun getImageUri(context: Context?, directory: File?, fileName: String, inImage: Bitmap): Uri? {
-//            val file = File(context?.filesDir, System.currentTimeMillis().toString())
-//            val fout: FileOutputStream
-//            try {
-//                fout = FileOutputStream(file)
-//                inImage.compress(Bitmap.CompressFormat.PNG, 100, fout)
-//                fout.flush()
-//                fout.close()
-//            } catch (e: Exception) {
-//                e.printStackTrace()
-//            }
-//            return Uri.fromFile(file)
             val imageFolder= File(directory, "images")
-
             var uri: Uri? = null
             try {
                 imageFolder.mkdirs()
@@ -52,7 +39,7 @@ class Converters {
             } catch (e: Exception) {
                 Toast.makeText(context, "" + e.message, Toast.LENGTH_LONG).show()
             }
-            return uri!!
+            return uri
         }
     }
 

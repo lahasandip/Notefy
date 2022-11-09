@@ -216,24 +216,6 @@ class NewUpdateNoteViewModel @Inject constructor(
         addEditTaskEventChannel.send((AddEditTaskEvent.StartLocationIntent(mapIntent)))
     }
 
-//    private fun getUri(context: Context, bitmap: Bitmap?): Uri {
-//        val imageFolder= File(context.externalCacheDir, "images")
-//
-//        var uri: Uri? = null
-//        try {
-//            imageFolder.mkdirs()
-//            val file = File(imageFolder, "shared_image.png")
-//            val outputStream = FileOutputStream(file)
-//            bitmap?.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
-//            outputStream.flush()
-//            outputStream.close()
-//            uri = context.let { FileProvider.getUriForFile(it, "com.sandip.notefy.provider", file) }
-//        } catch (e: Exception) {
-//            Toast.makeText(context, "" + e.message, Toast.LENGTH_LONG).show()
-//        }
-//        return uri!!
-//    }
-
     fun onDeleteClick(context: Context) {
         if (noteTitle.isBlank()) {
             showInvalidInputMessage(context.getString(R.string.title_cannot_be_empty))

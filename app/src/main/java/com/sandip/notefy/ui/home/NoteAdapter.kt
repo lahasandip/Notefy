@@ -5,6 +5,7 @@ import android.app.Activity
 import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
+import android.os.Build
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -119,12 +120,22 @@ class NoteAdapter(activity: Activity, private val listener: OnItemClickListener)
                                             listener.onDeleteClick(s)
                                             cancelAlarm(mActivity, s.requestCode)
                                         }
-                                        Snackbar.make(itemView, mActivity.getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
-                                            .setAction(mActivity.getString(R.string.undo)) {
-                                                for (s in undoList) {
-                                                    listener.onUndo(s)
-                                                }
-                                            }.show()
+                                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+                                            Snackbar.make(itemView, mActivity.getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
+                                                .setAction(mActivity.getString(R.string.undo)) {
+                                                    for (s in undoList) {
+                                                        listener.onUndo(s)
+                                                    }
+                                                }.show()                                        }
+                                        else {
+                                            Snackbar.make(itemView, mActivity.getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
+                                                .setAction(mActivity.getString(R.string.undo)) {
+                                                    for (s in undoList) {
+                                                        listener.onUndo(s)
+                                                    }
+                                                }.setAnchorView(R.id.new_note).show()
+                                        }
+
                                         mode?.finish()
                                         true
                                     }

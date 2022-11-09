@@ -3,12 +3,7 @@ package com.sandip.notefy.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
-import android.text.format.DateFormat
 import androidx.appcompat.app.AppCompatDelegate
-import com.google.android.material.datepicker.MaterialDatePicker
-import com.google.android.material.timepicker.MaterialTimePicker
-import com.google.android.material.timepicker.TimeFormat
-import com.sandip.notefy.R
 import java.util.*
 
 object ModeManager {
@@ -54,30 +49,4 @@ object ModeManager {
             configuration, context.resources?.displayMetrics
         )
     }
-
-//    //Date & Time Picker
-//    val calendar = Calendar.getInstance()
-//    val hour = calendar.get(Calendar.HOUR_OF_DAY)
-//    val minute = calendar.get(Calendar.MINUTE)
-//    val isSystem24Hour = DateFormat.is24HourFormat()
-//    val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
-//
-//    fun getDatePicker() {
-//        val datePicker
-//        return datePicker: MaterialDatePicker<Long> =
-//            MaterialDatePicker.Builder.datePicker()
-//                .setTitleText(getString(R.string.select_date))
-//                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-//                .build()
-//
-//    }
-//    fun getTimePicker() {
-//        val timePicker: MaterialTimePicker =
-//            MaterialTimePicker.Builder()
-//                .setTimeFormat(clockFormat)
-//                .setHour(hour)
-//                .setMinute(minute)
-//                .setTitleText(getString(R.string.select_time))
-//                .build()
-//    }
 }

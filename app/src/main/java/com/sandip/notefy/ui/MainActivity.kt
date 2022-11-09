@@ -1,16 +1,23 @@
 package com.sandip.notefy.ui
 
 import android.app.Activity
+import android.content.Intent
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
+import android.provider.Settings
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.biometric.BiometricManager
+import androidx.biometric.BiometricPrompt
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
@@ -30,6 +37,7 @@ import com.sandip.notefy.util.ModeManager.observeLanguagePreference
 import com.sandip.notefy.util.ModeManager.observeUiPreferences
 import com.sandip.notefy.util.exhaustive
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.concurrent.Executor
 
 @Suppress("IMPLICIT_CAST_TO_ANY")
 @AndroidEntryPoint
@@ -46,6 +54,9 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     private var isDarkMode = true
     private var isBiometricEnable = true
     private var drawerLayout: DrawerLayout? = null
+    private lateinit var executor: Executor
+    private lateinit var biometricPrompt: BiometricPrompt
+    private lateinit var promptInfo: BiometricPrompt.PromptInfo
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
@@ -87,7 +98,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                     }
                 }
                 if(!(it.image.isNullOrEmpty())){
-                   Glide.with(this).load(Uri.parse(it.image)).into(userPhoto)
+                    Glide.with(this).load(Uri.parse(it.image)).into(userPhoto)
                 }
             }}
 
@@ -99,32 +110,12 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             viewModel.onScreenLockToggle(isChecked)
         }
 
-        viewModel.observeBiometricPreferences(this)
+        observeBiometricPreferences()
         viewModel.updateUiSwitch()
 
         this.lifecycleScope.launchWhenStarted {
             viewModel.tasksEvent.collect { event ->
                 when (event) {
-                    is HomeViewModel.TasksEvent.StartIntent -> {
-                        ActivityCompat.startActivityForResult(
-                            event.mainActivity,
-                            event.enrollIntent,
-                            requestCode,
-                            null
-                        )
-                    }
-                    is HomeViewModel.TasksEvent.AuthenticatePrompt -> {
-                        event.biometricPrompt.authenticate(event.promptInfo)
-                    }
-                    is HomeViewModel.TasksEvent.SetValue -> {
-                        isBiometricEnable = true
-                        screenLock.isChecked = true
-                    }
-                    is HomeViewModel.TasksEvent.BiometricDisabled -> {
-                        isBiometricEnable = false
-                        screenLock.isChecked = false
-                        viewModel.onScreenRotate(true)
-                    }
                     is HomeViewModel.TasksEvent.LightMode -> {
                         isDarkMode = false
                         darkSwitch.isChecked = false
@@ -138,6 +129,75 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             }
         }
     }
+    private fun observeBiometricPreferences(){
+        when (viewModel.biometricSharedPreferences.getBoolean("biometric", false)) {
+            true -> onBiometricEnabled()
+            false -> onBiometricDisabled()
+        }
+    }
+
+    private fun onBiometricEnabled(){
+        if(viewModel.isFirstLaunchPreferences.getBoolean("rotation", true)) {
+            val biometricManager = this.let { BiometricManager.from(applicationContext) }
+            when (biometricManager.canAuthenticate(BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL)) {
+                BiometricManager.BIOMETRIC_SUCCESS -> {}
+                BiometricManager.BIOMETRIC_ERROR_NO_HARDWARE -> {}
+                BiometricManager.BIOMETRIC_ERROR_HW_UNAVAILABLE -> {}
+                BiometricManager.BIOMETRIC_ERROR_NONE_ENROLLED -> {
+                    val enrollIntent =
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            Intent(Settings.ACTION_BIOMETRIC_ENROLL).apply {
+                                putExtra(
+                                    Settings.EXTRA_BIOMETRIC_AUTHENTICATORS_ALLOWED,
+                                    BiometricManager.Authenticators.BIOMETRIC_STRONG or BiometricManager.Authenticators.DEVICE_CREDENTIAL
+                                )
+                            }
+                        } else {
+                            Intent(Settings.ACTION_SECURITY_SETTINGS)
+                        }
+                    ActivityCompat.startActivityForResult(
+                        this,
+                        enrollIntent,
+                        requestCode,
+                        null
+                    )
+                }
+                BiometricManager.BIOMETRIC_ERROR_SECURITY_UPDATE_REQUIRED -> {}
+                BiometricManager.BIOMETRIC_ERROR_UNSUPPORTED -> {}
+                BiometricManager.BIOMETRIC_STATUS_UNKNOWN -> {}
+            }
+            executor = ContextCompat.getMainExecutor(applicationContext)
+            biometricPrompt = BiometricPrompt(this, executor,
+                object : BiometricPrompt.AuthenticationCallback() {
+                    override fun onAuthenticationError(
+                        errorCode: Int,
+                        errString: CharSequence
+                    ) {
+                        super.onAuthenticationError(errorCode, errString)
+                        Toast.makeText(
+                            applicationContext,
+                            getString(R.string.auth_error, errString),
+                            Toast.LENGTH_LONG
+                        ).show()
+                        finish()
+                    }
+                })
+            promptInfo = BiometricPrompt.PromptInfo.Builder()
+                .setTitle(getString(R.string.authenticate_with_biometric))
+                .setAllowedAuthenticators(
+                    BiometricManager.Authenticators.BIOMETRIC_WEAK or BiometricManager.Authenticators.DEVICE_CREDENTIAL
+                )
+                .build()
+            biometricPrompt.authenticate(promptInfo)
+        }
+//        isBiometricOn(true)
+        isBiometricEnable = true
+        screenLock.isChecked = true    }
+
+    private fun onBiometricDisabled() {
+        isBiometricEnable = false
+        screenLock.isChecked = false
+        viewModel.onScreenRotate(true)    }
 
     override fun onConfigurationChanged(newConfig: Configuration) {
         super.onConfigurationChanged(newConfig)
@@ -155,7 +215,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
             observeUiPreferences(applicationContext)
         }
         if(key.equals("biometric"))  {
-            viewModel.observeBiometricPreferences(this)
+            observeBiometricPreferences()
         }
     }
 
@@ -180,6 +240,8 @@ const val PROFILE_UPDATED_RESULT_OK = Activity.RESULT_FIRST_USER + 3
 const val CHANNEL_ID: String = "4"
 const val CHANNEL_NAME: String = "Notefy"
 const val CHANNEL_DESCRIPTION = "Reminder Message"
+const val CAMERA = 0
+const val GALLERY = 1
 
 
 

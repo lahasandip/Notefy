@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -138,9 +139,7 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                     val task = noteAdapter.currentList[viewHolder.adapterPosition]
                     cancelAlarm(context, task.requestCode)
                     viewModel.onTaskSwiped(task)
-                    if(homeActionMode != null){
-                        homeActionMode!!.finish()
-                    }
+                    homeActionMode?.finish()
                 }
             }).attachToRecyclerView(recyclerView)
 
@@ -205,14 +204,24 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                         findNavController().navigate(action)
                     }
                     is HomeViewModel.TasksEvent.ShowTaskSavedConfirmationMessage -> {
-                        Snackbar.make(view, event.msg, Snackbar.LENGTH_LONG)
-                            .show()
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
+                            Snackbar.make(view, event.msg, Snackbar.LENGTH_LONG).show()
+                        } else {
+                            Snackbar.make(view, event.msg, Snackbar.LENGTH_LONG)
+                                .setAnchorView(binding!!.newNote).show()
+                        }
                     }
                     is HomeViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
-                        Snackbar.make(view, getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
-                            .setAction(getString(R.string.undo)) {
-                                viewModel.onUndoDeleteClick(event.noteEntity)
-                            }.show()
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                            Snackbar.make(view, getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
+                                .setAction(getString(R.string.undo)) { viewModel.onUndoDeleteClick(event.noteEntity)
+                                }.show()
+                        }
+                        else{
+                            Snackbar.make(view, getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
+                                .setAction(getString(R.string.undo)) { viewModel.onUndoDeleteClick(event.noteEntity)
+                                }.setAnchorView(binding!!.newNote).show()
+                        }
                     }
                     is HomeViewModel.TasksEvent.NavigateToUserScreen -> {
                         val action =

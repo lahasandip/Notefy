@@ -1,6 +1,5 @@
 package com.sandip.notefy.ui.languages
 
-import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.os.Bundle
@@ -21,15 +20,12 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
 {
     private val viewModel: LanguagesViewModel by viewModels()
     private var binding: FragmentLanguagesBinding? = null
-    private lateinit var editor: SharedPreferences.Editor
-    private lateinit var languageSharedPreferences : SharedPreferences
+    private var gridLayoutManager: StaggeredGridLayoutManager? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentLanguagesBinding.bind(view)
-        languageSharedPreferences = context?.getSharedPreferences("LANGUAGE", Context.MODE_PRIVATE)!!
-        languageSharedPreferences.registerOnSharedPreferenceChangeListener(this )
-        editor = languageSharedPreferences.edit()
+        viewModel.languageSharedPreferences.registerOnSharedPreferenceChangeListener(this )
 
         val flagImages = intArrayOf(
             R.drawable.usa,
@@ -60,15 +56,12 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
         }
         val languagesAdapter = LanguagesAdapter(context, languageList, this)
 
+        gridLayoutManager = StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
+
         binding?.apply {
             languageRecyclerView.apply {
                 adapter = languagesAdapter
-                layoutManager =
-                    if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL)
-                    } else {
-                        StaggeredGridLayoutManager(5, StaggeredGridLayoutManager.VERTICAL)
-                    }
+                layoutManager = observeGridLayout()
             }
 
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
@@ -90,10 +83,31 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
             }
         }
     }
+    private fun observeGridLayout(): StaggeredGridLayoutManager? {
+        binding?.apply {
+            gridLayoutManager?.apply {
+                when (context?.resources?.configuration?.orientation) {
+                    Configuration.ORIENTATION_PORTRAIT -> {
+                        spanCount = 3
+                    }
+                    Configuration.ORIENTATION_LANDSCAPE -> {
+                        spanCount = 5
+                    }
+                    else -> { gridLayoutManager
+                    }
+                }
+            }
+        }
+        return gridLayoutManager
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        observeGridLayout()
+    }
 
     override fun onItemClick(flag: Int) {
-        editor.putInt("position",flag)
-        editor.apply()
+        viewModel.onGridViewToggle(flag)
     }
 
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
@@ -105,7 +119,8 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
 
     override fun onDestroyView() {
         super.onDestroyView()
+        gridLayoutManager = null
         binding = null
-        languageSharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
+        viewModel.languageSharedPreferences.unregisterOnSharedPreferenceChangeListener(this)
     }
 }
