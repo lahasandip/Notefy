@@ -11,6 +11,7 @@ import com.sandip.notefy.R
 import com.sandip.notefy.databinding.FragmentAboutBinding
 import com.sandip.notefy.util.exhaustive
 
+@Suppress("IMPLICIT_CAST_TO_ANY")
 class About : Fragment(R.layout.fragment_about) {
 
     private val viewModel: AboutViewModel by viewModels()
@@ -25,7 +26,6 @@ class About : Fragment(R.layout.fragment_about) {
                 viewModel.onOkClick()
             }
             version.text = getString(R.string.version, BuildConfig.VERSION_NAME)
-
             privacyPolicy.setOnClickListener{
                 viewModel.onPrivacyClick()
             }

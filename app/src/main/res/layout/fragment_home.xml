@@ -95,5 +95,6 @@
         android:layout_margin="16dp"
         android:src="@drawable/ic_outline_add_24"
         app:tint="@color/white"
+        app:layout_behavior=".util.FabSnack"
         android:contentDescription="@string/new_note" />
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

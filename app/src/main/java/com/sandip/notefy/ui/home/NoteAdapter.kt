@@ -5,7 +5,6 @@ import android.app.Activity
 import android.graphics.Color
 import android.graphics.Paint
 import android.net.Uri
-import android.os.Build
 import android.view.*
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
@@ -64,19 +63,13 @@ class NoteAdapter(activity: Activity, private val listener: OnItemClickListener)
                 overlay.setOnLongClickListener {
                     if (!isEnable) {
                         val callback = object : ActionMode.Callback {
-                            override fun onCreateActionMode(
-                                mode: ActionMode?,
-                                menu: Menu?
-                            ): Boolean {
+                            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                                 mode?.menuInflater?.inflate(R.menu.home_contextual_action_bar, menu)
                                 listener.storeActionMode(mode)
                                 mItem = mode?.menu?.getItem(0)
                                 return true
                             }
-                            override fun onPrepareActionMode(
-                                mode: ActionMode?,
-                                menu: Menu?
-                            ): Boolean {
+                            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                                 isEnable = true
                                 clickItem(binding, holder)
                                 (mActivity as LifecycleOwner).let { it1 ->
@@ -90,11 +83,7 @@ class NoteAdapter(activity: Activity, private val listener: OnItemClickListener)
                                 }
                                 return false
                             }
-
-                            override fun onActionItemClicked(
-                                mode: ActionMode?,
-                                item: MenuItem?
-                            ): Boolean {
+                            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
                                 return when (item?.itemId) {
                                     R.id.select -> {
                                         if(selectList.size == noteList.size) {
@@ -120,22 +109,12 @@ class NoteAdapter(activity: Activity, private val listener: OnItemClickListener)
                                             listener.onDeleteClick(s)
                                             cancelAlarm(mActivity, s.requestCode)
                                         }
-                                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
-                                            Snackbar.make(itemView, mActivity.getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
-                                                .setAction(mActivity.getString(R.string.undo)) {
-                                                    for (s in undoList) {
-                                                        listener.onUndo(s)
-                                                    }
-                                                }.show()                                        }
-                                        else {
-                                            Snackbar.make(itemView, mActivity.getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
-                                                .setAction(mActivity.getString(R.string.undo)) {
-                                                    for (s in undoList) {
-                                                        listener.onUndo(s)
-                                                    }
-                                                }.setAnchorView(R.id.new_note).show()
-                                        }
-
+                                        Snackbar.make(itemView, mActivity.getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
+                                            .setAction(mActivity.getString(R.string.undo)) {
+                                                for (s in undoList) {
+                                                    listener.onUndo(s)
+                                                }
+                                            }.show()
                                         mode?.finish()
                                         true
                                     }
@@ -220,7 +199,7 @@ class NoteAdapter(activity: Activity, private val listener: OnItemClickListener)
                 }
 
                 if (noteEntity.todoList != null) {
-                    val todoAdapter = HomeTodoAdapter(mActivity,noteEntity.todoList as ArrayList<Todo>)
+                    val todoAdapter = HomeTodoAdapter(noteEntity.todoList as ArrayList<Todo>)
                     todoRecyclerView.setHasFixedSize(true)
                     todoRecyclerView.layoutManager = LinearLayoutManager(mActivity)
                     todoRecyclerView.adapter = todoAdapter

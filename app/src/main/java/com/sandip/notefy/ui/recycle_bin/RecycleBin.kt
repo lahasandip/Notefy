@@ -29,6 +29,7 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
     private var recycleActionMode : ActionMode ?  = null
     private var drawerLayout : DrawerLayout? = null
     private lateinit var drawerListener : DrawerLayout.DrawerListener
+    private var gridLayoutManager: StaggeredGridLayoutManager? = null
 
     companion object {
         lateinit var noteList: List<NoteEntity>
@@ -38,16 +39,11 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentRecycleBinBinding.bind(view)
         val recycleAdapter = RecycleAdapter(requireActivity(), this)
-
+        gridLayoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
         binding?.apply {
             trashRecyclerView.apply {
                 adapter = recycleAdapter
-                layoutManager =
-                    if (requireActivity().resources.configuration.orientation == Configuration.ORIENTATION_PORTRAIT) {
-                        StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
-                    } else {
-                        StaggeredGridLayoutManager(4, StaggeredGridLayoutManager.VERTICAL)
-                    }
+                layoutManager = observeGridLayout()
             }
             ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(
                 0,
@@ -99,21 +95,30 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
                 }.exhaustive
             }
         }
-//        drawerListener =
-//        object : DrawerLayout.DrawerListener {
-//            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
-//            override fun onDrawerOpened(drawerView: View) {}
-//            override fun onDrawerClosed(drawerView: View) {}
-//            override fun onDrawerStateChanged(newState: Int) {
-//                if(recycleActionMode != null){
-//                    recycleActionMode?.finish()
-//                    recycleActionMode = null
-//                }
-//            }
-//        }
-//        drawerLayout?.addDrawerListener(drawerListener)
     }
 
+    private fun observeGridLayout(): StaggeredGridLayoutManager? {
+        binding?.apply {
+            gridLayoutManager?.apply {
+                when (context?.resources?.configuration?.orientation) {
+                    Configuration.ORIENTATION_PORTRAIT -> {
+                        spanCount = 2
+                    }
+                    Configuration.ORIENTATION_LANDSCAPE -> {
+                        spanCount = 4
+                    }
+                    else -> { gridLayoutManager
+                    }
+                }
+            }
+        }
+        return gridLayoutManager
+    }
+
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        observeGridLayout()
+    }
 
     override fun onItemClick(noteEntity: NoteEntity) {
         AlertDialog.Builder(requireContext())
@@ -173,6 +178,7 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
 
     override fun onDestroyView() {
         super.onDestroyView()
+        gridLayoutManager = null
         binding = null
     }
 }

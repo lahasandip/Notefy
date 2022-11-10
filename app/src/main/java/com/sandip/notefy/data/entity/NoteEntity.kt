@@ -9,7 +9,6 @@ import kotlinx.parcelize.Parcelize
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 @Entity(tableName = "Note")
 @Parcelize
 data class NoteEntity(

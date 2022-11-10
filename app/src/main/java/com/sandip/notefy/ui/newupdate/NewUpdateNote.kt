@@ -21,7 +21,6 @@ import android.view.View
 import android.view.WindowManager
 import android.widget.*
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -55,7 +54,6 @@ import vadiole.colorpicker.ColorPickerDialog
 import java.text.SimpleDateFormat
 import java.util.*
 
-
 @Suppress("IMPLICIT_CAST_TO_ANY", "DEPRECATION")
 @AndroidEntryPoint
 class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
@@ -66,13 +64,11 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private var datePicker: MaterialDatePicker<Long>? = null
     private var timePicker: MaterialTimePicker? = null
     private var picker: ColorPickerDialog? = null
-    private lateinit var viewColor : ColorDrawable
+    private lateinit var viewColor: ColorDrawable
     private lateinit var todoAdapter: NewUpdateTodoAdapter
-    private var todoList : ArrayList<Todo>? = arrayListOf()
-    private val alarmRrequestCode = System.currentTimeMillis().toInt()
-    private lateinit var recyclerView: RecyclerView
+    private var todoList: ArrayList<Todo>? = arrayListOf()
+    private val alarmRequestCode = System.currentTimeMillis().toInt()
     companion object {
-
         fun cancelAlarm(context: Context?, requestCode: Int?) {
             val notificationIntent =
                 Intent(context, Notifications::class.java).apply {
@@ -92,7 +88,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         }
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -103,16 +98,14 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             ActivityResultContracts.RequestPermission()
         ) { isGranted: Boolean ->
             if (isGranted) {
-                datePicker?.show(childFragmentManager, "Date_Picker")
-            }
-            else{
+                initDateTimePicker()
+            } else {
                 view.let {
                     Snackbar.make(
                         it,
                         getString(R.string.reminder_permission_error),
                         Snackbar.LENGTH_LONG
-                    )
-                        .show()
+                    ).setAnchorView(binding?.saveNote).show()
                 }
             }
         }
@@ -150,10 +143,10 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         todoDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         todoDialog.window?.setGravity(Gravity.BOTTOM)
         val addToList = todoDialog.findViewById<ImageView>(R.id.addTodo)
-        val checkBoxTodo =   todoDialog.findViewById<CheckBox>(R.id.todoCheck)
-        val descriptionTodo =   todoDialog.findViewById<EditText>(R.id.todoDesc)
-        recyclerView = todoDialog.findViewById(R.id.todo_listview)!!
-        val btn =   todoDialog.findViewById<Button>(R.id.done)
+        val checkBoxTodo = todoDialog.findViewById<CheckBox>(R.id.todoCheck)
+        val descriptionTodo = todoDialog.findViewById<EditText>(R.id.todoDesc)
+        val recyclerView = todoDialog.findViewById<RecyclerView>(R.id.todo_listview)!!
+        val btn = todoDialog.findViewById<Button>(R.id.done)
 
         //Bind with View model and Onclick Listener
         binding?.apply {
@@ -290,7 +283,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             saveNote.setOnClickListener {
                 cancelAlarm()
                 viewModel.isStrike = false
-                viewModel.requestCode = alarmRrequestCode
+                viewModel.requestCode = alarmRequestCode
                 context?.let { it1 -> viewModel.onSaveClick(it1) }
             }
 
@@ -330,49 +323,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                                 Manifest.permission.POST_NOTIFICATIONS,
                             ) == PackageManager.PERMISSION_GRANTED
                         ) {
-                            //Date & Time Picker
-                            val calendar = Calendar.getInstance()
-                            val hour = calendar.get(Calendar.HOUR_OF_DAY)
-                            val minute = calendar.get(Calendar.MINUTE)
-                            val isSystem24Hour = DateFormat.is24HourFormat(context)
-                            val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
-
-                            datePicker = MaterialDatePicker.Builder.datePicker()
-                                .setTitleText(getString(R.string.select_date))
-                                .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
-                                .build()
-
-                            timePicker= MaterialTimePicker.Builder()
-                                .setTimeFormat(clockFormat)
-                                .setHour(hour)
-                                .setMinute(minute)
-                                .setTitleText(getString(R.string.select_time))
-                                .build()
-
-                            datePicker?.show(parentFragmentManager, "Date_Picker")
-
-                            datePicker?.addOnPositiveButtonClickListener {
-                                val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-                                utc.timeInMillis = it
-                                val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                                date = format.format(utc.time)
-                                datePicker = null
-                                timePicker?.show(parentFragmentManager, "Time_Piker")
-                            }
-
-
-                            timePicker?.addOnPositiveButtonClickListener {
-                                viewModel.isStrike = false
-                                "${timePicker?.hour}:${timePicker?.minute}".also {
-                                    viewModel.noteDateTime = "$date-$it"
-                                }
-                                binding?.apply {
-                                    newDateTime.paintFlags = 0
-                                    newDateTime.text = getDateFormat(viewModel.noteDateTime)
-                                    reminderParentLayout.visibility = View.VISIBLE
-                                }
-                                timePicker = null
-                            }
+                            initDateTimePicker()
                         } else {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -382,8 +333,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                                         it,
                                         getString(R.string.reminder_permission_error),
                                         Snackbar.LENGTH_LONG
-                                    )
-                                        .show()
+                                    ).setAnchorView(binding?.saveNote).show()
                                 }
                             }
                         }
@@ -405,47 +355,27 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                         Manifest.permission.POST_NOTIFICATIONS,
                     ) == PackageManager.PERMISSION_GRANTED
                 ) {
-                    val items1: Array<String> = viewModel.noteDateTime.split("-".toRegex()).toTypedArray()
+                    val items1: Array<String> =
+                        viewModel.noteDateTime.split("-".toRegex()).toTypedArray()
                     val items2: Array<String> = items1[3].split(":".toRegex()).toTypedArray()
                     val calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
                     calendar.set(items1[0].toInt(), items1[1].toInt() - 1, items1[2].toInt())
                     val isSystem24Hour = DateFormat.is24HourFormat(context)
-                    val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+                    val clockFormat =
+                        if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
                     datePicker = MaterialDatePicker.Builder.datePicker()
                         .setTitleText(getString(R.string.select_date))
                         .setSelection(calendar.timeInMillis)
                         .build()
 
-                    timePicker= MaterialTimePicker.Builder()
+                    timePicker = MaterialTimePicker.Builder()
                         .setTimeFormat(clockFormat)
                         .setHour(items2[0].toInt())
                         .setMinute(items2[1].toInt())
                         .setTitleText(getString(R.string.select_time))
                         .build()
 
-                    datePicker?.show(parentFragmentManager, "Date_Picker")
-
-                    datePicker?.addOnPositiveButtonClickListener {
-                        val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
-                        utc.timeInMillis = it
-                        val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
-                        date = format.format(utc.time)
-                        datePicker = null
-                        timePicker?.show(parentFragmentManager, "Time_Piker")
-                    }
-
-                    timePicker?.addOnPositiveButtonClickListener {
-                        viewModel.isStrike = false
-                        "${timePicker?.hour}:${timePicker?.minute}".also {
-                            viewModel.noteDateTime = "$date-$it"
-                        }
-                        binding?.apply {
-                            newDateTime.paintFlags = 0
-                            newDateTime.text = getDateFormat(viewModel.noteDateTime)
-                            reminderParentLayout.visibility = View.VISIBLE
-                        }
-                        timePicker = null
-                    }
+                    displayDateTimePicker()
                 } else {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
@@ -455,8 +385,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                                 it,
                                 getString(R.string.reminder_permission_error),
                                 Snackbar.LENGTH_LONG
-                            )
-                                .show()
+                            ).setAnchorView(binding?.saveNote).show()
                         }
                     }
                 }
@@ -813,12 +742,8 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 viewModel.addEditTaskEvent.collect { event ->
                     when (event) {
                         is AddEditTaskEvent.ShowInvalidInputMessage -> {
-                            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
-                                Snackbar.make(view, event.msg, Snackbar.LENGTH_LONG).show()
-                            } else {
-                                Snackbar.make(view, event.msg, Snackbar.LENGTH_LONG)
-                                    .setAnchorView(saveNote).show()
-                            }
+                            Snackbar.make(view, event.msg, Snackbar.LENGTH_LONG)
+                                .setAnchorView(saveNote).show()
                         }
                         is AddEditTaskEvent.NavigateBackWithResult -> {
                             if (!(newDateTime.text.isNullOrEmpty())) {
@@ -850,7 +775,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                         }
                     }.exhaustive
                 }
-
             }
         }
     }
@@ -860,91 +784,94 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         val builder = context?.let { AlertDialog.Builder(it) }
         val input = layoutInflater.inflate(R.layout.alert_edittext, null)
         val editText = input.findViewById<EditText>(R.id.input)
-        builder?.setView(input)
-        editText.apply {
-            if (s == "url") {
-                builder?.setTitle(getString(R.string.url))
-                if (viewModel.noteUrl.isNotEmpty()) {
-                    setText(viewModel.noteUrl)
-                    requestFocus()
-                } else {
-                    hint = getString(R.string.url_hint)
-                    requestFocus()
-                }
-                addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-                    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                        if (text.isNotEmpty() && !Patterns.WEB_URL.matcher(text.toString()).matches()) {
-                            error = "Invalid\n\t\tUrl"
-                        }
-                        if (text.isNullOrEmpty()) {
-                            hint = getString(R.string.url_hint)
-                        }
-                    }
-                    override fun afterTextChanged(s: Editable) {
-                        builder?.create()?.getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled = true
-                    }
-                })
-
-                builder?.setPositiveButton(
-                    getString(R.string.ok)
-                ) { _, _ ->
-                    if (text?.isNotEmpty() == true) {
-                        binding?.urlLink?.text = text.toString()
-                        binding?.urlParentLayout?.visibility = View.VISIBLE
+        builder?.apply {
+            setView(input)
+            editText.apply {
+                if (s == "url") {
+                    setTitle(getString(R.string.url))
+                    if (viewModel.noteUrl.isNotEmpty()) {
+                        setText(viewModel.noteUrl)
+                        requestFocus()
                     } else {
-                        Toast.makeText(
-                            activity?.applicationContext,
-                            getString(R.string.please_enter_a_link),
-                            Toast.LENGTH_LONG
-                        ).show()
-                        showAlert("url")
+                        hint = getString(R.string.url_hint)
+                        requestFocus()
                     }
-                }
-            } else if (s == "place") {
-                builder?.setTitle(getString(R.string.place))
-                if (viewModel.noteLocation.isNotEmpty()) {
-                    setText(viewModel.noteLocation)
-                    requestFocus()
-                } else {
-                    hint = getString(R.string.place_hint)
-                    requestFocus()
-                }
-                addTextChangedListener(object : TextWatcher {
-                    override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
-                    override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
-                        if (text.isNullOrEmpty()) {
-                            hint = getString(R.string.place_hint)
+                    addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+                        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                            if (text.isNotEmpty() && !Patterns.WEB_URL.matcher(text.toString())
+                                    .matches()) {
+                                error = "Invalid\n\t\tUrl"
+                            }
+                            if (text.isNullOrEmpty()) {
+                                hint = getString(R.string.url_hint)
+                            }
+                        }
+                        override fun afterTextChanged(s: Editable) {
+                            create().getButton(AlertDialog.BUTTON_POSITIVE)?.isEnabled =
+                                true
+                        }
+                    })
+                    setPositiveButton(
+                        getString(R.string.ok)
+                    ) { _, _ ->
+                        if (text?.isNotEmpty() == true) {
+                            binding?.urlLink?.text = text.toString()
+                            binding?.urlParentLayout?.visibility = View.VISIBLE
+                        } else {
+                            Toast.makeText(
+                                activity?.applicationContext,
+                                getString(R.string.please_enter_a_link),
+                                Toast.LENGTH_LONG
+                            ).show()
+                            showAlert("url")
                         }
                     }
-                    override fun afterTextChanged(s: Editable) {}
-                })
-
-                builder?.setPositiveButton(
-                    getString(R.string.ok)
-                ) { _, _ ->
-                    if (text?.isNotEmpty() == true) {
-                        binding?.placeInput?.text = text.toString()
-                        binding?.locationParentLayout?.visibility = View.VISIBLE
+                } else if (s == "place") {
+                    setTitle(getString(R.string.place))
+                    if (viewModel.noteLocation.isNotEmpty()) {
+                        setText(viewModel.noteLocation)
+                        requestFocus()
                     } else {
-                        Toast.makeText(
-                            activity?.applicationContext,
-                            getString(R.string.please_enter_a_place),
-                            Toast.LENGTH_LONG
-                        ).show()
-                        showAlert("place")
+                        hint = getString(R.string.place_hint)
+                        requestFocus()
+                    }
+                    addTextChangedListener(object : TextWatcher {
+                        override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
+                        override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
+                            if (text.isNullOrEmpty()) {
+                                hint = getString(R.string.place_hint)
+                            }
+                        }
+                        override fun afterTextChanged(s: Editable) {}
+                    })
+
+                    setPositiveButton(
+                        getString(R.string.ok)
+                    ) { _, _ ->
+                        if (text?.isNotEmpty() == true) {
+                            binding?.placeInput?.text = text.toString()
+                            binding?.locationParentLayout?.visibility = View.VISIBLE
+                        } else {
+                            Toast.makeText(
+                                activity?.applicationContext,
+                                getString(R.string.please_enter_a_place),
+                                Toast.LENGTH_LONG
+                            ).show()
+                            showAlert("place")
+                        }
                     }
                 }
             }
+            setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
+                dialog.cancel()
+            }
+            show()
         }
-        builder?.setNegativeButton(getString(R.string.cancel)) { dialog, _ ->
-            dialog.cancel()
-        }
-        builder?.show()
     }
 
-    private fun cancelAlarm(){
-        if(viewModel.requestCode != null) {
+    private fun cancelAlarm() {
+        if (viewModel.requestCode != null) {
             cancelAlarm(context, viewModel.requestCode)
         }
     }
@@ -956,7 +883,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
             binding?.imageLayout?.visibility = View.VISIBLE
             Glide.with(requireContext()).load(imageBitmap).into(binding!!.showImage)
-            viewModel.noteImage = getImageUri(context, context?.filesDir, "${System.currentTimeMillis()}.jpeg", imageBitmap).toString()
+            viewModel.noteImage = getImageUri(
+                context,
+                context?.filesDir,
+                "${System.currentTimeMillis()}.jpeg",
+                imageBitmap
+            ).toString()
         } else if (requestCode == GALLERY && resultCode == AppCompatActivity.RESULT_OK) {
             val selectedImageUri: Uri? = data?.data
             if (null != selectedImageUri) {
@@ -967,8 +899,57 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         }
     }
 
+    private fun initDateTimePicker() {
+        val calendar = Calendar.getInstance()
+        val hour = calendar.get(Calendar.HOUR_OF_DAY)
+        val minute = calendar.get(Calendar.MINUTE)
+        val isSystem24Hour = DateFormat.is24HourFormat(context)
+        val clockFormat = if (isSystem24Hour) TimeFormat.CLOCK_24H else TimeFormat.CLOCK_12H
+
+        datePicker = MaterialDatePicker.Builder.datePicker()
+            .setTitleText(getString(R.string.select_date))
+            .setSelection(MaterialDatePicker.todayInUtcMilliseconds())
+            .build()
+
+        timePicker = MaterialTimePicker.Builder()
+            .setTimeFormat(clockFormat)
+            .setHour(hour)
+            .setMinute(minute)
+            .setTitleText(getString(R.string.select_time))
+            .build()
+
+        displayDateTimePicker()
+    }
+
+    private fun displayDateTimePicker(){
+        datePicker?.show(parentFragmentManager, "Date_Picker")
+
+        datePicker?.addOnPositiveButtonClickListener {
+            val utc = Calendar.getInstance(TimeZone.getTimeZone("UTC"))
+            utc.timeInMillis = it
+            val format = SimpleDateFormat("yyyy-MM-dd", Locale.getDefault())
+            date = format.format(utc.time)
+            datePicker = null
+            timePicker?.show(parentFragmentManager, "Time_Piker")
+        }
+
+        timePicker?.addOnPositiveButtonClickListener {
+            viewModel.isStrike = false
+            "${timePicker?.hour}:${timePicker?.minute}".also {
+                viewModel.noteDateTime = "$date-$it"
+            }
+            binding?.apply {
+                newDateTime.paintFlags = 0
+                newDateTime.text = getDateFormat(viewModel.noteDateTime)
+                reminderParentLayout.visibility = View.VISIBLE
+            }
+            timePicker = null
+        }
+    }
     override fun onDestroyView() {
         super.onDestroyView()
+        datePicker = null
+        timePicker = null
         picker = null
         binding = null
     }

@@ -4,9 +4,7 @@ import android.app.Dialog
 import android.content.SharedPreferences
 import android.content.res.Configuration
 import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import android.widget.*
 import androidx.appcompat.widget.SearchView
@@ -56,7 +54,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
-        Log.d("TAG","onCreate home")
         initSortByDialog()
         val noteAdapter = NoteAdapter(requireActivity(),this)
         viewModel.gridSharedPreferences.registerOnSharedPreferenceChangeListener(this)
@@ -114,7 +111,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                 override fun onQueryTextSubmit(query: String?): Boolean {
                     return true
                 }
-
                 override fun onQueryTextChange(query: String?): Boolean {
                     if (query != null) {
                         viewModel.searchQuery.value = query
@@ -134,7 +130,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                 ): Boolean {
                     return false
                 }
-
                 override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
                     val task = noteAdapter.currentList[viewHolder.adapterPosition]
                     cancelAlarm(context, task.requestCode)
@@ -204,24 +199,12 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                         findNavController().navigate(action)
                     }
                     is HomeViewModel.TasksEvent.ShowTaskSavedConfirmationMessage -> {
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R){
-                            Snackbar.make(view, event.msg, Snackbar.LENGTH_LONG).show()
-                        } else {
-                            Snackbar.make(view, event.msg, Snackbar.LENGTH_LONG)
-                                .setAnchorView(binding!!.newNote).show()
-                        }
+                        Snackbar.make(view, event.msg, Snackbar.LENGTH_LONG).show()
                     }
                     is HomeViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                            Snackbar.make(view, getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
-                                .setAction(getString(R.string.undo)) { viewModel.onUndoDeleteClick(event.noteEntity)
-                                }.show()
-                        }
-                        else{
-                            Snackbar.make(view, getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
-                                .setAction(getString(R.string.undo)) { viewModel.onUndoDeleteClick(event.noteEntity)
-                                }.setAnchorView(binding!!.newNote).show()
-                        }
+                        Snackbar.make(view, getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
+                            .setAction(getString(R.string.undo)) { viewModel.onUndoDeleteClick(event.noteEntity)
+                            }.show()
                     }
                     is HomeViewModel.TasksEvent.NavigateToUserScreen -> {
                         val action =

@@ -1,6 +1,5 @@
 package com.sandip.notefy.ui.home
 
-import android.content.Context
 import android.graphics.Paint
 import android.view.LayoutInflater
 import android.view.View
@@ -10,15 +9,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.sandip.notefy.R
 import com.sandip.notefy.data.model.Todo
 
-class HomeTodoAdapter( context: Context, todoList: ArrayList<Todo>?)
+class HomeTodoAdapter( mTodoList: ArrayList<Todo>?)
     : RecyclerView.Adapter<HomeTodoAdapter.TodoViewHolder?>() {
 
-    private val context: Context
-    private val todoList: ArrayList<Todo>?
-    init {
-        this.context = context
-        this.todoList = todoList
-    }
+    private val todoList: ArrayList<Todo>? = mTodoList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
         return TodoViewHolder(

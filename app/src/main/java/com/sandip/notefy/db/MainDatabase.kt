@@ -9,7 +9,6 @@ import com.sandip.notefy.data.dao.UserDao
 import com.sandip.notefy.data.entity.UserEntity
 import com.sandip.notefy.util.Converters
 
-
 @TypeConverters(Converters::class)
 @Database(entities = [NoteEntity::class, UserEntity::class], exportSchema = false, version = 1)
 abstract class MainDatabase : RoomDatabase() {

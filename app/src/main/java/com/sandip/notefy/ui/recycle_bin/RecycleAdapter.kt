@@ -66,19 +66,13 @@ class RecycleAdapter(
 
                     if (!isEnable) {
                         val callback = object : ActionMode.Callback {
-                            override fun onCreateActionMode(
-                                mode: ActionMode?,
-                                menu: Menu?
-                            ): Boolean {
+                            override fun onCreateActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                                 mode?.menuInflater?.inflate(R.menu.recycle_contextual_action_bar, menu)
                                 listener.storeActionMode(mode)
                                 mItem = mode?.menu?.getItem(1)
                                 return true
                             }
-                            override fun onPrepareActionMode(
-                                mode: ActionMode?,
-                                menu: Menu?
-                            ): Boolean {
+                            override fun onPrepareActionMode(mode: ActionMode?, menu: Menu?): Boolean {
                                 isEnable = true
                                 clickItem(binding, holder)
                                 (mActivity as LifecycleOwner?)?.let { it1 ->
@@ -92,10 +86,7 @@ class RecycleAdapter(
                                 }
                                 return false
                             }
-                            override fun onActionItemClicked(
-                                mode: ActionMode?,
-                                item: MenuItem?
-                            ): Boolean {
+                            override fun onActionItemClicked(mode: ActionMode?, item: MenuItem?): Boolean {
                                 return when (item?.itemId) {
                                     R.id.restore -> {
                                         for (s in selectList) {
@@ -219,7 +210,7 @@ class RecycleAdapter(
                 }
 
                 if (noteEntity.todoList != null) {
-                    val todoAdapter = HomeTodoAdapter(mActivity,noteEntity.todoList as ArrayList<Todo>)
+                    val todoAdapter = HomeTodoAdapter(noteEntity.todoList as ArrayList<Todo>)
                     todoRecyclerView.setHasFixedSize(true)
                     todoRecyclerView.layoutManager = LinearLayoutManager(mActivity)
                     todoRecyclerView.adapter = todoAdapter

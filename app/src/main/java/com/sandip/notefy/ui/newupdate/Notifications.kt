@@ -16,11 +16,10 @@ import com.sandip.notefy.data.dao.NoteDao
 import com.sandip.notefy.data.entity.NoteEntity
 import com.sandip.notefy.ui.CHANNEL_ID
 import com.sandip.notefy.ui.MainActivity
+import com.sandip.notefy.ui.NOTIFICATION_ID
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.*
 import javax.inject.Inject
-
-const val notificationId = 10
 
 @AndroidEntryPoint
 class Notifications: BroadcastReceiver() {
@@ -84,7 +83,7 @@ class Notifications: BroadcastReceiver() {
                 builder.setContentText(noteBody)
             }
             with(NotificationManagerCompat.from(context)) {
-                notify(notificationId, builder.build())
+                notify(NOTIFICATION_ID, builder.build())
             }
         }
     }

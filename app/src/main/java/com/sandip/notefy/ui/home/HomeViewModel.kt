@@ -31,19 +31,14 @@ class HomeViewModel @Inject constructor(
 
     val searchQuery = state.getLiveData("searchQuery", "")
     val displayUser = userDao.getUser()
-
     private val preferencesFlow = preferencesManager.preferencesFlow
     val isChecked = preferencesManager.isChecked
-
     private val tasksEventChannel = Channel<TasksEvent>()
     val tasksEvent = tasksEventChannel.receiveAsFlow()
     private val app = application
-
-
     val gridSharedPreferences : SharedPreferences =  app.getSharedPreferences("GRID", Context.MODE_PRIVATE)
     val biometricSharedPreferences : SharedPreferences =  app.getSharedPreferences("BIOMETRIC", Context.MODE_PRIVATE)
     val uiSharedPreferences : SharedPreferences = app.getSharedPreferences("UI",Context.MODE_PRIVATE)
-    //    val isBiometric : SharedPreferences = app.getSharedPreferences("IS_BIO",Context.MODE_PRIVATE)
     val isFirstLaunchPreferences : SharedPreferences = app.getSharedPreferences("FIRST_LAUNCH",Context.MODE_PRIVATE)
 
     @OptIn(ExperimentalCoroutinesApi::class)
