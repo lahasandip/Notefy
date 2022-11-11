@@ -63,7 +63,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
     private lateinit var date: String
     private var datePicker: MaterialDatePicker<Long>? = null
     private var timePicker: MaterialTimePicker? = null
-    private var picker: ColorPickerDialog? = null
     private lateinit var viewColor: ColorDrawable
     private lateinit var todoAdapter: NewUpdateTodoAdapter
     private var todoList: ArrayList<Todo>? = arrayListOf()
@@ -109,8 +108,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 }
             }
         }
-//----------------------------------------------------------------------------------------------------------------------------------
-//Color Dialog Initialization
 
         val colorDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
         colorDialog.setContentView(R.layout.add_color_dialog)
@@ -132,10 +129,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
         val colorPicker: Button? = colorDialog.findViewById(R.id.color_picker)
 
-
-//----------------------------------------------------------------------------------------------------------------------------------
-//TodoDialog Initialization
-
         val todoDialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
         todoDialog.setContentView(R.layout.todo_listview)
         todoDialog.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE)
@@ -148,7 +141,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         val recyclerView = todoDialog.findViewById<RecyclerView>(R.id.todo_listview)!!
         val btn = todoDialog.findViewById<Button>(R.id.done)
 
-        //Bind with View model and Onclick Listener
         binding?.apply {
             noteTitle.setText(viewModel.noteTitle)
             noteDescription.setText(viewModel.noteDescription)
@@ -171,28 +163,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 locationParentLayout.visibility = View.VISIBLE
             }
             fragmentNewUpdateNote.setBackgroundColor(viewModel.noteColor)
-            picker = ColorPickerDialog.Builder()
-                .setInitialColor(696969)
-                .setColorModel(ColorModel.HSV)
-                .setColorModelSwitchEnabled(true)
-                .setButtonOkText(android.R.string.ok)
-                .setButtonCancelText(android.R.string.cancel)
-                .onColorSelected { color: Int ->
-                    fragmentNewUpdateNote.setBackgroundColor(color)
-                    image1?.setImageResource(0)
-                    image2?.setImageResource(0)
-                    image3?.setImageResource(0)
-                    image4?.setImageResource(0)
-                    image5?.setImageResource(0)
-                    image6?.setImageResource(0)
-                    image7?.setImageResource(0)
-                    image8?.setImageResource(0)
-                    image9?.setImageResource(0)
-                    image10?.setImageResource(0)
-                    image11?.setImageResource(0)
-                    viewModel.noteColor = viewColor.color
-                }.create()
-
             when (viewModel.noteColor) {
                 -13359 -> {
                     image2?.setImageResource(R.drawable.ic_baseline_done_24)
@@ -435,11 +405,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 showAlert("url")
                 true
             }
-            urlLink.setOnLongClickListener {
-                showAlert("url")
-                true
-            }
-
             share.setOnClickListener {
                 activity?.let { it1 -> viewModel.onShareClick(it1.applicationContext, showImage) }
             }
@@ -734,7 +699,30 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
             colorPicker?.setOnClickListener {
                 colorDialog.dismiss()
-                picker?.show(childFragmentManager, "color_picker")
+                ColorPickerDialog.Builder()
+                    .setInitialColor(if(listOf(
+                            0, -13359, -2252579, -16718218, -43230, -6982195, -12490271, -23296,
+                            -38476, -7650029, -9404272).contains(viewModel.noteColor)) 696969
+                    else viewModel.noteColor)
+                    .setColorModel(ColorModel.HSV)
+                    .setColorModelSwitchEnabled(true)
+                    .setButtonOkText(android.R.string.ok)
+                    .setButtonCancelText(android.R.string.cancel)
+                    .onColorSelected { color: Int ->
+                        fragmentNewUpdateNote.setBackgroundColor(color)
+                        image1?.setImageResource(0)
+                        image2?.setImageResource(0)
+                        image3?.setImageResource(0)
+                        image4?.setImageResource(0)
+                        image5?.setImageResource(0)
+                        image6?.setImageResource(0)
+                        image7?.setImageResource(0)
+                        image8?.setImageResource(0)
+                        image9?.setImageResource(0)
+                        image10?.setImageResource(0)
+                        image11?.setImageResource(0)
+                        viewModel.noteColor = viewColor.color
+                    }.create().show(childFragmentManager, "color_picker")
             }
 
             //Updating UI with ViewModel Data100847802
@@ -779,7 +767,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         }
     }
 
-    //Private function to display Place and URL
     private fun showAlert(s: String) {
         val builder = context?.let { AlertDialog.Builder(it) }
         val input = layoutInflater.inflate(R.layout.alert_edittext, null)
@@ -950,7 +937,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
         super.onDestroyView()
         datePicker = null
         timePicker = null
-        picker = null
         binding = null
     }
 }
