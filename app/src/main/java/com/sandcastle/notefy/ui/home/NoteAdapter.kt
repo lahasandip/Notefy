@@ -22,7 +22,6 @@ import com.sandcastle.notefy.databinding.NewNoteBinding
 import com.sandcastle.notefy.ui.home.Home.Companion.noteList
 import com.sandcastle.notefy.ui.newupdate.NewUpdateNote.Companion.cancelAlarm
 import com.sandcastle.notefy.util.Converters.Companion.getDateFormat
-import kotlin.collections.ArrayList
 
 class NoteAdapter(activity: Activity, private val listener: OnItemClickListener) :
     ListAdapter<NoteEntity, NoteAdapter.NoteViewHolder>(DiffCallback()) {

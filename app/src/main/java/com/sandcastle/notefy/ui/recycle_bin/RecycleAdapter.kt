@@ -21,7 +21,6 @@ import com.sandcastle.notefy.databinding.NewNoteBinding
 import com.sandcastle.notefy.ui.home.HomeTodoAdapter
 import com.sandcastle.notefy.ui.recycle_bin.RecycleBin.Companion.noteList
 import com.sandcastle.notefy.util.Converters.Companion.getDateFormat
-import kotlin.collections.ArrayList
 
 class RecycleAdapter(
     activity: Activity,
