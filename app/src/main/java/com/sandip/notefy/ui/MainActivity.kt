@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
+import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -50,7 +51,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
         observeUiPreferences(applicationContext)
-        observeLanguagePreference(this)
+        observeLanguagePreference(applicationContext)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
@@ -193,6 +194,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if(key.equals("darkMode"))  {
             observeUiPreferences(applicationContext)
+            Log.d("TAG", "shared pref changed")
         }
         if(key.equals("biometric"))  {
             observeBiometricPreferences()
