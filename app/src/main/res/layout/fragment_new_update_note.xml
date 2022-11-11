@@ -5,7 +5,7 @@
     android:id="@+id/fragment_newUpdateNote"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.sandip.notefy.ui.newupdate.NewUpdateNote">
+    tools:context="com.sandcastle.notefy.ui.newupdate.NewUpdateNote">
 
     <ImageView
         android:id="@+id/back"

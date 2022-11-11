@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.sandip.notefy">
+    package="com.sandcastle.notefy">
 
     <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -41,7 +41,7 @@
         </activity>
         <provider
             android:name="androidx.core.content.FileProvider"
-            android:authorities="com.sandip.notefy.provider"
+            android:authorities="com.sandcastle.notefy.provider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

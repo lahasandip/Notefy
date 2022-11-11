@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/home"
-        android:name="com.sandip.notefy.ui.home.Home"
+        android:name="com.sandcastle.notefy.ui.home.Home"
         android:label="home"
         tools:layout="@layout/fragment_home" >
         <action
@@ -20,55 +20,55 @@
 
     <fragment
         android:id="@+id/new_update_note"
-        android:name="com.sandip.notefy.ui.newupdate.NewUpdateNote"
+        android:name="com.sandcastle.notefy.ui.newupdate.NewUpdateNote"
         android:label="new_update"
         tools:layout="@layout/fragment_new_update_note">
         <argument
             android:name="home"
             android:defaultValue="@null"
-            app:argType="com.sandip.notefy.data.entity.NoteEntity"
+            app:argType="com.sandcastle.notefy.data.entity.NoteEntity"
             app:nullable="true"/>
     </fragment>
 
     <fragment
         android:id="@+id/help_feedback"
-        android:name="com.sandip.notefy.ui.help.HelpFeedback"
+        android:name="com.sandcastle.notefy.ui.help.HelpFeedback"
         android:label="help_feedback"
         tools:layout="@layout/fragment_help_feedback"/>
 
     <fragment
         android:id="@+id/about"
-        android:name="com.sandip.notefy.ui.about_us.About"
+        android:name="com.sandcastle.notefy.ui.about_us.About"
         android:label="about"
         tools:layout="@layout/fragment_about" />
 
     <dialog
         android:id="@+id/shareApp"
-        android:name="com.sandip.notefy.ui.shareapp.ShareApp"
+        android:name="com.sandcastle.notefy.ui.shareapp.ShareApp"
         android:label="shareApp" />
 
     <fragment
         android:id="@+id/languages"
-        android:name="com.sandip.notefy.ui.languages.Languages"
+        android:name="com.sandcastle.notefy.ui.languages.Languages"
         android:label="languages"
         tools:layout="@layout/fragment_languages">
     </fragment>
 
     <fragment
         android:id="@+id/user"
-        android:name="com.sandip.notefy.ui.profile.User"
+        android:name="com.sandcastle.notefy.ui.profile.User"
         android:label="user"
         tools:layout="@layout/fragment_user">
         <argument
             android:name="user"
             android:defaultValue="@null"
-            app:argType="com.sandip.notefy.data.entity.UserEntity"
+            app:argType="com.sandcastle.notefy.data.entity.UserEntity"
             app:nullable="true"/>
     </fragment>
 
     <fragment
         android:id="@+id/recycle_bin"
-        android:name="com.sandip.notefy.ui.recycle_bin.RecycleBin"
+        android:name="com.sandcastle.notefy.ui.recycle_bin.RecycleBin"
         android:label="recycle_bin"
         tools:layout="@layout/fragment_recycle_bin">
     </fragment>

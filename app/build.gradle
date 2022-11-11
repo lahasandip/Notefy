@@ -11,7 +11,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.sandip.notefy"
+        applicationId "com.sandcastle.notefy"
         minSdk 24
         targetSdk 33
         versionCode 1
