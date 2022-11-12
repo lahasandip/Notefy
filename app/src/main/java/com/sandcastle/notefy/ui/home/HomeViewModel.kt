@@ -36,7 +36,7 @@ class HomeViewModel @Inject constructor(
     private val tasksEventChannel = Channel<TasksEvent>()
     val tasksEvent = tasksEventChannel.receiveAsFlow()
     private val app = application
-    val gridSharedPreferences : SharedPreferences =  app.getSharedPreferences("GRID", Context.MODE_PRIVATE)
+    val gridSharedPreferences: SharedPreferences =  app.getSharedPreferences("GRID", Context.MODE_PRIVATE)
     val biometricSharedPreferences : SharedPreferences =  app.getSharedPreferences("BIOMETRIC", Context.MODE_PRIVATE)
     val uiSharedPreferences : SharedPreferences = app.getSharedPreferences("UI",Context.MODE_PRIVATE)
     val isFirstLaunchPreferences : SharedPreferences = app.getSharedPreferences("FIRST_LAUNCH",Context.MODE_PRIVATE)
@@ -98,27 +98,19 @@ class HomeViewModel @Inject constructor(
     }
 
     fun onGridViewToggle(isChecked: Boolean) = viewModelScope.launch {
-        val editor = gridSharedPreferences.edit()
-        editor.putBoolean("grid", isChecked)
-        editor.apply()
+        gridSharedPreferences.edit().putBoolean("grid", isChecked).apply()
     }
 
     fun onScreenLockToggle(isChecked: Boolean) = viewModelScope.launch {
-        val editor = biometricSharedPreferences.edit()
-        editor.putBoolean("biometric", isChecked)
-        editor.apply()
+        biometricSharedPreferences.edit().putBoolean("biometric", isChecked).apply()
     }
 
     fun onDarkModeToggle(isChecked: Boolean) = viewModelScope.launch{
-        val editor = uiSharedPreferences.edit()
-        editor.putBoolean("darkMode", isChecked)
-        editor.apply()
+        uiSharedPreferences.edit().putBoolean("darkMode", isChecked).apply()
     }
 
     fun onScreenRotate(isFirstLaunch: Boolean) = viewModelScope.launch {
-        val editor = isFirstLaunchPreferences.edit()
-        editor.putBoolean("rotation", isFirstLaunch)
-        editor.apply()
+        isFirstLaunchPreferences.edit().putBoolean("rotation", isFirstLaunch).apply()
     }
 
     fun updateUiSwitch() = viewModelScope.launch{

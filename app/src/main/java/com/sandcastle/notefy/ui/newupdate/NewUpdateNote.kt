@@ -135,7 +135,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
 
         todoDialog.window?.attributes?.windowAnimations = R.style.DialogAnimation
         todoDialog.window?.setGravity(Gravity.BOTTOM)
-        val addToList = todoDialog.findViewById<ImageView>(R.id.addTodo)
         val checkBoxTodo = todoDialog.findViewById<CheckBox>(R.id.todoCheck)
         val descriptionTodo = todoDialog.findViewById<EditText>(R.id.todoDesc)
         val recyclerView = todoDialog.findViewById<RecyclerView>(R.id.todo_listview)!!
@@ -209,8 +208,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             if (viewModel.noteImage != null) {
-                val imageUri = Uri.parse(viewModel.noteImage)
-                Glide.with(requireContext()).load(imageUri).into(showImage)
+                Glide.with(requireContext()).load(Uri.parse(viewModel.noteImage)).into(showImage)
                 imageLayout.visibility = View.VISIBLE
             }
 
@@ -366,30 +364,22 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             }
 
             addImage.setOnClickListener {
-
                 val dialog = BottomSheetDialog(requireContext(), R.style.BottomSheetDialogTheme)
                 dialog.apply {
                     setContentView(R.layout.add_image_dialog)
                     show()
                     window?.attributes?.windowAnimations = R.style.DialogAnimation
                     window?.setGravity(Gravity.BOTTOM)
-                    val camera: LinearLayout? = findViewById(R.id.take_photo)
-
-                    camera?.setOnClickListener {
+                    findViewById<LinearLayout>(R.id.take_photo)?.setOnClickListener {
                         dismiss()
-                        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        startActivityForResult(intent, CAMERA)
+                        startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE), CAMERA)
                     }
-                    val image: LinearLayout? = findViewById(R.id.add_photo)
-                    image?.setOnClickListener {
+                    findViewById<LinearLayout>(R.id.add_photo)?.setOnClickListener {
                         dismiss()
                         val i = Intent()
                         i.type = "image/*"
-                        i.action = Intent.ACTION_PICK
-                        startActivityForResult(
-                            Intent.createChooser(i, null),
-                            GALLERY
-                        )
+                        i.action = Intent.ACTION_OPEN_DOCUMENT
+                        startActivityForResult(i, GALLERY)
                     }
                 }
             }
@@ -430,7 +420,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 true
             }
 
-            addToList?.setOnClickListener {
+            todoDialog.findViewById<ImageView>(R.id.addTodo)?.setOnClickListener {
                 if (!(descriptionTodo?.text.isNullOrEmpty())) {
                     todoList?.add(
                         Todo(
@@ -725,7 +715,6 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     }.create().show(childFragmentManager, "color_picker")
             }
 
-            //Updating UI with ViewModel Data100847802
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 viewModel.addEditTaskEvent.collect { event ->
                     when (event) {

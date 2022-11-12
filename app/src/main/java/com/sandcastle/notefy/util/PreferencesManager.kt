@@ -23,7 +23,6 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
     val preferencesFlow = dataStore.data
         .catch { exception ->
             if (exception is IOException) {
-                exception.printStackTrace()
                 emit(emptyPreferences())
             } else {
                 throw exception
@@ -39,7 +38,6 @@ class PreferencesManager @Inject constructor(@ApplicationContext context: Contex
     val isChecked = dataStore.data
         .catch {exception ->
             if (exception is IOException) {
-                exception.printStackTrace()
                 emit(emptyPreferences())
             } else {
                 throw exception

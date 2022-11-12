@@ -62,8 +62,6 @@ class User : Fragment(R.layout.fragment_user) {
         dialog.setContentView(R.layout.view_photo_dialog)
         val profilePic = dialog.findViewById<ImageView>(R.id.profile_pic)
         val userName = dialog.findViewById<TextView>(R.id.name_user)
-        val deletePhoto = dialog.findViewById<ImageView>(R.id.delete_photo)
-        val back = dialog.findViewById<ImageView>(R.id.back_screen)
         dialog.window?.setLayout(
             ViewGroup.LayoutParams.WRAP_CONTENT,
             ViewGroup.LayoutParams.MATCH_PARENT,
@@ -76,9 +74,7 @@ class User : Fragment(R.layout.fragment_user) {
             textName.setText(viewModel.name)
             textEmail.setText(viewModel.email)
             textPhone.setText(viewModel.phone)
-
-            circleImageView.setImageURI(Uri.parse(viewModel.image))
-
+            Glide.with(requireContext()).load(Uri.parse(viewModel.image)).into(circleImageView)
 
             textName.addTextChangedListener {
                 viewModel.name = it.toString()
@@ -114,12 +110,12 @@ class User : Fragment(R.layout.fragment_user) {
                 dialog.show()
             }
 
-            deletePhoto.setOnClickListener {
+            dialog.findViewById<ImageView>(R.id.delete_photo).setOnClickListener {
                 Glide.with(requireContext()).load(R.drawable.user).into(profilePic)
                 Glide.with(requireContext()).load(R.drawable.user).into(circleImageView)
                 viewModel.image = imageURI.toString()
             }
-            back.setOnClickListener {
+            dialog.findViewById<ImageView>(R.id.back_screen).setOnClickListener {
                 dialog.dismiss()
             }
 
@@ -141,15 +137,12 @@ class User : Fragment(R.layout.fragment_user) {
                     show()
                     window?.attributes?.windowAnimations = R.style.DialogAnimation
                     window?.setGravity(Gravity.BOTTOM)
-                    val camera: LinearLayout? = findViewById(R.id.take_photo)
-                    camera?.setOnClickListener {
+                    findViewById<LinearLayout>(R.id.take_photo)?.setOnClickListener {
                         dismiss()
-                        val intent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-                        startActivityForResult(intent, CAMERA)
+                        startActivityForResult(Intent(MediaStore.ACTION_IMAGE_CAPTURE), CAMERA)
                     }
 
-                    val image: LinearLayout? = findViewById(R.id.add_photo)
-                    image?.setOnClickListener {
+                    findViewById<LinearLayout>(R.id.add_photo)?.setOnClickListener {
                         dismiss()
                         val i = Intent().apply {
                             type = "image/*"
@@ -212,7 +205,7 @@ class User : Fragment(R.layout.fragment_user) {
         super.onActivityResult(requestCode, resultCode, data)
         if ((requestCode == CAMERA) && (resultCode == AppCompatActivity.RESULT_OK)) {
             val imageBitmap = data?.extras?.get("data") as Bitmap
-            Glide.with(this).load(imageBitmap).into(binding!!.circleImageView)
+            Glide.with(requireContext()).load(imageBitmap).into(binding!!.circleImageView)
             viewModel.image = getImageUri(
                 context,
                 context?.filesDir,
@@ -222,7 +215,7 @@ class User : Fragment(R.layout.fragment_user) {
         } else if (requestCode == GALLERY && resultCode == AppCompatActivity.RESULT_OK) {
             val selectedImageUri: Uri? = data?.data
             if (null != selectedImageUri) {
-                Glide.with(this).load(selectedImageUri).into(binding!!.circleImageView)
+                Glide.with(requireContext()).load(selectedImageUri).into(binding!!.circleImageView)
                 viewModel.image = selectedImageUri.toString()
             }
         }
@@ -232,13 +225,7 @@ class User : Fragment(R.layout.fragment_user) {
         super.onStart()
         binding?.apply {
             emailWatcher = object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {}
-
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                     if (textEmail.text.isNotEmpty() && !Patterns.EMAIL_ADDRESS.matcher(textEmail.text)
                             .matches()
@@ -249,18 +236,12 @@ class User : Fragment(R.layout.fragment_user) {
                         save.isEnabled = true
                     }
                 }
-
                 override fun afterTextChanged(s: Editable) {}
             }
             textEmail.addTextChangedListener(emailWatcher)
 
             phoneWatcher = object : TextWatcher {
-                override fun beforeTextChanged(
-                    s: CharSequence,
-                    start: Int,
-                    count: Int,
-                    after: Int
-                ) {}
+                override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {}
                 override fun onTextChanged(s: CharSequence, start: Int, before: Int, count: Int) {
                     if (textPhone.text.isNotEmpty() && !Patterns.PHONE.matcher(textPhone.text)
                             .matches()

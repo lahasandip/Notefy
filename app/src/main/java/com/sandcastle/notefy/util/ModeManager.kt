@@ -3,7 +3,6 @@ package com.sandcastle.notefy.util
 import android.content.Context
 import android.content.SharedPreferences
 import android.content.res.Configuration
-import android.util.Log
 import androidx.appcompat.app.AppCompatDelegate
 import java.util.*
 
@@ -14,7 +13,6 @@ object ModeManager {
             "UI",
             Context.MODE_PRIVATE
         )
-        Log.d("TAG", uiSharedPreferences.getBoolean("darkMode", false).toString() )
 
         when (uiSharedPreferences.getBoolean("darkMode", false)) {
             true -> AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES)

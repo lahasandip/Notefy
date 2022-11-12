@@ -7,7 +7,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.NavDeepLinkBuilder
@@ -39,22 +38,17 @@ class Notifications: BroadcastReceiver() {
 
         GlobalScope.launch {
             data = noteDao.getReminderData(noteRequestCode)
-            Log.d("data", "matched request code $data")
             if (data != null) {
                 data?.copy(strike = true)?.let { noteDao.updateDao(it) }
             }
             bundle = Bundle()
             bundle?.putParcelable("home", data?.copy(strike = true))
-            Log.d("data", "bundle data $bundle")
-
             try {
                 icon = BitmapFactory.decodeStream(
                     context?.contentResolver?.openInputStream(Uri.parse(noteImage))
                 )
                 flag = true
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
+            } catch (_: Exception) {}
 
             val pendingIntent = context?.let {
                 NavDeepLinkBuilder(it)

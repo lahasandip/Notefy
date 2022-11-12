@@ -11,14 +11,9 @@ import com.sandcastle.notefy.R
 import com.sandcastle.notefy.data.model.Help
 
 class HelpAdapter(helpList: ArrayList<Help>) : RecyclerView.Adapter<HelpAdapter.HelpFeedbackViewHolder?>() {
-    private val myList : ArrayList<Help>?
+    private val myList = helpList
     private var selectedPosition = -1
-    private val viewModel: HelpFeedbackViewModel
 
-    init {
-        myList = helpList
-        viewModel = HelpFeedbackViewModel()
-    }
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HelpFeedbackViewHolder {
         return HelpFeedbackViewHolder(
             LayoutInflater.from(parent.context).inflate(
@@ -31,11 +26,11 @@ class HelpAdapter(helpList: ArrayList<Help>) : RecyclerView.Adapter<HelpAdapter.
 
     override fun onBindViewHolder(holder: HelpFeedbackViewHolder, position: Int) {
 
-        val help: Help? = myList?.get(position)
+        val help = myList[position]
         holder.apply {
-            questions.text = myList?.get(position)?.question ?: ""
-            expandedText.text = myList?.get(position)?.expandedText ?: ""
-            if (help?.visibility == true) {
+            questions.text = myList[position].question ?: ""
+            expandedText.text = myList[position].expandedText ?: ""
+            if (help.visibility == true) {
                 expandedLayout.visibility = View.VISIBLE
                 arrowButton.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24)
             } else {
@@ -44,13 +39,13 @@ class HelpAdapter(helpList: ArrayList<Help>) : RecyclerView.Adapter<HelpAdapter.
             }
             itemView.setOnClickListener {
                 selectedPosition = adapterPosition
-                help?.visibility = !(help?.visibility)!!
+                help.visibility = !(help.visibility)!!
                 notifyItemChanged(position)
             }
         }
     }
     override fun getItemCount(): Int {
-        return myList?.size ?: -1
+        return myList.size
     }
 
     inner class HelpFeedbackViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -110,18 +110,9 @@ class NewUpdateNoteViewModel @Inject constructor(
         }
 
         if (note != null) {
-            val updatedTask = note.copy(title = noteTitle,
-                body = noteDescription,
-                important = noteImportance,
-                url = noteUrl,
-                dateTime = noteDateTime,
-                requestCode = requestCode,
-                strike = isStrike,
-                location = noteLocation,
-                clr = noteColor,
-                image = noteImage,
-                todoList = noteTodoList,
-                isHide = noteIsHide
+            val updatedTask = note.copy(title = noteTitle, body = noteDescription, important = noteImportance,
+                url = noteUrl, dateTime = noteDateTime, requestCode = requestCode, strike = isStrike,
+                location = noteLocation, clr = noteColor, image = noteImage, todoList = noteTodoList, isHide = noteIsHide
             )
             updateTask(updatedTask)
         } else {
@@ -208,10 +199,8 @@ class NewUpdateNoteViewModel @Inject constructor(
     }
 
     fun onLocationClick(text: CharSequence?) =viewModelScope.launch{
-        val uri = "geo:0,0?q=$text"
-        val gmmIntentUri = Uri.parse(uri)
-        val mapIntent = Intent(Intent.ACTION_VIEW, gmmIntentUri)
-        mapIntent.setPackage("com.google.android.apps.maps")
+        val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=$text"))
+            .setPackage("com.google.android.apps.maps")
         addEditTaskEventChannel.send((AddEditTaskEvent.StartLocationIntent(mapIntent)))
     }
 
@@ -225,18 +214,9 @@ class NewUpdateNoteViewModel @Inject constructor(
 
     private fun callAddUpdateDB() = viewModelScope.launch{
         if (note != null) {
-            val updatedTask = note.copy(title = noteTitle,
-                body = noteDescription,
-                important = noteImportance,
-                url = noteUrl,
-                dateTime = noteDateTime,
-                requestCode = requestCode,
-                strike = isStrike,
-                location = noteLocation,
-                clr = noteColor,
-                image = noteImage,
-                todoList = noteTodoList,
-                isHide = noteIsHide
+            val updatedTask = note.copy(title = noteTitle, body = noteDescription, important = noteImportance,
+                url = noteUrl, dateTime = noteDateTime, requestCode = requestCode, strike = isStrike,
+                location = noteLocation, clr = noteColor, image = noteImage, todoList = noteTodoList, isHide = noteIsHide
             )
             updateDeleteTask(updatedTask)
         } else {
@@ -256,31 +236,21 @@ class NewUpdateNoteViewModel @Inject constructor(
         }
     }
 
-
     fun displaySimpleNotification(context: Context?) = viewModelScope.launch {
-        val notificationIntent =
-            Intent(context, Notifications::class.java).apply {
-                flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-            }
-
-        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
-
-        notificationIntent.putExtra("noteTitle", noteTitle)
-        notificationIntent.putExtra("noteBody", noteDescription)
-        notificationIntent.putExtra("noteImage", noteImage)
-        notificationIntent.putExtra("noteRequestCode", requestCode)
+        val notificationIntent = Intent(context, Notifications::class.java).apply {
+            flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            putExtra("noteTitle", noteTitle)
+            putExtra("noteBody", noteDescription)
+            putExtra("noteImage", noteImage)
+            putExtra("noteRequestCode", requestCode)
+        }
 
         val pendingNotificationIntent: PendingIntent = PendingIntent.getBroadcast(
-            context,
-            requestCode!!,
-            notificationIntent,
+            context, requestCode!!, notificationIntent,
             PendingIntent.FLAG_IMMUTABLE or PendingIntent.FLAG_UPDATE_CURRENT
         )
-
-        alarmManager.setExactAndAllowWhileIdle(
-            AlarmManager.RTC_WAKEUP,
-            getTime(),
-            pendingNotificationIntent
+        val alarmManager = context?.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, getTime(), pendingNotificationIntent
         )
     }
 

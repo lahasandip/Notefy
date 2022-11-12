@@ -25,8 +25,7 @@ class ShareApp : DialogFragment() {
                         putExtra(Intent.EXTRA_TEXT, getString(R.string.message,  BuildConfig.APPLICATION_ID))
                         addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION or Intent.FLAG_GRANT_WRITE_URI_PERMISSION )
                     }
-                    val shareIntent = Intent.createChooser(sendIntent, null)
-                    startActivity(shareIntent)
+                    startActivity(Intent.createChooser(sendIntent, null))
                 }
                 catch (e: Exception) {
                     Toast.makeText(activity?.applicationContext, getString(R.string.oops), Toast.LENGTH_LONG).show()

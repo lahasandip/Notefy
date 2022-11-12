@@ -34,13 +34,11 @@ class NoteAdapter(activity: Activity, private val listener: OnItemClickListener)
     private lateinit var task :NoteEntity
     private var mutableLiveData = MutableLiveData<String?>()
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): NoteViewHolder {
-        val binding = NewNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return NoteViewHolder(binding )
+        return NoteViewHolder(NewNoteBinding.inflate(LayoutInflater.from(parent.context), parent, false))
     }
 
     override fun onBindViewHolder(holder: NoteViewHolder, position: Int) {
-        val currentItem = getItem(position)
-        holder.bind(holder, currentItem)
+        holder.bind(holder, getItem(position))
     }
 
     inner class NoteViewHolder(private val binding: NewNoteBinding) :
@@ -52,10 +50,8 @@ class NoteAdapter(activity: Activity, private val listener: OnItemClickListener)
                     if (isEnable) {
                         clickItem(binding, holder)
                     } else {
-                        val position = adapterPosition
-                        if (position != RecyclerView.NO_POSITION) {
-                            val task = getItem(position)
-                            listener.onItemClick(task)
+                        if (adapterPosition != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(getItem(adapterPosition))
                         }
                     }
                 }
@@ -94,7 +90,7 @@ class NoteAdapter(activity: Activity, private val listener: OnItemClickListener)
                                             selectList.clear()
                                             selectList.addAll(noteList)
                                         }
-                                        item.icon = ContextCompat.getDrawable(mActivity, R.drawable.ic_baseline_deselect_24)
+                                        item.icon = ContextCompat.getDrawable(mActivity.applicationContext, R.drawable.ic_baseline_deselect_24)
                                         mutableLiveData.value = selectList.size.toString()
                                         notifyDataSetChanged()
                                         true
@@ -106,7 +102,7 @@ class NoteAdapter(activity: Activity, private val listener: OnItemClickListener)
                                         for (s in selectList) {
                                             undoList.add(s)
                                             listener.onDeleteClick(s)
-                                            cancelAlarm(mActivity, s.requestCode)
+                                            cancelAlarm(mActivity.applicationContext, s.requestCode)
                                         }
                                         Snackbar.make(itemView, mActivity.getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
                                             .setAction(mActivity.getString(R.string.undo)) {
@@ -188,19 +184,18 @@ class NoteAdapter(activity: Activity, private val listener: OnItemClickListener)
                 cardView.setCardBackgroundColor(noteEntity.clr)
 
                 if(noteEntity.image != null) {
-                    val imageUri = Uri.parse(noteEntity.image)
-                    Glide.with(mActivity).load(imageUri).into(img)
+                    Glide.with(mActivity.applicationContext).load(Uri.parse(noteEntity.image)).into(img)
                     noteImageLayout.visibility = View.VISIBLE
                 }
                 else{
-                    Glide.with(mActivity).clear(img)
+                    Glide.with(mActivity.applicationContext).clear(img)
                     noteImageLayout.visibility = View.GONE
                 }
 
                 if (noteEntity.todoList != null) {
                     val todoAdapter = HomeTodoAdapter(noteEntity.todoList as ArrayList<Todo>)
                     todoRecyclerView.setHasFixedSize(true)
-                    todoRecyclerView.layoutManager = LinearLayoutManager(mActivity)
+                    todoRecyclerView.layoutManager = LinearLayoutManager(mActivity.applicationContext)
                     todoRecyclerView.adapter = todoAdapter
                     todoRecyclerView.visibility = View.VISIBLE
                     todoAdapter.notifyDataSetChanged()
@@ -213,9 +208,8 @@ class NoteAdapter(activity: Activity, private val listener: OnItemClickListener)
     }
 
     private fun clickItem(binding: NewNoteBinding, holder: NoteViewHolder) {
-        val position = holder.adapterPosition
-        if (position != RecyclerView.NO_POSITION) {
-            task = getItem(position)
+        if (holder.adapterPosition != RecyclerView.NO_POSITION) {
+            task = getItem(holder.adapterPosition)
         }
         binding.apply {
             if (cardView.strokeWidth == 0) {
@@ -229,10 +223,10 @@ class NoteAdapter(activity: Activity, private val listener: OnItemClickListener)
             }
             if (selectList.size == noteList.size) {
                 mItem?.icon =
-                    ContextCompat.getDrawable(mActivity, R.drawable.ic_baseline_deselect_24)
+                    ContextCompat.getDrawable(mActivity.applicationContext, R.drawable.ic_baseline_deselect_24)
             }
             else{
-                mItem?.icon = ContextCompat.getDrawable(mActivity, R.drawable.ic_baseline_select_all_24)
+                mItem?.icon = ContextCompat.getDrawable(mActivity.applicationContext, R.drawable.ic_baseline_select_all_24)
             }
         }
         mutableLiveData.value = selectList.size.toString()

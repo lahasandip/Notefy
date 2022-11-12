@@ -27,22 +27,10 @@ class Languages : Fragment(R.layout.fragment_languages), LanguagesAdapter.OnItem
         binding = FragmentLanguagesBinding.bind(view)
         viewModel.languageSharedPreferences.registerOnSharedPreferenceChangeListener(this )
 
-        val flagImages = intArrayOf(
-            R.drawable.usa,
-            R.drawable.india,
-            R.drawable.spain,
-            R.drawable.bangladesh,
-            R.drawable.france,
-            R.drawable.china,
-            R.drawable.india,
-            R.drawable.portugese,
-            R.drawable.indonesia,
-            R.drawable.japan,
-            R.drawable.india,
-            R.drawable.russia,
-            R.drawable.india,
-            R.drawable.turkey,
-            R.drawable.italy
+        val flagImages = intArrayOf(R.drawable.usa, R.drawable.india, R.drawable.spain,
+            R.drawable.bangladesh, R.drawable.france, R.drawable.china, R.drawable.india,
+            R.drawable.portugese, R.drawable.indonesia, R.drawable.japan, R.drawable.india,
+            R.drawable.russia, R.drawable.india, R.drawable.turkey, R.drawable.italy
         )
         val language = arrayOf(
             "English", "हिन्दी", "Española", "বাংলা", "Français", "中国人", "தமிழ்",

@@ -13,7 +13,7 @@ import com.sandcastle.notefy.data.model.Todo
 class HomeTodoAdapter( mTodoList: ArrayList<Todo>?)
     : RecyclerView.Adapter<HomeTodoAdapter.TodoViewHolder?>() {
 
-    private val todoList: ArrayList<Todo>? = mTodoList
+    private val todoList = mTodoList
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TodoViewHolder {
         return TodoViewHolder(

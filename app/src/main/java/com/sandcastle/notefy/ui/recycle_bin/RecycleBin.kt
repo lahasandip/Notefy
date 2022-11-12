@@ -30,7 +30,6 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
     private var drawerLayout : DrawerLayout? = null
     private lateinit var drawerListener : DrawerLayout.DrawerListener
     private var gridLayoutManager: StaggeredGridLayoutManager? = null
-
     companion object {
         lateinit var noteList: List<NoteEntity>
     }
@@ -151,18 +150,17 @@ class RecycleBin : Fragment(R.layout.fragment_recycle_bin), RecycleAdapter.OnIte
     override fun onStart() {
         super.onStart()
         drawerLayout = activity?.findViewById(R.id.drawer_layout)
-        drawerListener =
-            object : DrawerLayout.DrawerListener {
-                override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
-                override fun onDrawerOpened(drawerView: View) {}
-                override fun onDrawerClosed(drawerView: View) {}
-                override fun onDrawerStateChanged(newState: Int) {
-                    if(recycleActionMode != null){
-                        recycleActionMode?.finish()
-                        recycleActionMode = null
-                    }
+        drawerListener = object : DrawerLayout.DrawerListener {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+            override fun onDrawerOpened(drawerView: View) {}
+            override fun onDrawerClosed(drawerView: View) {}
+            override fun onDrawerStateChanged(newState: Int) {
+                if(recycleActionMode != null){
+                    recycleActionMode?.finish()
+                    recycleActionMode = null
                 }
             }
+        }
         drawerLayout?.addDrawerListener(drawerListener)
 
     }

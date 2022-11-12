@@ -8,7 +8,6 @@ import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -50,11 +49,11 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
 
     override fun onCreate(savedInstanceState: Bundle?) {
         installSplashScreen()
-        observeUiPreferences(applicationContext)
         observeLanguagePreference(applicationContext)
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding!!.root)
+        observeUiPreferences(applicationContext)
         viewModel.uiSharedPreferences.registerOnSharedPreferenceChangeListener(this)
         viewModel.biometricSharedPreferences.registerOnSharedPreferenceChangeListener(this)
 
@@ -83,7 +82,7 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
                     }
                 }
                 if(!(it.image.isNullOrEmpty())){
-                    Glide.with(this).load(Uri.parse(it.image)).into(navigationView.getHeaderView(0)
+                    Glide.with(applicationContext).load(Uri.parse(it.image)).into(navigationView.getHeaderView(0)
                         .findViewById(R.id.user_photo2))
                 }
             }}
@@ -194,7 +193,6 @@ class MainActivity : AppCompatActivity(), SharedPreferences.OnSharedPreferenceCh
     override fun onSharedPreferenceChanged(sharedPreferences: SharedPreferences?, key: String?) {
         if(key.equals("darkMode"))  {
             observeUiPreferences(applicationContext)
-            Log.d("TAG", "shared pref changed")
         }
         if(key.equals("biometric"))  {
             observeBiometricPreferences()

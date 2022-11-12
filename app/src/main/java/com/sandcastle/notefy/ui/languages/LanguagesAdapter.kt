@@ -33,11 +33,8 @@ class LanguagesAdapter(
     }
 
     override fun onBindViewHolder(holder: LanguagesViewHolder, position: Int) {
-
-        val sharedPreferences =  mContext?.getSharedPreferences("LANGUAGE",
-            Context.MODE_PRIVATE)
+        val sharedPreferences =  mContext?.getSharedPreferences("LANGUAGE", Context.MODE_PRIVATE)
         val pos = sharedPreferences?.getInt("position", 0)
-
         if (pos != null) {
             selectedPosition = pos
         }

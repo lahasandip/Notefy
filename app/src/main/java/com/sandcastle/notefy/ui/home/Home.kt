@@ -52,7 +52,6 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     private lateinit var dialog: Dialog
     private var homeActionMode : ActionMode ?  = null
     private lateinit var drawerListener : DrawerLayout.DrawerListener
-
     companion object{
         lateinit var noteList: List<NoteEntity>
     }
@@ -299,18 +298,17 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
     override fun onStart() {
         super.onStart()
         drawerLayout = activity?.findViewById(R.id.drawer_layout)
-        drawerListener =
-            object : DrawerLayout.DrawerListener {
-                override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
-                override fun onDrawerOpened(drawerView: View) {}
-                override fun onDrawerClosed(drawerView: View) {}
-                override fun onDrawerStateChanged(newState: Int) {
-                    if(homeActionMode != null){
-                        homeActionMode?.finish()
-                        homeActionMode = null
-                    }
+        drawerListener = object : DrawerLayout.DrawerListener {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+            override fun onDrawerOpened(drawerView: View) {}
+            override fun onDrawerClosed(drawerView: View) {}
+            override fun onDrawerStateChanged(newState: Int) {
+                if(homeActionMode != null){
+                    homeActionMode?.finish()
+                    homeActionMode = null
                 }
             }
+        }
         drawerLayout?.addDrawerListener(drawerListener)
     }
 

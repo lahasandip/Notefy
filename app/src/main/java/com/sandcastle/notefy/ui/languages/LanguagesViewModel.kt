@@ -16,9 +16,7 @@ class LanguagesViewModel(application: Application) : AndroidViewModel(applicatio
     val languageSharedPreferences : SharedPreferences =  app.getSharedPreferences("LANGUAGE", Context.MODE_PRIVATE)
 
     fun onGridViewToggle(flag: Int) = viewModelScope.launch {
-        val editor = languageSharedPreferences.edit()
-        editor.putInt("position",flag)
-        editor.apply()
+        languageSharedPreferences.edit().putInt("position",flag).apply()
     }
 
     fun onContinueBackClick()  = viewModelScope.launch {

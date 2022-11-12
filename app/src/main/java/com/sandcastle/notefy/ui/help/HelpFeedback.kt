@@ -71,7 +71,7 @@ class HelpFeedback : Fragment(R.layout.fragment_help_feedback){
                 }
             }
             layoutWriteUs.setOnClickListener {
-                val address: Array<String> = arrayOf("notefy.advise@gmail.com")
+                val address = arrayOf("notefy.advise@gmail.com")
                 val intent = Intent(Intent.ACTION_SENDTO).apply {
                     data = Uri.parse("mailto:")
                     putExtra(Intent.EXTRA_EMAIL, address)
