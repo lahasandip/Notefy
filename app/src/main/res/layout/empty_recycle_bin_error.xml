@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/empty_recycle_bin_error"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
@@ -15,7 +14,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+        android:contentDescription="@string/empty_recycle_bin" />
 
     <TextView
         android:id="@+id/errorTitle"
@@ -46,6 +45,7 @@
         android:layout_width="15dp"
         android:layout_height="15dp"
         android:layout_marginTop="10dp"
+        android:contentDescription="@string/recycle_bin"
         app:layout_constraintBottom_toBottomOf="@+id/errorImage"
         app:layout_constraintEnd_toEndOf="@+id/errorImage"
         app:layout_constraintStart_toStartOf="@+id/errorImage"

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -51,7 +50,8 @@
             <FrameLayout
                 android:id="@+id/frame_no_gradient"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:contentDescription="frame_no_gradient">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="33sp"
@@ -67,14 +67,15 @@
                     android:layout_height="22sp"
                     android:layout_gravity="center"
                     android:elevation="2dp"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/color"/>
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/frame_gradient_1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="10dp"
+                android:contentDescription="frame_gradient_1">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="33sp"
@@ -93,14 +94,15 @@
                     android:elevation="12dp"
                     android:backgroundTint="@color/LightSteelBlue"
                     app:tint="@color/black"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/color"/>
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/frame_gradient_2"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="10dp"
+                android:contentDescription="frame_gradient_2">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="33sp"
@@ -119,14 +121,15 @@
                     android:elevation="2dp"
                     android:backgroundTint="@color/LightSteelBlue"
                     app:tint="@color/black"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/color"/>
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/frame_gradient_3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="10dp"
+                android:contentDescription="frame_gradient_3">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="33sp"
@@ -145,14 +148,15 @@
                     android:elevation="2dp"
                     android:backgroundTint="@color/LightSteelBlue"
                     app:tint="@color/black"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/color"/>
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/frame_gradient_4"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="10dp"
+                android:contentDescription="frame_gradient_4">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="33sp"
@@ -171,14 +175,15 @@
                     android:elevation="2dp"
                     android:backgroundTint="@color/LightSteelBlue"
                     app:tint="@color/black"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/color"/>
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/frame_gradient_5"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="10dp"
+                android:contentDescription="frame_gradient_5">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="33sp"
@@ -197,14 +202,15 @@
                     android:elevation="2dp"
                     android:backgroundTint="@color/LightSteelBlue"
                     app:tint="@color/black"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/color"/>
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/frame_gradient_6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="10dp"
+                android:contentDescription="frame_gradient_6">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="33sp"
@@ -223,14 +229,15 @@
                     android:elevation="2dp"
                     android:backgroundTint="@color/LightSteelBlue"
                     app:tint="@color/black"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/color"/>
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/frame_gradient_7"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="10dp"
+                android:contentDescription="frame_gradient_7">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="33sp"
@@ -249,14 +256,15 @@
                     android:elevation="2dp"
                     android:backgroundTint="@color/LightSteelBlue"
                     app:tint="@color/black"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/color"/>
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/frame_gradient_8"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="10dp"
+                android:contentDescription="frame_gradient_8">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="33sp"
@@ -275,14 +283,15 @@
                     android:elevation="2dp"
                     android:backgroundTint="@color/LightSteelBlue"
                     app:tint="@color/black"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/color"/>
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/frame_gradient_9"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="10dp"
+                android:contentDescription="frame_gradient_9">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="33sp"
@@ -301,14 +310,15 @@
                     android:elevation="2dp"
                     android:backgroundTint="@color/LightSteelBlue"
                     app:tint="@color/black"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/color"/>
             </FrameLayout>
 
             <FrameLayout
                 android:id="@+id/frame_gradient_10"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="10dp">
+                android:layout_marginStart="10dp"
+                android:contentDescription="frame_gradient_10">
 
                 <com.google.android.material.card.MaterialCardView
                     android:layout_width="33sp"
@@ -327,7 +337,7 @@
                     android:elevation="2dp"
                     android:backgroundTint="@color/LightSteelBlue"
                     app:tint="@color/black"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/color" />
             </FrameLayout>
         </LinearLayout>
     </HorizontalScrollView>

@@ -6,7 +6,7 @@
         android:id="@+id/restore"
         android:icon="@drawable/ic_baseline_restore_24"
         android:title="@string/restore"
-        android:contentDescription=""
+        android:contentDescription="@string/restore"
         app:showAsAction="ifRoom"/>
 
     <item
@@ -14,13 +14,13 @@
         android:icon="@drawable/ic_baseline_select_all_24"
         android:title="@string/select_all"
         android:iconTint="?attr/colorControlNormal"
-        android:contentDescription=""
+        android:contentDescription="@string/select_all"
         app:showAsAction="always"/>
 
     <item
         android:id="@+id/delete_all"
         android:icon="@drawable/ic_baseline_delete_outline_24"
         android:title="@string/delete"
-        android:contentDescription=""
+        android:contentDescription="@string/delete"
         app:showAsAction="ifRoom"/>
 </menu>

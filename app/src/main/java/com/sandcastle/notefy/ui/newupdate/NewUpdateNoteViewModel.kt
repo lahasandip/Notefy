@@ -156,17 +156,17 @@ class NewUpdateNoteViewModel @Inject constructor(
         if (noteTitle.isBlank()) {
             showInvalidInputMessage(context.getString(R.string.title_cannot_be_empty))
         } else {
-            val desc = if (noteDescription.isNotEmpty()) "\nNote: $noteDescription," else ""
-            val url = if (noteUrl.isNotEmpty()) "\nUrl: $noteUrl," else ""
-            val dateTime = if (noteDateTime.isNotEmpty()) "\nReminder: ${getDateFormat(noteDateTime)}," else ""
-            val location = if (noteLocation.isNotEmpty()) "\nPlace: $noteLocation," else ""
+            val desc = if (noteDescription.isNotEmpty()) "\nNote: $noteDescription" else ""
+            val url = if (noteUrl.isNotEmpty()) "\nUrl: $noteUrl" else ""
+            val dateTime = if (noteDateTime.isNotEmpty()) "\nReminder: ${getDateFormat(noteDateTime)}" else ""
+            val location = if (noteLocation.isNotEmpty()) "\nPlace: $noteLocation" else ""
             val arrayList: ArrayList<String> = ArrayList()
             if (noteTodoList?.size != null) {
                 for (s in 0 until noteTodoList?.size!!) {
                     arrayList.add(noteTodoList!![s].todoDescription.toString())
                 }
             }
-            val todo = if (arrayList.isNotEmpty()) "\nTodo: $arrayList" else ""
+            val todo = if (arrayList.isNotEmpty()) "\nTodo: ${arrayList.joinToString()}" else ""
 
             try {
                 val sendIntent = Intent().apply {
@@ -186,7 +186,7 @@ class NewUpdateNoteViewModel @Inject constructor(
                     }
                     putExtra(
                         Intent.EXTRA_TEXT,
-                        "Title: $noteTitle,$desc$url$dateTime$location$todo"
+                        "Title: $noteTitle$desc$url$dateTime$location$todo"
                     )
                     putExtra(Intent.EXTRA_TITLE, context.getString(R.string.share_from_notefy))
                 }

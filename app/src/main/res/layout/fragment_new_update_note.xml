@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="@+id/new_update_guideline_1"
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+        android:contentDescription="@string/home"/>
 
     <CheckBox
         android:id="@+id/important"
@@ -38,7 +38,7 @@
         app:layout_constraintEnd_toStartOf="@+id/share"
         android:background="?attr/selectableItemBackgroundBorderless"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+        android:contentDescription="@string/delete_note" />
 
     <ImageView
         android:id="@+id/share"
@@ -49,8 +49,7 @@
         app:layout_constraintEnd_toStartOf="@+id/new_update_guideline_2"
         app:layout_constraintTop_toTopOf="parent"
         android:background="?attr/selectableItemBackgroundBorderless"
-        tools:ignore="ContentDescription" />
-
+        android:contentDescription="@string/share" />
 
     <ImageView
         android:id="@+id/created_image"
@@ -61,7 +60,7 @@
         android:src="@drawable/ic_baseline_create_24"
         app:layout_constraintStart_toEndOf="@+id/note_edited"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="ContentDescription" />
+        android:contentDescription="@string/select_date" />
 
     <TextView
         android:id="@+id/note_edited"
@@ -107,7 +106,7 @@
                     android:layout_marginTop="10dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_baseline_clear_24"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/delete" />
 
                 <ImageView
                     android:id="@+id/show_image"
@@ -115,7 +114,8 @@
                     android:layout_height="wrap_content"
                     android:scaleType="fitCenter"
                     android:adjustViewBounds="true"
-                    tools:ignore="ContentDescription,UnusedAttribute"
+                    tools:ignore="UnusedAttribute"
+                    android:contentDescription="@string/add_image"
                     android:background="?attr/selectableItemBackgroundBorderless"/>
             </androidx.cardview.widget.CardView>
 
@@ -176,7 +176,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/reminder" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -210,7 +210,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/place" />
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <androidx.constraintlayout.widget.ConstraintLayout
@@ -246,7 +246,7 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     app:layout_constraintTop_toTopOf="parent"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/url"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
 
             <LinearLayout
@@ -263,7 +263,7 @@
                     android:layout_marginStart="12dp"
                     android:background="?attr/selectableItemBackgroundBorderless"
                     android:src="@drawable/ic_outline_checklist_24"
-                    tools:ignore="ContentDescription" />
+                    android:contentDescription="@string/todos" />
             </LinearLayout>
 
             <LinearLayout
@@ -287,6 +287,7 @@
         android:layout_height="47dp"
         android:layout_margin="5dp"
         android:padding="5dp"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/new_update_guideline_2"
         app:layout_constraintStart_toStartOf="@+id/new_update_guideline_1">
@@ -294,43 +295,43 @@
 
         <ImageView
             android:id="@+id/add_features"
-            android:layout_width="25dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
             android:layout_marginStart="5dp"
-            android:layout_marginBottom="5dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_outline_add_box_24"
-            tools:ignore="ContentDescription" />
+            android:contentDescription="@string/more" />
 
         <ImageView
             android:id="@+id/add_color"
-            android:layout_width="25dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="25dp"
-            android:layout_marginBottom="5dp"
+            android:layout_gravity="center"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_outline_color_lens_24"
-            tools:ignore="ContentDescription" />
+            android:contentDescription="@string/color" />
 
         <ImageView
             android:id="@+id/add_image"
-            android:layout_width="25dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="25dp"
-            android:layout_marginBottom="5dp"
+            android:layout_gravity="center"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_outline_image_24"
-            tools:ignore="ContentDescription" />
+            android:contentDescription="@string/add_image" />
 
         <ImageView
             android:id="@+id/add_task"
-            android:layout_width="25dp"
-            android:layout_height="40dp"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:layout_marginStart="25dp"
-            android:layout_marginBottom="5dp"
+            android:layout_gravity="center"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_outline_checklist_24"
-            tools:ignore="ContentDescription" />
+            android:contentDescription="@string/todos" />
     </LinearLayout>
 
     <androidx.constraintlayout.widget.Guideline
@@ -356,5 +357,5 @@
         android:src="@drawable/ic_baseline_done_24"
         app:layout_constraintBottom_toBottomOf="@+id/bottom_nav_layout"
         app:layout_constraintEnd_toStartOf="@+id/new_update_guideline_2"
-        tools:ignore="ContentDescription" />
+        android:contentDescription="@string/save" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,6 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:buttonTint="@color/teal_200"
+            android:contentDescription="@string/todo_checklist"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
@@ -43,6 +44,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            android:contentDescription="@string/delete_note"
             android:background="?attr/selectableItemBackgroundBorderless"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

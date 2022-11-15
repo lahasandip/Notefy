@@ -16,6 +16,7 @@
             app:title="@string/about"
             android:layout_height="?attr/actionBarSize"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
+            app:navigationContentDescription="@string/about"
             style="@style/Toolbar">
         </com.google.android.material.appbar.MaterialToolbar>
     </com.google.android.material.appbar.AppBarLayout>

@@ -6,7 +6,7 @@
         android:id="@+id/select"
         android:icon="@drawable/ic_baseline_select_all_24"
         android:title="@string/select_all"
-        android:contentDescription=""
+        android:contentDescription="@string/select_all"
         android:iconTint="?attr/colorControlNormal"
         app:showAsAction="ifRoom"/>
 
@@ -14,6 +14,6 @@
         android:id="@+id/delete"
         android:icon="@drawable/ic_baseline_delete_outline_24"
         android:title="@string/delete"
-        android:contentDescription=""
+        android:contentDescription="@string/delete"
         app:showAsAction="ifRoom"/>
 </menu>

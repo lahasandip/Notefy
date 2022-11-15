@@ -21,7 +21,11 @@
 #-renamesourcefileattribute SourceFile
 
 #for all my model classes
--keep class com.sandcastle.notefy.data.model.* { *; }
+-keepnames class com.sandcastle.notefy.data.model.Help
+-keepnames class com.sandcastle.notefy.data.model.Language
+-keepnames class com.sandcastle.notefy.data.model.Todo
+-keepnames class com.sandcastle.notefy.data.entity.NoteEntity
+-keepnames class com.sandcastle.notefy.data.entity.UserEntity
 
 ##---------------Begin: proguard configuration for Gson  ----------
 # Gson uses generic type information stored in a class file when working with fields. Proguard

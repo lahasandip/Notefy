@@ -30,7 +30,7 @@
         <item name="colorControlActivated">@color/white</item>
         <item name="queryHint">@string/search_note</item>
         <item name="android:backgroundTint">@color/DarkGrey</item>
-        <item name="android:textSize">15sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
     <style name="Dialog" parent="">

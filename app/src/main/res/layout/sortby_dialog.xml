@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/dialog"
     android:orientation="vertical"
     android:layout_width="match_parent"
@@ -40,33 +39,24 @@
         android:padding="8dp">
 
         <ImageView
+            android:id="@+id/imageView6"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:src="@drawable/ic_baseline_arrow_upward_24"
+            android:layout_marginTop="4dp"
+            android:contentDescription="@string/bookmarked_only"
+            android:src="@drawable/ic_baseline_bookmark_border_24"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView10"
-            tools:ignore="ContentDescription" />
-
-        <ImageView
-            android:id="@+id/imageView10"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:src="@drawable/ic_baseline_arrow_downward_24"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView12"
-            tools:ignore="ContentDescription" />
+            app:layout_constraintTop_toTopOf="@+id/radioGroup" />
 
         <ImageView
             android:id="@+id/imageView9"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:src="@drawable/ic_outline_title_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView6"
-            tools:ignore="ContentDescription" />
+            android:contentDescription="@string/title_a_z"/>
 
         <ImageView
             android:layout_width="12dp"
@@ -76,17 +66,17 @@
             android:src="@drawable/ic_baseline_arrow_downward_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imageView9"
-            tools:ignore="ContentDescription" />
+            android:contentDescription="Icon Title_a_z" />
 
         <ImageView
             android:id="@+id/imageView12"
             android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             android:src="@drawable/ic_outline_title_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView9"
-            tools:ignore="ContentDescription" />
+            android:contentDescription="@string/title_z_a" />
         <ImageView
             android:layout_width="12dp"
             android:layout_height="12dp"
@@ -95,17 +85,26 @@
             android:src="@drawable/ic_baseline_arrow_upward_24"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/imageView12"
-            tools:ignore="ContentDescription" />
+            android:contentDescription="Icon Title_z_a" />
 
         <ImageView
-            android:id="@+id/imageView6"
+            android:id="@+id/imageView10"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/ic_baseline_bookmark_border_24"
+            android:layout_marginTop="9dp"
+            android:src="@drawable/ic_baseline_arrow_downward_24"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:ignore="ContentDescription" />
+            app:layout_constraintTop_toBottomOf="@+id/imageView12"
+            android:contentDescription="@string/newest_to_oldest" />
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="7dp"
+            android:src="@drawable/ic_baseline_arrow_upward_24"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView10"
+            android:contentDescription="@string/oldest_to_newest" />
 
         <RadioGroup
             android:id="@+id/radioGroup"
@@ -119,7 +118,7 @@
             <RadioButton
                 android:id="@+id/bookmarked"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_gravity="end"
                 android:layoutDirection="rtl"
@@ -128,7 +127,7 @@
             <RadioButton
                 android:id="@+id/title_asc"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layoutDirection="rtl"
                 android:text="@string/title_a_z"/>
@@ -136,7 +135,7 @@
             <RadioButton
                 android:id="@+id/title_desc"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layoutDirection="rtl"
                 android:text="@string/title_z_a"/>
@@ -144,7 +143,7 @@
             <RadioButton
                 android:id="@+id/newest"
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layoutDirection="rtl"
                 android:text="@string/newest_to_oldest"/>
@@ -152,7 +151,7 @@
             <RadioButton
                 android:id="@+id/oldest"
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
+                android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layoutDirection="rtl"
                 android:text="@string/oldest_to_newest"/>
