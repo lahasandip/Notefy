@@ -31,7 +31,6 @@ import javax.inject.Inject
 class NewUpdateNoteViewModel @Inject constructor(
     private val noteDao: NoteDao,
     private val state: SavedStateHandle): ViewModel() {
-
     val note = state.get<NoteEntity>("home")
 
     var noteTitle = state.get<String>("noteTitle") ?:note?.title ?: ""
@@ -103,7 +102,7 @@ class NewUpdateNoteViewModel @Inject constructor(
     private val addEditTaskEventChannel = Channel<AddEditTaskEvent>()
     val addEditTaskEvent = addEditTaskEventChannel.receiveAsFlow()
 
-    fun onSaveClick(context: Context) {
+    fun onSaveClick(context: Context){
         if (noteTitle.isBlank()) {
             showInvalidInputMessage(context.getString(R.string.title_cannot_be_empty))
             return
@@ -151,14 +150,14 @@ class NewUpdateNoteViewModel @Inject constructor(
         addEditTaskEventChannel.send(AddEditTaskEvent.ShowInvalidInputMessage(text))
     }
 
-
     fun onShareClick(context: Context, image: ImageView) = viewModelScope.launch {
         if (noteTitle.isBlank()) {
             showInvalidInputMessage(context.getString(R.string.title_cannot_be_empty))
         } else {
             val desc = if (noteDescription.isNotEmpty()) "\nNote: $noteDescription" else ""
             val url = if (noteUrl.isNotEmpty()) "\nUrl: $noteUrl" else ""
-            val dateTime = if (noteDateTime.isNotEmpty()) "\nReminder: ${getDateFormat(noteDateTime)}" else ""
+            val dateTime =
+                if (noteDateTime.isNotEmpty()) "\nReminder: ${getDateFormat(noteDateTime)}" else ""
             val location = if (noteLocation.isNotEmpty()) "\nPlace: $noteLocation" else ""
             val arrayList: ArrayList<String> = ArrayList()
             if (noteTodoList?.size != null) {
@@ -167,7 +166,6 @@ class NewUpdateNoteViewModel @Inject constructor(
                 }
             }
             val todo = if (arrayList.isNotEmpty()) "\nTodo: ${arrayList.joinToString()}" else ""
-
             try {
                 val sendIntent = Intent().apply {
                     action = Intent.ACTION_SEND
@@ -197,7 +195,6 @@ class NewUpdateNoteViewModel @Inject constructor(
             }
         }
     }
-
     fun onLocationClick(text: CharSequence?) =viewModelScope.launch{
         val mapIntent = Intent(Intent.ACTION_VIEW, Uri.parse("geo:0,0?q=$text"))
             .setPackage("com.google.android.apps.maps")

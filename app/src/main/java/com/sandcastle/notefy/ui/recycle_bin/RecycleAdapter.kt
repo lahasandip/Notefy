@@ -112,7 +112,7 @@ class RecycleAdapter(
                                             listener.onMenuDeleteClick(s)
                                             undoList.add(s)
                                         }
-                                        Snackbar.make(itemView, mActivity.getString(R.string.notes_deleted_forever), Snackbar.LENGTH_LONG)
+                                        Snackbar.make(mActivity.findViewById(R.id.fragment_recycle_bin), mActivity.getString(R.string.notes_deleted_forever), Snackbar.LENGTH_SHORT)
                                             .setAction(mActivity.getString(R.string.undo)) {
                                                 for (s in undoList) {
                                                     listener.onUndo(s)

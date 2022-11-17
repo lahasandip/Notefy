@@ -15,7 +15,7 @@
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
             app:title="@string/choose_language"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             app:navigationIcon="@drawable/ic_baseline_arrow_back_24"
             app:navigationContentDescription="@string/languages"
             style="@style/Toolbar">
@@ -25,7 +25,10 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="50dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="3dp"
+        android:layout_marginRight="5dp"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -42,7 +45,8 @@
         android:gravity="center"
         android:textColor="@color/white"
         android:elevation="25dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
         android:layout_gravity="bottom"
-        android:layout_margin="8dp"
         android:text="@string/next"/>
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

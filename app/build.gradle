@@ -14,9 +14,9 @@ android {
         applicationId "com.sandcastle.notefy"
         minSdk 24
         targetSdk 33
-        versionCode 14
-        versionName "14.0"
-        resConfigs("en", "hi", "es", "bn", "fr", "zh", "ta", "pt", "in", "ja", "ru", "te", "mr", "tr", "it")
+        versionCode 24
+        versionName "1.0"
+        resConfigs("en", "hi", "es", "bn", "fr", "zh", "ta", "pt", "in", "ja", "te", "ru", "mr", "tr", "it")
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
 

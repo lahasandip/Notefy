@@ -121,10 +121,10 @@ class User : Fragment(R.layout.fragment_user) {
 
             save.setOnClickListener {
                 if (textEmail.error != null) {
-                    Snackbar.make(view, getString(R.string.enter_valid_email), Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(view, getString(R.string.enter_valid_email), Snackbar.LENGTH_SHORT).show()
                 }
                 else if(textPhone.error != null ){
-                    Snackbar.make(view, getString(R.string.enter_valid_phone), Snackbar.LENGTH_LONG).show()
+                    Snackbar.make(view, getString(R.string.enter_valid_phone), Snackbar.LENGTH_SHORT).show()
                 }
                 else {
                     viewModel.onSaveClick(rows)

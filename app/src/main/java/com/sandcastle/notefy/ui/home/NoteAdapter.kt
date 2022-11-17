@@ -104,7 +104,7 @@ class NoteAdapter(activity: Activity, private val listener: OnItemClickListener)
                                             listener.onDeleteClick(s)
                                             cancelAlarm(mActivity.applicationContext, s.requestCode)
                                         }
-                                        Snackbar.make(itemView, mActivity.getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
+                                        Snackbar.make(mActivity.findViewById(R.id.fragment_home), mActivity.getString(R.string.note_deleted), Snackbar.LENGTH_SHORT)
                                             .setAction(mActivity.getString(R.string.undo)) {
                                                 for (s in undoList) {
                                                     listener.onUndo(s)

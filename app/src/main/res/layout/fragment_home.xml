@@ -14,11 +14,11 @@
         <com.google.android.material.appbar.MaterialToolbar
             android:id="@+id/topAppBar"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
+            android:layout_height="wrap_content"
             app:menu="@menu/home_top_app_bar"
             app:layout_scrollFlags="scroll|enterAlways|snap"
             app:navigationIcon="@drawable/ic_baseline_menu_24"
-            app:navigationContentDescription="@string/home"
+            app:navigationContentDescription="Menu"
             android:theme="@style/Toolbar"/>
     </com.google.android.material.appbar.AppBarLayout>
 

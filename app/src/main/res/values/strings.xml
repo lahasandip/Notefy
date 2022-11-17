@@ -142,9 +142,7 @@
 
     <!--  About Screen -->
     <string name="version">App Version: %s</string>
-    <string name="about_info">Notefy is used to take Notes, add Reminders, create a Todo list, and much more. You can save your notes with Images, Background Colors, Places, and URLs.\n\n
-        You can filter notes based on your Preferences, Search and Share your notes. It supports a Dark theme and a Light theme. For Security, it has a Screen Lock feature.\n\n
-        You can choose your preferred Language, currently, Notefy supports 15 different languages. For any help, you can either read the FAQs or Contact us.</string>
+    <string name="about_info">Notefy is used to take Notes, add Reminders, create a Todo list, and much more. You can save your notes with Images, Background Colors, Places, and URLs.\n\nYou can filter notes based on your Preferences, Search and Share your notes. It supports a Dark theme and a Light theme. For Security, it has a Screen Lock feature.\n\nYou can choose your preferred Language, currently, Notefy supports 15 different languages. For any help, you can either read the FAQs or Contact us.</string>
     <string name="reminder_permission_error">Please grant Notification permission from App Settings to set Reminder</string>
     <string name="privacy_policy">Privacy Policy</string>
 </resources>

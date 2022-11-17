@@ -10,7 +10,7 @@
     <string name="dark_theme">Karanlık tema</string>
     <string name="screen_lock">Ekran kilidi</string>
     <string name="share_app">Uygulamayı Paylaş</string>
-    <string name="help_and_feedback">yardım ve geribildirim</string>
+    <string name="help_and_feedback">Yardım ve geribildirim</string>
     <string name="about">Hakkında</string>
     <string name="sort_by">Sıralama Ölçütü</string>
     <string name="bookmarked_only">Yalnızca Yer İşaretli</string>
@@ -22,14 +22,14 @@
     <string name="edited">Düzenlendi:</string>
     <string name="reminder">Hatırlatıcı</string>
     <string name="place">Yer</string>
-    <string name="url">link</string>
+    <string name="url">Link</string>
     <string name="color">Renk</string>
     <string name="more">Daha</string>
     <string name="take_photo">Fotoğraf çek</string>
     <string name="add_image">Resim Ekle</string>
     <string name="todo_checklist">Yapılacaklar Kontrol Listesi</string>
     <string name="enter_description">Açıklama Girin</string>
-    <string name="done">bitti</string>
+    <string name="done">Bitti</string>
     <string name="next">Devam</string>
     <string name="choose_language">Dil seçiniz</string>
     <string name="note_deleted">Geri Dönüşüm Kutusu\'na taşındı</string>
@@ -53,8 +53,8 @@
     <string name="profile">Profil</string>
     <string name="alex_parker">Alex Parker</string>
     <string name="alex_parker_gmail_com">alex.parker@gmail.com</string>
-    <string name="reminders">hatırlatıcılar</string>
-    <string name="todos">Todos</string>
+    <string name="reminders">Hatırlatıcılar</string>
+    <string name="todos">Yapmaks</string>
     <string name="save">Kaydetmek</string>
     <string name="notes">Notlar</string>
     <string name="_1_012_345_6789">+1 012 345 6789</string>

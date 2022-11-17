@@ -50,13 +50,13 @@ interface NoteDao {
             SortOrder.OLD_TO_NEW -> getOldestToNewestData(query)
         }
 
-    @Query("select count(Id) from Note")
+    @Query("select count(Id) from Note where Hide = 0")
     fun getNotes() : LiveData<Int>
 
     @Query("select count(DateTime) from Note where DateTime not like '' and IsStrike = 0")
     fun getReminders() : LiveData<Int>
 
-    @Query("select count(TodoList) from Note where TodoList not like 'null'")
+    @Query("select count(TodoList) from Note where TodoList not in ('null','[]') and Hide = 0")
     fun getTodos() : LiveData<Int>
 
     @Query("select * from Note where RequestCode = :reqCode")

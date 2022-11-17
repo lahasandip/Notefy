@@ -204,10 +204,10 @@ class Home : Fragment(R.layout.fragment_home), NoteAdapter.OnItemClickListener,
                         findNavController().navigate(action)
                     }
                     is HomeViewModel.TasksEvent.ShowTaskSavedConfirmationMessage -> {
-                        Snackbar.make(view, event.msg, Snackbar.LENGTH_LONG).show()
+                        Snackbar.make(view, event.msg, Snackbar.LENGTH_SHORT).show()
                     }
                     is HomeViewModel.TasksEvent.ShowUndoDeleteTaskMessage -> {
-                        Snackbar.make(view, getString(R.string.note_deleted), Snackbar.LENGTH_LONG)
+                        Snackbar.make(view, getString(R.string.note_deleted), Snackbar.LENGTH_SHORT)
                             .setAction(getString(R.string.undo)) { viewModel.onUndoDeleteClick(event.noteEntity)
                             }.show()
                     }

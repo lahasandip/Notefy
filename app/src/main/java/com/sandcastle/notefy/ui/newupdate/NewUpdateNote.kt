@@ -44,7 +44,6 @@ import com.sandcastle.notefy.data.model.Todo
 import com.sandcastle.notefy.databinding.FragmentNewUpdateNoteBinding
 import com.sandcastle.notefy.ui.CAMERA
 import com.sandcastle.notefy.ui.GALLERY
-import com.sandcastle.notefy.ui.newupdate.NewUpdateNoteViewModel.*
 import com.sandcastle.notefy.util.Converters.Companion.getDateFormat
 import com.sandcastle.notefy.util.Converters.Companion.getImageUri
 import com.sandcastle.notefy.util.exhaustive
@@ -99,13 +98,12 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             if (isGranted) {
                 initDateTimePicker()
             } else {
-                view.let {
-                    Snackbar.make(
-                        it,
-                        getString(R.string.reminder_permission_error),
-                        Snackbar.LENGTH_LONG
-                    ).setAnchorView(binding?.saveNote).show()
-                }
+                Snackbar.make(
+                    view,
+                    getString(R.string.reminder_permission_error),
+                    Snackbar.LENGTH_SHORT
+                ).setAnchorView(binding?.saveNote).show()
+
             }
         }
 
@@ -296,13 +294,11 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                                 requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                             } else {
-                                view.let {
-                                    Snackbar.make(
-                                        it,
-                                        getString(R.string.reminder_permission_error),
-                                        Snackbar.LENGTH_LONG
-                                    ).setAnchorView(binding?.saveNote).show()
-                                }
+                                Snackbar.make(
+                                    view,
+                                    getString(R.string.reminder_permission_error),
+                                    Snackbar.LENGTH_SHORT
+                                ).setAnchorView(binding?.saveNote).show()
                             }
                         }
                     }
@@ -348,13 +344,11 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                     if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
                         requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
                     } else {
-                        view.let {
-                            Snackbar.make(
-                                it,
-                                getString(R.string.reminder_permission_error),
-                                Snackbar.LENGTH_LONG
-                            ).setAnchorView(binding?.saveNote).show()
-                        }
+                        Snackbar.make(
+                            view,
+                            getString(R.string.reminder_permission_error),
+                            Snackbar.LENGTH_SHORT
+                        ).setAnchorView(binding?.saveNote).show()
                     }
                 }
             }
@@ -396,7 +390,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                 true
             }
             share.setOnClickListener {
-                activity?.let { it1 -> viewModel.onShareClick(it1.applicationContext, showImage) }
+                context?.let { it1 -> viewModel.onShareClick(it1, showImage) }
             }
 
             addTask.setOnClickListener {
@@ -718,11 +712,11 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             viewLifecycleOwner.lifecycleScope.launchWhenStarted {
                 viewModel.addEditTaskEvent.collect { event ->
                     when (event) {
-                        is AddEditTaskEvent.ShowInvalidInputMessage -> {
-                            Snackbar.make(view, event.msg, Snackbar.LENGTH_LONG)
+                        is NewUpdateNoteViewModel.AddEditTaskEvent.ShowInvalidInputMessage -> {
+                            Snackbar.make(view, event.msg, Snackbar.LENGTH_SHORT)
                                 .setAnchorView(saveNote).show()
                         }
-                        is AddEditTaskEvent.NavigateBackWithResult -> {
+                        is NewUpdateNoteViewModel.AddEditTaskEvent.NavigateBackWithResult -> {
                             if (!(newDateTime.text.isNullOrEmpty())) {
                                 viewModel.displaySimpleNotification(context)
                             }
@@ -733,7 +727,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                             )
                             findNavController().popBackStack()
                         }
-                        is AddEditTaskEvent.NavigateBackWithDelete -> {
+                        is NewUpdateNoteViewModel.AddEditTaskEvent.NavigateBackWithDelete -> {
                             noteTitle.clearFocus()
                             setFragmentResult(
                                 "add_edit_delete_request",
@@ -741,13 +735,13 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                             )
                             findNavController().popBackStack()
                         }
-                        is AddEditTaskEvent.NavigateToBackScreen -> {
+                        is NewUpdateNoteViewModel.AddEditTaskEvent.NavigateToBackScreen -> {
                             findNavController().popBackStack()
                         }
-                        is AddEditTaskEvent.ShareIntent -> {
+                        is NewUpdateNoteViewModel.AddEditTaskEvent.ShareIntent -> {
                             startActivity(event.shareIntent)
                         }
-                        is AddEditTaskEvent.StartLocationIntent -> {
+                        is NewUpdateNoteViewModel.AddEditTaskEvent.StartLocationIntent -> {
                             startActivity(event.mapIntent)
                         }
                     }.exhaustive
@@ -796,7 +790,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                             binding?.urlParentLayout?.visibility = View.VISIBLE
                         } else {
                             Toast.makeText(
-                                activity?.applicationContext,
+                                context,
                                 getString(R.string.please_enter_a_link),
                                 Toast.LENGTH_LONG
                             ).show()
@@ -830,7 +824,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
                             binding?.locationParentLayout?.visibility = View.VISIBLE
                         } else {
                             Toast.makeText(
-                                activity?.applicationContext,
+                                context,
                                 getString(R.string.please_enter_a_place),
                                 Toast.LENGTH_LONG
                             ).show()
@@ -867,7 +861,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             ).toString()
         } else if (requestCode == GALLERY && resultCode == AppCompatActivity.RESULT_OK) {
             val selectedImageUri: Uri? = data?.data
-            if (null != selectedImageUri) {
+            if (selectedImageUri != null) {
                 binding?.imageLayout?.visibility = View.VISIBLE
                 Glide.with(requireContext()).load(selectedImageUri).into(binding!!.showImage)
                 viewModel.noteImage = selectedImageUri.toString()
@@ -922,6 +916,7 @@ class NewUpdateNote : Fragment(R.layout.fragment_new_update_note) {
             timePicker = null
         }
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         datePicker = null

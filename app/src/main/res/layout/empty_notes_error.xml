@@ -7,7 +7,7 @@
 
     <ImageView
         android:id="@+id/errorImage"
-        android:layout_width="50dp"
+        android:layout_width="45dp"
         android:layout_height="50dp"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_outline_sticky_note_2_24"

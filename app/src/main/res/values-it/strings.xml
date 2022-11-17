@@ -53,7 +53,7 @@
     <string name="profile">Profilo</string>
     <string name="alex_parker">Alex Parker</string>
     <string name="reminders">Promemoria</string>
-    <string name="todos">Todos</string>
+    <string name="todos">Da fares</string>
     <string name="alex_parker_gmail_com">alex.parker@gmail.com</string>
     <string name="save">Salva</string>
     <string name="notes">Appunti</string>
@@ -86,7 +86,7 @@
     <string name="a2">Puoi creare una nuova nota in due modi:\n1. Fare clic sul pulsante + in basso a destra della schermata Home. O\n2. Fare clic sull\'icona Menu della barra delle azioni in alto, quindi fare clic sulla scheda Nuova nota.\nSi aprirà una nuova finestra per creare una nuova nota.</string>
     <string name="a3">È possibile aggiungere le seguenti funzionalità nella Nota:\n1. Titolo della nota\n2. Descrizione della nota\n3. Promemoria\n4. Luogo\n5. Collegamento\n6. Sfondo colorato\n7. Immagine\n8. Elenco delle cose da fare\n9. Puoi anche aggiungere la nota ai segnalibri</string>
     <string name="a4">Fare clic sull\'icona Aggiungi casella nella parte inferiore della schermata Nuova nota e selezionare Promemoria. Apparirà un calendario, scegli la data in cui desideri impostare il promemoria e fai clic su OK. Ora apparirà un orologio, scegli l\'ora e fai clic su OK. Ora hai impostato correttamente il promemoria. Verrà visualizzato anche un messaggio di conferma. Ora, in base alla data e all\'ora in cui hai scelto, verrà notificata una notifica con titolo, descrizione e immagine della nota.</string>
-    <string name="a5">Fare clic sull\'icona Elenco di controllo nella parte inferiore della schermata Nuova nota. Verrà visualizzato il popup Todo Checklist. Puoi aggiungere, eliminare e aggiornare qualsiasi numero di cose da fare con le caselle di spunta, una volta completato, fai clic sul pulsante Fine.</string>
+    <string name="a5">Fare clic sull\'icona Elenco di controllo nella parte inferiore della schermata Nuova nota. Verrà visualizzato il popup da fare Checklist. Puoi aggiungere, eliminare e aggiornare qualsiasi numero di cose da fare con le caselle di spunta, una volta completato, fai clic sul pulsante Fine.</string>
     <string name="a6">Puoi eliminare le note nei seguenti modi:\n1. Per eliminare una singola nota, puoi semplicemente farla scorrere sul lato sinistro o destro della schermata iniziale.\n2. Per eliminare più note contemporaneamente, premere a lungo su qualsiasi nota e selezionare le note che si desidera eliminare o fare clic su seleziona tutto nella barra delle azioni, quindi fare clic sull\'icona Elimina.\n3. Apri la nota che desideri eliminare, quindi fai clic sull\'icona di eliminazione nella barra delle azioni in alto.\nNota: puoi ANNULLARE le note subito dopo averle eliminate.</string>
     <string name="a7">Una volta eliminate le note, verranno aggiunte al Cestino. E da lì puoi ripristinarli o eliminarli per sempre. Puoi trovare Cestino nel cassetto Navigazione.</string>
     <string name="a8">Puoi aggiornare la foto del profilo, il nome, l\'e-mail e il telefono nella pagina del profilo. Puoi aprire il tuo profilo da\n1. Fare clic sulla foto del profilo nella schermata iniziale nell\'angolo in alto a destra. O\n2. Fare clic sulla scheda Profilo dal cassetto di navigazione.</string>
@@ -111,9 +111,9 @@
     <string name="delete">Eliminare</string>
     <string name="select_all">Seleziona tutto</string>
     <string name="auth_error">Errore di autenticazione: %s</string>
-    <string name="delete_todo">Vuoi rimuovere Todo Checklist?</string>
+    <string name="delete_todo">Vuoi rimuovere da fare Checklist?</string>
     <string name="reminder_permission_error">Concedi l\'autorizzazione alla notifica dalle impostazioni dell\'app per impostare il promemoria</string>
     <string name="enter_valid_email">Inserisci una email valida</string>
     <string name="enter_valid_phone">Per favore immetti un numero di telefono valido</string>
-    <string name="privacy_policy">politica sulla riservatezza</string>
+    <string name="privacy_policy">Politica sulla riservatezza</string>
 </resources>
